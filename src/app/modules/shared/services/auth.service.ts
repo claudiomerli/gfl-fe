@@ -46,7 +46,7 @@ export class AuthService {
   }
 
   signin(signinDto: SigninDto | undefined): Observable<AccessTokenDto> {
-    return this.httpClient.post<AccessTokenDto>(environment.apiBaseurl + "/api/auth/signin", signinDto);
+    return this.httpClient.post<AccessTokenDto>(environment.apiBaseurl + "/auth/signin", signinDto);
   }
 
   clearLocalStorage() {
