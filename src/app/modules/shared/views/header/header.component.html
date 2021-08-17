@@ -16,16 +16,16 @@
 <!--  </div>-->
 <!--</nav>-->
 <header>
-  <div class="px-3 py-2 bg-dark text-white">
+  <div class="px-3 py-2 bg-dark text-white d-flex align-items-center">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+        <a routerLink="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
           GESTIONALE FLUSSI DI LAVORO
         </a>
 
         <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
           <li>
-            <a href="#" class="nav-link text-white">
+            <a routerLink="/" class="nav-link text-white">
               <i class="bi bi-house-door d-block mx-auto mb-1"></i>
               Home
             </a>
@@ -37,30 +37,36 @@
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link text-white">
+            <a routerLink="/contents" class="nav-link text-white">
               <i class="bi bi-file-earmark-text d-block mx-auto mb-1"></i>
               Contenuti
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link text-white">
+            <a routerLink="/editors" class="nav-link text-white">
               <i class="bi bi-people d-block mx-auto mb-1"></i>
               Redattori
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link text-white">
+            <a routerLink="/customers" class="nav-link text-white">
               <i class="bi bi-person-badge d-block mx-auto mb-1"></i>
               Clienti
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link text-white">
+            <a routerLink="/newspapers" class="nav-link text-white">
               <i class="bi bi-newspaper d-block mx-auto mb-1"></i>
               Testate
             </a>
           </li>
         </ul>
+      </div>
+    </div>
+    <div>
+      <div class="text-white" role="button" (click)="doSignout()">
+        <i class="bi bi-box-arrow-right d-block mx-auto mb-1"></i>
+        Logout
       </div>
     </div>
   </div>
