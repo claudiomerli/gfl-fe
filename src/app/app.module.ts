@@ -6,6 +6,7 @@ import {AppComponent} from './app.component';
 import {SharedModule} from "./modules/shared/shared.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {SecurityInterceptor} from "./modules/shared/interceptors/security.interceptor";
+import {NgxPaginationModule} from "ngx-pagination";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {SecurityInterceptor} from "./modules/shared/interceptors/security.interc
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
   providers: [
     {

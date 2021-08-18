@@ -3,11 +3,11 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor, HttpHeaders, HttpResponse
+  HttpInterceptor, HttpHeaders, HttpResponse, HttpErrorResponse
 } from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {AuthService} from "../services/auth.service";
-import {tap} from "rxjs/operators";
+import {catchError, tap} from "rxjs/operators";
 import {Router} from "@angular/router";
 
 @Injectable()
@@ -31,12 +31,14 @@ export class SecurityInterceptor implements HttpInterceptor {
 
     return responseObserver
       .pipe(
-        tap((response: HttpEvent<any>) => {
-          let statusCodeResponse = (response as HttpResponse<any>).status;
-          if (statusCodeResponse === 401) {
-            this.authenticationService.clearLocalStorage();
-            this.router.navigate(["/auth/login"]);
+        catchError(err => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status === 401) {
+              this.authenticationService.clearLocalStorage();
+              this.router.navigate(["/auth/login"]);
+            }
           }
+          return throwError(err)
         })
       )
   }

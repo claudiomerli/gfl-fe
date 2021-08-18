@@ -1,6 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
-import {SaveEditorDto} from "../../../shared/messages/save-editor.dto";
+import {SaveEditorDto} from "../../../shared/messages/editors/save-editor.dto";
 
 @Component({
   selector: 'app-editor-create-form',
@@ -14,6 +14,9 @@ export class EditorCreateFormComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  @Input()
+  onSaving = false;
 
   @Output()
   formSubmit = new EventEmitter<SaveEditorDto>();
@@ -35,7 +38,7 @@ export class EditorCreateFormComponent implements OnInit {
     username: new FormControl('', [Validators.required]),
     fullname: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required]),
-    mobilephone: new FormControl(''),
+    mobilePhone: new FormControl(''),
     level: new FormControl(''),
     remuneration: new FormControl(''),
 
