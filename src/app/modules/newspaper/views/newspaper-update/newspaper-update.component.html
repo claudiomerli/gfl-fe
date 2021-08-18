@@ -1,0 +1,9 @@
+<div>
+  <div class="h3">
+    Modifica testata
+  </div>
+  <app-newspaper-save-form *ngIf="newspaperToUpdate"
+                          [newspaperToEdit]="newspaperToUpdate"
+                          (formSubmit)="onSubmit($event)"
+                          [onSaving]="onSaving"></app-newspaper-save-form>
+</div>

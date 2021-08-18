@@ -17,6 +17,11 @@ const routes: Routes = [
     path : "editors",
     loadChildren : () => import("./modules/editor/editor.module").then(m => m.EditorModule),
     canActivate : [AuthGuard]
+  },
+  {
+    path : "newspapers",
+    loadChildren : () => import("./modules/newspaper/newspaper.module").then(m => m.NewspaperModule),
+    canActivate : [AuthGuard]
   }
 ];
 

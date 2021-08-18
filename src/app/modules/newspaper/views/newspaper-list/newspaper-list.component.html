@@ -1,0 +1,47 @@
+<div class="d-flex justify-content-between align-items-center">
+  <input type="text" name="globalSearch" class="form-control w-50" placeholder="Cerca..." #globalSearchInput>
+  <a class="btn btn-primary" routerLink="/newspapers/create">
+    <i class="bi bi-plus"></i>
+    Nuova testata
+  </a>
+</div>
+<div>
+  <ng-container *ngIf="(newspaperList | async) as newspaperListValue">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nome</th>
+        <th>Redazionali Acquistati</th>
+        <th>Costo cadauno</th>
+        <th>E-mail di contatto</th>
+        <th>Geolocalizzazione regionale</th>
+        <th>Argomento</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let item of newspaperListValue">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.purchasedContent}}</td>
+        <td>{{item.costEach}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.regionalGeolocalization}}</td>
+        <td [ngSwitch]="item.topic">
+          <ng-container *ngSwitchCase="'NO_TOPIC'">Nessun argomento</ng-container>
+          <ng-container *ngSwitchCase="'NEWS'">Notizie</ng-container>
+          <ng-container *ngSwitchCase="'LOCAL_NEWSPAPER'">Giornali locali</ng-container>
+          <ng-container *ngSwitchCase="'HEALTH'">Salute</ng-container>
+          <ng-container *ngSwitchCase="'ECONOMY'">Economia</ng-container>
+        </td>
+        <td class="d-flex justify-content-around">
+          <a class="btn btn-warning" [routerLink]="['/newspapers',item.id]"><i class="bi bi-pencil"></i></a>
+          <a class="btn btn-danger" (click)="onDelete(item.id)"><i class="bi bi-trash"></i></a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</div>
