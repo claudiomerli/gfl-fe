@@ -2,15 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './views/header/header.component';
 import {RouterModule} from "@angular/router";
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 
 
 @NgModule({
     declarations: [
-        HeaderComponent
+        HeaderComponent,
+        SpinnerComponent
     ],
     exports: [
-        HeaderComponent
+        HeaderComponent,
+        SpinnerComponent
     ],
     imports: [
         CommonModule,

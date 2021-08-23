@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="d-flex justify-content-between my-3">
+    <h3>Lista Clienti</h3>
+    <a class="btn btn-primary" routerLink="new">
+      <i class="bi bi-plus"></i>
+      Nuovo Cliente
+    </a>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="customerListSubscription">
+        <tr *ngFor="let customer of customerList">
+          <th scope="row">{{customer.id}}</th>
+          <td>{{customer.name}}</td>
+          <td>
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="btn-group me-2" role="group" aria-label="First group">
+                <button class="btn btn-primary btn-sm m-1" routerLink="{{customer.id}}/modifica" title="Modifica cliente">
+                  <i class="bi bi-pencil"></i>
+                  Modifica
+                </button>
+                <button class="btn btn-danger btn-sm m-1" title="Elimina cliente">
+                  <i class="bi bi-trash"></i>
+                  Elimina
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="customerList.length == 0">
+          <td colspan="3">Non ci sono clienti</td>
+        </tr>
+      </ng-container>
+      <tr *ngIf="!customerListSubscription">
+        <td colspan="3">
+          <app-spinner></app-spinner>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="d-flex justify-content-between my-3">
+    <h3>Modifica Progetto</h3>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="mb-3">
+          <label for="name" class="form-label">Nome del progetto</label>
+          <input type="text" class="form-control" id="name" formControlName="name">
+          <div id="nameHelp" class="form-text">Il nome del progetto</div>
+        </div>
+        <div class="mb-3">
+          <label for="customer" class="form-label">Cliente</label>
+          <select class="form-select" aria-label="Lista clienti" id="customer" formControlName="customerId">
+            <option value="">-- Seleziona un Cliente --</option>
+            <option *ngFor="let customer of customerList | async" value="{{customer.id}}">{{customer.name}}</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          <i class="bi bi-save"></i>
+          Salva
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

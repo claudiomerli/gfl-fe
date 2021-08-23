@@ -12,6 +12,11 @@ const routes: Routes = [
     path: "projects",
     loadChildren: () => import("./modules/project/project.module").then(m => m.ProjectModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: "customer",
+    loadChildren: () => import("./modules/customer/customer.module").then(m => m.CustomerModule),
+    canActivate: [AuthGuard]
   }
 ];
 
