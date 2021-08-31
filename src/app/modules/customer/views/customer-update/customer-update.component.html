@@ -1,0 +1,9 @@
+<div>
+  <div class="h3">
+    Modifica cliente
+  </div>
+  <app-customer-save-form *ngIf="customerToUpdate"
+                           [customerToEdit]="customerToUpdate"
+                           (formSubmit)="onSubmit($event)"
+                           [onSaving]="onSaving"></app-customer-save-form>
+</div>

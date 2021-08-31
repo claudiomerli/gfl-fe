@@ -22,6 +22,11 @@ const routes: Routes = [
     path : "newspapers",
     loadChildren : () => import("./modules/newspaper/newspaper.module").then(m => m.NewspaperModule),
     canActivate : [AuthGuard]
+  },
+  {
+    path: 'customers',
+    loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule),
+    canActivate : [AuthGuard]
   }
 ];
 

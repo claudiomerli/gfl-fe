@@ -1,0 +1,33 @@
+<div class="d-flex justify-content-between align-items-center">
+  <input type="text" name="globalSearch" class="form-control w-50" placeholder="Cerca..." #globalSearchInput>
+  <a class="btn btn-primary" routerLink="/customers/create">
+    <em class="bi bi-plus"></em>
+    Nuovo cliente
+  </a>
+</div>
+<div>
+  <ng-container *ngIf="(customerList | async) as customerListValue">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nome</th>
+        <th scope="col">ContentRules</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let item of customerListValue">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.contentRules?.title}}</td>
+        <td class="d-flex justify-content-around">
+          <a class="btn btn-warning" [routerLink]="['/customers',item.id]"><em class="bi bi-pencil"></em></a>
+          <a class="btn btn-danger" (click)="onDelete(item.id)"><em class="bi bi-trash"></em></a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</div>
