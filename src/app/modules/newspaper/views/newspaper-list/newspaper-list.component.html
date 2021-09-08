@@ -6,7 +6,7 @@
   </a>
 </div>
 <div>
-  <ng-container *ngIf="(newspaperList | async) as newspaperListValue">
+  <ng-container *ngIf="(actualPage$ | async) as actualPageValue">
     <table class="table">
       <thead>
       <tr>
@@ -22,7 +22,7 @@
       </thead>
       <tbody>
       <tr
-        *ngFor="let item of newspaperListValue">
+        *ngFor="let item of actualPageValue.content | paginate : { itemsPerPage: actualPageValue?.pageable?.pageSize, currentPage: (actualPageValue?.pageable?.pageNumber || 0) + 1, totalItems: actualPageValue?.totalElements }">
         <td>{{item.id}}</td>
         <td>{{item.name}}</td>
         <td>{{item.purchasedContent}}</td>
@@ -43,5 +43,8 @@
       </tr>
       </tbody>
     </table>
+    <div class="text-center">
+      <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+    </div>
   </ng-container>
 </div>

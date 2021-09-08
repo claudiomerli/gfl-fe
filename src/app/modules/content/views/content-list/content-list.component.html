@@ -1,0 +1,44 @@
+<div>
+  <div class="d-flex justify-content-between mb-3 align-items-center">
+    <div class="h3">Redazionali</div>
+    <a routerLink="/contents/create" class="btn btn-primary"><em class="bi bi-plus"></em>Nuovo redazionale</a>
+  </div>
+  <app-content-search-filter (submitSearchForm)="onSubmitSearchForm($event)"></app-content-search-filter>
+  <ng-container *ngIf="(actualPage$ | async) as actualPageValue">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Titolo</th>
+        <th>Data di consegna</th>
+        <th>Redattore</th>
+        <th>Testata</th>
+        <th>Cliente</th>
+        <th>Stato</th>
+        <th>Stato validazione</th>
+        <th>Data creazione</th>
+        <th>Data ultima modifica</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let item of actualPageValue.content | paginate : { itemsPerPage: actualPageValue?.pageable?.pageSize, currentPage: (actualPageValue?.pageable?.pageNumber || 0) + 1, totalItems: actualPageValue?.totalElements }">
+        >
+        <td>{{item.id}}</td>
+        <td>{{item.title}}</td>
+        <td>{{item.deliveryDate | date:'dd/MM/yyyy'}}</td>
+        <td>{{item.editor?.fullname}}</td>
+        <td>{{item.newspaper?.name}}</td>
+        <td>{{item.customer?.name}}</td>
+        <td>{{item.contentStatus | statusLabel}}</td>
+        <td [ngClass]="'text-' + (item.ruleSatisfation | ruleSatisfationIndicatorColor)"><em class="bi bi-circle"></em>
+        </td>
+        <td>{{item.deliveryDate | date:'dd/MM/yyyy'}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="text-center">
+      <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+    </div>
+  </ng-container>
+</div>

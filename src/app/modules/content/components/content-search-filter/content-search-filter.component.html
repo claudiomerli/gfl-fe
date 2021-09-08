@@ -1,0 +1,74 @@
+<div class="border rounded p-3">
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col">
+        <label class="form-label">Cliente</label>
+        <select formControlName="customerId" class="form-control">
+          <option [ngValue]="null">Seleziona</option>
+          <option [ngValue]="customer.id" *ngFor="let customer of customer$ | async">
+            {{customer.name}}
+          </option>
+        </select>
+      </div>
+
+      <div class="col">
+        <label class="form-label">Redattore</label>
+        <select formControlName="editorId" class="form-control">
+          <option [ngValue]="null">Seleziona</option>
+          <option [ngValue]="editor.id" *ngFor="let editor of editor$ | async">
+            {{editor.fullname}}
+          </option>
+        </select>
+      </div>
+
+      <div class="col">
+        <label class="form-label">Testata</label>
+        <select formControlName="newspaperId" class="form-control">
+          <option [ngValue]="null">Seleziona</option>
+          <option [ngValue]="newspaper.id" *ngFor="let newspaper of newspaper$ | async">
+            {{newspaper.name}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-8">
+        <label class="form-label">Titolo</label>
+        <input class="form-control" formControlName="globalSearch" type="text">
+      </div>
+      <div class="col-4">
+        <label class="form-label">Stato</label>
+        <select formControlName="status" class="form-control">
+          <option [ngValue]="null">Seleziona</option>
+          <option [ngValue]="'WORKING'">In lavorazione</option>
+          <option [ngValue]="'DELIVERED'">Consegnato</option>
+          <option [ngValue]="'APPROVED'">Approvato</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label class="form-label">Data di consegna da</label>
+        <input formControlName="deliveryDateFrom" type="date" class="form-control">
+      </div>
+      <div class="col">
+        <label class="form-label">Data di consegna a</label>
+        <input formControlName="deliveryDateTo" type="date" class="form-control">
+      </div>
+      <div class="col">
+        <label class="form-label">Data di creazione da</label>
+        <input formControlName="createdDateFrom" type="date" class="form-control">
+      </div>
+      <div class="col">
+        <label class="form-label">Data di creazione a</label>
+        <input formControlName="createdDateTo" type="date" class="form-control">
+      </div>
+    </div>
+    <div class="d-flex mt-3">
+      <button class="btn btn-secondary" type="submit">
+        <em class="bi bi-search"></em> Cerca
+      </button>
+    </div>
+  </form>
+
+</div>

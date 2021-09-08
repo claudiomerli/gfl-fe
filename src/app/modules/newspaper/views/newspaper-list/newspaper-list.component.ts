@@ -4,6 +4,7 @@ import {Newspaper} from "../../../shared/model/newspaper";
 import {debounceTime} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
+import {PageResponseDto} from "../../../shared/messages/page-response.dto";
 
 @Component({
   selector: 'app-newspaper-list',
@@ -16,13 +17,14 @@ export class NewspaperListComponent implements OnInit, AfterViewInit {
   globalSearchInput: ElementRef | undefined
   globalSearch = "";
 
-  newspaperList = new BehaviorSubject<Newspaper[]>([]);
+  actualPage$ = new BehaviorSubject<PageResponseDto<Newspaper>>(new PageResponseDto<Newspaper>());
+  actualPageValue = 1;
 
   constructor(private newspaperService: NewspaperService) {
   }
 
   ngOnInit(): void {
-    this.fetch()
+    this.onPageChange(this.actualPageValue);
   }
 
   ngAfterViewInit(): void {
@@ -31,17 +33,9 @@ export class NewspaperListComponent implements OnInit, AfterViewInit {
         .pipe(debounceTime(200))
         .subscribe((res) => {
           this.globalSearch = (res as any).target.value
-          this.fetch();
+          this.onPageChange(1);
         })
     }
-  }
-
-  fetch() {
-    this.newspaperService
-      .findAll(this.globalSearch)
-      .subscribe(res => {
-        this.newspaperList.next(res);
-      })
   }
 
   onDelete(id: number | undefined) {
@@ -49,8 +43,18 @@ export class NewspaperListComponent implements OnInit, AfterViewInit {
       this.newspaperService
         .delete(id)
         .subscribe(() => {
-          this.fetch();
+          this.onPageChange(1);
         })
     }
   }
+
+  onPageChange(pageNumber: number) {
+    this.actualPageValue = pageNumber;
+    this.newspaperService
+      .find(this.globalSearch, {...new PaginationDto(), page: this.actualPageValue - 1})
+      .subscribe(res => {
+        this.actualPage$.next(res);
+      })
+  }
+
 }

@@ -6,6 +6,8 @@ import {environment} from "../../../../environments/environment";
 import {User} from "../model/user";
 import {Newspaper} from "../model/newspaper";
 import {SaveNewspaperDto} from "../messages/newspaper/save-newspaper.dto";
+import {PageResponseDto} from "../messages/page-response.dto";
+import {PaginationDto} from "../messages/pagination.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +25,9 @@ export class NewspaperService {
     return this.httpClient.put<void>(environment.apiBaseurl + "/newspaper/" + id, editNewspaperDto)
   }
 
-  public findAll(globalSearch: string): Observable<Newspaper[]> {
-    return this.httpClient.get<Newspaper[]>(environment.apiBaseurl + "/newspaper", {
-      params: {globalSearch}
+  public find(globalSearch: string, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Newspaper>> {
+    return this.httpClient.get<PageResponseDto<Newspaper>>(environment.apiBaseurl + "/newspaper", {
+      params: {...paginationDto, globalSearch}
     })
   }
 
