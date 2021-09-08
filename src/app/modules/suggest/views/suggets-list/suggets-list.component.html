@@ -1,0 +1,35 @@
+<div class="d-flex justify-content-between align-items-center">
+  <input type="text" name="globalSearch" class="form-control w-50 me-2" placeholder="Cerca..." #globalSearchInput>
+  <ng-container *ngTemplateOutlet="add"></ng-container>
+</div>
+<div class="row mt-3">
+  <div class="col-3 border fw-bold">Keyword</div>
+  <div class="col-9 border fw-bold">Suggests</div>
+</div>
+<ng-container *ngFor="let suggest of suggests$ | async">
+  <div class="row">
+    <div class="col-3 border" [innerHTML]="suggest.keyword"></div>
+    <div *ngIf="suggest.suggests; else loading" class="col-8 border" [innerHTML]="suggest.suggests"></div>
+    <div class="col-1 border d-flex justify-content-center align-items-center">
+      <button class="btn btn-danger" (click)="onDelete(suggest.id)">
+        <em class="bi bi-trash"></em>
+      </button>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #add>
+  <div class="w-50 input-group">
+    <input type="text" class="form-control" placeholder="Nuovo..." [(ngModel)]="newKeyword" (keyup.enter)="onAdd()">
+    <button class="btn btn-primary" type="button" (click)="onAdd()">
+      <em class="bi bi-plus"></em> Aggiungi
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div class="col-8 py-3 border d-flex align-items-center">
+    <span class="spinner-border text-primary mx-2" role="status"></span>
+    Calcolo in corso...
+  </div>
+</ng-template>
