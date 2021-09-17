@@ -1,3 +1,217 @@
-<form [formGroup]="contentForm">
+<form [formGroup]="contentForm" (ngSubmit)="onSubmit()">
+  <div class="row" *isAuthenticated="['ADMIN']">
+    <div class="col">
+      <label class="form-label">Redattore</label>
+      <select class="form-control" formControlName="editorId">
+        <option [ngValue]="null">Seleziona</option>
+        <option [ngValue]="editor.id" *ngFor="let editor of editor$ | async">{{editor.fullname}}</option>
+      </select>
+    </div>
+    <div class="col">
+      <label class="form-label">Cliente</label>
+      <select class="form-control" formControlName="customerId">
+        <option [ngValue]="null">Seleziona</option>
+        <option [ngValue]="customer.id" *ngFor="let customer of customer$ | async">{{customer.name}}</option>
+      </select>
+    </div>
+    <div class="col">
+      <label class="form-label">Testata</label>
+      <select class="form-control" formControlName="newspaperId">
+        <option [ngValue]="null">Seleziona</option>
+        <option [ngValue]="newspaper.id" *ngFor="let newspaper of newspaper$ | async">{{newspaper.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="accordion mt-3" id="accordionContent">
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#validationRules">
+          Regole di validazione
+        </button>
+      </div>
+      <div id="validationRules" class="accordion-collapse collapse show" data-bs-parent="#accordionContent">
+        <div class="accordion-body">
+          <div class="row">
+            <div *isAuthenticated="['ADMIN']" class="col-6">
+              <ng-container formGroupName="contentRules">
+                <div class="h4">
+                  Regole articolo
+                </div>
+                <div>
+                  <label>Indicazioni sul titolo</label>
+                  <textarea class="form-control" formControlName="title"></textarea>
+                </div>
+                <div>
+                  <label>Indicazioni sul testo del link</label>
+                  <textarea class="form-control" formControlName="linkText"></textarea>
+                </div>
+                <div>
+                  <label>Indicazioni sull'url del link</label>
+                  <textarea class="form-control" formControlName="linkUrl"></textarea>
+                </div>
+                <div>
+                  <label>Indicazioni sul contenuto dell'articolo</label>
+                  <textarea class="form-control" formControlName="body"></textarea>
+                </div>
+                <div>
+                  <label>Numero massimo di caratteri articolo</label>
+                  <input class="form-control" type="number" formControlName="maxCharacterBodyLength">
+                </div>
+              </ng-container>
+              <div>
+                <label>Note del capo redattore</label>
+                <textarea class="form-control" type="text"
+                          formControlName="adminNotes" rows="5"></textarea>
+              </div>
+            </div>
+            <div *isAuthenticated="['EDITOR']" class="col-6">
+              <div class="h4">Regole Contenuto</div>
+              <div class="border-bottom">
+                <div class="text-secondary">Indicazioni sul titolo</div>
+                <div>{{contentToUpdate?.contentRules?.title}}</div>
+              </div>
+              <div class="border-bottom">
+                <div class="text-secondary">Indicazioni sul testo del link</div>
+                <div>{{contentToUpdate?.contentRules?.linkText}}</div>
+              </div>
+              <div class="border-bottom">
+                <div class="text-secondary">Indicazioni sull'url del link</div>
+                <div>{{contentToUpdate?.contentRules?.linkUrl}}</div>
+              </div>
+              <div class="border-bottom">
+                <div class="text-secondary">Indicazioni sul contenuto dell'articolo</div>
+                <div>{{contentToUpdate?.contentRules?.body}}</div>
+              </div>
+              <div class="border-bottom">
+                <div class="text-secondary">Numero massimo di caratteri articolo</div>
+                <div>{{contentToUpdate?.contentRules?.maxCharacterBodyLength}}</div>
+              </div>
+              <div class="border-bottom">
+                <div class="text-secondary">Note del capo redattore</div>
+                <div>{{contentToUpdate?.adminNotes}}</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="h4">Regole cliente</div>
+              <div *ngIf="!customerContentRules">Nessun cliente selezionato</div>
+              <ng-container *ngIf="customerContentRules">
+                <div class="border-bottom">
+                  <div class="text-secondary">Indicazioni sul titolo</div>
+                  <div>{{customerContentRules.title}}</div>
+                </div>
+                <div class="border-bottom">
+                  <div class="text-secondary">Indicazioni sul testo del link</div>
+                  <div>{{customerContentRules.linkText}}</div>
+                </div>
+                <div class="border-bottom">
+                  <div class="text-secondary">Indicazioni sull'url del link</div>
+                  <div>{{customerContentRules.linkUrl}}</div>
+                </div>
+                <div class="border-bottom">
+                  <div class="text-secondary">Indicazioni sul contenuto dell'articolo</div>
+                  <div>{{customerContentRules.body}}</div>
+                </div>
+                <div class="border-bottom">
+                  <div class="text-secondary">Numero massimo di caratteri articolo</div>
+                  <div>{{customerContentRules.maxCharacterBodyLength}}</div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#contentBody">
+          Contenuto articolo
+        </button>
+      </div>
+      <div id="contentBody" class="accordion-collapse collapse" data-bs-parent="#accordionContent">
+        <div class="accordion-body">
+          <div>
+            <label class="form-label">Titolo</label>
+            <input class="form-control" type="text" formControlName="title">
+            <div class="alert alert-danger mt-1"
+                 *ngIf="contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.titleSatisfied">{{contentToUpdate?.ruleSatisfation?.titleError}}</div>
+          </div>
 
+          <div>
+            <label class="form-label">Link url</label>
+            <input class="form-control" type="text" formControlName="linkUrl">
+            <div class="alert alert-danger mt-1"
+                 *ngIf="contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.linkUrlSatisfied">{{contentToUpdate?.ruleSatisfation?.linkUrlError}}</div>
+          </div>
+
+          <div>
+            <label class="form-label">Link text</label>
+            <input class="form-control" type="text" formControlName="linkText">
+            <div class="alert alert-danger mt-1"
+                 *ngIf="contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.linkTextSatisfied">{{contentToUpdate?.ruleSatisfation?.linkTextError}}</div>
+          </div>
+
+          <div>
+            <label class="form-label">Body</label>
+            <tinymce formControlName="body"></tinymce>
+            <div class="alert alert-danger mt-1"
+                 *ngIf="contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.characterSatisfied">{{contentToUpdate?.ruleSatisfation?.characterError}}</div>
+          </div>
+          <div *isAuthenticated="['ADMIN']">
+            <label class="form-label">Data di scadenza</label>
+            <input class="form-control" type="date" formControlName="deliveryDate">
+          </div>
+          <div class="alert alert-warning mt-1"
+               *ngIf="contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.expirationDateOneDaySatisfied">{{contentToUpdate?.ruleSatisfation?.expirationDateOneDayError}}</div>
+          <div class="alert alert-danger mt-1"
+               *ngIf="contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.expirationDatePlusThenOneDaySatisfied">{{contentToUpdate?.ruleSatisfation?.expirationDatePlusThenOneDayError}}</div>
+
+          <ng-container *ngIf="onEdit">
+            <div *isAuthenticated="['ADMIN']">
+              <label class="form-label">Punteggio</label>
+              <select class="form-control" formControlName="score">
+                <option [ngValue]="null">Seleziona</option>
+                <option [ngValue]="1">1</option>
+                <option [ngValue]="2">2</option>
+                <option [ngValue]="3">3</option>
+                <option [ngValue]="4">4</option>
+                <option [ngValue]="5">5</option>
+                <option [ngValue]="6">6</option>
+                <option [ngValue]="7">7</option>
+                <option [ngValue]="8">8</option>
+                <option [ngValue]="9">9</option>
+                <option [ngValue]="10">10</option>
+              </select>
+            </div>
+
+            <div *isAuthenticated="['ADMIN']">
+              <label class="form-label">Stato</label>
+              <select formControlName="contentStatus" class="form-control">
+                <option [ngValue]="null">Seleziona</option>
+                <option [ngValue]="'WORKING'">In lavorazione</option>
+                <option [ngValue]="'DELIVERED'">Consegnato</option>
+                <option [ngValue]="'APPROVED'">Approvato</option>
+              </select>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-end mt-3">
+    <ng-container *ngIf="onEdit && contentToUpdate?.contentStatus == 'WORKING'">
+      <button class="btn btn-success me-3" type="button" (click)="deliver.emit()" *isAuthenticated="['EDITOR']">
+        Consegna
+      </button>
+    </ng-container>
+    <button class="btn btn-primary me-3" type="button" (click)="exportPdf.emit()" *ngIf="onEdit">Export PDF</button>
+    <button class="btn btn-primary me-3" type="button" (click)="exportDocx.emit()" *ngIf="onEdit">Export DOCX</button>
+    <ng-container *isAuthenticated="['ADMIN']">
+      <button class="btn btn-primary" type="submit" [disabled]="contentForm.invalid">Salva</button>
+    </ng-container>
+    <ng-container *isAuthenticated="['EDITOR']">
+      <span *ngIf="contentToUpdate?.contentStatus != 'WORKING'">Il redazionale è stato consegnato</span>
+      <button class="btn btn-primary" type="submit" [disabled]="contentForm.invalid"
+              *ngIf="contentToUpdate?.contentStatus == 'WORKING'">Salva
+      </button>
+    </ng-container>
+
+  </div>
 </form>

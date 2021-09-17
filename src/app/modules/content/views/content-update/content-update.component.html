@@ -1,0 +1,11 @@
+<div>
+  <h3>Modifica contenuto</h3>
+  <app-content-form
+    [contentToUpdate]="contentToUpdate"
+    (submitForm)="onSubmit($event)"
+    [onEdit]="true"
+    (exportDocx)="exportDocx()"
+    (exportPdf)="exportPdf()"
+    (deliver)="deliver()"
+  ></app-content-form>
+</div>

@@ -19,11 +19,11 @@ export class CustomerSaveFormComponent implements OnInit {
   saveCustomerForm = this.formBuilder.group({
     name: this.formBuilder.control('', [Validators.required]),
     contentRules: this.formBuilder.group({
-      title: ['', Validators.required],
-      linkUrl: ['', Validators.required],
-      linkText: ['', Validators.required],
-      body: ['', Validators.required],
-      maxCharacterBodyLength: [undefined, Validators.required]
+      title: [''],
+      linkUrl: [''],
+      linkText: [''],
+      body: [''],
+      maxCharacterBodyLength: [undefined]
     })
   })
 

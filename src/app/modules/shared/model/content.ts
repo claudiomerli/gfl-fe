@@ -23,4 +23,5 @@ export class Content {
   customer?: Customer;
   contentRules?: ContentRules;
   ruleSatisfation?: RuleSatisfation;
+  score?: number;
 }

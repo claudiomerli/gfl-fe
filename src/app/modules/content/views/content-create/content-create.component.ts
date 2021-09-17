@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ContentService} from "../../../shared/services/content.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-content-create',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentCreateComponent implements OnInit {
 
-  constructor() { }
+  constructor(private contentService: ContentService, private router: Router) {
+  }
 
   ngOnInit(): void {
   }
 
+  onSubmit($event: any) {
+    this.contentService
+      .save($event)
+      .subscribe(() => {
+        console.log("Content saved")
+        this.router.navigate(["/contents"])
+      });
+  }
 }

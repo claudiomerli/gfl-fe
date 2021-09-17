@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from "./modules/shared/guards/auth.guard";
 
 const routes: Routes = [
-  {path: "", redirectTo: "/projects", pathMatch: "full"},
+  {path: "", redirectTo: "/contents", pathMatch: "full"},
   {
     path: "auth",
     loadChildren: () => import("./modules/auth/auth.module").then(m => m.AuthModule)

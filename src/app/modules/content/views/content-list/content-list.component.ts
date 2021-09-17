@@ -50,4 +50,12 @@ export class ContentListComponent implements OnInit {
       })
   }
 
+  delete(id: number | undefined) {
+    if (id)
+      this.contentService.delete(id).subscribe(() => {
+        this.onPageChange(this.actualPageValue)
+      })
+  }
+
+
 }

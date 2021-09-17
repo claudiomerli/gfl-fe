@@ -3,8 +3,9 @@ import {User} from "../model/user";
 import {HttpClient} from "@angular/common/http";
 import {SigninDto} from "../messages/signin.dto";
 import {environment} from "../../../../environments/environment";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {AccessTokenDto} from "../messages/access-token.dto";
+import {tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class AuthService {
 
   readonly LS_USER_KEY = "current_user";
   readonly LS_ACCESSTOKEN_KEY = "access_token";
+  readonly currentUser = new BehaviorSubject<User | undefined>(undefined)
 
   public getCurrentUserFromLocalStorage(): User | undefined {
     let userJson = localStorage.getItem(this.LS_USER_KEY);
@@ -47,6 +49,13 @@ export class AuthService {
 
   signin(signinDto: SigninDto | undefined): Observable<AccessTokenDto> {
     return this.httpClient.post<AccessTokenDto>(environment.apiBaseurl + "/auth/signin", signinDto);
+  }
+
+  loadUserInfo() {
+    this.httpClient.get<User>(environment.apiBaseurl + "/auth/userInfo").subscribe(user => {
+      this.storeUserToLocalStorage(user);
+      this.currentUser.next(user);
+    })
   }
 
   clearLocalStorage() {

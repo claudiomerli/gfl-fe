@@ -18,13 +18,18 @@ export class LoginComponent implements OnInit {
 
 
   signinMessage = new SigninDto();
+  loginError = false;
 
   doSignin() {
     this.authService
       .signin(this.signinMessage)
       .subscribe(accessToken => {
-        this.authService.storeAccessTokenToLocalStorage(accessToken);
-        this.router.navigate(["/"]);
-      });
+          this.authService.storeAccessTokenToLocalStorage(accessToken);
+          this.authService.loadUserInfo();
+          this.router.navigate(["/"]);
+        },
+        error => {
+          this.loginError = true
+        });
   }
 }
