@@ -115,6 +115,10 @@
                   <div class="text-secondary">Numero massimo di caratteri articolo</div>
                   <div>{{customerContentRules.maxCharacterBodyLength}}</div>
                 </div>
+                <div class="border-bottom">
+                  <div class="text-secondary">Note del cliente</div>
+                  <div>{{contentToUpdate?.customerNotes}}</div>
+                </div>
               </ng-container>
             </div>
           </div>
@@ -201,6 +205,7 @@
         Consegna
       </button>
     </ng-container>
+    <button class="btn btn-primary me-3" type="button" (click)="copyCustomerLink()" *ngIf="onEdit">Copia Link Cliente</button>
     <button class="btn btn-primary me-3" type="button" (click)="exportPdf.emit()" *ngIf="onEdit">Export PDF</button>
     <button class="btn btn-primary me-3" type="button" (click)="exportDocx.emit()" *ngIf="onEdit">Export DOCX</button>
     <ng-container *isAuthenticated="['ADMIN']">

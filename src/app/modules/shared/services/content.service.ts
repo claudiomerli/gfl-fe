@@ -55,4 +55,31 @@ export class ContentService {
   public deliver(id: number | undefined) {
     return this.httpClient.put(environment.apiBaseurl + "/content/" + id + "/deliver", null)
   }
+
+  public getContentCustomer(id: number, customerToken: string): Observable<Content> {
+    return this.httpClient.get<Content>(environment.apiBaseurl + "/content/customer/" + id, {
+      params: {
+        token: customerToken
+      }
+    })
+  }
+
+  public approveContentCustomer(id: number, customerToken: string): Observable<Content> {
+    return this.httpClient.put<Content>(environment.apiBaseurl + "/content/customer/" + id + "/approve", null, {
+      params: {
+        token: customerToken
+      }
+    })
+  }
+
+  public saveNotes(id: number, notes: string, customerToken: string): Observable<Content> {
+    return this.httpClient.put<Content>(environment.apiBaseurl + "/content/customer/" + id + "/notes", {
+      notes
+    }, {
+      params: {
+        token: customerToken
+      }
+    })
+  }
+
 }

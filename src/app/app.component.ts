@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authenticationService.getAccessTokenFromLocalStorage()) {
-      this.authenticationService.loadUserInfo();
+      this.authenticationService.loadUserInfo().subscribe();
     }
   }
 

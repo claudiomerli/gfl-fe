@@ -35,9 +35,9 @@
         </td>
         <td>{{item.createdDate | date:'dd/MM/yyyy'}}</td>
         <td>{{item.lastModifiedDate | date:'dd/MM/yyyy'}}</td>
-        <td class="d-flex justify-content-around">
-          <a class="btn btn-sm btn-warning" [routerLink]="[item.id]"><em class="bi bi-pencil"></em> Modifica</a>
-          <button class="btn btn-sm btn-danger" (click)="delete(item.id)" *isAuthenticated="['ADMIN']"><em class="bi bi-trash"></em> Elimina</button>
+        <td class="text-center">
+          <a class="btn btn-warning mx-1" [routerLink]="[item.id]"><em class="bi bi-pencil"></em></a>
+          <button class="btn btn-danger mx-1" (click)="delete(item.id)" *isAuthenticated="['ADMIN']"><em class="bi bi-trash"></em></button>
         </td>
       </tr>
       </tbody>

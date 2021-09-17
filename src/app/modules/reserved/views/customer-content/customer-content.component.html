@@ -1,0 +1,25 @@
+<div *ngIf="(content$ | async); let content">
+  <div class="h3">{{content.title}}</div>
+  <div>
+    <a [href]="content.linkUrl">{{content.linkText}}</a>
+  </div>
+  <div [innerHTML]="content.body"></div>
+  <div class="card">
+    <div class="card-body">
+      <div>
+        <label class="form-label"></label>
+        <textarea [readOnly]="content.contentStatus == 'APPROVED'" class="form-control" [(ngModel)]="notes"></textarea>
+      </div>
+      <div class="text-end mt-1">
+        <button class="btn btn-primary mx-1" (click)="saveNotes()" *ngIf="content.contentStatus != 'APPROVED'">Salva note
+        </button>
+        <button class="btn btn-success mx-1" (click)="approve()"
+                *ngIf="content.contentStatus != 'APPROVED' && content.contentStatus != 'WORKING'">Approva
+        </button>
+      </div>
+      <div class="alert alert-success mt-1">
+        Il contenuto è già approvato
+      </div>
+    </div>
+  </div>
+</div>

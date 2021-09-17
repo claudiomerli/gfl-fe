@@ -16,27 +16,36 @@ const routes: Routes = [
   {
     path: "editors",
     loadChildren: () => import("./modules/editor/editor.module").then(m => m.EditorModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data : {availableRoles : ['ADMIN']}
   },
   {
     path: "newspapers",
     loadChildren: () => import("./modules/newspaper/newspaper.module").then(m => m.NewspaperModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data : {availableRoles : ['ADMIN']}
   },
   {
     path: 'customers',
     loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data : {availableRoles : ['ADMIN']}
   },
   {
     path: 'contents',
     loadChildren: () => import('./modules/content/content.module').then(m => m.ContentModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data : {availableRoles : ['ADMIN']}
   },
   {
     path: 'suggests',
     loadChildren: () => import('./modules/suggest/suggest.module').then(m => m.SuggestModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data : {availableRoles : ['ADMIN']}
+  },
+  {
+    path: 'reserved',
+    loadChildren: () => import('./modules/reserved/reserved.module').then(m => m.ReservedModule)
   }
 ];
 

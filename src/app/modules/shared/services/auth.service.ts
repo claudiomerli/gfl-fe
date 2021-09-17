@@ -51,11 +51,12 @@ export class AuthService {
     return this.httpClient.post<AccessTokenDto>(environment.apiBaseurl + "/auth/signin", signinDto);
   }
 
-  loadUserInfo() {
-    this.httpClient.get<User>(environment.apiBaseurl + "/auth/userInfo").subscribe(user => {
-      this.storeUserToLocalStorage(user);
-      this.currentUser.next(user);
-    })
+  loadUserInfo() : Observable<User>{
+    return this.httpClient.get<User>(environment.apiBaseurl + "/auth/userInfo")
+      .pipe(tap(user => {
+        this.storeUserToLocalStorage(user);
+        this.currentUser.next(user);
+      }))
   }
 
   clearLocalStorage() {

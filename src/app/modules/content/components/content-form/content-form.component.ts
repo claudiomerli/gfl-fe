@@ -111,4 +111,8 @@ export class ContentFormComponent implements OnInit, OnChanges {
       })
     }
   }
+
+  copyCustomerLink() {
+    navigator.clipboard.writeText(window.location.origin + "/reserved/content/" + this.contentToUpdate?.id + "?contentToken=" + this.contentToUpdate?.customerToken)
+  }
 }

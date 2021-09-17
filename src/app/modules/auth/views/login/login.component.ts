@@ -25,8 +25,9 @@ export class LoginComponent implements OnInit {
       .signin(this.signinMessage)
       .subscribe(accessToken => {
           this.authService.storeAccessTokenToLocalStorage(accessToken);
-          this.authService.loadUserInfo();
-          this.router.navigate(["/"]);
+          this.authService.loadUserInfo().subscribe(() => {
+            this.router.navigate(["/"]);
+          });
         },
         error => {
           this.loginError = true

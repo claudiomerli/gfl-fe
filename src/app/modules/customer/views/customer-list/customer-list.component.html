@@ -20,9 +20,9 @@
         *ngFor="let item of actualPageValue.content | paginate : { itemsPerPage: actualPageValue?.pageable?.pageSize, currentPage: (actualPageValue?.pageable?.pageNumber || 0) + 1, totalItems: actualPageValue?.totalElements }">
         <td>{{item.id}}</td>
         <td>{{item.name}}</td>
-        <td class="d-flex justify-content-around">
-          <a class="btn btn-warning" [routerLink]="['/customers',item.id]"><em class="bi bi-pencil"></em></a>
-          <a class="btn btn-danger" (click)="onDelete(item.id)"><em class="bi bi-trash"></em></a>
+        <td class="text-center">
+          <a class="btn btn-warning mx-1" [routerLink]="['/customers',item.id]"><em class="bi bi-pencil"></em></a>
+          <a class="btn btn-danger mx-1" (click)="onDelete(item.id)"><em class="bi bi-trash"></em></a>
         </td>
       </tr>
       </tbody>
