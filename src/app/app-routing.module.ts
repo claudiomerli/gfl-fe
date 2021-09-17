@@ -32,6 +32,11 @@ const routes: Routes = [
     path: 'contents',
     loadChildren: () => import('./modules/content/content.module').then(m => m.ContentModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'suggests',
+    loadChildren: () => import('./modules/suggest/suggest.module').then(m => m.SuggestModule),
+    canActivate: [AuthGuard]
   }
 ];
 
