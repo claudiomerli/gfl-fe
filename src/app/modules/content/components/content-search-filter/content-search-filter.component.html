@@ -63,6 +63,24 @@
         <label class="form-label">Data di creazione a</label>
         <input formControlName="createdDateTo" type="date" class="form-control">
       </div>
+      <div class="col" *isAuthenticated="['ADMIN']">
+          <label class="form-label">Mese di utilizzo</label>
+          <select class="form-control" formControlName="monthUse">
+            <option [ngValue]="null">Seleziona</option>
+            <option [ngValue]="'JANUARY'">Gennaio</option>
+            <option [ngValue]="'FEBRUARY'">Febbraio</option>
+            <option [ngValue]="'MARCH'">Marzo</option>
+            <option [ngValue]="'APRIL'">Aprile</option>
+            <option [ngValue]="'MAY'">Maggio</option>
+            <option [ngValue]="'JUNE'">Giugno</option>
+            <option [ngValue]="'JULY'">Luglio</option>
+            <option [ngValue]="'AUGUST'">Agosto</option>
+            <option [ngValue]="'SEPTEMBER'">Settembre</option>
+            <option [ngValue]="'OCTOBER'">Ottobre</option>
+            <option [ngValue]="'NOVEMBER'">Novembre</option>
+            <option [ngValue]="'DECEMBER'">Dicembre</option>
+          </select>
+      </div>
     </div>
     <div class="d-flex mt-3">
       <button class="btn btn-secondary" type="submit">

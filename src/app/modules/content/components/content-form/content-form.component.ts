@@ -57,7 +57,8 @@ export class ContentFormComponent implements OnInit, OnChanges {
     body: [null],
     deliveryDate: [null, Validators.required],
     contentStatus: [null],
-    score: [null]
+    score: [null],
+    monthUse: [null]
   });
 
 
@@ -107,7 +108,8 @@ export class ContentFormComponent implements OnInit, OnChanges {
         body: content.body,
         deliveryDate: content.deliveryDate,
         contentStatus: content.contentStatus,
-        score: content.score
+        score: content.score,
+        monthUse: content.monthUse
       })
     }
   }

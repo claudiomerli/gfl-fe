@@ -51,6 +51,7 @@ export class ContentSearchFilterComponent implements OnInit {
     deliveryDateTo: this.formBuilder.control(null),
     createdDateFrom: this.formBuilder.control(null),
     createdDateTo: this.formBuilder.control(null),
+    monthUse: this.formBuilder.control(null)
   })
 
   onSubmit() {

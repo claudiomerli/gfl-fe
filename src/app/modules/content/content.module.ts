@@ -29,7 +29,9 @@ import { ContentUpdateComponent } from './views/content-update/content-update.co
     SharedModule,
     NgxTinymceModule.forRoot({
       config : {
-        height : "600px"
+        height : "600px",
+        plugins: 'wordcount',
+        toolbar: 'wordcount'
       },
       baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/'
     })

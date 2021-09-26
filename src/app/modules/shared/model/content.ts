@@ -24,4 +24,5 @@ export class Content {
   contentRules?: ContentRules;
   ruleSatisfation?: RuleSatisfation;
   score?: number;
+  monthUse? : "JANUARY" | "FEBRUARY" | "MARCH" | "APRIL" | "MAY" | "JUNE" | "JULY" | "AUGUST" | "SEPTEMBER" | "OCTOBER" | "NOVEMBER" | "DECEMBER"
 }
