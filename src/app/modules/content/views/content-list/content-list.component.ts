@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ContentService} from "../../../shared/services/content.service";
 import {BehaviorSubject} from "rxjs";
 import {PageResponseDto} from "../../../shared/messages/page-response.dto";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {Content} from "../../../shared/model/content";
 import {SearchContentDto} from "../../../shared/messages/search-content.dto";
+import {ModalComponent, ModalSize} from "../../../shared/components/modal/modal.component";
 
 @Component({
   selector: 'app-content-list',
@@ -13,14 +14,16 @@ import {SearchContentDto} from "../../../shared/messages/search-content.dto";
 })
 export class ContentListComponent implements OnInit {
 
-  constructor(private contentService: ContentService) {
-  }
-
   searchParameter: SearchContentDto = new SearchContentDto()
 
   actualPage$ = new BehaviorSubject<PageResponseDto<Content>>(new PageResponseDto<Content>());
   actualPageValue = 1;
+  @ViewChild('modal') modal?: ModalComponent;
+  modalSize = ModalSize.XL
+  selectedContent?: Content;
 
+  constructor(private contentService: ContentService) {
+  }
 
   onSubmitSearchForm($event: any) {
     this.searchParameter = $event
@@ -30,16 +33,6 @@ export class ContentListComponent implements OnInit {
   ngOnInit(): void {
     this.onPageChange(this.actualPageValue);
   }
-
-  // onDelete(id: number | undefined) {
-  //   if (id) {
-  //     this.customerService
-  //       .delete(id)
-  //       .subscribe(() => {
-  //         this.onPageChange(1);
-  //       })
-  //   }
-  // }
 
   onPageChange(pageNumber: number) {
     this.actualPageValue = pageNumber;
@@ -57,5 +50,12 @@ export class ContentListComponent implements OnInit {
       })
   }
 
+  showDetail(item: Content) {
+    this.selectedContent = item;
+    console.log(item)
+    if (this.modal) {
+      this.modal.open(`Articolo: ${item.title}`);
+    }
+  }
 
 }
