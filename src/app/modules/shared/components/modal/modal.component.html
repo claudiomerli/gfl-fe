@@ -1,0 +1,18 @@
+<div id="backdrop" *ngIf="show"></div>
+<div id="modal" tabindex="-1" *ngIf="show">
+  <div class="modal-dialog {{size}}">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" [innerHTML]="title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
+      </div>
+      <div class="modal-body">
+        <ng-content select="[body]"></ng-content>
+      </div>
+      <div class="modal-footer flex justify-content-between">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="close()">Chiudi</button>
+        <ng-content select="[footer]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

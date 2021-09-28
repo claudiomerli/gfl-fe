@@ -1,7 +1,8 @@
 <div>
   <div class="d-flex justify-content-between mb-3 align-items-center">
     <div class="h3">Redazionali</div>
-    <a routerLink="/contents/create" class="btn btn-primary" *isAuthenticated="['ADMIN']"><em class="bi bi-plus"></em>Nuovo redazionale</a>
+    <a routerLink="/contents/create" class="btn btn-primary" *isAuthenticated="['ADMIN']"><em class="bi bi-plus"></em>Nuovo
+      redazionale</a>
   </div>
   <app-content-search-filter (submitSearchForm)="onSubmitSearchForm($event)"></app-content-search-filter>
   <ng-container *ngIf="(actualPage$ | async) as actualPageValue">
@@ -31,13 +32,16 @@
         <td>{{item.newspaper?.name}}</td>
         <td>{{item.customer?.name}}</td>
         <td>{{item.contentStatus | statusLabel}}</td>
-        <td [ngClass]="'text-' + (item.ruleSatisfation | ruleSatisfationIndicatorColor)" class="text-center"><em class="bi bi-circle-fill"></em>
+        <td [ngClass]="'text-' + (item.ruleSatisfation | ruleSatisfationIndicatorColor)" class="text-center"><em
+          class="bi bi-circle-fill"></em>
         </td>
         <td>{{item.createdDate | date:'dd/MM/yyyy'}}</td>
         <td>{{item.lastModifiedDate | date:'dd/MM/yyyy'}}</td>
         <td class="text-center">
+          <button class="btn btn-light mx-1" (click)="showDetail(item)"><em class="bi bi-search"></em></button>
           <a class="btn btn-warning mx-1" [routerLink]="[item.id]"><em class="bi bi-pencil"></em></a>
-          <button class="btn btn-danger mx-1" (click)="delete(item.id)" *isAuthenticated="['ADMIN']"><em class="bi bi-trash"></em></button>
+          <button class="btn btn-danger mx-1" (click)="delete(item.id)" *isAuthenticated="['ADMIN']"><em
+            class="bi bi-trash"></em></button>
         </td>
       </tr>
       </tbody>
@@ -47,3 +51,108 @@
     </div>
   </ng-container>
 </div>
+
+<app-modal #modal [size]="modalSize" (close)="selectedContent = undefined">
+  <div body>
+    <dl *ngIf="selectedContent" class="row">
+
+      <dt class="col-sm-3">title</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.title"></dd>
+
+      <dt class="col-sm-3">newspaper</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.newspaper?.name"></dd>
+
+      <dt class="col-sm-3">customer</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.customer?.name"></dd>
+
+      <dt class="col-sm-3">editor</dt>
+      <dd class="col-sm-9">
+        <dl class="row">
+          <dt class="col-sm-4 text-break">fullname</dt>
+          <dd class="col-sm-8">{{selectedContent.editor?.fullname}}</dd>
+          <dt class="col-sm-4 text-break">email</dt>
+          <dd class="col-sm-8">{{selectedContent.editor?.email}}</dd>
+          <dt class="col-sm-4 text-break">mobilePhone</dt>
+          <dd class="col-sm-8">{{selectedContent.editor?.mobilePhone}}</dd>
+        </dl>
+      </dd>
+
+      <dt class="col-sm-3">contentStatus</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.contentStatus | statusLabel"></dd>
+
+      <dt class="col-sm-3">createdDate</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.createdDate | date"></dd>
+
+      <dt class="col-sm-3">lastModifiedDate</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.lastModifiedDate | date"></dd>
+
+      <dt class="col-sm-3">deliveryDate</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.deliveryDate | date"></dd>
+
+      <dt class="col-sm-3">linkText</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.linkText"></dd>
+
+      <dt class="col-sm-3">linkUrl</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.linkUrl"></dd>
+
+      <dt class="col-sm-3">body</dt>
+      <dd class="col-sm-9 border p-1" [innerHTML]="selectedContent.body"></dd>
+
+      <dt class="col-sm-3">monthUse</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.monthUse"></dd>
+
+      <dt class="col-sm-3">score</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.score"></dd>
+
+      <dt class="col-sm-3">customerNotes</dt>
+      <dd class="col-sm-9 border p-1" [innerHTML]="selectedContent.customerNotes"></dd>
+
+      <dt class="col-sm-3">adminNotes</dt>
+      <dd class="col-sm-9 border p-1">{{selectedContent.adminNotes}}</dd>
+
+      <dt class="col-sm-3">contentRules</dt>
+      <dd class="col-sm-9">
+        <dl class="row">
+          <dt class="col-sm-4 text-break">title</dt>
+          <dd class="col-sm-8">{{selectedContent.contentRules?.title}}</dd>
+          <dt class="col-sm-4 text-break">body</dt>
+          <dd class="col-sm-8">{{selectedContent.contentRules?.body}}</dd>
+          <dt class="col-sm-4 text-break">linkUrl</dt>
+          <dd class="col-sm-8">{{selectedContent.contentRules?.linkUrl}}</dd>
+          <dt class="col-sm-4 text-break">linkText</dt>
+          <dd class="col-sm-8">{{selectedContent.contentRules?.linkText}}</dd>
+          <dt class="col-sm-4 text-break">maxCharacterBodyLength</dt>
+          <dd class="col-sm-8">{{selectedContent.contentRules?.maxCharacterBodyLength}}</dd>
+        </dl>
+      </dd>
+      <dt class="col-sm-3">ruleSatisfation</dt>
+      <dd class="col-sm-9">
+        <dl class="row">
+          <dt *ngIf="!selectedContent.ruleSatisfation?.characterSatisfied" class="col-sm-4 text-break">characterError
+          </dt>
+          <dd *ngIf="!selectedContent.ruleSatisfation?.characterSatisfied"
+              class="col-sm-8">{{selectedContent.ruleSatisfation?.characterError}}</dd>
+          <dt *ngIf="!selectedContent.ruleSatisfation?.expirationDateOneDaySatisfied" class="col-sm-4 text-break">
+            expirationDateOneDayError
+          </dt>
+          <dd *ngIf="!selectedContent.ruleSatisfation?.expirationDateOneDaySatisfied"
+              class="col-sm-8">{{selectedContent.ruleSatisfation?.expirationDateOneDayError}}</dd>
+          <dt *ngIf="!selectedContent.ruleSatisfation?.expirationDatePlusThenOneDaySatisfied"
+              class="col-sm-4 text-break">expirationDatePlusThenOneDayError
+          </dt>
+          <dd *ngIf="!selectedContent.ruleSatisfation?.expirationDatePlusThenOneDaySatisfied"
+              class="col-sm-8">{{selectedContent.ruleSatisfation?.expirationDatePlusThenOneDayError}}</dd>
+          <dt *ngIf="!selectedContent.ruleSatisfation?.titleSatisfied" class="col-sm-4 text-break">titleError</dt>
+          <dd *ngIf="!selectedContent.ruleSatisfation?.titleSatisfied"
+              class="col-sm-8">{{selectedContent.ruleSatisfation?.titleError}}</dd>
+          <dt *ngIf="!selectedContent.ruleSatisfation?.linkTextSatisfied" class="col-sm-4 text-break">linkTextError</dt>
+          <dd *ngIf="!selectedContent.ruleSatisfation?.linkTextSatisfied"
+              class="col-sm-8">{{selectedContent.ruleSatisfation?.linkTextError}}</dd>
+          <dt *ngIf="!selectedContent.ruleSatisfation?.linkUrlSatisfied" class="col-sm-4 text-break">linkUrlError</dt>
+          <dd *ngIf="!selectedContent.ruleSatisfation?.linkUrlSatisfied"
+              class="col-sm-8">{{selectedContent.ruleSatisfation?.linkUrlError}}</dd>
+        </dl>
+      </dd>
+    </dl>
+  </div>
+</app-modal>
