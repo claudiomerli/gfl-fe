@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {FormArray, FormBuilder, Validators} from "@angular/forms";
 import {BehaviorSubject, zip} from "rxjs";
 import {User} from "../../../shared/model/user";
 import {Customer} from "../../../shared/model/customer";
@@ -52,8 +52,7 @@ export class ContentFormComponent implements OnInit, OnChanges {
     }),
     adminNotes: [null],
     title: [null],
-    linkText: [null],
-    linkUrl: [null],
+    links: this.formBuilder.array([]),
     body: [null],
     deliveryDate: [null, Validators.required],
     contentStatus: [null],
@@ -61,9 +60,11 @@ export class ContentFormComponent implements OnInit, OnChanges {
     monthUse: [null]
   });
 
+  get links() {
+    return this.contentForm.get('links') as FormArray;
+  }
 
   ngOnInit(): void {
-
     zip(
       this.customerService.find("", PaginationDto.buildMaxValueOnePage()),
       this.editorService.find("", PaginationDto.buildMaxValueOnePage()),
@@ -103,18 +104,38 @@ export class ContentFormComponent implements OnInit, OnChanges {
         newspaperId: content.newspaper?.id,
         contentRules: content.contentRules,
         title: content.title,
-        linkUrl: content.linkUrl,
-        linkText: content.linkText,
         body: content.body,
         deliveryDate: content.deliveryDate,
         contentStatus: content.contentStatus,
         score: content.score,
         monthUse: content.monthUse
       })
+      this.links.clear()
+      content.links?.forEach(link => {
+        this.links.push(
+          this.formBuilder.group({
+            linkText: link.linkText,
+            linkUrl: link.linkUrl,
+          })
+        );
+      })
     }
   }
 
   copyCustomerLink() {
     navigator.clipboard.writeText(window.location.origin + "/reserved/content/" + this.contentToUpdate?.id + "?contentToken=" + this.contentToUpdate?.customerToken)
+  }
+
+  addLink() {
+    this.links.push(
+      this.formBuilder.group({
+        linkText: [null],
+        linkUrl: [null],
+      })
+    );
+  }
+
+  removeLink(idx: number) {
+    this.links.removeAt(idx)
   }
 }

@@ -7,8 +7,7 @@ import {Customer} from "./customer";
 export class Content {
   id?: number
   title?: string;
-  linkUrl?: string;
-  linkText?: string;
+  links?: ContentLink[];
   body?: string;
   exportFileName?: string;
   customerToken?: string;
@@ -25,4 +24,9 @@ export class Content {
   ruleSatisfation?: RuleSatisfation;
   score?: number;
   monthUse? : "JANUARY" | "FEBRUARY" | "MARCH" | "APRIL" | "MAY" | "JUNE" | "JULY" | "AUGUST" | "SEPTEMBER" | "OCTOBER" | "NOVEMBER" | "DECEMBER"
+}
+
+export interface ContentLink {
+  linkUrl?: string;
+  linkText?: string;
 }

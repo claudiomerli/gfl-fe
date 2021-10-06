@@ -1,7 +1,9 @@
 <div *ngIf="(content$ | async); let content">
   <div class="h3">{{content.title}}</div>
-  <div>
-    <a [href]="content.linkUrl">{{content.linkText}}</a>
+  <div class="row" *ngFor="let link of content.links">
+    <div class="col">
+      <a [href]="link.linkUrl">{{link.linkText}}</a>
+    </div>
   </div>
   <div [innerHTML]="content.body"></div>
   <div class="card">
