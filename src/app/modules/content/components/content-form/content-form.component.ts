@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {BehaviorSubject, zip} from "rxjs";
 import {User} from "../../../shared/model/user";
 import {Customer} from "../../../shared/model/customer";
@@ -39,6 +39,8 @@ export class ContentFormComponent implements OnInit, OnChanges {
 
   customerContentRules: ContentRules | undefined;
 
+  contentRulesAttachment: any
+
   contentForm = this.formBuilder.group({
     editorId: [null, Validators.required],
     customerId: [null, Validators.required],
@@ -48,7 +50,10 @@ export class ContentFormComponent implements OnInit, OnChanges {
       linkUrl: [null],
       linkText: [null],
       body: [null],
-      maxCharacterBodyLength: [null]
+      maxCharacterBodyLength: [null],
+      attachmentFileName: [null],
+      attachmentContentType: [null],
+      attachmentBase64: [null]
     }),
     adminNotes: [null],
     title: [null],
@@ -101,7 +106,11 @@ export class ContentFormComponent implements OnInit, OnChanges {
         editorId: content.editor?.id,
         customerId: content.customer?.id,
         newspaperId: content.newspaper?.id,
-        contentRules: content.contentRules,
+        contentRules: {
+          ...content.contentRules,
+          attachmentFileName : content.contentRules?.attachment?.filename,
+          attachmentContentType: content.contentRules?.attachment?.contentType,
+        },
         title: content.title,
         linkUrl: content.linkUrl,
         linkText: content.linkText,
@@ -109,12 +118,30 @@ export class ContentFormComponent implements OnInit, OnChanges {
         deliveryDate: content.deliveryDate,
         contentStatus: content.contentStatus,
         score: content.score,
-        monthUse: content.monthUse
+        monthUse: content.monthUse,
       })
+
+      this.contentRulesAttachment = content.contentRules?.attachment
     }
   }
 
   copyCustomerLink() {
     navigator.clipboard.writeText(window.location.origin + "/reserved/content/" + this.contentToUpdate?.id + "?contentToken=" + this.contentToUpdate?.customerToken)
+  }
+
+  onLoadFile($event: { filename: string; contentType: string; byte: any }) {
+    this.contentForm.controls.contentRules.patchValue({
+      attachmentFileName: $event.filename,
+      attachmentContentType: $event.contentType,
+      attachmentBase64: $event.byte
+    })
+  }
+
+  onRemoveFile() {
+    this.contentForm.controls.contentRules.patchValue({
+      attachmentFileName: undefined,
+      attachmentContentType: undefined,
+      attachmentBase64: undefined
+    })
   }
 }

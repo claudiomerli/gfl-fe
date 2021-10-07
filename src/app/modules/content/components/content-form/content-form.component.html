@@ -57,6 +57,9 @@
                   <label>Numero minimo di caratteri articolo</label>
                   <input class="form-control" type="number" formControlName="maxCharacterBodyLength">
                 </div>
+                <div>
+                  <app-file-uploader fieldLabel="File" (loadFile)="onLoadFile($event)" [existentfile]="contentRulesAttachment" (removeFile)="onRemoveFile()"></app-file-uploader>
+                </div>
               </ng-container>
               <div>
                 <label>Note del capo redattore</label>
@@ -85,6 +88,10 @@
               <div class="border-bottom">
                 <div class="text-secondary">Numero minimo di caratteri articolo</div>
                 <div>{{contentToUpdate?.contentRules?.maxCharacterBodyLength}}</div>
+              </div>
+              <div class="border-bottom">
+                <div class="text-secondary">File allegato</div>
+                <app-file-uploader [existentfile]="contentToUpdate?.contentRules?.attachment"></app-file-uploader>
               </div>
               <div class="border-bottom">
                 <div class="text-secondary">Note del capo redattore</div>

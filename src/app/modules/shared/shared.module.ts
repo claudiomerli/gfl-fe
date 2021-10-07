@@ -6,6 +6,8 @@ import {StatusLabelPipe} from './pipes/status-label.pipe';
 import {RuleSatisfationIndicatorColorPipe} from './pipes/rule-satisfation-indicator-color.pipe';
 import {IsAuthenticatedDirective} from './directives/is-authenticated.directive';
 import {ModalComponent} from './components/modal/modal.component';
+import { FileUploaderComponent } from './components/file-uploader/file-uploader.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -14,19 +16,22 @@ import {ModalComponent} from './components/modal/modal.component';
     StatusLabelPipe,
     RuleSatisfationIndicatorColorPipe,
     IsAuthenticatedDirective,
-    ModalComponent
+    ModalComponent,
+    FileUploaderComponent
   ],
   exports: [
     HeaderComponent,
     StatusLabelPipe,
     RuleSatisfationIndicatorColorPipe,
     IsAuthenticatedDirective,
-    ModalComponent
+    ModalComponent,
+    FileUploaderComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule
+    ]
 })
 export class SharedModule {
 }

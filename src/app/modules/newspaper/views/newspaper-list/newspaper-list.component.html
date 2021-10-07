@@ -30,11 +30,24 @@
         <td>{{item.email}}</td>
         <td>{{item.regionalGeolocalization}}</td>
         <td [ngSwitch]="item.topic">
-          <ng-container *ngSwitchCase="'NO_TOPIC'">Nessun argomento</ng-container>
-          <ng-container *ngSwitchCase="'NEWS'">Notizie</ng-container>
-          <ng-container *ngSwitchCase="'LOCAL_NEWSPAPER'">Giornali locali</ng-container>
-          <ng-container *ngSwitchCase="'HEALTH'">Salute</ng-container>
-          <ng-container *ngSwitchCase="'ECONOMY'">Economia</ng-container>
+          <ng-container *ngSwitchCase="'CASA_ARREDAMENTO_DESIGN'">Casa Arredamento Design</ng-container>
+          <ng-container *ngSwitchCase="'DONNA'">Donna</ng-container>
+          <ng-container *ngSwitchCase="'ECONOMIA'">Economia</ng-container>
+          <ng-container *ngSwitchCase="'FOOD'">Food</ng-container>
+          <ng-container *ngSwitchCase="'IMPRESA_E_BUSINESS'">Impresa e Business</ng-container>
+          <ng-container *ngSwitchCase="'LIFESTYLE_GOSSIP_MODA'">Lifestyle Gossip Moda</ng-container>
+          <ng-container *ngSwitchCase="'NOTIZIE'">Notizie</ng-container>
+          <ng-container *ngSwitchCase="'SALUTE_E_BENESSERE'">Salute e Benessere</ng-container>
+          <ng-container *ngSwitchCase="'SHOPPING'">Shopping</ng-container>
+          <ng-container *ngSwitchCase="'TECNOLOGIA_SCIENZA_INTERNET'">Tecnologia Scienza Internet</ng-container>
+          <ng-container *ngSwitchCase="'TURISMO'">Turismo</ng-container>
+          <ng-container *ngSwitchCase="'SPORT'">Sport</ng-container>
+          <ng-container *ngSwitchCase="'POLITICA'">Politica</ng-container>
+          <ng-container *ngSwitchCase="'ATTUALITA'">Attualità</ng-container>
+          <ng-container *ngSwitchCase="'SPETTACOLI_TEATRO_CULTURA_INTRATTENIMENTO'">Spettacoli Teatro Cultura Intrattenimento</ng-container>
+          <ng-container *ngSwitchCase="'MOTORI'">Motori</ng-container>
+          <ng-container *ngSwitchCase="'GIOCHI'">Giochi</ng-container>
+          <ng-container *ngSwitchCase="'AMBIENTE_GREEN'">Ambiente Green</ng-container>
         </td>
         <td class="text-center">
           <a class="btn btn-warning mx-1" [routerLink]="['/newspapers',item.id]"><i class="bi bi-pencil"></i></a>
