@@ -146,18 +146,36 @@
           </div>
 
           <div>
-            <label class="form-label">Link url</label>
-            <input class="form-control" type="text" formControlName="linkUrl">
-            <div class="alert alert-danger mt-1"
-                 *ngIf="contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.linkUrlSatisfied">{{contentToUpdate?.ruleSatisfation?.linkUrlError}}</div>
+            <label class="form-label">Links</label>
           </div>
+          <ng-container formArrayName="links">
+            <div class="row" *ngFor="let _ of links.controls; index as i">
+              <ng-container [formGroupName]="i">
+                <div class="col-5">
+                  <label class="form-label">Link url</label>
+                  <input class="form-control" type="text" formControlName="linkUrl">
+                  <div class="alert alert-danger mt-1"
+                       *ngIf="contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.linkUrlSatisfied">{{contentToUpdate?.ruleSatisfation?.linkUrlError}}</div>
+                </div>
 
-          <div>
-            <label class="form-label">Link text</label>
-            <input class="form-control" type="text" formControlName="linkText">
-            <div class="alert alert-danger mt-1"
-                 *ngIf="contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.linkTextSatisfied">{{contentToUpdate?.ruleSatisfation?.linkTextError}}</div>
-          </div>
+                <div class="col-5">
+                  <label class="form-label">Link text</label>
+                  <input class="form-control" type="text" formControlName="linkText">
+                  <div class="alert alert-danger mt-1"
+                       *ngIf="contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.linkTextSatisfied">{{contentToUpdate?.ruleSatisfation?.linkTextError}}</div>
+                </div>
+
+                <div class="col-2 d-flex align-items-end">
+                  <button type="button" class="btn btn-danger" (click)="removeLink(i)">
+                    <em class="bi bi-trash"></em>
+                  </button>
+                </div>
+              </ng-container>
+            </div>
+            <button type="button" class="my-1 btn btn-primary" (click)="addLink()">
+              <em class="bi bi-plus"></em> Aggiungi nuovo link
+            </button>
+          </ng-container>
 
           <div>
             <label class="form-label">Body</label>

@@ -89,11 +89,14 @@
       <dt class="col-sm-3">deliveryDate</dt>
       <dd class="col-sm-9" [innerHTML]="selectedContent.deliveryDate | date"></dd>
 
-      <dt class="col-sm-3">linkText</dt>
-      <dd class="col-sm-9" [innerHTML]="selectedContent.linkText"></dd>
-
-      <dt class="col-sm-3">linkUrl</dt>
-      <dd class="col-sm-9" [innerHTML]="selectedContent.linkUrl"></dd>
+      <dt class="col-sm-3">links</dt>
+      <dd class="col-sm-9">
+        <ul class="m-0 p-0" style="list-style: none;">
+          <li *ngFor="let link of selectedContent.links">
+            <a [href]="link.linkUrl">{{link.linkText}}</a>
+          </li>
+        </ul>
+      </dd>
 
       <dt class="col-sm-3">body</dt>
       <dd class="col-sm-9 border p-1" [innerHTML]="selectedContent.body"></dd>

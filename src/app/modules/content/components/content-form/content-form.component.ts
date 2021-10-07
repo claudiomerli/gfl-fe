@@ -1,5 +1,3 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {BehaviorSubject, zip} from "rxjs";
 import {User} from "../../../shared/model/user";
 import {Customer} from "../../../shared/model/customer";
@@ -10,6 +8,8 @@ import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {ContentRules} from "../../../shared/model/content-rules";
 import {Content} from "../../../shared/model/content";
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from "@angular/core";
+import {FormArray, FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-content-form',
@@ -57,8 +57,7 @@ export class ContentFormComponent implements OnInit, OnChanges {
     }),
     adminNotes: [null],
     title: [null],
-    linkText: [null],
-    linkUrl: [null],
+    links: this.formBuilder.array([]),
     body: [null],
     deliveryDate: [null, Validators.required],
     contentStatus: [null],
@@ -66,9 +65,11 @@ export class ContentFormComponent implements OnInit, OnChanges {
     monthUse: [null]
   });
 
+  get links() {
+    return this.contentForm.get('links') as FormArray;
+  }
 
   ngOnInit(): void {
-
     zip(
       this.customerService.find("", PaginationDto.buildMaxValueOnePage()),
       this.editorService.find("", PaginationDto.buildMaxValueOnePage()),
@@ -108,12 +109,10 @@ export class ContentFormComponent implements OnInit, OnChanges {
         newspaperId: content.newspaper?.id,
         contentRules: {
           ...content.contentRules,
-          attachmentFileName : content.contentRules?.attachment?.filename,
+          attachmentFileName: content.contentRules?.attachment?.filename,
           attachmentContentType: content.contentRules?.attachment?.contentType,
         },
         title: content.title,
-        linkUrl: content.linkUrl,
-        linkText: content.linkText,
         body: content.body,
         deliveryDate: content.deliveryDate,
         contentStatus: content.contentStatus,
@@ -121,7 +120,18 @@ export class ContentFormComponent implements OnInit, OnChanges {
         monthUse: content.monthUse,
       })
 
+
       this.contentRulesAttachment = content.contentRules?.attachment
+
+      this.links.clear()
+      content.links?.forEach(link => {
+        this.links.push(
+          this.formBuilder.group({
+            linkText: link.linkText,
+            linkUrl: link.linkUrl,
+          })
+        );
+      })
     }
   }
 
@@ -143,5 +153,18 @@ export class ContentFormComponent implements OnInit, OnChanges {
       attachmentContentType: undefined,
       attachmentBase64: undefined
     })
+  }
+
+  addLink() {
+    this.links.push(
+      this.formBuilder.group({
+        linkText: [null],
+        linkUrl: [null],
+      })
+    );
+  }
+
+  removeLink(idx: number) {
+    this.links.removeAt(idx)
   }
 }
