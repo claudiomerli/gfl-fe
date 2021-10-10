@@ -50,6 +50,7 @@ export class ContentFormComponent implements OnInit, OnChanges {
       linkUrl: [null],
       linkText: [null],
       body: [null],
+      links : this.formBuilder.array([]),
       maxCharacterBodyLength: [null],
       attachmentFileName: [null],
       attachmentContentType: [null],
@@ -67,6 +68,10 @@ export class ContentFormComponent implements OnInit, OnChanges {
 
   get links() {
     return this.contentForm.get('links') as FormArray;
+  }
+
+  get contentRuleLinks() {
+    return this.contentForm.controls.contentRules.get('links') as FormArray;
   }
 
   ngOnInit(): void {
@@ -123,6 +128,15 @@ export class ContentFormComponent implements OnInit, OnChanges {
 
       this.contentRulesAttachment = content.contentRules?.attachment
 
+      this.contentRuleLinks.clear()
+      content.contentRules?.links?.forEach(link => {
+        this.contentRuleLinks.push(
+          this.formBuilder.group({
+            linkUrl: link.linkUrl,
+          })
+        );
+      });
+
       this.links.clear()
       content.links?.forEach(link => {
         this.links.push(
@@ -131,7 +145,7 @@ export class ContentFormComponent implements OnInit, OnChanges {
             linkUrl: link.linkUrl,
           })
         );
-      })
+      });
     }
   }
 
@@ -166,5 +180,18 @@ export class ContentFormComponent implements OnInit, OnChanges {
 
   removeLink(idx: number) {
     this.links.removeAt(idx)
+  }
+
+  addContentRuleLink() {
+    this.contentRuleLinks.push(
+      this.formBuilder.group({
+        linkText: [null],
+        linkUrl: [null],
+      })
+    );
+  }
+
+  removeContentRuleLink(idx: number) {
+    this.contentRuleLinks.removeAt(idx)
   }
 }

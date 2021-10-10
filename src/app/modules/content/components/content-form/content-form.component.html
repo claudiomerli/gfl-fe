@@ -58,8 +58,28 @@
                   <input class="form-control" type="number" formControlName="maxCharacterBodyLength">
                 </div>
                 <div>
-                  <app-file-uploader fieldLabel="File" (loadFile)="onLoadFile($event)" [existentfile]="contentRulesAttachment" (removeFile)="onRemoveFile()"></app-file-uploader>
+                  <app-file-uploader fieldLabel="File" (loadFile)="onLoadFile($event)"
+                                     [existentfile]="contentRulesAttachment"
+                                     (removeFile)="onRemoveFile()"></app-file-uploader>
                 </div>
+                <div class="form-label">Collegamenti ipertestuali</div>
+                <ng-container formArrayName="links">
+                  <div class="row mb-3" *ngFor="let _ of contentRuleLinks.controls; index as i">
+                    <ng-container [formGroupName]="i">
+                      <div class="col-10">
+                        <input class="form-control" type="text" formControlName="linkUrl">
+                      </div>
+                      <div class="col-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-danger" (click)="removeContentRuleLink(i)">
+                          <em class="bi bi-trash"></em>
+                        </button>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <button type="button" class="my-1 btn btn-primary" (click)="addContentRuleLink()">
+                    <em class="bi bi-plus"></em> Aggiungi nuovo collegamento ipertestuale
+                  </button>
+                </ng-container>
               </ng-container>
               <div>
                 <label>Note del capo redattore</label>
@@ -92,6 +112,12 @@
               <div class="border-bottom">
                 <div class="text-secondary">File allegato</div>
                 <app-file-uploader [existentfile]="contentToUpdate?.contentRules?.attachment"></app-file-uploader>
+              </div>
+              <div class="border-bottom">
+                <div class="text-secondary">Link utili</div>
+                <div *ngFor="let link of contentToUpdate?.contentRules?.links || [];">
+                  <a class="link-primary" [href]="link.linkUrl">{{link.linkUrl}}</a>
+                </div>
               </div>
               <div class="border-bottom">
                 <div class="text-secondary">Note del capo redattore</div>
@@ -155,14 +181,14 @@
                   <label class="form-label">Link url</label>
                   <input class="form-control" type="text" formControlName="linkUrl">
                   <div class="alert alert-danger mt-1"
-                       *ngIf="contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.linkUrlSatisfied">{{contentToUpdate?.ruleSatisfation?.linkUrlError}}</div>
+                       *ngIf="i==0 && contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.linkUrlSatisfied">{{contentToUpdate?.ruleSatisfation?.linkUrlError}}</div>
                 </div>
 
                 <div class="col-5">
                   <label class="form-label">Link text</label>
                   <input class="form-control" type="text" formControlName="linkText">
                   <div class="alert alert-danger mt-1"
-                       *ngIf="contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.linkTextSatisfied">{{contentToUpdate?.ruleSatisfation?.linkTextError}}</div>
+                       *ngIf="i==0 && contentToUpdate?.ruleSatisfation && !contentToUpdate?.ruleSatisfation?.linkTextSatisfied">{{contentToUpdate?.ruleSatisfation?.linkTextError}}</div>
                 </div>
 
                 <div class="col-2 d-flex align-items-end">

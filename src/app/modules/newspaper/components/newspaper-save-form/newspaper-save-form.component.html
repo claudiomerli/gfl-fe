@@ -17,16 +17,53 @@
   </div>
   <div>
     <label class="form-label">Geolocalizzazione regionale</label>
-    <input formControlName="regionalGeolocalization" class="form-control" type="text">
+    <select formControlName="regionalGeolocalization" class="form-control">
+      <option [ngValue]="null">Seleziona</option>
+      <option>Tutte</option>
+      <option>Abruzzo</option>
+      <option>Basilicata</option>
+      <option>Calabria</option>
+      <option>Campania</option>
+      <option>Emilia-Romagna</option>
+      <option>Friuli Venezia Giulia</option>
+      <option>Lazio</option>
+      <option>Liguria</option>
+      <option>Lombardia</option>
+      <option>Marche</option>
+      <option>Molise</option>
+      <option>Piemonte</option>
+      <option>Puglia</option>
+      <option>Sardegna</option>
+      <option>Sicilia</option>
+      <option>Toscana</option>
+      <option>Trentino-Alto Adige</option>
+      <option>Umbria</option>
+      <option>Valle d'Aosta</option>
+      <option>Veneto</option>
+    </select>
   </div>
   <div>
     <label class="form-label">Argomento</label>
     <select formControlName="topic" class="form-select">
-      <option [ngValue]="'NO_TOPIC'">Nessun argomento</option>
-      <option [ngValue]="'NEWS'">Notizie</option>
-      <option [ngValue]="'LOCAL_NEWSPAPER'">Giornale locale</option>
-      <option [ngValue]="'HEALTH'">Salute</option>
-      <option [ngValue]="'ECONOMY'">Economia</option>
+      <option [ngValue]="null">Seleziona</option>
+      <option [ngValue]="'CASA_ARREDAMENTO_DESIGN'">Casa Arredamento Design</option>
+      <option [ngValue]="'DONNA'">Donna</option>
+      <option [ngValue]="'ECONOMIA'">Economia</option>
+      <option [ngValue]="'FOOD'">Food</option>
+      <option [ngValue]="'IMPRESA_E_BUSINESS'">Impresa e Business</option>
+      <option [ngValue]="'LIFESTYLE_GOSSIP_MODA'">Lifestyle Gossip Moda</option>
+      <option [ngValue]="'NOTIZIE'">Notizie</option>
+      <option [ngValue]="'SALUTE_E_BENESSERE'">Salute e Benessere</option>
+      <option [ngValue]="'SHOPPING'">Shopping</option>
+      <option [ngValue]="'TECNOLOGIA_SCIENZA_INTERNET'">Tecnologia Scienza Internet</option>
+      <option [ngValue]="'TURISMO'">Turismo</option>
+      <option [ngValue]="'SPORT'">Sport</option>
+      <option [ngValue]="'POLITICA'">Politica</option>
+      <option [ngValue]="'ATTUALITA'">Attualità</option>
+      <option [ngValue]="'SPETTACOLI_TEATRO_CULTURA_INTRATTENIMENTO'">Spettacoli Teatro Cultura Intrattenimento</option>
+      <option [ngValue]="'MOTORI'">Motori</option>
+      <option [ngValue]="'GIOCHI'">Giochi</option>
+      <option [ngValue]="'AMBIENTE_GREEN'">Ambiente Green</option>
     </select>
   </div>
   <div class="mt-3 text-end">
