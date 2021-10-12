@@ -15,4 +15,12 @@ export class ContentRulesService {
   public findAll(): Observable<ContentRules[]> {
     return this.httpClient.get<ContentRules[]>(environment.apiBaseurl + "/content-rules");
   }
+
+  get(): Observable<any>  {
+    return this.httpClient.get<any>(environment.apiBaseurl + "/content-rules");
+  }
+
+  save(contentRules: any): Observable<ContentRules> {
+    return this.httpClient.post<any>(environment.apiBaseurl + "/content-rules", contentRules);
+  }
 }

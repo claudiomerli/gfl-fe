@@ -6,9 +6,9 @@ import {StatusLabelPipe} from './pipes/status-label.pipe';
 import {RuleSatisfationIndicatorColorPipe} from './pipes/rule-satisfation-indicator-color.pipe';
 import {IsAuthenticatedDirective} from './directives/is-authenticated.directive';
 import {ModalComponent} from './components/modal/modal.component';
-import { FileUploaderComponent } from './components/file-uploader/file-uploader.component';
+import {FileUploaderComponent} from './components/file-uploader/file-uploader.component';
 import {FormsModule} from "@angular/forms";
-
+import {SpinnerComponent} from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -25,13 +25,15 @@ import {FormsModule} from "@angular/forms";
     RuleSatisfationIndicatorColorPipe,
     IsAuthenticatedDirective,
     ModalComponent,
-    FileUploaderComponent
+    FileUploaderComponent,
+    SpinnerComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule
-    ]
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    SpinnerComponent
+  ]
 })
 export class SharedModule {
 }

@@ -45,6 +45,11 @@ const routes: Routes = [
   {
     path: 'reserved',
     loadChildren: () => import('./modules/reserved/reserved.module').then(m => m.ReservedModule)
+  },
+  {
+    path: "customer",
+    loadChildren: () => import("./modules/customer/customer.module").then(m => m.CustomerModule),
+    canActivate: [AuthGuard]
   }
 ];
 
