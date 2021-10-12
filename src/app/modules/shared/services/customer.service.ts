@@ -41,7 +41,7 @@ export class CustomerService {
     return this.httpClient.get<any>(environment.apiBaseurl + "/customer");
   }
 
-  save(client: any): Observable<any> {
+  save2(client: any): Observable<any> {
     return this.httpClient.post<any>(environment.apiBaseurl + "/customer", client);
   }
 }

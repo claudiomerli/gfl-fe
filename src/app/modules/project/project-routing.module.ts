@@ -8,8 +8,8 @@ const routes: Routes = [{
   path: "",
   children: [
     { path: "", component: ProjectDashboardComponent, pathMatch: "full"},
-    { path: "new", component: ProjectNewComponent },
-    { path: "{id}/modifica", component: ProjectEditComponent }
+    { path: "create", component: ProjectNewComponent },
+    { path: ":id", component: ProjectEditComponent }
   ]
 }];
 

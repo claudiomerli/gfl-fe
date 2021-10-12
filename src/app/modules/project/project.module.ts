@@ -6,6 +6,7 @@ import { ProjectDashboardComponent } from './views/project-dashboard/project-das
 import {ProjectNewComponent} from "./views/project-new/project-new.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import { ProjectEditComponent } from './views/project-edit/project-edit.component';
+import {NgxPaginationModule} from "ngx-pagination";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ProjectEditComponent } from './views/project-edit/project-edit.componen
   imports: [
     CommonModule,
     ProjectRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule,
   ]
 })
 export class ProjectModule { }

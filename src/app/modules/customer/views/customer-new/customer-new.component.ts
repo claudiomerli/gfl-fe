@@ -43,7 +43,7 @@ export class CustomerNewComponent implements OnInit {
     if(this.form.valid) {
       this.contentRulesService.save(this.form.value.contentRules).subscribe(data => {
         (this.form.controls.customer as FormGroup).controls.contentRulesId.setValue(data.id);
-        this.customerService.save(this.form.value.customer).subscribe(data => this.router.navigate(['customer']));
+        this.customerService.save2(this.form.value.customer).subscribe(data => this.router.navigate(['customer']));
       })
     }
   }

@@ -8,7 +8,7 @@ import {IsAuthenticatedDirective} from './directives/is-authenticated.directive'
 import {ModalComponent} from './components/modal/modal.component';
 import {FileUploaderComponent} from './components/file-uploader/file-uploader.component';
 import {FormsModule} from "@angular/forms";
-import {SpinnerComponent} from './components/spinner/spinner.component';
+import {SpinnerComponent} from "./components/spinner/spinner.component";
 
 @NgModule({
   declarations: [
@@ -17,7 +17,8 @@ import {SpinnerComponent} from './components/spinner/spinner.component';
     RuleSatisfationIndicatorColorPipe,
     IsAuthenticatedDirective,
     ModalComponent,
-    FileUploaderComponent
+    FileUploaderComponent,
+    SpinnerComponent
   ],
   exports: [
     HeaderComponent,
@@ -31,8 +32,7 @@ import {SpinnerComponent} from './components/spinner/spinner.component';
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
-    SpinnerComponent
+    FormsModule
   ]
 })
 export class SharedModule {

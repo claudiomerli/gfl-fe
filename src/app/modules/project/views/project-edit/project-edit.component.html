@@ -14,7 +14,7 @@
           <label for="customer" class="form-label">Cliente</label>
           <select class="form-select" aria-label="Lista clienti" id="customer" formControlName="customerId">
             <option value="">-- Seleziona un Cliente --</option>
-            <option *ngFor="let customer of customerList | async" value="{{customer.id}}">{{customer.name}}</option>
+            <option *ngFor="let customer of customerList" value="{{customer.id}}">{{customer.name}}</option>
           </select>
         </div>
         <button type="submit" class="btn btn-primary">

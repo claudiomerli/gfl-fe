@@ -7,8 +7,6 @@ import {CustomerUpdateComponent} from './views/customer-update/customer-update.c
 import {CustomerSaveFormComponent} from './components/customer-save-form/customer-save-form.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {NgxPaginationModule} from "ngx-pagination";
-import {CustomerDashboardComponent} from './views/customer-dashboard/customer-dashboard.component';
-import {CustomerNewComponent} from './views/customer-new/customer-new.component';
 import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
@@ -16,9 +14,7 @@ import {SharedModule} from "../shared/shared.module";
     CustomerListComponent,
     CustomerCreateComponent,
     CustomerUpdateComponent,
-    CustomerSaveFormComponent,
-    CustomerDashboardComponent,
-    CustomerNewComponent
+    CustomerSaveFormComponent
   ],
   imports: [
     CommonModule,

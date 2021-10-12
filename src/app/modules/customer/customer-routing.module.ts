@@ -3,12 +3,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {CustomerListComponent} from "./views/customer-list/customer-list.component";
 import {CustomerCreateComponent} from "./views/customer-create/customer-create.component";
 import {CustomerUpdateComponent} from "./views/customer-update/customer-update.component";
-import {CustomerNewComponent} from "./views/customer-new/customer-new.component";
 
 const routes: Routes = [
   {path: '', component: CustomerListComponent},
   {path: "create", component: CustomerCreateComponent},
-  {path: "new", component: CustomerNewComponent},
   {path: ":id", component: CustomerUpdateComponent}
 ];
 
