@@ -36,12 +36,4 @@ export class CustomerService {
   public findById(id: number): Observable<Customer> {
     return this.httpClient.get<Customer>(environment.apiBaseurl + "/customer/" + id);
   }
-
-  get(): Observable<Array<Customer>> {
-    return this.httpClient.get<any>(environment.apiBaseurl + "/customer");
-  }
-
-  save2(client: any): Observable<any> {
-    return this.httpClient.post<any>(environment.apiBaseurl + "/customer", client);
-  }
 }

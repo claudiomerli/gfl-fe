@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {CustomerService} from "../../../shared/services/customer.service";
 import {ProjectService} from "../../../shared/services/project.service";
-import {Customer} from "../../../shared/model/customer";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Project} from "../../../shared/model/project";
 
 @Component({
   selector: 'app-project-edit',
@@ -12,8 +12,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class ProjectEditComponent implements OnInit {
 
-  form = {} as FormGroup;
-  customerList: Customer[] = [];
+  project?: Project;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,27 +25,17 @@ export class ProjectEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      customerId: ['', Validators.required]
-    });
-    this.customerService.find('').subscribe(
-      value => this.customerList = value.content
-    );
     this.projectService.findById(this.activatedRoute.snapshot.params['id']).subscribe(
       value => {
-        this.form.setValue({
-          name: value.name,
-          customerId: value.customer?.id
-        })
+        this.project = value;
       }
     );
   }
 
-  submit() {
-    if (this.form.valid) {
-      this.projectService.update(this.activatedRoute.snapshot.params['id'], this.form.value)
-        .subscribe(data => this.router.navigate(["/projects"]));
+  submit(value: any) {
+    if (value && this.project?.id) {
+      this.projectService.update(this.project?.id, value)
+        .subscribe(() => this.router.navigate(["/projects"]));
     }
   }
 }

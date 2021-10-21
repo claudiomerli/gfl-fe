@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between align-items-center">
   <input type="text" name="globalSearch" class="form-control w-50" placeholder="Cerca..." #globalSearchInput>
-  <a class="btn btn-primary" routerLink="/project/create">
+  <a class="btn btn-primary" routerLink="/projects/create">
     <em class="bi bi-plus"></em>
     Nuovo progetto
   </a>
@@ -14,6 +14,7 @@
         <th scope="col">Nome</th>
         <th scope="col">Cliente</th>
         <th scope="col">Azioni</th>
+        <th scope="col">Progetti</th>
       </tr>
       </thead>
       <tbody>
@@ -23,16 +24,15 @@
         <td>{{project.name}}</td>
         <td>{{project.customer?.name}}</td>
         <td>
-          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-            <div class="btn-group me-2" role="group" aria-label="First group">
-              <button class="btn btn-primary btn-sm m-1" routerLink="{{project.id}}" title="Modifica progetto">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button class="btn btn-danger btn-sm m-1" title="Elimina progetto" (click)="onDelete(project)">
-                <i class="bi bi-trash"></i>
-              </button>
-            </div>
-          </div>
+          <button class="btn btn-primary btn-sm m-1" routerLink="{{project.id}}" title="Modifica progetto">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button class="btn btn-danger btn-sm m-1" title="Elimina progetto" (click)="onDelete(project)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-primary">Gestisci redazionali</button>
         </td>
       </tr>
       </tbody>

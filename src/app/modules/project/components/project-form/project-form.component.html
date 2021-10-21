@@ -1,0 +1,32 @@
+<form [formGroup]="form" (ngSubmit)="onSumbit()">
+  <div class="mb-3">
+    <label for="name" class="form-label">Nome del progetto</label>
+    <input type="text" class="form-control" id="name" formControlName="name">
+  </div>
+  <div class="mb-3">
+    <label for="customer" class="form-label">Cliente</label>
+    <ngx-autocomplete #autocompleteComponentCustomer id="customer"
+                      placeholderValue="Cerca cliente..."
+                      (keyup)="loadCustomer($event)"
+                      (selectedValue)="onSelectedValueCustomer($event)"
+                      [entries]="customerList"
+                      [searchKeyword]="'name'">
+    </ngx-autocomplete>
+  </div>
+  <div class="mb-3">
+    <label for="customer" class="form-label">Testata</label>
+    <ngx-autocomplete #autocompleteComponentNewspaper id="newspaper"
+                      placeholderValue="Cerca testata..."
+                      (keyup)="loadNewspaper($event)"
+                      (selectedValue)="onSelectedValueNewspaper($event)"
+                      [entries]="newspaperList"
+                      [searchKeyword]="'name'"
+    >
+    </ngx-autocomplete>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+    <i class="bi bi-save"></i>
+    Salva
+  </button>
+  <a class="btn btn-success ms-3">Vai agli articoli</a>
+</form>
