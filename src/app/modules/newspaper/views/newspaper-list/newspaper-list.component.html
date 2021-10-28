@@ -14,6 +14,7 @@
         <th>Nome</th>
         <th>Redazionali Acquistati</th>
         <th>Costo cadauno</th>
+        <th>Costo di vendita</th>
         <th>E-mail di contatto</th>
         <th>Geolocalizzazione regionale</th>
         <th>Argomento</th>
@@ -27,6 +28,7 @@
         <td>{{item.name}}</td>
         <td>{{item.purchasedContent}}</td>
         <td>{{item.costEach}}</td>
+        <td>{{item.costSell}}</td>
         <td>{{item.email}}</td>
         <td>{{item.regionalGeolocalization}}</td>
         <td [ngSwitch]="item.topic">

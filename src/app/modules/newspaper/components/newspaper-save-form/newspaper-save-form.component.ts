@@ -26,6 +26,7 @@ export class NewspaperSaveFormComponent implements OnInit {
     name: new FormControl('', [Validators.required]),
     purchasedContent: new FormControl(''),
     costEach: new FormControl(''),
+    costSell: new FormControl(''),
     email: new FormControl(''),
     regionalGeolocalization: new FormControl(''),
     topic: new FormControl(''),
