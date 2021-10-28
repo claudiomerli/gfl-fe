@@ -3,6 +3,7 @@ import {Newspaper} from "./newspaper";
 import {ContentRules} from "./content-rules";
 import {RuleSatisfation} from "./rule-satisfation";
 import {Customer} from "./customer";
+import {Project} from "./project";
 
 export class Content {
   id?: number
@@ -20,6 +21,7 @@ export class Content {
   editor?: User;
   newspaper?: Newspaper;
   customer?: Customer;
+  project?: Project;
   contentRules?: ContentRules;
   ruleSatisfation?: RuleSatisfation;
   score?: number;

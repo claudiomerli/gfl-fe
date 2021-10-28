@@ -10,6 +10,7 @@ import {ContentRules} from "../../../shared/model/content-rules";
 import {Content} from "../../../shared/model/content";
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from "@angular/core";
 import {FormArray, FormBuilder, Validators} from "@angular/forms";
+import {Project} from "../../../shared/model/project";
 
 @Component({
   selector: 'app-content-form',
@@ -34,8 +35,9 @@ export class ContentFormComponent implements OnInit, OnChanges {
 
 
   editor$ = new BehaviorSubject<User[]>([])
-  customer$ = new BehaviorSubject<Customer[]>([])
+  customers$ = new BehaviorSubject<Customer[]>([])
   newspaper$ = new BehaviorSubject<Newspaper[]>([])
+  projects$ = new BehaviorSubject<Project[]>([])
 
   customerContentRules: ContentRules | undefined;
 
@@ -44,13 +46,14 @@ export class ContentFormComponent implements OnInit, OnChanges {
   contentForm = this.formBuilder.group({
     editorId: [null, Validators.required],
     customerId: [null, Validators.required],
+    projectId: [null, Validators.required],
     newspaperId: [null, Validators.required],
     contentRules: this.formBuilder.group({
       title: [null],
       linkUrl: [null],
       linkText: [null],
       body: [null],
-      links : this.formBuilder.array([]),
+      links: this.formBuilder.array([]),
       maxCharacterBodyLength: [null],
       attachmentFileName: [null],
       attachmentContentType: [null],
@@ -80,13 +83,14 @@ export class ContentFormComponent implements OnInit, OnChanges {
       this.editorService.find("", PaginationDto.buildMaxValueOnePage()),
       this.newspaperService.find("", PaginationDto.buildMaxValueOnePage())
     ).subscribe(results => {
-      this.customer$.next(results[0].content)
+      console.log(results[0].content)
+      this.customers$.next(results[0].content)
       this.editor$.next(results[1].content)
       this.newspaper$.next(results[2].content)
 
       this.contentForm.controls.customerId.valueChanges.subscribe(actualValue => {
         if (actualValue) {
-          this.customerContentRules = this.customer$.getValue().find(customer => customer.id = actualValue)?.contentRules
+          this.customerContentRules = this.customers$.getValue().find(customer => customer.id === actualValue)?.contentRules
         } else {
           this.customerContentRules = undefined
         }
@@ -94,6 +98,15 @@ export class ContentFormComponent implements OnInit, OnChanges {
 
       this.patchValueToForm(this.contentToUpdate as Content)
     })
+    this.contentForm.controls['customerId'].valueChanges
+      .subscribe(customerId => {
+        this.contentForm.patchValue({
+          projectId: null
+        })
+        if (customerId) {
+          this.customerService.findProjectByIdCustomer(customerId).subscribe(projects => this.projects$.next(projects))
+        }
+      });
   }
 
   onSubmit() {
@@ -112,6 +125,7 @@ export class ContentFormComponent implements OnInit, OnChanges {
         editorId: content.editor?.id,
         customerId: content.customer?.id,
         newspaperId: content.newspaper?.id,
+        projectId: content.project?.id,
         contentRules: {
           ...content.contentRules,
           attachmentFileName: content.contentRules?.attachment?.filename,

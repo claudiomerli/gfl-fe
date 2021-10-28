@@ -11,7 +11,14 @@
       <label class="form-label">Cliente</label>
       <select class="form-control" formControlName="customerId">
         <option [ngValue]="null">Seleziona</option>
-        <option [ngValue]="customer.id" *ngFor="let customer of customer$ | async">{{customer.name}}</option>
+        <option [ngValue]="customer.id" *ngFor="let customer of customers$ | async">{{customer.name}}</option>
+      </select>
+    </div>
+    <div class="col">
+      <label class="form-label">Progetto</label>
+      <select class="form-control" formControlName="projectId">
+        <option [ngValue]="null">Seleziona</option>
+        <option [ngValue]="project.id" *ngFor="let project of projects$ | async">{{project.name}}</option>
       </select>
     </div>
     <div class="col">

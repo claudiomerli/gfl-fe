@@ -6,6 +6,7 @@ import {Customer} from "../model/customer";
 import {SaveCustomerDto} from "../messages/customer/save-customer.dto";
 import {PageResponseDto} from "../messages/page-response.dto";
 import {PaginationDto} from "../messages/pagination.dto";
+import {Project} from "../model/project";
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,9 @@ export class CustomerService {
 
   public findById(id: number): Observable<Customer> {
     return this.httpClient.get<Customer>(environment.apiBaseurl + "/customer/" + id);
+  }
+
+  findProjectByIdCustomer(customerId: any): Observable<Project[]> {
+    return this.httpClient.get<Project[]>(environment.apiBaseurl + "/customer/" + customerId + "/projects");
   }
 }

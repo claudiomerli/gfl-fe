@@ -1,11 +1,8 @@
-import { Injectable } from '@angular/core';
-import {AccessTokenDto} from "../messages/access-token.dto";
+import {Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {Customer} from "../model/customer";
 import {Project} from "../model/project";
-import {SaveCustomerDto} from "../messages/customer/save-customer.dto";
 import {PaginationDto} from "../messages/pagination.dto";
 import {PageResponseDto} from "../messages/page-response.dto";
 
@@ -14,9 +11,10 @@ import {PageResponseDto} from "../messages/page-response.dto";
 })
 export class ProjectService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
 
-  get(): Observable<any>  {
+  get(): Observable<any> {
     return this.httpClient.get<any>(environment.apiBaseurl + "/project");
   }
 
