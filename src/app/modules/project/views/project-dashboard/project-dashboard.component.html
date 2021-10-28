@@ -32,7 +32,9 @@
           </button>
         </td>
         <td>
-          <button class="btn btn-primary">Gestisci redazionali</button>
+          <button class="btn btn-primary" [routerLink]="'/contents'" [queryParams]="{projectId: project?.id}">Gestisci
+            redazionali
+          </button>
         </td>
       </tr>
       </tbody>

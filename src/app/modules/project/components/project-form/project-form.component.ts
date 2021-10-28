@@ -19,12 +19,13 @@ export class ProjectFormComponent implements OnInit, OnChanges {
               private newspaperService: NewspaperService) {
   }
 
+  @Input() isEdit = false
   @Input() project?: Project
 
   @Output() submitForm = new EventEmitter<any>();
 
-  @ViewChild("autocompleteComponentNewspaper") autocompleteComponentNewspaper? : NgxAutocompleteComponent;
-  @ViewChild("autocompleteComponentCustomer") autocompleteComponentCustomer? : NgxAutocompleteComponent;
+  @ViewChild("autocompleteComponentNewspaper") autocompleteComponentNewspaper?: NgxAutocompleteComponent;
+  @ViewChild("autocompleteComponentCustomer") autocompleteComponentCustomer?: NgxAutocompleteComponent;
 
   customerList: (Customer | undefined)[] = [];
   newspaperList: (Newspaper | undefined)[] = [];

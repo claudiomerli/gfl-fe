@@ -28,5 +28,7 @@
     <i class="bi bi-save"></i>
     Salva
   </button>
-  <a class="btn btn-success ms-3">Vai agli articoli</a>
+  <a *ngIf="isEdit" class="btn btn-success ms-3" [routerLink]="'/contents'" [queryParams]="{projectId: project?.id}">
+    Vai agli articoli
+  </a>
 </form>
