@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PriceQuotationComponent } from './views/price-quotation/price-quotation.component';
 import {PriceQuotationRoutingModule} from "./price-quotation-routing.module";
+import {NgxAutocompleteModule} from "ngx-angular-autocomplete";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 
@@ -11,7 +13,9 @@ import {PriceQuotationRoutingModule} from "./price-quotation-routing.module";
   ],
   imports: [
     CommonModule,
-    PriceQuotationRoutingModule
+    PriceQuotationRoutingModule,
+    NgxAutocompleteModule,
+    ReactiveFormsModule
   ]
 })
 export class PriceQuotationModule { }
