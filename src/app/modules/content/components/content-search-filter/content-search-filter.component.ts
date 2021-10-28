@@ -9,6 +9,9 @@ import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {User} from "../../../shared/model/user";
 import {Newspaper} from "../../../shared/model/newspaper";
 import {SearchContentDto} from "../../../shared/messages/search-content.dto";
+import {ContentService} from "../../../shared/services/content.service";
+import {ProjectService} from "../../../shared/services/project.service";
+import {Project} from "../../../shared/model/project";
 
 @Component({
   selector: 'app-content-search-filter',
@@ -17,12 +20,18 @@ import {SearchContentDto} from "../../../shared/messages/search-content.dto";
 })
 export class ContentSearchFilterComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private customerService: CustomerService, private editorService: EditorService, private newspaperService: NewspaperService) {
+  constructor(private formBuilder: FormBuilder,
+              private customerService: CustomerService,
+              private editorService: EditorService,
+              private newspaperService: NewspaperService,
+              private projectService: ProjectService,
+  ) {
   }
 
   customer$ = new BehaviorSubject<Customer[]>([]);
   editor$ = new BehaviorSubject<User[]>([]);
   newspaper$ = new BehaviorSubject<Newspaper[]>([]);
+  project$ = new BehaviorSubject<Project[]>([]);
 
   @Output()
   submitSearchForm = new EventEmitter<SearchContentDto>();
@@ -39,12 +48,17 @@ export class ContentSearchFilterComponent implements OnInit {
     this.newspaperService.find("", PaginationDto.buildMaxValueOnePage()).subscribe(value => {
       this.newspaper$.next(value.content)
     })
+
+    this.projectService.find("", PaginationDto.buildMaxValueOnePage()).subscribe(value => {
+      this.project$.next(value.content)
+    })
   }
 
   searchForm = this.formBuilder.group({
     customerId: this.formBuilder.control(null),
     editorId: this.formBuilder.control(null),
     newspaperId: this.formBuilder.control(null),
+    projectId: this.formBuilder.control(null),
     globalSearch: this.formBuilder.control(null),
     status: this.formBuilder.control(null),
     deliveryDateFrom: this.formBuilder.control(null),

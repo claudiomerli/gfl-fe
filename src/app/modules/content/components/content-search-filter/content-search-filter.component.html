@@ -30,6 +30,16 @@
           </option>
         </select>
       </div>
+
+      <div class="col" *isAuthenticated="['ADMIN']">
+        <label class="form-label">Progetto</label>
+        <select formControlName="projectId" class="form-control">
+          <option [ngValue]="null">Seleziona</option>
+          <option [ngValue]="project.id" *ngFor="let project of project$ | async">
+            {{project.name}}
+          </option>
+        </select>
+      </div>
     </div>
     <div class="row">
       <div class="col-8">
