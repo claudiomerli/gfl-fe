@@ -13,7 +13,7 @@
     <button (click)="loadNewspaperById()" [disabled]="!form.value.newspaperId">Cerca</button>
   </div>
 
-
+<br>
   <div *ngIf="newspaper">
     <form [formGroup]="priceQuotationTemp" (ngSubmit)="onSubmit()">
       <div class="row">
@@ -31,12 +31,53 @@
         </div>
       </div>
       <div class="mt-3 text-end">
-        <button class="btn btn-primary" type="submit">>Calcola preventivo </button>
+        <button class="btn btn-primary" type="submit"  >Calcola preventivo </button>
       </div>
+
     </form>
   </div>
 
-  <pre>{{priceQuotationTemp.value | json}}</pre>
+
+  <div *ngIf="priceQuotationTableTemp.length > 0">
+    <div class="mt-1">
+      <button class="btn btn-primary" >
+        <i class="fa bi-file-arrow-down" (click)="generateAndDownloadPdf()">Export PDF</i>
+      </button>
+    </div>
+    <table class="table" id="my-table">
+      <thead>
+      <tr>
+        <th scope="col">Nome testata</th>
+        <th scope="col">Costo cadauno</th>
+        <th scope="col">Costo di vendita</th>
+        <th scope="col">Numero redazionali</th>
+        <th scope="col">Spesa</th>
+        <th scope="col">Ricavo</th>
+        <th scope="col">Guadagno</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let priceQuotation of priceQuotationTableTemp">
+        <td>{{priceQuotation.nameNewspaper}}</td>
+        <td>{{priceQuotation.costEach}}</td>
+        <td>{{priceQuotation.costSell}}</td>
+        <td>{{priceQuotation.numberOfEditors}}</td>
+        <td>{{priceQuotation.expense}}</td>
+        <td>{{priceQuotation.revenue}}</td>
+        <td>{{priceQuotation.earn}}</td>
+        <td>
+          <button class="btn-danger" (click)="deleteElement(priceQuotation)"><i class="bi-eraser"></i></button>
+
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+
+  </div>
+
+  <br><br><br><br>
 
 
 </div>
