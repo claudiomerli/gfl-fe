@@ -40,7 +40,6 @@ export class ProjectEditComponent implements OnInit {
   }
 
   changeStatus(project: Project) {
-    console.log(project)
     this.projectService.changeStatus(project)
       .subscribe(() => {
         this.ngOnInit();

@@ -57,7 +57,7 @@ export class ProjectDashboardComponent implements OnInit, AfterViewInit {
   changeStatus(project: Project) {
     this.projectService.changeStatus(project)
       .subscribe(() => {
-        this.onPageChange(1);
+        this.onPageChange(this.actualPageValue);
       })
   }
 }

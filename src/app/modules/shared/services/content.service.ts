@@ -7,6 +7,8 @@ import {Content} from "../model/content";
 import {Observable} from "rxjs";
 import {SearchContentDto} from "../messages/search-content.dto";
 import {clean} from "../utils/utils";
+import {map} from "rxjs/operators";
+import {Project} from "../model/project";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,12 @@ export class ContentService {
   public find(searchParameter: SearchContentDto, pagination: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Content>> {
     return this.httpClient.get<PageResponseDto<Content>>(environment.apiBaseurl + "/content", {
       params: {...clean(searchParameter), ...pagination}
-    })
+    }).pipe(
+      map(result => {
+        result.content = result.content.map((c: any) => new Content(c));
+        return result;
+      })
+    );
   }
 
   public save(contentDto: any): Observable<any> {
@@ -31,7 +38,11 @@ export class ContentService {
   }
 
   public findById(id: number): Observable<Content> {
-    return this.httpClient.get<Content>(environment.apiBaseurl + "/content/" + id);
+    return this.httpClient.get<Content>(environment.apiBaseurl + "/content/" + id).pipe(
+      map(result => {
+        return new Content(result);
+      })
+    );
   }
 
   public update(id: number | undefined, contentDto: any) {
@@ -82,4 +93,9 @@ export class ContentService {
     })
   }
 
+  changeProjectStatus(content: Content) {
+    return this.httpClient.put<Content>(environment.apiBaseurl + "/content/" + content.id + "/change-project-status", {
+      status: content.nextProjectStatus
+    })
+  }
 }

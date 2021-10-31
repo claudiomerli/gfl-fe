@@ -32,6 +32,7 @@ export class ContentFormComponent implements OnInit, OnChanges {
   @Output() exportDocx = new EventEmitter<any>();
   @Output() exportPdf = new EventEmitter<any>();
   @Output() deliver = new EventEmitter<any>();
+  @Output() changeProjectStatus = new EventEmitter<Content>();
 
 
   editor$ = new BehaviorSubject<User[]>([])

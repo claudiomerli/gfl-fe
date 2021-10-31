@@ -29,6 +29,12 @@
       </select>
     </div>
   </div>
+  <div class="row">
+    <div class="col-3">
+      <label for="status" class="form-label">Stato Progetto</label>
+      <input type="text" class="form-control" id="status" [value]="contentToUpdate?.projectStatus" readonly>
+    </div>
+  </div>
   <div class="accordion mt-3" id="accordionContent">
     <div class="accordion-item">
       <div class="accordion-header">
@@ -276,6 +282,9 @@
     </div>
   </div>
   <div class="text-end mt-3">
+    <button *ngIf="onEdit && contentToUpdate?.nextProjectStatus" class="btn btn-primary me-3" (click)="changeProjectStatus.emit(contentToUpdate)" title="Cambia stato progetto">
+      <i class="bi bi-gear"></i> Cambia stato progetto
+    </button>
     <ng-container *ngIf="onEdit && contentToUpdate?.contentStatus == 'WORKING'">
       <button class="btn btn-success me-3" type="button" (click)="deliver.emit()" *isAuthenticated="['EDITOR']">
         Consegna

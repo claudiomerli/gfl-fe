@@ -64,4 +64,11 @@ export class ContentUpdateComponent implements OnInit {
           this.loadContent();
       })
   }
+
+  changeProjectStatus(content: Content) {
+    this.contentService.changeProjectStatus(content)
+      .subscribe(() => {
+        this.loadContent();
+      })
+  }
 }
