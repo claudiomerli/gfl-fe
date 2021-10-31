@@ -1,5 +1,3 @@
-import {Collection} from "ngx-pagination/dist/paginate.pipe";
-
 export class PageResponseDto<T> {
 
   content: T[] = [];

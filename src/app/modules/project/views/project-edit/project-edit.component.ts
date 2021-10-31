@@ -38,4 +38,12 @@ export class ProjectEditComponent implements OnInit {
         .subscribe(() => this.router.navigate(["/projects"]));
     }
   }
+
+  changeStatus(project: Project) {
+    console.log(project)
+    this.projectService.changeStatus(project)
+      .subscribe(() => {
+        this.ngOnInit();
+      })
+  }
 }

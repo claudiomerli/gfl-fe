@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {Project} from "../model/project";
 import {PaginationDto} from "../messages/pagination.dto";
 import {PageResponseDto} from "../messages/page-response.dto";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class ProjectService {
   }
 
   get(): Observable<any> {
-    return this.httpClient.get<any>(environment.apiBaseurl + "/project");
+    return this.httpClient.get<any>(environment.apiBaseurl + "/project")
   }
 
   save(project: any): Observable<any> {
@@ -25,11 +26,20 @@ export class ProjectService {
   public find(globalSearch: string, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Project>> {
     return this.httpClient.get<PageResponseDto<Project>>(environment.apiBaseurl + "/project", {
       params: {...paginationDto, globalSearch}
-    })
+    }).pipe(
+      map(result => {
+        result.content = result.content.map((c: any) => new Project(c));
+        return result;
+      })
+    );
   }
 
   public findById(id: number): Observable<Project> {
-    return this.httpClient.get<Project>(environment.apiBaseurl + "/project/" + id);
+    return this.httpClient.get<Project>(environment.apiBaseurl + "/project/" + id).pipe(
+      map(result => {
+        return new Project(result);
+      })
+    );
   }
 
   public update(id: number, project: any): Observable<void> {
@@ -38,5 +48,11 @@ export class ProjectService {
 
   public delete(id: number) {
     return this.httpClient.delete(environment.apiBaseurl + "/project/" + id);
+  }
+
+  changeStatus(project: Project) {
+    return this.httpClient.put(environment.apiBaseurl + "/project/" + project.id + "/change-status", {
+      status: project.nextState
+    });
   }
 }

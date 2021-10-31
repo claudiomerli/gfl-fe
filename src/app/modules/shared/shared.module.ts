@@ -18,7 +18,7 @@ import {SpinnerComponent} from "./components/spinner/spinner.component";
     IsAuthenticatedDirective,
     ModalComponent,
     FileUploaderComponent,
-    SpinnerComponent
+    SpinnerComponent,
   ],
   exports: [
     HeaderComponent,
@@ -27,7 +27,7 @@ import {SpinnerComponent} from "./components/spinner/spinner.component";
     IsAuthenticatedDirective,
     ModalComponent,
     FileUploaderComponent,
-    SpinnerComponent
+    SpinnerComponent,
   ],
   imports: [
     CommonModule,

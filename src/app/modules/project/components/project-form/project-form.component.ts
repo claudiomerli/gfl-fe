@@ -23,6 +23,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
   @Input() project?: Project
 
   @Output() submitForm = new EventEmitter<any>();
+  @Output() changeStatus = new EventEmitter<Project>();
 
   @ViewChild("autocompleteComponentNewspaper") autocompleteComponentNewspaper?: NgxAutocompleteComponent;
   @ViewChild("autocompleteComponentCustomer") autocompleteComponentCustomer?: NgxAutocompleteComponent;

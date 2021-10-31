@@ -13,6 +13,7 @@
         <th scope="col">ID</th>
         <th scope="col">Nome</th>
         <th scope="col">Cliente</th>
+        <th scope="col">Stato</th>
         <th scope="col">Azioni</th>
         <th scope="col">Progetti</th>
       </tr>
@@ -23,12 +24,16 @@
         <th scope="row">{{project.id}}</th>
         <td>{{project.name}}</td>
         <td>{{project.customer?.name}}</td>
+        <td>{{project.status}}</td>
         <td>
           <button class="btn btn-primary btn-sm m-1" routerLink="{{project.id}}" title="Modifica progetto">
             <i class="bi bi-pencil"></i>
           </button>
           <button class="btn btn-danger btn-sm m-1" title="Elimina progetto" (click)="onDelete(project)">
             <i class="bi bi-trash"></i>
+          </button>
+          <button *ngIf="project.nextState" class="btn btn-primary btn-sm m-1" (click)="changeStatus(project)" title="Cambia stato">
+            <i class="bi bi-gear"></i> Cambia stato
           </button>
         </td>
         <td>
