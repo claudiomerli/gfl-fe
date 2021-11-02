@@ -11,6 +11,7 @@ import {Content} from "../../../shared/model/content";
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from "@angular/core";
 import {FormArray, FormBuilder, Validators} from "@angular/forms";
 import {Project} from "../../../shared/model/project";
+import {ProjectService} from "../../../shared/services/project.service";
 
 @Component({
   selector: 'app-content-form',
@@ -19,7 +20,13 @@ import {Project} from "../../../shared/model/project";
 })
 export class ContentFormComponent implements OnInit, OnChanges {
 
-  constructor(private formBuilder: FormBuilder, private customerService: CustomerService, private editorService: EditorService, private newspaperService: NewspaperService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private customerService: CustomerService,
+    private editorService: EditorService,
+    private newspaperService: NewspaperService,
+    private projectService: ProjectService,
+  ) {
   }
 
   @Input()
@@ -46,7 +53,7 @@ export class ContentFormComponent implements OnInit, OnChanges {
   contentForm = this.formBuilder.group({
     editorId: [null, Validators.required],
     customerId: [null, Validators.required],
-    projectId: [null, Validators.required],
+    projectId: [{value: null, disabled: true}, Validators.required],
     newspaperId: [null, Validators.required],
     contentRules: this.formBuilder.group({
       title: [null],
@@ -81,12 +88,13 @@ export class ContentFormComponent implements OnInit, OnChanges {
     zip(
       this.customerService.find("", PaginationDto.buildMaxValueOnePage()),
       this.editorService.find("", PaginationDto.buildMaxValueOnePage()),
-      this.newspaperService.find("", PaginationDto.buildMaxValueOnePage())
+      this.newspaperService.find("", PaginationDto.buildMaxValueOnePage()),
+      this.projectService.find("",PaginationDto.buildMaxValueOnePage())
     ).subscribe(results => {
-      console.log(results[0].content)
       this.customers$.next(results[0].content)
       this.editor$.next(results[1].content)
       this.newspaper$.next(results[2].content)
+      this.projects$.next(results[3].content)
 
       this.contentForm.controls.customerId.valueChanges.subscribe(actualValue => {
         if (actualValue) {
@@ -98,19 +106,37 @@ export class ContentFormComponent implements OnInit, OnChanges {
 
       this.patchValueToForm(this.contentToUpdate as Content)
     })
-    this.contentForm.controls['customerId'].valueChanges
+
+    this.contentForm.controls.customerId.valueChanges
       .subscribe(customerId => {
         this.contentForm.patchValue({
           projectId: null
         })
         if (customerId) {
-          this.customerService.findProjectByIdCustomer(customerId).subscribe(projects => this.projects$.next(projects))
+          this.customerService.findProjectByIdCustomer(customerId)
+            .subscribe(projects => {
+              this.projects$.next(projects)
+              this.contentForm.controls.projectId.enable();
+            })
+        } else {
+          this.contentForm.controls.projectId.disable();
         }
       });
+
+    this.contentForm.controls.projectId.valueChanges.subscribe(actualValue => {
+      let newspaperID = this.projects$.getValue().find(value => value.id === actualValue)?.newspaper?.id || null;
+      this.contentForm.controls.newspaperId.setValue(newspaperID);
+
+      if (newspaperID) {
+        this.contentForm.controls.newspaperId.disable()
+      } else {
+        this.contentForm.controls.newspaperId.enable()
+      }
+    })
   }
 
   onSubmit() {
-    this.submitForm.emit(this.contentForm.value)
+    this.submitForm.emit(this.contentForm.getRawValue())
   }
 
   ngOnChanges(changes: SimpleChanges): void {
