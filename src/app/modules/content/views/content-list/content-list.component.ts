@@ -19,8 +19,11 @@ export class ContentListComponent implements OnInit {
 
   actualPage$ = new BehaviorSubject<PageResponseDto<Content>>(new PageResponseDto<Content>());
   actualPageValue = 1;
-  @ViewChild('modal') modal?: ModalComponent;
+
+  @ViewChild('modal')
+  modal?: ModalComponent;
   modalSize = ModalSize.XL
+
   selectedContent?: Content;
 
   constructor(private contentService: ContentService, private activatedRoute: ActivatedRoute) {
