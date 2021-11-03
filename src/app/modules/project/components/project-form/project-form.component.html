@@ -24,9 +24,16 @@
     >
     </ngx-autocomplete>
   </div>
+  <div *ngIf="isEdit" class="mb-3">
+    <label for="status" class="form-label">Stato</label>
+    <input type="text" class="form-control" id="status" [value]="project?.status" readonly>
+  </div>
   <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
     <i class="bi bi-save"></i>
     Salva
+  </button>
+  <button *ngIf="isEdit && project?.nextState" type="button" class="btn btn-primary ms-3" (click)="changeStatus.emit(project)" title="Cambia stato">
+    <i class="bi bi-gear"></i> Cambia stato
   </button>
   <a *ngIf="isEdit" class="btn btn-success ms-3" [routerLink]="'/contents'" [queryParams]="{projectId: project?.id}">
     Vai agli articoli

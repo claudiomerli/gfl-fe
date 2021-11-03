@@ -4,7 +4,7 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <app-project-form [isEdit]="true" [project]="project" (submitForm)="submit($event)"></app-project-form>
+      <app-project-form [isEdit]="true" [project]="project" (submitForm)="submit($event)" (changeStatus)="changeStatus($event)"></app-project-form>
     </div>
   </div>
 </div>

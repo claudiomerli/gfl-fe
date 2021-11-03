@@ -66,4 +66,10 @@ export class ContentListComponent implements OnInit {
     }
   }
 
+  changeProjectStatus(content: Content) {
+    this.contentService.changeProjectStatus(content)
+      .subscribe(() => {
+        this.onPageChange(this.actualPageValue);
+      })
+  }
 }

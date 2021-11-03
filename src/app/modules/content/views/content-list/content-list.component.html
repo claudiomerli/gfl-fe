@@ -16,6 +16,7 @@
         <th>Testata</th>
         <th>Cliente</th>
         <th>Progetto</th>
+        <th>Stato progetto</th>
         <th>Stato</th>
         <th>Stato validazione</th>
         <th>Data creazione</th>
@@ -33,6 +34,7 @@
         <td>{{item.newspaper?.name}}</td>
         <td>{{item.customer?.name}}</td>
         <td>{{item.project?.name}}</td>
+        <td>{{item.projectStatus}}</td>
         <td>{{item.contentStatus | statusLabel}}</td>
         <td [ngClass]="'text-' + (item.ruleSatisfation | ruleSatisfationIndicatorColor)" class="text-center"><em
           class="bi bi-circle-fill"></em>
@@ -44,6 +46,9 @@
           <a class="btn btn-warning mx-1" [routerLink]="[item.id]"><em class="bi bi-pencil"></em></a>
           <button class="btn btn-danger mx-1" (click)="delete(item.id)" *isAuthenticated="['ADMIN']"><em
             class="bi bi-trash"></em></button>
+          <button *ngIf="item?.nextProjectStatus" class="btn btn-primary btn-sm m-1" (click)="changeProjectStatus(item)" title="Cambia stato progetto">
+            <i class="bi bi-gear"></i> Cambia stato progetto
+          </button>
         </td>
       </tr>
       </tbody>
