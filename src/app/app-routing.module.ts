@@ -54,7 +54,8 @@ const routes: Routes = [
   {
     path: "price-quotation",
     loadChildren: () => import("./modules/price-quotation/price-quotation.module").then(m => m.PriceQuotationModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN']}
   },
 ];
 

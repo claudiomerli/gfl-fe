@@ -6,6 +6,7 @@ import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {Content} from "../../../shared/model/content";
 import {SearchContentDto} from "../../../shared/messages/search-content.dto";
 import {ModalComponent, ModalSize} from "../../../shared/components/modal/modal.component";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-content-list',
@@ -22,7 +23,7 @@ export class ContentListComponent implements OnInit {
   modalSize = ModalSize.XL
   selectedContent?: Content;
 
-  constructor(private contentService: ContentService) {
+  constructor(private contentService: ContentService, private activatedRoute: ActivatedRoute) {
   }
 
   onSubmitSearchForm($event: any) {
@@ -31,6 +32,10 @@ export class ContentListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.activatedRoute.snapshot.queryParams.projectId) {
+      this.searchParameter.projectId = parseInt(this.activatedRoute.snapshot.queryParams.projectId);
+    }
+
     this.onPageChange(this.actualPageValue);
   }
 
