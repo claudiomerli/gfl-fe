@@ -1,17 +1,17 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ProjectService} from "../../../shared/services/project.service";
-import {Project, ProjectStatus} from "../../../shared/model/project";
 import {BehaviorSubject, fromEvent} from "rxjs";
 import {PageResponseDto} from "../../../shared/messages/page-response.dto";
+import {Project, ProjectStatus} from "../../../shared/model/project";
+import {ProjectService} from "../../../shared/services/project.service";
 import {debounceTime} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 
 @Component({
-  selector: 'app-project-dashboard',
-  templateUrl: './project-dashboard.component.html',
-  styleUrls: ['./project-dashboard.component.scss']
+  selector: 'app-project-invoicing',
+  templateUrl: './project-invoicing.component.html',
+  styleUrls: ['./project-invoicing.component.scss']
 })
-export class ProjectDashboardComponent implements OnInit, AfterViewInit {
+export class ProjectInvoicingComponent implements OnInit, AfterViewInit {
 
   ProjectStatus = ProjectStatus
 
@@ -40,13 +40,6 @@ export class ProjectDashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onDelete(project: Project) {
-    this.projectService.delete(project.id!)
-      .subscribe(() => {
-        this.onPageChange(1);
-      })
-  }
-
   onPageChange(pageNumber: number) {
     this.actualPageValue = pageNumber;
     this.projectService
@@ -62,4 +55,5 @@ export class ProjectDashboardComponent implements OnInit, AfterViewInit {
         this.onPageChange(this.actualPageValue);
       })
   }
+
 }

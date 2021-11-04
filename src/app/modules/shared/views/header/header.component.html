@@ -13,6 +13,12 @@
               Home progetti
             </a>
           </li>
+          <li>
+            <a routerLink="/projects/invoicing" class="nav-link text-white" routerLinkActive="active">
+              <i class="bi bi-receipt d-block mx-auto mb-1"></i>
+              Amministrazione
+            </a>
+          </li>
           <li *isAuthenticated="['ADMIN']">
             <a routerLink="/price-quotation" class="nav-link text-white" >
               <i class="bi bi-currency-dollar d-block mx-auto mb-1"></i>

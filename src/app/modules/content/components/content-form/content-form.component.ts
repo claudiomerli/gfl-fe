@@ -42,8 +42,8 @@ export class ContentFormComponent implements OnInit, OnChanges {
   @Output() changeProjectStatus = new EventEmitter<Content>();
 
 
-  editor$ = new BehaviorSubject<User[]>([])
   customers$ = new BehaviorSubject<Customer[]>([])
+  editor$ = new BehaviorSubject<User[]>([])
   newspaper$ = new BehaviorSubject<Newspaper[]>([])
   projects$ = new BehaviorSubject<Project[]>([])
 
@@ -54,7 +54,7 @@ export class ContentFormComponent implements OnInit, OnChanges {
   contentForm = this.formBuilder.group({
     editorId: [null, Validators.required],
     customerId: [null, Validators.required],
-    projectId: [{value: null, disabled: true}, Validators.required],
+    projectId: [null, Validators.required],
     newspaperId: [null, Validators.required],
     contentRules: this.formBuilder.group({
       title: [null],
@@ -90,7 +90,7 @@ export class ContentFormComponent implements OnInit, OnChanges {
       this.customerService.find("", PaginationDto.buildMaxValueOnePage()),
       this.editorService.find("", PaginationDto.buildMaxValueOnePage()),
       this.newspaperService.find("", PaginationDto.buildMaxValueOnePage()),
-      this.projectService.find("",PaginationDto.buildMaxValueOnePage())
+      this.projectService.find("", PaginationDto.buildMaxValueOnePage())
     ).subscribe(results => {
       this.customers$.next(results[0].content)
       this.editor$.next(results[1].content)
@@ -108,30 +108,18 @@ export class ContentFormComponent implements OnInit, OnChanges {
       this.patchValueToForm(this.contentToUpdate as Content)
     })
 
-    this.contentForm.controls.customerId.valueChanges
-      .subscribe(customerId => {
-        this.contentForm.patchValue({
-          projectId: null
-        })
-        if (customerId) {
-          this.customerService.findProjectByIdCustomer(customerId)
-            .subscribe(projects => {
-              this.projects$.next(projects)
-              this.contentForm.controls.projectId.enable();
-            })
-        } else {
-          this.contentForm.controls.projectId.disable();
-        }
-      });
-
     this.contentForm.controls.projectId.valueChanges.subscribe(actualValue => {
-      let newspaperID = this.projects$.getValue().find(value => value.id === actualValue)?.newspaper?.id || null;
-      this.contentForm.controls.newspaperId.setValue(newspaperID);
-
-      if (newspaperID) {
+      let selectedProject = this.projects$.getValue().find(value => value.id === actualValue);
+      if (selectedProject) {
+        this.contentForm.controls.newspaperId.setValue(selectedProject.newspaper?.id);
+        this.contentForm.controls.customerId.setValue(selectedProject.customer?.id);
         this.contentForm.controls.newspaperId.disable()
+        this.contentForm.controls.customerId.disable()
       } else {
+        this.contentForm.controls.newspaperId.setValue(null);
+        this.contentForm.controls.customerId.setValue(null);
         this.contentForm.controls.newspaperId.enable()
+        this.contentForm.controls.customerId.enable()
       }
     })
   }
@@ -147,7 +135,7 @@ export class ContentFormComponent implements OnInit, OnChanges {
 
   patchValueToForm(content: Content) {
     if (content) {
-      console.log(content.customer)
+      console.log("AAAA", content)
       this.contentForm.patchValue({
         editorId: content.editor?.id,
         customerId: content.customer?.id,

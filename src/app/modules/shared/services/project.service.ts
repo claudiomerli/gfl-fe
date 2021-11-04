@@ -23,7 +23,7 @@ export class ProjectService {
     return this.httpClient.post<any>(environment.apiBaseurl + "/project", project);
   }
 
-  public find(globalSearch: string, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Project>> {
+  public find(globalSearch: string,paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Project>> {
     return this.httpClient.get<PageResponseDto<Project>>(environment.apiBaseurl + "/project", {
       params: {...paginationDto, globalSearch}
     }).pipe(

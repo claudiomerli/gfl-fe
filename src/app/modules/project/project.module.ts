@@ -9,6 +9,8 @@ import {ProjectEditComponent} from './views/project-edit/project-edit.component'
 import {NgxPaginationModule} from "ngx-pagination";
 import {NgxAutocompleteModule} from "ngx-angular-autocomplete";
 import {ProjectFormComponent} from './components/project-form/project-form.component';
+import { ProjectInvoicingComponent } from './views/project-invoicing/project-invoicing.component';
+import { ProjectTableComponent } from './components/project-table/project-table.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import {ProjectFormComponent} from './components/project-form/project-form.compo
     ProjectDashboardComponent,
     ProjectNewComponent,
     ProjectEditComponent,
-    ProjectFormComponent
+    ProjectFormComponent,
+    ProjectInvoicingComponent,
+    ProjectTableComponent
   ],
   imports: [
     CommonModule,

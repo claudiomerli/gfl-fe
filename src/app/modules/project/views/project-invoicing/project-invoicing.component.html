@@ -1,18 +1,16 @@
 <div class="d-flex justify-content-between align-items-center">
   <input type="text" name="globalSearch" class="form-control w-50" placeholder="Cerca..." #globalSearchInput>
-  <a class="btn btn-primary" routerLink="/projects/create">
-    <em class="bi bi-plus"></em>
-    Nuovo progetto
-  </a>
 </div>
 <div>
   <ng-container *ngIf="(actualPage$ | async) as actualPageValue">
     <app-project-table
       (pageChange)="onPageChange($event)"
       (changeStatus)="changeStatus($event)"
-      (delete)="onDelete($event)"
       [actualPageValue]="actualPageValue"
-      [availableStatusProject]="[ProjectStatus.CREATED,ProjectStatus.WORKING]"
+      [showDeleteButton]="false"
+      [showEditButton]="false"
+      [showChangeStatusButton]="true"
+      [availableStatusProject]="[ProjectStatus.TERMINATED]"
     ></app-project-table>
   </ng-container>
 </div>

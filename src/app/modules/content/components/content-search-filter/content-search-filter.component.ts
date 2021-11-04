@@ -68,6 +68,9 @@ export class ContentSearchFilterComponent implements OnInit {
     this.projectService.find("", PaginationDto.buildMaxValueOnePage()).subscribe(value => {
       this.project$.next(value.content)
     })
+
+    if (this.activatedRoute.snapshot.queryParams.projectId)
+      this.searchForm.patchValue({projectId: parseInt(this.activatedRoute.snapshot.queryParams.projectId)})
   }
 
   onSubmit() {
