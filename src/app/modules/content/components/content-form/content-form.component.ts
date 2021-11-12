@@ -1,4 +1,4 @@
-import {BehaviorSubject, zip} from "rxjs";
+import {BehaviorSubject, interval, Subscription, zip} from "rxjs";
 import {User} from "../../../shared/model/user";
 import {Customer} from "../../../shared/model/customer";
 import {Newspaper} from "../../../shared/model/newspaper";
@@ -8,17 +8,23 @@ import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {ContentRules} from "../../../shared/model/content-rules";
 import {Content} from "../../../shared/model/content";
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from "@angular/core";
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from "@angular/core";
 import {FormArray, FormBuilder, Validators} from "@angular/forms";
 import {Project} from "../../../shared/model/project";
 import {ProjectService} from "../../../shared/services/project.service";
+import {filter} from "rxjs/operators";
+
+export interface ContentSaveEvent {
+  id?: number;
+  value: any;
+}
 
 @Component({
   selector: 'app-content-form',
   templateUrl: './content-form.component.html',
   styleUrls: ['./content-form.component.scss']
 })
-export class ContentFormComponent implements OnInit, OnChanges {
+export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,12 +41,15 @@ export class ContentFormComponent implements OnInit, OnChanges {
   @Input()
   onEdit: boolean | undefined;
 
-  @Output() submitForm = new EventEmitter<any>();
+  @Input()
+  id?: number;
+
+  @Output() submitForm = new EventEmitter<ContentSaveEvent>();
+  @Output() autoSave = new EventEmitter<ContentSaveEvent>();
   @Output() exportDocx = new EventEmitter<any>();
   @Output() exportPdf = new EventEmitter<any>();
   @Output() deliver = new EventEmitter<any>();
   @Output() changeProjectStatus = new EventEmitter<Content>();
-
 
   customers$ = new BehaviorSubject<Customer[]>([])
   editor$ = new BehaviorSubject<User[]>([])
@@ -76,6 +85,9 @@ export class ContentFormComponent implements OnInit, OnChanges {
     score: [null],
     monthUse: [null]
   });
+
+  private inteval = 1000 * 60; // 1 minuto
+  private intervalSubscription?: Subscription;
 
   get links() {
     return this.contentForm.get('links') as FormArray;
@@ -122,14 +134,31 @@ export class ContentFormComponent implements OnInit, OnChanges {
         this.contentForm.controls.customerId.enable()
       }
     })
+
+    this.intervalSubscription = interval(this.inteval)
+      .pipe(
+        filter(() => this.contentForm.valid)
+      )
+      .subscribe(() => this.autoSave.emit({
+        id: this.id,
+        value: this.contentForm.getRawValue()
+      }))
+  }
+
+  ngOnDestroy() {
+    this.intervalSubscription?.unsubscribe()
   }
 
   onSubmit() {
-    this.submitForm.emit(this.contentForm.getRawValue())
+    this.submitForm.emit({
+      id: this.id,
+      value: this.contentForm.getRawValue()
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.contentToUpdate.isFirstChange())
+    console.log(changes)
+    if (!changes.contentToUpdate?.isFirstChange())
       this.patchValueToForm(changes.contentToUpdate?.currentValue as Content)
   }
 

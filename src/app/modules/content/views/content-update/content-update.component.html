@@ -1,8 +1,11 @@
 <div>
   <h3>Modifica contenuto</h3>
   <app-content-form
+    *ngIf="contentToUpdate"
+    [id]="contentToUpdate.id"
     [contentToUpdate]="contentToUpdate"
-    (submitForm)="onSubmit($event)"
+    (submitForm)="onSubmit($event, true)"
+    (autoSave)="onSubmit($event, false)"
     [onEdit]="true"
     (exportDocx)="exportDocx()"
     (exportPdf)="exportPdf()"

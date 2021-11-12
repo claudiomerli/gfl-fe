@@ -1,4 +1,4 @@
 <div>
   <div class="h3">Crea nuovo contenuto</div>
-  <app-content-form (submitForm)="onSubmit($event)"></app-content-form>
+  <app-content-form [id]="id" (submitForm)="save($event, true)" (autoSave)="save($event, false)"></app-content-form>
 </div>

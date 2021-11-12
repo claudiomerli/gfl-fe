@@ -4,6 +4,7 @@ import {ActivatedRoute} from "@angular/router";
 import {ContentService} from "../../../shared/services/content.service";
 import {Content} from "../../../shared/model/content";
 import {saveAs} from 'file-saver';
+import {ContentSaveEvent} from "../../components/content-form/content-form.component";
 
 @Component({
   selector: 'app-content-update',
@@ -33,12 +34,14 @@ export class ContentUpdateComponent implements OnInit {
       })
   }
 
-  onSubmit($event: any) {
+  onSubmit($event: ContentSaveEvent, reload: boolean) {
     if (this.contentToUpdate)
       this.contentService
-        .update(this.contentToUpdate.id, $event)
+        .update(this.contentToUpdate.id, $event.value)
         .subscribe(() => {
-          this.loadContent();
+          if(reload) {
+            this.loadContent();
+          }
         })
   }
 
