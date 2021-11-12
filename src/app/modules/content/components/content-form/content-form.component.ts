@@ -17,6 +17,7 @@ import {filter} from "rxjs/operators";
 export interface ContentSaveEvent {
   id?: number;
   value: any;
+  noSendEmail: boolean;
 }
 
 @Component({
@@ -141,7 +142,8 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
       )
       .subscribe(() => this.autoSave.emit({
         id: this.id,
-        value: this.contentForm.getRawValue()
+        value: this.contentForm.getRawValue(),
+        noSendEmail: true
       }))
   }
 
@@ -152,7 +154,8 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
   onSubmit() {
     this.submitForm.emit({
       id: this.id,
-      value: this.contentForm.getRawValue()
+      value: this.contentForm.getRawValue(),
+      noSendEmail: false
     })
   }
 

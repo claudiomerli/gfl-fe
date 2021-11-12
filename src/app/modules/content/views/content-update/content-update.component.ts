@@ -37,7 +37,7 @@ export class ContentUpdateComponent implements OnInit {
   onSubmit($event: ContentSaveEvent, reload: boolean) {
     if (this.contentToUpdate)
       this.contentService
-        .update(this.contentToUpdate.id, $event.value)
+        .update(this.contentToUpdate.id, $event.value, $event.noSendEmail)
         .subscribe(() => {
           if(reload) {
             this.loadContent();

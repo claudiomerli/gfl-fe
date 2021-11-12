@@ -18,7 +18,7 @@ export class ContentCreateComponent implements OnInit {
   }
 
   save(contentSaveEvent: ContentSaveEvent, navigate: boolean) {
-    const obs = contentSaveEvent.id ? this.contentService.update(contentSaveEvent.id, contentSaveEvent.value) : this.contentService.save(contentSaveEvent.value);
+    const obs = contentSaveEvent.id ? this.contentService.update(contentSaveEvent.id, contentSaveEvent.value, contentSaveEvent.noSendEmail) : this.contentService.save(contentSaveEvent.value, contentSaveEvent.noSendEmail);
     obs.subscribe((res) => {
       console.log("Content saved", res)
       this.id = res.id

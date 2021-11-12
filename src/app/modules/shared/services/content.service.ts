@@ -29,8 +29,8 @@ export class ContentService {
     );
   }
 
-  public save(contentDto: any): Observable<any> {
-    return this.httpClient.post<void>(environment.apiBaseurl + "/content", contentDto);
+  public save(contentDto: any, noSendEmail: boolean): Observable<any> {
+    return this.httpClient.post<void>(environment.apiBaseurl + "/content", contentDto, {params: {noSendEmail}});
   }
 
   public delete(id: number): Observable<any> {
@@ -45,8 +45,8 @@ export class ContentService {
     );
   }
 
-  public update(id: number | undefined, contentDto: any) {
-    return this.httpClient.put<void>(environment.apiBaseurl + "/content/" + id, contentDto);
+  public update(id: number | undefined, contentDto: any, noSendEmail: boolean) {
+    return this.httpClient.put<void>(environment.apiBaseurl + "/content/" + id, contentDto, {params: {noSendEmail}});
   }
 
   public exportPdf(id: number | undefined): Observable<HttpResponse<Blob>> {
