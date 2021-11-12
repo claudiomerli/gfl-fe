@@ -19,7 +19,7 @@
         <th sortable="projectStatus" (sort)="onSort($event)">Stato progetto</th>
         <th sortable="contentStatus" (sort)="onSort($event)">Stato</th>
         <th>Stato validazione</th>
-        <th sortable="createdDate" (sort)="onSort($event)">Data creazione</th>
+        <th sortable="monthUse" (sort)="onSort($event)">Mese di utilizzo</th>
         <th sortable="lastModifiedDate" (sort)="onSort($event)">Data ultima modifica</th>
         <th>Azioni</th>
       </tr>
@@ -39,7 +39,7 @@
         <td [ngClass]="'text-' + (item.ruleSatisfation | ruleSatisfationIndicatorColor)" class="text-center"><em
           class="bi bi-circle-fill"></em>
         </td>
-        <td>{{item.createdDate | date:'dd/MM/yyyy'}}</td>
+        <td>{{item.monthUse}}</td>
         <td>{{item.lastModifiedDate | date:'dd/MM/yyyy'}}</td>
         <td class="text-center">
           <button class="btn btn-light mx-1" (click)="showDetail(item)"><em class="bi bi-search"></em></button>

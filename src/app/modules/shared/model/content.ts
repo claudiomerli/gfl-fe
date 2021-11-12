@@ -12,6 +12,20 @@ export enum ContentProjectStatus {
   PUBLISHED = "Pubblicato",
 }
 
+export enum ContentMonthUse {
+  JANUARY = "Gennaio",
+  FEBRUARY = "Febbraio",
+  MARCH = "Marzo",
+  APRIL = "Aprile",
+  MAY = "Maggio",
+  JUNE = "Giugno",
+  JULY = "Luglio",
+  AUGUST = "Agosto",
+  SEPTEMBER = "Settembre",
+  OCTOBER = "Ottobre",
+  NOVEMBER = "Novembre",
+  DECEMBER = "Dicemebre"
+}
 export class Content {
   id?: number
   title?: string;
@@ -33,7 +47,7 @@ export class Content {
   contentRules?: ContentRules;
   ruleSatisfation?: RuleSatisfation;
   score?: number;
-  monthUse?: "JANUARY" | "FEBRUARY" | "MARCH" | "APRIL" | "MAY" | "JUNE" | "JULY" | "AUGUST" | "SEPTEMBER" | "OCTOBER" | "NOVEMBER" | "DECEMBER"
+  monthUse?: ContentMonthUse
 
   get nextProjectStatus(): String | undefined {
     switch (this.projectStatus) {
@@ -71,7 +85,7 @@ export class Content {
     this.contentRules = item.contentRules;
     this.ruleSatisfation = item.ruleSatisfation;
     this.score = item.score;
-    this.monthUse = item.monthUse;
+    this.monthUse = ContentMonthUse[item.monthUse as keyof typeof ContentMonthUse];
   }
 
 }
