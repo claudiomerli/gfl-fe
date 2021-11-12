@@ -10,13 +10,13 @@
     <table class="table">
       <thead>
       <tr>
-        <th>Id</th>
-        <th>Nome</th>
-        <th>Redazionali Acquistati</th>
-        <th>Costo cadauno</th>
-        <th>Costo di vendita</th>
-        <th>E-mail di contatto</th>
-        <th>Geolocalizzazione regionale</th>
+        <th sortable="id" (sort)="onSort($event)">Id</th>
+        <th sortable="name" (sort)="onSort($event)">Nome</th>
+        <th sortable="purchasedContent" (sort)="onSort($event)">Redazionali Acquistati</th>
+        <th sortable="costEach" (sort)="onSort($event)">Costo cadauno</th>
+        <th sortable="costSell" (sort)="onSort($event)">Costo di vendita</th>
+        <th sortable="email" (sort)="onSort($event)">E-mail di contatto</th>
+        <th sortable="regionalGeolocalization" (sort)="onSort($event)">Geolocalizzazione regionale</th>
         <th>Argomento</th>
         <th>Actions</th>
       </tr>

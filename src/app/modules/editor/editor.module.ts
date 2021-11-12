@@ -9,6 +9,7 @@ import { EditorCreateFormComponent } from './components/editor-create-form/edito
 import {NgxPaginationModule} from "ngx-pagination";
 import { EditorUpdateFormComponent } from './components/editor-update-form/editor-update-form.component';
 import { EditorUpdateComponent } from './views/editor-update/editor-update.component';
+import {SharedModule} from "../shared/shared.module";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { EditorUpdateComponent } from './views/editor-update/editor-update.compo
         EditorRoutingModule,
         FormsModule,
         ReactiveFormsModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        SharedModule
     ]
 })
 export class EditorModule { }

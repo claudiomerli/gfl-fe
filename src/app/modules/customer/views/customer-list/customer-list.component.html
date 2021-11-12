@@ -10,8 +10,8 @@
     <table class="table">
       <thead>
       <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Nome</th>
+        <th sortable="id" (sort)="onSort($event)" scope="col">Id</th>
+        <th sortable="name" (sort)="onSort($event)" scope="col">Nome</th>
         <th scope="col">Actions</th>
       </tr>
       </thead>

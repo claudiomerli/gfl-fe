@@ -5,6 +5,7 @@ import {debounceTime} from "rxjs/operators";
 import {Customer} from "../../../shared/model/customer";
 import {PageResponseDto} from "../../../shared/messages/page-response.dto";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
+import {SortEvent} from "../../../shared/directives/sortable.directive";
 
 @Component({
   selector: 'app-customer-list',
@@ -48,12 +49,16 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onPageChange(pageNumber: number) {
+  onPageChange(pageNumber: number, sortBy?: string, sortDirection?: string) {
     this.actualPageValue = pageNumber;
     this.customerService
-      .find(this.globalSearch, {...new PaginationDto(), page: this.actualPageValue - 1})
+      .find(this.globalSearch,new PaginationDto(this.actualPageValue - 1, undefined ,sortDirection, sortBy ))
       .subscribe(res => {
         this.actualPage$.next(res);
       })
+  }
+
+  onSort($event: SortEvent) {
+    this.onPageChange(this.actualPageValue, $event.column, $event.direction);
   }
 }

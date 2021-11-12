@@ -8,6 +8,7 @@ import { NewspaperListComponent } from './views/newspaper-list/newspaper-list.co
 import { NewspaperCreateComponent } from './views/newspaper-create/newspaper-create.component';
 import { NewspaperUpdateComponent } from './views/newspaper-update/newspaper-update.component';
 import {NgxPaginationModule} from "ngx-pagination";
+import {SharedModule} from "../shared/shared.module";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {NgxPaginationModule} from "ngx-pagination";
         CommonModule,
         NewspaperRoutingModule,
         ReactiveFormsModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        SharedModule
     ]
 })
 export class NewspaperModule { }

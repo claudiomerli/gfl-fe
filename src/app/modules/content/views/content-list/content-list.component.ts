@@ -75,7 +75,6 @@ export class ContentListComponent implements OnInit {
   }
 
   onSort($event: SortEvent) {
-    console.log('event', $event);
     this.onPageChange(this.actualPageValue, $event.column, $event.direction);
   }
 }

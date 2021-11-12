@@ -10,14 +10,14 @@
     <table class="table">
       <thead>
       <tr>
-        <th>Id</th>
-        <th>Username</th>
-        <th>Nominativo</th>
-        <th>Email</th>
+        <th sortable="id" (sort)="onSort($event)" >Id</th>
+        <th sortable="username" (sort)="onSort($event)" >Username</th>
+        <th sortable="fullname" (sort)="onSort($event)" >Nominativo</th>
+        <th sortable="email" (sort)="onSort($event)" >Email</th>
         <th>Cellulare</th>
-        <th>Media voto</th>
-        <th>Livello</th>
-        <th>Compenso</th>
+        <th sortable="averageScore" (sort)="onSort($event)" > Media voto</th>
+        <th sortable="level" (sort)="onSort($event)" >Livello</th>
+        <th sortable="remuneration" (sort)="onSort($event)" >Compenso</th>
         <th>Actions</th>
       </tr>
       </thead>
