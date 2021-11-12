@@ -9,18 +9,18 @@
     <table class="table">
       <thead>
       <tr>
-        <th>Id</th>
-        <th>Titolo</th>
-        <th>Data di consegna</th>
-        <th>Redattore</th>
-        <th>Testata</th>
-        <th>Cliente</th>
-        <th>Progetto</th>
-        <th>Stato progetto</th>
-        <th>Stato</th>
+        <th sortable="id" (sort)="onSort($event)">Id</th>
+        <th sortable="title" (sort)="onSort($event)">Titolo</th>
+        <th sortable="deliveryDate" (sort)="onSort($event)">Data di consegna</th>
+        <th sortable="editorId" (sort)="onSort($event)">Redattore</th>
+        <th sortable="newspaperId" (sort)="onSort($event)">Testata</th>
+        <th sortable="customerId" (sort)="onSort($event)">Cliente</th>
+        <th sortable="projectId" (sort)="onSort($event)">Progetto</th>
+        <th sortable="projectStatus" (sort)="onSort($event)">Stato progetto</th>
+        <th sortable="contentStatus" (sort)="onSort($event)">Stato</th>
         <th>Stato validazione</th>
-        <th>Data creazione</th>
-        <th>Data ultima modifica</th>
+        <th sortable="createdDate" (sort)="onSort($event)">Data creazione</th>
+        <th sortable="lastModifiedDate" (sort)="onSort($event)">Data ultima modifica</th>
         <th>Azioni</th>
       </tr>
       </thead>

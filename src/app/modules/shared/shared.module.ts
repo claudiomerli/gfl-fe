@@ -9,6 +9,7 @@ import {ModalComponent} from './components/modal/modal.component';
 import {FileUploaderComponent} from './components/file-uploader/file-uploader.component';
 import {FormsModule} from "@angular/forms";
 import {SpinnerComponent} from "./components/spinner/spinner.component";
+import {SortableDirective} from "./directives/sortable.directive";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {SpinnerComponent} from "./components/spinner/spinner.component";
     ModalComponent,
     FileUploaderComponent,
     SpinnerComponent,
+    SortableDirective
   ],
   exports: [
     HeaderComponent,
@@ -28,6 +30,7 @@ import {SpinnerComponent} from "./components/spinner/spinner.component";
     ModalComponent,
     FileUploaderComponent,
     SpinnerComponent,
+    SortableDirective
   ],
   imports: [
     CommonModule,

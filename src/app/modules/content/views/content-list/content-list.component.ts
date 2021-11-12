@@ -7,6 +7,7 @@ import {Content} from "../../../shared/model/content";
 import {SearchContentDto} from "../../../shared/messages/search-content.dto";
 import {ModalComponent, ModalSize} from "../../../shared/components/modal/modal.component";
 import {ActivatedRoute} from "@angular/router";
+import {SortEvent} from "../../../shared/directives/sortable.directive";
 
 @Component({
   selector: 'app-content-list',
@@ -42,10 +43,10 @@ export class ContentListComponent implements OnInit {
     this.onPageChange(this.actualPageValue);
   }
 
-  onPageChange(pageNumber: number) {
+  onPageChange(pageNumber: number, sortBy?: string, sortDirection?: string) {
     this.actualPageValue = pageNumber;
     this.contentService
-      .find(this.searchParameter, {...new PaginationDto(), page: this.actualPageValue - 1})
+      .find(this.searchParameter, new PaginationDto(this.actualPageValue - 1, undefined ,sortDirection, sortBy ))
       .subscribe(res => {
         this.actualPage$.next(res);
       })
@@ -71,5 +72,10 @@ export class ContentListComponent implements OnInit {
       .subscribe(() => {
         this.onPageChange(this.actualPageValue);
       })
+  }
+
+  onSort($event: SortEvent) {
+    console.log('event', $event);
+    this.onPageChange(this.actualPageValue, $event.column, $event.direction);
   }
 }

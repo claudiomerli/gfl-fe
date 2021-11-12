@@ -65,6 +65,7 @@ export class Content {
     this.contentStatus = item.contentStatus;
     this.projectStatus = ContentProjectStatus[item.projectStatus as keyof typeof ContentProjectStatus]
     this.newspaper = item.newspaper;
+    this.editor = item.editor;
     this.customer = item.customer;
     this.project = item.project;
     this.contentRules = item.contentRules;
