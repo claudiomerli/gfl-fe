@@ -45,6 +45,12 @@ export class ContentListComponent implements OnInit {
 
   onPageChange(pageNumber: number, sortBy?: string, sortDirection?: string) {
     this.actualPageValue = pageNumber;
+
+    if(!sortBy){
+      sortBy = 'createdDate'
+      sortDirection = "DESC"
+    }
+
     this.contentService
       .find(this.searchParameter, new PaginationDto(this.actualPageValue - 1, undefined ,sortDirection, sortBy ))
       .subscribe(res => {
