@@ -6,6 +6,7 @@ import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {PageResponseDto} from "../../../shared/messages/page-response.dto";
 import {SortEvent} from "../../../shared/directives/sortable.directive";
+import {Finance} from "../../../shared/model/finance";
 
 @Component({
   selector: 'app-newspaper-list',
@@ -20,11 +21,13 @@ export class NewspaperListComponent implements OnInit, AfterViewInit {
 
   actualPage$ = new BehaviorSubject<PageResponseDto<Newspaper>>(new PageResponseDto<Newspaper>());
   actualPageValue = 1;
+  finance$ = new BehaviorSubject<Finance>(new Finance());
 
   constructor(private newspaperService: NewspaperService) {
   }
 
   ngOnInit(): void {
+    this.newspaperService.finance().subscribe(data => this.finance$.next(data));
     this.onPageChange(this.actualPageValue);
   }
 

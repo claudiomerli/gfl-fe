@@ -1,3 +1,27 @@
+<div class="h3">
+  Gestione testate
+</div>
+<div class="row justify-content-center" *ngIf="(finance$ | async) as financeValue">
+  <div class="col-xl-4 col-md-6 mb-4">
+    <div class="card h-100 py-2">
+      <div class="card-body py-0">
+        <div class="row align-items-center">
+          <div class="col mr-2 border-1">
+            <div class="mb-1">
+              Valore Acquisti: <span class="fw-bold">{{financeValue.purchasesValue}}</span>
+            </div>
+          </div>
+          <div class="col mr-2">
+            <div class="mb-1">
+              Valore Vendite: <span class="fw-bold">{{financeValue.salesValue}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="d-flex justify-content-between align-items-center">
   <input type="text" name="globalSearch" class="form-control w-50" placeholder="Cerca..." #globalSearchInput>
   <a class="btn btn-primary" routerLink="/newspapers/create">
@@ -13,6 +37,7 @@
         <th sortable="id" (sort)="onSort($event)">Id</th>
         <th sortable="name" (sort)="onSort($event)">Nome</th>
         <th sortable="purchasedContent" (sort)="onSort($event)">Redazionali Acquistati</th>
+        <th>Redazionali Rimanenti</th>
         <th sortable="costEach" (sort)="onSort($event)">Costo cadauno</th>
         <th sortable="costSell" (sort)="onSort($event)">Costo di vendita</th>
         <th sortable="email" (sort)="onSort($event)">E-mail di contatto</th>
@@ -27,29 +52,15 @@
         <td>{{item.id}}</td>
         <td>{{item.name}}</td>
         <td>{{item.purchasedContent}}</td>
+        <td>{{item.leftContent}}</td>
         <td>{{item.costEach}}</td>
         <td>{{item.costSell}}</td>
         <td>{{item.email}}</td>
         <td>{{item.regionalGeolocalization}}</td>
-        <td [ngSwitch]="item.topic">
-          <ng-container *ngSwitchCase="'CASA_ARREDAMENTO_DESIGN'">Casa Arredamento Design</ng-container>
-          <ng-container *ngSwitchCase="'DONNA'">Donna</ng-container>
-          <ng-container *ngSwitchCase="'ECONOMIA'">Economia</ng-container>
-          <ng-container *ngSwitchCase="'FOOD'">Food</ng-container>
-          <ng-container *ngSwitchCase="'IMPRESA_E_BUSINESS'">Impresa e Business</ng-container>
-          <ng-container *ngSwitchCase="'LIFESTYLE_GOSSIP_MODA'">Lifestyle Gossip Moda</ng-container>
-          <ng-container *ngSwitchCase="'NOTIZIE'">Notizie</ng-container>
-          <ng-container *ngSwitchCase="'SALUTE_E_BENESSERE'">Salute e Benessere</ng-container>
-          <ng-container *ngSwitchCase="'SHOPPING'">Shopping</ng-container>
-          <ng-container *ngSwitchCase="'TECNOLOGIA_SCIENZA_INTERNET'">Tecnologia Scienza Internet</ng-container>
-          <ng-container *ngSwitchCase="'TURISMO'">Turismo</ng-container>
-          <ng-container *ngSwitchCase="'SPORT'">Sport</ng-container>
-          <ng-container *ngSwitchCase="'POLITICA'">Politica</ng-container>
-          <ng-container *ngSwitchCase="'ATTUALITA'">Attualità</ng-container>
-          <ng-container *ngSwitchCase="'SPETTACOLI_TEATRO_CULTURA_INTRATTENIMENTO'">Spettacoli Teatro Cultura Intrattenimento</ng-container>
-          <ng-container *ngSwitchCase="'MOTORI'">Motori</ng-container>
-          <ng-container *ngSwitchCase="'GIOCHI'">Giochi</ng-container>
-          <ng-container *ngSwitchCase="'AMBIENTE_GREEN'">Ambiente Green</ng-container>
+        <td>
+          <span *ngFor="let topic of item.topics; let last = last" class="topics">
+            {{ topic.name }}
+          </span>
         </td>
         <td class="text-center">
           <a class="btn btn-warning mx-1" [routerLink]="['/newspapers',item.id]"><i class="bi bi-pencil"></i></a>

@@ -8,6 +8,7 @@ import {Newspaper} from "../model/newspaper";
 import {SaveNewspaperDto} from "../messages/newspaper/save-newspaper.dto";
 import {PageResponseDto} from "../messages/page-response.dto";
 import {PaginationDto} from "../messages/pagination.dto";
+import {Finance} from "../model/finance";
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,9 @@ export class NewspaperService {
 
   public findById(id: number): Observable<Newspaper> {
     return this.httpClient.get<Newspaper>(environment.apiBaseurl + "/newspaper/" + id);
+  }
+
+  public finance(): Observable<Finance> {
+    return this.httpClient.get<Finance>(environment.apiBaseurl + "/newspaper/finance");
   }
 }
