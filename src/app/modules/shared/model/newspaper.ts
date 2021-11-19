@@ -12,5 +12,6 @@ export class Newspaper {
   regionalGeolocalization: string | undefined
   note: string | undefined
   topics: Array<Topic> | undefined
+  numberOfEditors: number = 10
 
 }
