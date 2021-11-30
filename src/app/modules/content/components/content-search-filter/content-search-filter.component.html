@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col" *isAuthenticated="['ADMIN']">
         <label class="form-label">Cliente</label>
-        <select formControlName="customerId" class="form-control">
+        <select formControlName="customerId" class="form-select">
           <option [ngValue]="null">Seleziona</option>
           <option [ngValue]="customer.id" *ngFor="let customer of customer$ | async">
             {{customer.name}}
@@ -13,7 +13,7 @@
 
       <div class="col" *isAuthenticated="['ADMIN']">
         <label class="form-label">Redattore</label>
-        <select formControlName="editorId" class="form-control">
+        <select formControlName="editorId" class="form-select">
           <option [ngValue]="null">Seleziona</option>
           <option [ngValue]="editor.id" *ngFor="let editor of editor$ | async">
             {{editor.fullname}}
@@ -23,7 +23,7 @@
 
       <div class="col" *isAuthenticated="['ADMIN']">
         <label class="form-label">Testata</label>
-        <select formControlName="newspaperId" class="form-control">
+        <select formControlName="newspaperId" class="form-select">
           <option [ngValue]="null">Seleziona</option>
           <option [ngValue]="newspaper.id" *ngFor="let newspaper of newspaper$ | async">
             {{newspaper.name}}
@@ -33,7 +33,7 @@
 
       <div class="col" *isAuthenticated="['ADMIN']">
         <label class="form-label">Progetto</label>
-        <select formControlName="projectId" class="form-control">
+        <select formControlName="projectId" class="form-select">
           <option [ngValue]="null">Seleziona</option>
           <option [ngValue]="project.id" *ngFor="let project of project$ | async">
             {{project.name}}
@@ -48,7 +48,7 @@
       </div>
       <div class="col-4">
         <label class="form-label">Stato</label>
-        <select formControlName="status" class="form-control">
+        <select formControlName="status" class="form-select">
           <option [ngValue]="null">Seleziona</option>
           <option [ngValue]="'WORKING'">In lavorazione</option>
           <option [ngValue]="'DELIVERED'">Consegnato</option>
@@ -75,7 +75,7 @@
       </div>
       <div class="col" *isAuthenticated="['ADMIN']">
           <label class="form-label">Mese di utilizzo</label>
-          <select class="form-control" formControlName="monthUse">
+          <select class="form-select" formControlName="monthUse">
             <option [ngValue]="null">Seleziona</option>
             <option [ngValue]="'JANUARY'">Gennaio</option>
             <option [ngValue]="'FEBRUARY'">Febbraio</option>

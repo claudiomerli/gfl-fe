@@ -49,6 +49,9 @@ export class ProjectService {
   public delete(id: number) {
     return this.httpClient.delete(environment.apiBaseurl + "/project/" + id);
   }
+  public deleteContentPreview(id: number) {
+    return this.httpClient.delete(environment.apiBaseurl + "/project/projectContentPreview/" + id);
+  }
 
   changeStatus(project: Project) {
     return this.httpClient.put(environment.apiBaseurl + "/project/" + project.id + "/change-status", {

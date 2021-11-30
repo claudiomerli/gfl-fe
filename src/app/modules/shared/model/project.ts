@@ -1,12 +1,25 @@
 import {Customer} from "./customer";
 import {Newspaper} from "./newspaper";
+import {Validators} from "@angular/forms";
 
 export enum ProjectStatus {
   CREATED = "Creato",
+  SENT = "Inviato al capo redattore",
   WORKING = "In Lavorazione",
   TO_BE_PUBLISHED = "Da Pubblicare", // (quanto tutti gli articoli stanno in TO_BE_PUBLISHED)
   TERMINATED = "Terminato", // (quando tutti gli articoli stanno in PUBLISHED)
   INVOICED = "Fatturato"
+}
+
+export class ProjectContentPreview {
+  contentId: number | undefined;
+  id: number | undefined;
+  newspaper: Newspaper | undefined;
+  monthUse: string | undefined;
+  linkUrl: string | undefined;
+  linkText: string | undefined;
+  title: string | undefined;
+  customerNotes: string | undefined;
 }
 
 export class Project {
@@ -17,6 +30,7 @@ export class Project {
   createdDate: string | undefined;
   lastModifiedDate: string | undefined;
   status: ProjectStatus;
+  projectContentPreviews: Array<ProjectContentPreview> | undefined;
 
   get nextState(): String | undefined {
     switch (this.status) {
@@ -33,6 +47,23 @@ export class Project {
     }
   }
 
+  get nextStateProject(): String | undefined {
+    switch (this.status) {
+      case ProjectStatus.CREATED:
+        return ProjectStatus.SENT;
+      case ProjectStatus.SENT:
+        return ProjectStatus.WORKING;
+      case ProjectStatus.WORKING:
+        return ProjectStatus.TO_BE_PUBLISHED;
+      case ProjectStatus.TO_BE_PUBLISHED:
+        return ProjectStatus.TERMINATED
+      case ProjectStatus.TERMINATED:
+        return ProjectStatus.INVOICED
+      default:
+        return undefined
+    }
+  }
+
   constructor(item: any) {
     this.id = item.id;
     this.name = item.name;
@@ -41,5 +72,6 @@ export class Project {
     this.createdDate = item.createdDate;
     this.lastModifiedDate = item.lastModifiedDate;
     this.status = ProjectStatus[item.status as keyof typeof ProjectStatus]
+    this.projectContentPreviews = item.projectContentPreviews;
   }
 }

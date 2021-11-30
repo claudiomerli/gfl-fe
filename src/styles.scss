@@ -25,3 +25,8 @@ th[sortable].desc:before {
   transform: rotate(180deg);
   -ms-transform: rotate(180deg);
 }
+
+.accordion-button {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

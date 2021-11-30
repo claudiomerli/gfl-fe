@@ -11,6 +11,8 @@ import {NgxAutocompleteModule} from "ngx-angular-autocomplete";
 import {ProjectFormComponent} from './components/project-form/project-form.component';
 import { ProjectInvoicingComponent } from './views/project-invoicing/project-invoicing.component';
 import { ProjectTableComponent } from './components/project-table/project-table.component';
+import {SharedModule} from "../shared/shared.module";
+import { ProjectContentPreviewComponent } from './components/project-content-preview/project-content-preview.component';
 
 
 @NgModule({
@@ -20,16 +22,18 @@ import { ProjectTableComponent } from './components/project-table/project-table.
     ProjectEditComponent,
     ProjectFormComponent,
     ProjectInvoicingComponent,
-    ProjectTableComponent
+    ProjectTableComponent,
+    ProjectContentPreviewComponent
   ],
-  imports: [
-    CommonModule,
-    ProjectRoutingModule,
-    ReactiveFormsModule,
-    NgxPaginationModule,
-    NgxAutocompleteModule,
-    FormsModule,
-  ]
+    imports: [
+        CommonModule,
+        ProjectRoutingModule,
+        ReactiveFormsModule,
+        NgxPaginationModule,
+        NgxAutocompleteModule,
+        FormsModule,
+        SharedModule,
+    ]
 })
 export class ProjectModule {
 }

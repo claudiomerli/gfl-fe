@@ -52,6 +52,7 @@ export class ProjectDashboardComponent implements OnInit, AfterViewInit {
     this.projectService
       .find(this.globalSearch, {...new PaginationDto(), page: this.actualPageValue - 1})
       .subscribe(res => {
+        console.log(res);
         this.actualPage$.next(res);
       })
   }
