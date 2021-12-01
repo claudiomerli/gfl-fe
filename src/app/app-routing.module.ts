@@ -14,8 +14,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: "editors",
-    loadChildren: () => import("./modules/editor/editor.module").then(m => m.EditorModule),
+    path: "users",
+    loadChildren: () => import("./modules/user/user.module").then(m => m.UserModule),
     canActivate: [AuthGuard],
     data: {availableRoles: ['ADMIN']}
   },

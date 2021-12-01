@@ -8,7 +8,7 @@ import {ProjectInvoicingComponent} from "./views/project-invoicing/project-invoi
 const routes: Routes = [{
   path: "",
   children: [
-    { path: "", component: ProjectDashboardComponent, pathMatch: "full"},
+    { path: "home", component: ProjectDashboardComponent, pathMatch: "full"},
     { path: "create", component: ProjectNewComponent },
     { path: "invoicing", component: ProjectInvoicingComponent },
     { path: ":id", component: ProjectEditComponent },

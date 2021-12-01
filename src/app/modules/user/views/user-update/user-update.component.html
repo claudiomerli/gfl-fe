@@ -1,0 +1,9 @@
+<div>
+  <div class="h3">
+    Modifica utente
+  </div>
+  <app-user-update-form *ngIf="userToUpdate"
+                          [userToEdit]="userToUpdate"
+                          (formSubmit)="onSubmit($event)"
+                          [onSaving]="onSaving"></app-user-update-form>
+</div>

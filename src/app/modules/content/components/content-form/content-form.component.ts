@@ -3,7 +3,7 @@ import {User} from "../../../shared/model/user";
 import {Customer} from "../../../shared/model/customer";
 import {Newspaper} from "../../../shared/model/newspaper";
 import {CustomerService} from "../../../shared/services/customer.service";
-import {EditorService} from "../../../shared/services/editor.service";
+import {UserService} from "../../../shared/services/user.service";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {ContentRules} from "../../../shared/model/content-rules";
@@ -30,7 +30,7 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private customerService: CustomerService,
-    private editorService: EditorService,
+    private userService: UserService,
     private newspaperService: NewspaperService,
     private projectService: ProjectService,
   ) {
@@ -101,7 +101,7 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
     zip(
       this.customerService.find("", PaginationDto.buildMaxValueOnePage()),
-      this.editorService.find("", PaginationDto.buildMaxValueOnePage()),
+      this.userService.find("", PaginationDto.buildMaxValueOnePage()),
       this.newspaperService.find("", PaginationDto.buildMaxValueOnePage()),
       this.projectService.find("", PaginationDto.buildMaxValueOnePage())
     ).subscribe(results => {
@@ -124,14 +124,10 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
     this.contentForm.controls.projectId.valueChanges.subscribe(actualValue => {
       let selectedProject = this.projects$.getValue().find(value => value.id === actualValue);
       if (selectedProject) {
-        this.contentForm.controls.newspaperId.setValue(selectedProject.newspaper?.id);
         this.contentForm.controls.customerId.setValue(selectedProject.customer?.id);
-        this.contentForm.controls.newspaperId.disable()
         this.contentForm.controls.customerId.disable()
       } else {
-        this.contentForm.controls.newspaperId.setValue(null);
         this.contentForm.controls.customerId.setValue(null);
-        this.contentForm.controls.newspaperId.enable()
         this.contentForm.controls.customerId.enable()
       }
     })

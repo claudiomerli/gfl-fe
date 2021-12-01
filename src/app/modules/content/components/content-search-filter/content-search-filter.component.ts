@@ -3,7 +3,7 @@ import {FormBuilder} from "@angular/forms";
 import {BehaviorSubject} from "rxjs";
 import {Customer} from "../../../shared/model/customer";
 import {CustomerService} from "../../../shared/services/customer.service";
-import {EditorService} from "../../../shared/services/editor.service";
+import {UserService} from "../../../shared/services/user.service";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {User} from "../../../shared/model/user";
@@ -23,7 +23,7 @@ export class ContentSearchFilterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private customerService: CustomerService,
-    private editorService: EditorService,
+    private userService: UserService,
     private newspaperService: NewspaperService,
     private projectService: ProjectService,
     private activatedRoute: ActivatedRoute
@@ -57,7 +57,7 @@ export class ContentSearchFilterComponent implements OnInit {
       this.customer$.next(value.content)
     })
 
-    this.editorService.find("", PaginationDto.buildMaxValueOnePage()).subscribe(value => {
+    this.userService.find("", PaginationDto.buildMaxValueOnePage()).subscribe(value => {
       this.editor$.next(value.content)
     })
 
