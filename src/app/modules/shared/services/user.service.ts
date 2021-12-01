@@ -24,9 +24,9 @@ export class UserService {
     return this.httpClient.put<void>(environment.apiBaseurl + "/user/" + id, editUserDto)
   }
 
-  public find(globalSearch: string, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<User>> {
+  public find(globalSearch: string, role: string, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<User>> {
     return this.httpClient.get<PageResponseDto<User>>(environment.apiBaseurl + "/user", {
-      params: {...paginationDto, globalSearch}
+      params: {...paginationDto, globalSearch, role}
     })
   }
 

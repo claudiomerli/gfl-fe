@@ -11,6 +11,8 @@ import {FormsModule} from "@angular/forms";
 import {SpinnerComponent} from "./components/spinner/spinner.component";
 import {SortableDirective} from "./directives/sortable.directive";
 import { RoleDescriptionPipe } from './pipes/role-description.pipe';
+import {FormValidationMessagesDirective} from "./directives/form-validation-messages/form-validation-messages.directive";
+import {ErrorsComponent} from "./components/errors/errors.component";
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { RoleDescriptionPipe } from './pipes/role-description.pipe';
     FileUploaderComponent,
     SpinnerComponent,
     SortableDirective,
+    FormValidationMessagesDirective,
+    ErrorsComponent,
     RoleDescriptionPipe
   ],
   exports: [
@@ -33,6 +37,8 @@ import { RoleDescriptionPipe } from './pipes/role-description.pipe';
     FileUploaderComponent,
     SpinnerComponent,
     SortableDirective,
+    FormValidationMessagesDirective,
+    ErrorsComponent,
     RoleDescriptionPipe
   ],
   imports: [

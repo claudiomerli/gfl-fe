@@ -7,12 +7,13 @@ import {UserService} from "../../../shared/services/user.service";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {ContentRules} from "../../../shared/model/content-rules";
-import {Content} from "../../../shared/model/content";
+import {Content, ContentLink} from "../../../shared/model/content";
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from "@angular/core";
 import {FormArray, FormBuilder, Validators} from "@angular/forms";
-import {Project} from "../../../shared/model/project";
+import {Project, ProjectContentPreview} from "../../../shared/model/project";
 import {ProjectService} from "../../../shared/services/project.service";
 import {filter} from "rxjs/operators";
+import {ActivatedRoute} from "@angular/router";
 
 export interface ContentSaveEvent {
   id?: number;
@@ -33,6 +34,7 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
     private userService: UserService,
     private newspaperService: NewspaperService,
     private projectService: ProjectService,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
@@ -84,7 +86,8 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
     deliveryDate: [null, Validators.required],
     contentStatus: [null],
     score: [null],
-    monthUse: [null]
+    monthUse: [null],
+    projectContentPreviewId: [null]
   });
 
   private inteval = 1000 * 60; // 1 minuto
@@ -101,7 +104,7 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
     zip(
       this.customerService.find("", PaginationDto.buildMaxValueOnePage()),
-      this.userService.find("", PaginationDto.buildMaxValueOnePage()),
+      this.userService.find("", '', PaginationDto.buildMaxValueOnePage()),
       this.newspaperService.find("", PaginationDto.buildMaxValueOnePage()),
       this.projectService.find("", PaginationDto.buildMaxValueOnePage())
     ).subscribe(results => {
@@ -117,9 +120,18 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
           this.customerContentRules = undefined
         }
       })
+      let previewId = this.activatedRoute.snapshot.queryParamMap.get('previewId');
+      if(previewId) {
+        this.projectService.getContentPreview(previewId).subscribe(contentPreview => {
+
+          this.patchValueToFormFromPreview(contentPreview);
+
+        });
+      }
+
 
       this.patchValueToForm(this.contentToUpdate as Content)
-    })
+    });
 
     this.contentForm.controls.projectId.valueChanges.subscribe(actualValue => {
       let selectedProject = this.projects$.getValue().find(value => value.id === actualValue);
@@ -140,7 +152,7 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
         id: this.id,
         value: this.contentForm.getRawValue(),
         noSendEmail: true
-      }))
+      }));
   }
 
   ngOnDestroy() {
@@ -163,7 +175,6 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
 
   patchValueToForm(content: Content) {
     if (content) {
-      console.log("AAAA", content)
       this.contentForm.patchValue({
         editorId: content.editor?.id,
         customerId: content.customer?.id,
@@ -203,6 +214,22 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
           })
         );
       });
+    }
+  }
+
+  patchValueToFormFromPreview(preview: ProjectContentPreview) {
+    if (preview) {
+      this.contentForm.patchValue({
+        projectId: preview.projectId,
+        newspaperId: preview.newspaper?.id,
+        contentRules: {
+          title: preview.title,
+          linkUrl: preview.linkUrl,
+          linkText: preview.linkText
+        },
+        monthUse: preview.monthUse,
+        projectContentPreviewId: preview.id
+      })
     }
   }
 

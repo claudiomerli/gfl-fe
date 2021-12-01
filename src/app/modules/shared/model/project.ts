@@ -1,10 +1,11 @@
 import {Customer} from "./customer";
 import {Newspaper} from "./newspaper";
 import {Validators} from "@angular/forms";
+import {User} from "./user";
 
 export enum ProjectStatus {
   CREATED = "Creato",
-  SENT = "Inviato al capo redattore",
+  ASSIGNED = "Inviato al capo redattore",
   WORKING = "In Lavorazione",
   TO_BE_PUBLISHED = "Da Pubblicare", // (quanto tutti gli articoli stanno in TO_BE_PUBLISHED)
   TERMINATED = "Terminato", // (quando tutti gli articoli stanno in PUBLISHED)
@@ -14,6 +15,7 @@ export enum ProjectStatus {
 export class ProjectContentPreview {
   contentId: number | undefined;
   id: number | undefined;
+  projectId: number | undefined;
   newspaper: Newspaper | undefined;
   monthUse: string | undefined;
   linkUrl: string | undefined;
@@ -31,6 +33,7 @@ export class Project {
   lastModifiedDate: string | undefined;
   status: ProjectStatus;
   projectContentPreviews: Array<ProjectContentPreview> | undefined;
+  chiefEditor: User | undefined;
 
   get nextState(): String | undefined {
     switch (this.status) {
@@ -50,8 +53,8 @@ export class Project {
   get nextStateProject(): String | undefined {
     switch (this.status) {
       case ProjectStatus.CREATED:
-        return ProjectStatus.SENT;
-      case ProjectStatus.SENT:
+        return ProjectStatus.ASSIGNED;
+      case ProjectStatus.ASSIGNED:
         return ProjectStatus.WORKING;
       case ProjectStatus.WORKING:
         return ProjectStatus.TO_BE_PUBLISHED;
@@ -73,5 +76,6 @@ export class Project {
     this.lastModifiedDate = item.lastModifiedDate;
     this.status = ProjectStatus[item.status as keyof typeof ProjectStatus]
     this.projectContentPreviews = item.projectContentPreviews;
+    this.chiefEditor = item.chiefEditor;
   }
 }

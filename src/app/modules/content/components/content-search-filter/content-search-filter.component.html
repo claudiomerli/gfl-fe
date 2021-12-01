@@ -1,7 +1,7 @@
 <div class="border rounded p-3">
   <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
     <div class="row">
-      <div class="col" *isAuthenticated="['ADMIN']">
+      <div class="col" *isAuthenticated="['ADMIN', 'CHIEF_EDITOR']">
         <label class="form-label">Cliente</label>
         <select formControlName="customerId" class="form-select">
           <option [ngValue]="null">Seleziona</option>
@@ -11,7 +11,7 @@
         </select>
       </div>
 
-      <div class="col" *isAuthenticated="['ADMIN']">
+      <div class="col" *isAuthenticated="['ADMIN', 'CHIEF_EDITOR']">
         <label class="form-label">Redattore</label>
         <select formControlName="editorId" class="form-select">
           <option [ngValue]="null">Seleziona</option>
@@ -21,7 +21,7 @@
         </select>
       </div>
 
-      <div class="col" *isAuthenticated="['ADMIN']">
+      <div class="col" *isAuthenticated="['ADMIN', 'CHIEF_EDITOR']">
         <label class="form-label">Testata</label>
         <select formControlName="newspaperId" class="form-select">
           <option [ngValue]="null">Seleziona</option>
@@ -31,7 +31,7 @@
         </select>
       </div>
 
-      <div class="col" *isAuthenticated="['ADMIN']">
+      <div class="col" *isAuthenticated="['ADMIN', 'CHIEF_EDITOR']">
         <label class="form-label">Progetto</label>
         <select formControlName="projectId" class="form-select">
           <option [ngValue]="null">Seleziona</option>

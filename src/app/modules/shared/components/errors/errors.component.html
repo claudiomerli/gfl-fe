@@ -1,0 +1,11 @@
+<div *ngIf="show()" class="alert-sm alert-danger">
+  <ng-container *ngIf="control?.errors?.required">
+    Il campo è obbligatorio
+  </ng-container>
+  <ng-container *ngIf="control?.errors?.email">
+    Le email devono essere così composte: xxx@yyy.zz
+  </ng-container>
+  <ng-container *ngIf="customValidatorMessage">
+    {{customValidatorMessage}}
+  </ng-container>
+</div>

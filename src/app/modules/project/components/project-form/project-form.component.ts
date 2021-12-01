@@ -4,9 +4,10 @@ import {Newspaper} from "../../../shared/model/newspaper";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CustomerService} from "../../../shared/services/customer.service";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
-import {Project} from "../../../shared/model/project";
+import {Project, ProjectContentPreview} from "../../../shared/model/project";
 import {NgxAutocompleteComponent} from "ngx-angular-autocomplete";
 import {ProjectService} from "../../../shared/services/project.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-project-form',
@@ -18,7 +19,8 @@ export class ProjectFormComponent implements OnInit, OnChanges {
   constructor(private formBuilder: FormBuilder,
               private customerService: CustomerService,
               private projectService: ProjectService,
-              private newspaperService: NewspaperService) {
+              private newspaperService: NewspaperService,
+              private router: Router) {
   }
 
   @Input() isEdit = false
@@ -50,6 +52,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
   aggiungiElemento(projectContentPreview?: any): FormGroup {
     return this.formBuilder.group({
       id: [projectContentPreview?.id],
+      contentId: [projectContentPreview?.contentId],
       newspaperId: [projectContentPreview?.newspaper.id, Validators.required],
       monthUse: [projectContentPreview?.monthUse, Validators.required],
       linkUrl: [projectContentPreview?.linkUrl, Validators.required],
@@ -126,4 +129,12 @@ export class ProjectFormComponent implements OnInit, OnChanges {
     return (this.form.get('projectContentPreviews') as FormArray).controls as FormControl[];
   }
 
+  gestisciRedazionale(item: ProjectContentPreview) {
+
+    if(item.contentId) {
+      this.router.navigate(["/contents/"+item.contentId]);
+    } else {
+      this.router.navigate(["/contents/create"], {queryParams: {previewId: item.id}});
+    }
+  }
 }

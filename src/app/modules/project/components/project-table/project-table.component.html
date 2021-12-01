@@ -5,8 +5,8 @@
     <th scope="col">Nome</th>
     <th scope="col">Cliente</th>
     <th scope="col">Stato</th>
+    <th scope="col">Capo Redattore</th>
     <th scope="col">Azioni</th>
-    <th scope="col">Progetti</th>
   </tr>
   </thead>
   <tbody>
@@ -16,26 +16,28 @@
     <td>{{project.name}}</td>
     <td>{{project.customer?.name}}</td>
     <td>{{project.status}}</td>
+    <td>{{project.chiefEditor?.fullname}}</td>
     <td>
       <button class="btn btn-primary btn-sm m-1" [routerLink]="['/projects',project.id]" title="Modifica progetto"
-              *ngIf="showEditButton">
+              *isAuthenticated="['ADMIN']">
         <i class="bi bi-pencil"></i>
       </button>
       <button class="btn btn-danger btn-sm m-1" title="Elimina progetto" (click)="delete.emit(project)"
-              *ngIf="showDeleteButton">
+              *isAuthenticated="['ADMIN']">
         <i class="bi bi-trash"></i>
       </button>
       <button class="btn btn-primary btn-sm m-1" (click)="apriDettaglioProgetto(project)" title="Dettaglio progetto">
         <i class="bi bi-search"></i>
       </button>
+      <button class="btn btn-primary btn-sm m-1" (click)="assegnaProgetto(project)" title="Assegna progetto" *isAuthenticated="['ADMIN']">
+        <i class="bi bi-arrow-right-square"></i>
+      </button>
+      <button class="btn btn-primary btn-sm m-1" [routerLink]="'/contents'" [queryParams]="{projectId: project?.id}" title="gestisci redazionali">
+        <i class="bi bi-file-earmark-text"></i>
+      </button>
       <button *ngIf="showChangeStatusButton && project.nextState && isInAvailableStatus(project)"
               class="btn btn-primary btn-sm m-1" (click)="changeStatus.emit(project)" title="Cambia stato">
         <i class="bi bi-gear"></i> Cambia stato
-      </button>
-    </td>
-    <td>
-      <button class="btn btn-primary" [routerLink]="'/contents'" [queryParams]="{projectId: project?.id}">Gestisci
-        redazionali
       </button>
     </td>
   </tr>
@@ -45,7 +47,7 @@
   <pagination-controls (pageChange)="pageChange.emit($event)"></pagination-controls>
 </div>
 
-<app-modal #modal [size]="modalSize" (close)="selectedProject = undefined">
+<app-modal #modal [size]="modalSizeXL" (close)="selectedProject = undefined">
   <div body>
     <div class="alert alert-warning" role="alert" *ngIf="!contents || contents.length == 0">
       Il progetto non ha articoli inseriti
@@ -54,8 +56,8 @@
       <ng-container *ngFor="let item of contents; let i = index;">
         <div class="row">
           <div class="col-2 d-flex align-items-center">
-            <button type="button" class="btn btn-primary btn-sm m-1" title="Assegna contenuto">
-              <i class="bi bi-person-check"></i> Assegna
+            <button type="button" class="btn btn-primary btn-sm m-1" title="Assegna contenuto" (click)="gestisciRedazionale(item)">
+              <i class="bi bi-file-earmark-text"></i> Gestisci redazionale
             </button>
           </div>
           <div class="col-10">
@@ -63,7 +65,7 @@
               <h2 class="accordion-header" id="heading{{i}}">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         [attr.data-bs-target]="'#collapse'+i" aria-expanded="false" [attr.aria-controls]="'collapse'+i">
-                  Articolo #{{i + 1}}
+                  {{item.title}}
                 </button>
               </h2>
               <div id="collapse{{i}}" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading'+i"
@@ -148,4 +150,25 @@
       </ng-container>
     </div>
   </div>
+</app-modal>
+
+<app-modal #modalAssegnazione [size]="modalSizeSM" (close)="ripulisciFormAssegnazione()" *isAuthenticated="['ADMIN']">
+    <div body>
+      <div class="alert alert-warning" role="alert" *ngIf="!listUtenti || listUtenti.length == 0">
+        Non ci sono capi redattore
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="utente" class="form-label">Capo Redattore</label>
+          <select name="utente" id="utente" class="form-select" [formControl]="userIdControl"  [validationMessage]="assegnazioneFormSubmitted">
+            <option value="">-- Seleziona un capo redattore</option>
+            <option *ngFor="let utente of listUtenti" value="{{utente.id}}">{{utente.fullname}}</option>
+          </select>
+          <app-errors [control]="assegnazioneForm?.controls?.userId" [formSubmitted]="assegnazioneFormSubmitted"></app-errors>
+        </div>
+      </div>
+    </div>
+    <div footer>
+      <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="assegna()">Assegna</button>
+    </div>
 </app-modal>

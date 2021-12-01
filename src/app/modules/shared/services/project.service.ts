@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {Project} from "../model/project";
+import {Project, ProjectContentPreview} from "../model/project";
 import {PaginationDto} from "../messages/pagination.dto";
 import {PageResponseDto} from "../messages/page-response.dto";
 import {map} from "rxjs/operators";
@@ -51,6 +51,12 @@ export class ProjectService {
   }
   public deleteContentPreview(id: number) {
     return this.httpClient.delete(environment.apiBaseurl + "/project/projectContentPreview/" + id);
+  }
+  public getContentPreview(id: string): Observable<ProjectContentPreview> {
+    return this.httpClient.get<ProjectContentPreview>(environment.apiBaseurl + "/project/projectContentPreview/" + id);
+  }
+  public assegnaCapoRedattore(projectID: number, userID: number) {
+    return this.httpClient.put(environment.apiBaseurl + "/project/"+ projectID+ "/assign-chief-editor", {id: userID});
   }
 
   changeStatus(project: Project) {

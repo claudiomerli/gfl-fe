@@ -43,7 +43,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   onPageChange(pageNumber: number, sortBy?: string, sortDirection?: string) {
     this.actualPageValue = pageNumber;
     this.userService
-      .find(this.globalSearch, new PaginationDto(this.actualPageValue - 1, undefined ,sortDirection, sortBy ))
+      .find(this.globalSearch,'', new PaginationDto(this.actualPageValue - 1, undefined ,sortDirection, sortBy ))
       .subscribe(res => {
         this.actualPage$.next(res);
       })
