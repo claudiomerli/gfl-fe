@@ -5,6 +5,9 @@
   <ng-container *ngIf="control?.errors?.email">
     Le email devono essere così composte: xxx@yyy.zz
   </ng-container>
+  <ng-container *ngIf="control?.errors?.minlength">
+    Sono necessari almeno {{control?.errors?.minlength.requiredLength}} caratteri
+  </ng-container>
   <ng-container *ngIf="customValidatorMessage">
     {{customValidatorMessage}}
   </ng-container>
