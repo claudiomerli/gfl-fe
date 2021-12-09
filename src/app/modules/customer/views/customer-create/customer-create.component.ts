@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {CustomerService} from "../../../shared/services/customer.service";
-import {SaveCustomerDto} from "../../../shared/messages/customer/save-customer.dto";
 
 @Component({
   selector: 'app-customer-create',
@@ -17,7 +16,7 @@ export class CustomerCreateComponent {
   ) {
   }
 
-  onSubmit($event: SaveCustomerDto) {
+  onSubmit($event: any) {
     this.onSaving = true
     this.customerService.save($event).subscribe(
       () => {

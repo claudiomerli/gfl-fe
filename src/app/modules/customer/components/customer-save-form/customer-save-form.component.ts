@@ -1,7 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {SaveCustomerDto} from "../../../shared/messages/customer/save-customer.dto";
-import {ContentRules} from "../../../shared/model/content-rules";
+import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {Customer} from "../../../shared/model/customer";
 import {ContentRulesService} from "../../../shared/services/content-rules.service";
 
@@ -13,19 +11,39 @@ import {ContentRulesService} from "../../../shared/services/content-rules.servic
 export class CustomerSaveFormComponent implements OnInit {
 
   @Input() onSaving = false;
+  @Input() isEdit = false;
   @Input() customerToEdit: Customer = new Customer()
-  @Output() formSubmit = new EventEmitter<SaveCustomerDto>();
+  @Output() formSubmit = new EventEmitter<any>();
 
-  saveCustomerForm = this.formBuilder.group({
-    name: this.formBuilder.control('', [Validators.required]),
+  passwordMatchesValidatorFunction: ValidatorFn = formGroup => {
+    let passwordValue = formGroup.get("password")?.value;
+    let repeatPasswordValue = formGroup.get("repeatPassword")?.value;
+
+    if ((passwordValue && repeatPasswordValue) && passwordValue != repeatPasswordValue) {
+      return {
+        "passwordMismatches": true
+      }
+    }
+    return null;
+  };
+
+  saveCustomerForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required]),
+    email: new FormControl('', []),
+    mobile: new FormControl('', []),
+    password: new FormControl('', [Validators.required]),
+    repeatPassword: new FormControl('', [Validators.required]),
+
     contentRules: this.formBuilder.group({
-      title: [''],
-      linkUrl: [''],
-      linkText: [''],
-      body: [''],
-      maxCharacterBodyLength: [undefined]
+      title: new FormControl(''),
+      linkUrl: new FormControl(''),
+      linkText: new FormControl(''),
+      body: new FormControl(''),
+      maxCharacterBodyLength: new FormControl(undefined)
     })
-  })
+  }, [this.passwordMatchesValidatorFunction])
+
 
   constructor(private contentRulesService: ContentRulesService, private formBuilder: FormBuilder) {
   }
@@ -35,7 +53,7 @@ export class CustomerSaveFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.formSubmit.emit(this.saveCustomerForm.value as SaveCustomerDto)
+    this.formSubmit.emit(this.saveCustomerForm.value)
   }
 
 }

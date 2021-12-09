@@ -13,7 +13,7 @@
               Home progetti
             </a>
           </li>
-          <li>
+          <li *isAuthenticated="['ADMIN']">
             <a routerLink="/projects/invoicing" class="nav-link text-white" routerLinkActive="active">
               <i class="bi bi-receipt d-block mx-auto mb-1"></i>
               Amministrazione
@@ -37,7 +37,7 @@
               Utenti
             </a>
           </li>
-          <li>
+          <li *isAuthenticated="['ADMIN']">
             <a routerLink="/customer" class="nav-link text-white" routerLinkActive="active">
               <i class="bi bi-person-badge d-block mx-auto mb-1"></i>
               Clienti

@@ -22,6 +22,11 @@ export class UserUpdateFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.editUserForm.patchValue(this.userToEdit)
+
+    if (this.userToEdit.role == "CUSTOMER") {
+      this.editUserForm.controls.role.disable();
+    }
+
   }
 
   passwordMatchesValidatorFunction: ValidatorFn = formGroup => {

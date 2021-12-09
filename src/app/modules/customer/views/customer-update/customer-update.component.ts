@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Customer} from "../../../shared/model/customer";
 import {ActivatedRoute, Router} from "@angular/router";
-import {SaveCustomerDto} from "../../../shared/messages/customer/save-customer.dto";
 import {CustomerService} from "../../../shared/services/customer.service";
 
 @Component({
@@ -35,7 +34,7 @@ export class CustomerUpdateComponent implements OnInit {
       })
   }
 
-  onSubmit($event: SaveCustomerDto) {
+  onSubmit($event: any) {
     this.onSaving = true
     if (this.customerToUpdate?.id) {
       this.customerService

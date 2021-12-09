@@ -3,7 +3,8 @@
     Modifica cliente
   </div>
   <app-customer-save-form *ngIf="customerToUpdate"
-                           [customerToEdit]="customerToUpdate"
-                           (formSubmit)="onSubmit($event)"
-                           [onSaving]="onSaving"></app-customer-save-form>
+                          [customerToEdit]="customerToUpdate"
+                          (formSubmit)="onSubmit($event)"
+                          [isEdit]="true"
+                          [onSaving]="onSaving"></app-customer-save-form>
 </div>

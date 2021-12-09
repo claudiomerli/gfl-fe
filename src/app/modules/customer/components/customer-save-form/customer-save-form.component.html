@@ -5,6 +5,33 @@
         <label>Nome</label>
         <input class="form-control" type="text" id="name" formControlName="name" value="">
       </div>
+      <div class="card my-3" *ngIf="!isEdit">
+        <div class="card-title">
+          Creazione utente
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Username</label>
+            <input class="form-control" type="text" id="username" formControlName="username">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input class="form-control" type="text" id="email" formControlName="email">
+          </div>
+          <div class="form-group">
+            <label>Mobile</label>
+            <input class="form-control" type="text" id="mobile" formControlName="mobile">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input class="form-control" type="text" id="password" formControlName="password">
+          </div>
+          <div class="form-group">
+            <label>Ripeti Password</label>
+            <input class="form-control" type="text" id="repeatPassword" formControlName="repeatPassword">
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col" formGroupName="contentRules">
       <div>
@@ -30,9 +57,10 @@
       </div>
     </div>
   </div>
+
   <div class="row">
     <div class="col">
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" class="btn btn-primary" [disabled]="this.saveCustomerForm.invalid">
         <i class="bi bi-save"></i>
         Salva
       </button>

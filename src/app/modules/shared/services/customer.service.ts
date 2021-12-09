@@ -3,7 +3,6 @@ import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Customer} from "../model/customer";
-import {SaveCustomerDto} from "../messages/customer/save-customer.dto";
 import {PageResponseDto} from "../messages/page-response.dto";
 import {PaginationDto} from "../messages/pagination.dto";
 import {Project} from "../model/project";
@@ -16,11 +15,11 @@ export class CustomerService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public save(saveNewspaperDto: SaveCustomerDto): Observable<void> {
+  public save(saveNewspaperDto: any): Observable<void> {
     return this.httpClient.post<void>(environment.apiBaseurl + "/customer", saveNewspaperDto)
   }
 
-  public update(id: number, editNewspaperDto: SaveCustomerDto): Observable<void> {
+  public update(id: number, editNewspaperDto: any): Observable<void> {
     return this.httpClient.put<void>(environment.apiBaseurl + "/customer/" + id, editNewspaperDto)
   }
 
