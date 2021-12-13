@@ -35,7 +35,7 @@ export class ProjectEditComponent implements OnInit {
   submit(value: any) {
     if (value && this.project?.id) {
       this.projectService.update(this.project?.id, value)
-        .subscribe(() => this.router.navigate(["/projects"]));
+        .subscribe(() => this.router.navigate(["/projects/home"]));
     }
   }
 

@@ -3,9 +3,9 @@ import {AuthService} from "../services/auth.service";
 import {Subscription} from "rxjs";
 
 @Directive({
-  selector: '[isAuthenticated]'
+  selector: '[isNotInRole]'
 })
-export class IsAuthenticatedDirective implements OnInit, OnDestroy {
+export class IsNotInRoleDirective implements OnInit, OnDestroy {
 
   private hasView = false;
   private requiredRoles: string[] = []
@@ -15,7 +15,7 @@ export class IsAuthenticatedDirective implements OnInit, OnDestroy {
               private viewContainer: ViewContainerRef) {
   }
 
-  @Input() set isAuthenticated(roles: string[] | '') {
+  @Input() set isNotInRole(roles: string[] | '') {
     this.requiredRoles = roles == '' ? [] : roles
   }
 
@@ -26,7 +26,7 @@ export class IsAuthenticatedDirective implements OnInit, OnDestroy {
         if (user) {
           if (this.requiredRoles.length == 0) {
             this.show();
-          } else if (user.role && this.requiredRoles.includes(user.role)) {
+          } else if (user.role && !this.requiredRoles.includes(user.role)) {
             this.show();
           } else {
             this.hide();

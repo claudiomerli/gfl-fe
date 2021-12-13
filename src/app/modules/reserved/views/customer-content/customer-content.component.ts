@@ -45,7 +45,7 @@ export class CustomerContentComponent implements OnInit {
 
   saveNotes() {
     if (this.id && this.contentToken && this.notes) {
-      this.contentService.saveNotes(this.id, this.notes, this.contentToken).subscribe(() => {
+      this.contentService.saveNotes_old(this.id, this.notes, this.contentToken).subscribe(() => {
         this.loadContent();
       })
     }
@@ -53,7 +53,7 @@ export class CustomerContentComponent implements OnInit {
 
   approve() {
     if (this.id && this.contentToken) {
-      this.contentService.approveContentCustomer(this.id, this.contentToken).subscribe(() => {
+      this.contentService.approveContentCustomer_old(this.id, this.contentToken).subscribe(() => {
         this.loadContent();
       })
     }

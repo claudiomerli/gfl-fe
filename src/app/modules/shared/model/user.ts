@@ -1,3 +1,5 @@
+import {Customer} from "./customer";
+
 export class User {
 
   id: number | undefined;
@@ -9,5 +11,6 @@ export class User {
   level : string | undefined;
   remuneration : string | undefined;
   role : "ADMIN" | "CHIEF_EDITOR" | "EDITOR" | "CUSTOMER" | undefined;
+  customer: Customer | undefined;
 
 }

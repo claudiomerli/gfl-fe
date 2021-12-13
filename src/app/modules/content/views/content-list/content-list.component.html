@@ -44,11 +44,13 @@
         <td class="text-center">
           <button class="btn btn-light mx-1" (click)="showDetail(item)"><em class="bi bi-search"></em></button>
           <a class="btn btn-warning mx-1" [routerLink]="[item.id]"><em class="bi bi-pencil"></em></a>
-          <button class="btn btn-danger mx-1" (click)="delete(item.id)" *isAuthenticated="['ADMIN']"><em
-            class="bi bi-trash"></em></button>
-          <button *ngIf="item?.nextProjectStatus" class="btn btn-primary btn-sm m-1" (click)="changeProjectStatus(item)" title="Cambia stato progetto">
-            <i class="bi bi-gear"></i> Cambia stato progetto
-          </button>
+          <ng-container *isAuthenticated="['ADMIN', 'CHIEF_EDITOR']">
+            <button class="btn btn-danger mx-1" (click)="delete(item.id)" *isAuthenticated="['ADMIN']"><em
+              class="bi bi-trash"></em></button>
+            <button *ngIf="item?.nextProjectStatus" class="btn btn-primary btn-sm m-1" (click)="changeProjectStatus(item)" title="Cambia stato progetto">
+              <i class="bi bi-gear"></i> Cambia stato progetto
+            </button>
+          </ng-container>
         </td>
       </tr>
       </tbody>
@@ -63,109 +65,146 @@
   <div body>
     <dl *ngIf="selectedContent" class="row">
 
-      <dt class="col-sm-3">title</dt>
+      <dt class="col-sm-3">Titolo</dt>
       <dd class="col-sm-9" [innerHTML]="selectedContent.title"></dd>
 
-      <dt class="col-sm-3">newspaper</dt>
+      <dt class="col-sm-3">Testata</dt>
       <dd class="col-sm-9" [innerHTML]="selectedContent.newspaper?.name"></dd>
 
-      <dt class="col-sm-3">customer</dt>
+      <dt class="col-sm-3">Cliente</dt>
       <dd class="col-sm-9" [innerHTML]="selectedContent.customer?.name"></dd>
 
-      <dt class="col-sm-3">project</dt>
+      <dt class="col-sm-3">Progetto</dt>
       <dd class="col-sm-9" [innerHTML]="selectedContent.project?.name"></dd>
 
-      <dt class="col-sm-3">editor</dt>
+      <dt class="col-sm-3">Redattore</dt>
       <dd class="col-sm-9">
         <dl class="row">
-          <dt class="col-sm-4 text-break">fullname</dt>
+          <dt class="col-sm-4 text-break">Nominativo</dt>
           <dd class="col-sm-8">{{selectedContent.editor?.fullname}}</dd>
-          <dt class="col-sm-4 text-break">email</dt>
+          <dt class="col-sm-4 text-break" *ngIf="selectedContent.editor?.email">Email</dt>
           <dd class="col-sm-8">{{selectedContent.editor?.email}}</dd>
-          <dt class="col-sm-4 text-break">mobilePhone</dt>
+          <dt class="col-sm-4 text-break" *ngIf="selectedContent.editor?.mobilePhone">Cellulare</dt>
           <dd class="col-sm-8">{{selectedContent.editor?.mobilePhone}}</dd>
         </dl>
       </dd>
 
-      <dt class="col-sm-3">contentStatus</dt>
+      <dt class="col-sm-3">Stato di lavorazione</dt>
       <dd class="col-sm-9" [innerHTML]="selectedContent.contentStatus | statusLabel"></dd>
 
-      <dt class="col-sm-3">createdDate</dt>
-      <dd class="col-sm-9" [innerHTML]="selectedContent.createdDate | date"></dd>
+      <dt class="col-sm-3">Creato il</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.createdDate | date: 'dd/MM/yyyy'"></dd>
 
-      <dt class="col-sm-3">lastModifiedDate</dt>
-      <dd class="col-sm-9" [innerHTML]="selectedContent.lastModifiedDate | date"></dd>
+      <dt class="col-sm-3">Ultima modifica</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.lastModifiedDate | date: 'dd/MM/yyyy'"></dd>
 
-      <dt class="col-sm-3">deliveryDate</dt>
-      <dd class="col-sm-9" [innerHTML]="selectedContent.deliveryDate | date"></dd>
+      <dt class="col-sm-3">Data di consegna</dt>
+      <dd class="col-sm-9" [innerHTML]="selectedContent.deliveryDate | date: 'dd/MM/yyyy'"></dd>
 
-      <dt class="col-sm-3">links</dt>
-      <dd class="col-sm-9">
-        <ul class="m-0 p-0" style="list-style: none;">
-          <li *ngFor="let link of selectedContent.links">
-            <a [href]="link.linkUrl">{{link.linkText}}</a>
-          </li>
-        </ul>
-      </dd>
+      <ng-container *ngIf="selectedContent.links && selectedContent.links.length>0">
+        <dt class="col-sm-3">Links</dt>
+        <dd class="col-sm-9">
+          <ul class="m-0 p-0" style="list-style: none;">
+            <li *ngFor="let link of selectedContent.links">
+              <a [href]="link.linkUrl">{{link.linkText}}</a>
+            </li>
+          </ul>
+        </dd>
+      </ng-container>
 
-      <dt class="col-sm-3">body</dt>
+      <dt class="col-sm-3">Contenuto</dt>
       <dd class="col-sm-9 border p-1" [innerHTML]="selectedContent.body"></dd>
 
-      <dt class="col-sm-3">monthUse</dt>
+      <dt class="col-sm-3">Mese di utilizzo</dt>
       <dd class="col-sm-9" [innerHTML]="selectedContent.monthUse"></dd>
 
-      <dt class="col-sm-3">score</dt>
-      <dd class="col-sm-9" [innerHTML]="selectedContent.score"></dd>
+      <ng-container *ngIf="selectedContent.score">
+        <dt class="col-sm-3">Punteggio</dt>
+        <dd class="col-sm-9" [innerHTML]="selectedContent.score"></dd>
+      </ng-container>
 
-      <dt class="col-sm-3">customerNotes</dt>
-      <dd class="col-sm-9 border p-1" [innerHTML]="selectedContent.customerNotes"></dd>
+      <dt class="col-sm-3">Note del cliente</dt>
+      <ng-container *isAuthenticated="['CUSTOMER']">
+        <dd class="col-sm-7 border p-1">
+            <textarea class="form-control" type="text" rows="5" [(ngModel)]="noteDelCliente"></textarea>
+        </dd>
+        <dd class="col-sm-2 p-1">
+          <button class="btn btn-primary me-3" type="button" (click)="inserisciNote()">Inserisci note</button>
+        </dd>
+      </ng-container>
+      <ng-container *isNotInRole="['CUSTOMER']">
+        <dd class="col-sm-9 border p-1">{{selectedContent.customerNotes}}</dd>
+      </ng-container>
 
-      <dt class="col-sm-3">adminNotes</dt>
-      <dd class="col-sm-9 border p-1">{{selectedContent.adminNotes}}</dd>
+      <ng-container *ngIf="selectedContent.adminNotes">
+        <dt class="col-sm-3">Note dell'amministratore</dt>
+        <dd class="col-sm-9 border p-1">{{selectedContent.adminNotes}}</dd>
+      </ng-container>
 
-      <dt class="col-sm-3">contentRules</dt>
+      <ng-container *ngIf="selectedContent.contentRules">
+        <dt class="col-sm-3">Regole dell'articolo</dt>
+        <dd class="col-sm-9">
+          <dl class="row">
+            <ng-container *ngIf="selectedContent.contentRules?.title">
+              <dt class="col-sm-4 text-break">Titolo</dt>
+              <dd class="col-sm-8">{{selectedContent.contentRules?.title}}</dd>
+            </ng-container>
+            <ng-container *ngIf="selectedContent.contentRules?.body">
+              <dt class="col-sm-4 text-break">Contenuto</dt>
+              <dd class="col-sm-8">{{selectedContent.contentRules?.body}}</dd>
+            </ng-container>
+            <ng-container *ngIf="selectedContent.contentRules?.linkUrl">
+              <dt class="col-sm-4 text-break">Url</dt>
+              <dd class="col-sm-8">{{selectedContent.contentRules?.linkUrl}}</dd>
+            </ng-container>
+            <ng-container *ngIf="selectedContent.contentRules?.linkText">
+              <dt class="col-sm-4 text-break">Testo dell'url</dt>
+              <dd class="col-sm-8">{{selectedContent.contentRules?.linkText}}</dd>
+            </ng-container>
+            <ng-container *ngIf="selectedContent.contentRules?.maxCharacterBodyLength">
+              <dt class="col-sm-4 text-break">Caratteri</dt>
+              <dd class="col-sm-8">{{selectedContent.contentRules?.maxCharacterBodyLength}}</dd>
+            </ng-container>
+          </dl>
+        </dd>
+      </ng-container>
+
+      <dt class="col-sm-3">Regole</dt>
       <dd class="col-sm-9">
         <dl class="row">
-          <dt class="col-sm-4 text-break">title</dt>
-          <dd class="col-sm-8">{{selectedContent.contentRules?.title}}</dd>
-          <dt class="col-sm-4 text-break">body</dt>
-          <dd class="col-sm-8">{{selectedContent.contentRules?.body}}</dd>
-          <dt class="col-sm-4 text-break">linkUrl</dt>
-          <dd class="col-sm-8">{{selectedContent.contentRules?.linkUrl}}</dd>
-          <dt class="col-sm-4 text-break">linkText</dt>
-          <dd class="col-sm-8">{{selectedContent.contentRules?.linkText}}</dd>
-          <dt class="col-sm-4 text-break">maxCharacterBodyLength</dt>
-          <dd class="col-sm-8">{{selectedContent.contentRules?.maxCharacterBodyLength}}</dd>
-        </dl>
-      </dd>
-      <dt class="col-sm-3">ruleSatisfation</dt>
-      <dd class="col-sm-9">
-        <dl class="row">
-          <dt *ngIf="!selectedContent.ruleSatisfation?.characterSatisfied" class="col-sm-4 text-break">characterError
+          <dt *ngIf="!selectedContent.ruleSatisfation?.characterSatisfied" class="col-sm-4 text-break">Numero di caratteri
           </dt>
           <dd *ngIf="!selectedContent.ruleSatisfation?.characterSatisfied"
               class="col-sm-8">{{selectedContent.ruleSatisfation?.characterError}}</dd>
           <dt *ngIf="!selectedContent.ruleSatisfation?.expirationDateOneDaySatisfied" class="col-sm-4 text-break">
-            expirationDateOneDayError
+            Data di scadenza
           </dt>
           <dd *ngIf="!selectedContent.ruleSatisfation?.expirationDateOneDaySatisfied"
               class="col-sm-8">{{selectedContent.ruleSatisfation?.expirationDateOneDayError}}</dd>
           <dt *ngIf="!selectedContent.ruleSatisfation?.expirationDatePlusThenOneDaySatisfied"
-              class="col-sm-4 text-break">expirationDatePlusThenOneDayError
+              class="col-sm-4 text-break">Data di scadenza
           </dt>
           <dd *ngIf="!selectedContent.ruleSatisfation?.expirationDatePlusThenOneDaySatisfied"
               class="col-sm-8">{{selectedContent.ruleSatisfation?.expirationDatePlusThenOneDayError}}</dd>
-          <dt *ngIf="!selectedContent.ruleSatisfation?.titleSatisfied" class="col-sm-4 text-break">titleError</dt>
+          <dt *ngIf="!selectedContent.ruleSatisfation?.titleSatisfied" class="col-sm-4 text-break">Titolo</dt>
           <dd *ngIf="!selectedContent.ruleSatisfation?.titleSatisfied"
               class="col-sm-8">{{selectedContent.ruleSatisfation?.titleError}}</dd>
-          <dt *ngIf="!selectedContent.ruleSatisfation?.linkTextSatisfied" class="col-sm-4 text-break">linkTextError</dt>
+          <dt *ngIf="!selectedContent.ruleSatisfation?.linkTextSatisfied" class="col-sm-4 text-break">Testo dell'url</dt>
           <dd *ngIf="!selectedContent.ruleSatisfation?.linkTextSatisfied"
               class="col-sm-8">{{selectedContent.ruleSatisfation?.linkTextError}}</dd>
-          <dt *ngIf="!selectedContent.ruleSatisfation?.linkUrlSatisfied" class="col-sm-4 text-break">linkUrlError</dt>
+          <dt *ngIf="!selectedContent.ruleSatisfation?.linkUrlSatisfied" class="col-sm-4 text-break">Url</dt>
           <dd *ngIf="!selectedContent.ruleSatisfation?.linkUrlSatisfied"
               class="col-sm-8">{{selectedContent.ruleSatisfation?.linkUrlError}}</dd>
         </dl>
       </dd>
     </dl>
+  </div>
+  <div footer *isAuthenticated="['CUSTOMER']">
+    <button class="btn btn-primary me-3" type="button" (click)="exportPdf()">Export PDF</button>
+    <button class="btn btn-primary me-3" type="button" (click)="exportDocx()">Export DOCX</button>
+    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="approva()">
+      <i class="bi bi-hand-thumbs-up"></i>
+      Approva articolo
+    </button>
   </div>
 </app-modal>

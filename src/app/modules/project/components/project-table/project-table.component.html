@@ -5,7 +5,7 @@
     <th scope="col">Nome</th>
     <th scope="col">Cliente</th>
     <th scope="col">Stato</th>
-    <th scope="col">Capo Redattore</th>
+    <th scope="col" *isAuthenticated="['ADMIN', 'CHIEF_EDITOR']">Capo Redattore</th>
     <th scope="col">Azioni</th>
   </tr>
   </thead>
@@ -16,10 +16,10 @@
     <td>{{project.name}}</td>
     <td>{{project.customer?.name}}</td>
     <td>{{project.status}}</td>
-    <td>{{project.chiefEditor?.fullname}}</td>
+    <td *isAuthenticated="['ADMIN', 'CHIEF_EDITOR']">{{project.chiefEditor?.fullname}}</td>
     <td>
       <button class="btn btn-primary btn-sm m-1" [routerLink]="['/projects',project.id]" title="Modifica progetto"
-              *isAuthenticated="['ADMIN']">
+              *isAuthenticated="['ADMIN', 'CUSTOMER']">
         <i class="bi bi-pencil"></i>
       </button>
       <button class="btn btn-danger btn-sm m-1" title="Elimina progetto" (click)="delete.emit(project)"
@@ -35,10 +35,12 @@
       <button class="btn btn-primary btn-sm m-1" [routerLink]="'/contents'" [queryParams]="{projectId: project?.id}" title="gestisci redazionali">
         <i class="bi bi-file-earmark-text"></i>
       </button>
-      <button *ngIf="showChangeStatusButton && project.nextState && isInAvailableStatus(project)"
-              class="btn btn-primary btn-sm m-1" (click)="changeStatus.emit(project)" title="Cambia stato">
-        <i class="bi bi-gear"></i> Cambia stato
-      </button>
+      <ng-container *isAuthenticated="['ADMIN']">
+        <button *ngIf="showChangeStatusButton && project.nextState && isInAvailableStatus(project)"
+                class="btn btn-primary btn-sm m-1" (click)="changeStatus.emit(project)" title="Cambia stato">
+          <i class="bi bi-gear"></i> Cambia stato
+        </button>
+      </ng-container>
     </td>
   </tr>
   </tbody>
@@ -55,7 +57,7 @@
     <div class="accordion" id="accordionExample" *ngIf="contents && contents.length > 0">
       <ng-container *ngFor="let item of contents; let i = index;">
         <div class="row">
-          <div class="col-2 d-flex align-items-center">
+          <div class="col-2 d-flex align-items-center" *isAuthenticated="['ADMIN']">
             <button type="button" class="btn btn-primary btn-sm m-1" title="Assegna contenuto" (click)="gestisciRedazionale(item)">
               <i class="bi bi-file-earmark-text"></i> Gestisci redazionale
             </button>

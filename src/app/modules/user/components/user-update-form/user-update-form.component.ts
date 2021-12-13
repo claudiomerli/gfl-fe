@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {User} from "../../../shared/model/user";
 import {EditUserDto} from "../../../shared/messages/users/edit-user.dto";
 
@@ -29,17 +29,13 @@ export class UserUpdateFormComponent implements OnInit {
 
   }
 
-  passwordMatchesValidatorFunction: ValidatorFn = formGroup => {
-    let passwordValue = formGroup.get("password")?.value;
-    let repeatePasswordValue = formGroup.get("repeatePassword")?.value;
-
-    if ((passwordValue && repeatePasswordValue) && passwordValue != repeatePasswordValue) {
-      return {
-        "passwordMismatches": true
-      }
+  passwordMatchesValidatorFunction(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      let passwordValue = this.editUserForm.controls.password?.value;
+      let repeatPasswordValue = control.value;
+      return (passwordValue && repeatPasswordValue) && passwordValue != repeatPasswordValue
+        ? {repeatPassword: {value: control.value, messaggio: 'Le password non corrispondono'}} : null;
     }
-
-    return null;
   };
 
   editUserForm = new FormGroup({
@@ -50,27 +46,31 @@ export class UserUpdateFormComponent implements OnInit {
     remuneration: new FormControl(''),
     role: new FormControl(null, [Validators.required]),
 
-    password: new FormControl('',),
-    repeatePassword: new FormControl('',)
-  }, [this.passwordMatchesValidatorFunction])
+    password: new FormControl(''),
+    repeatPassword: new FormControl('')
+  });
+  formSubmitted: boolean = false;
 
   togglePassword($event: any) {
     this.showChangePassword = $event.target.checked;
     if (this.showChangePassword) {
       this.editUserForm.controls.password.setValidators([Validators.required, Validators.minLength(8)])
-      this.editUserForm.controls.repeatePassword.setValidators([Validators.required, Validators.minLength(8)])
+      this.editUserForm.controls.repeatPassword.setValidators([this.passwordMatchesValidatorFunction()])
     } else {
-      this.editUserForm.patchValue({password: '', repeatePassword: ''})
+      this.editUserForm.patchValue({password: '', repeatPassword: ''})
       this.editUserForm.controls.password.clearValidators()
-      this.editUserForm.controls.repeatePassword.clearValidators()
+      this.editUserForm.controls.repeatPassword.clearValidators()
     }
 
     this.editUserForm.controls.password.updateValueAndValidity()
-    this.editUserForm.controls.repeatePassword.updateValueAndValidity()
+    this.editUserForm.controls.repeatPassword.updateValueAndValidity()
   }
 
   onSubmit() {
-    this.formSubmit.emit(this.editUserForm.value as EditUserDto)
+    this.formSubmitted = true;
+    if(this.editUserForm.valid) {
+      this.formSubmit.emit(this.editUserForm.value as EditUserDto);
+    }
   }
 
 }

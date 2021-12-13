@@ -8,6 +8,7 @@ import {Project, ProjectContentPreview} from "../../../shared/model/project";
 import {NgxAutocompleteComponent} from "ngx-angular-autocomplete";
 import {ProjectService} from "../../../shared/services/project.service";
 import {Router} from "@angular/router";
+import {AuthService} from "../../../shared/services/auth.service";
 
 @Component({
   selector: 'app-project-form',
@@ -20,6 +21,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
               private customerService: CustomerService,
               private projectService: ProjectService,
               private newspaperService: NewspaperService,
+              private authService: AuthService,
               private router: Router) {
   }
 
@@ -35,9 +37,11 @@ export class ProjectFormComponent implements OnInit, OnChanges {
   customerList: (Customer | undefined)[] = [];
   newspaperList: (Newspaper | undefined)[] = [];
 
+  formSubmitted: boolean = false;
+
   form = this.formBuilder.group({
     name: ['', Validators.required],
-    customerId: ['', Validators.required],
+    customerId: [this.authService.getCurrentUserFromLocalStorage()?.customer ? this.authService.getCurrentUserFromLocalStorage()?.customer?.id : '', Validators.required],
     projectContentPreviews: this.formBuilder.array([])
   });
 
@@ -53,7 +57,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
     return this.formBuilder.group({
       id: [projectContentPreview?.id],
       contentId: [projectContentPreview?.contentId],
-      newspaperId: [projectContentPreview?.newspaper.id, Validators.required],
+      newspaperId: [projectContentPreview ? projectContentPreview?.newspaper.id : '', Validators.required],
       monthUse: [projectContentPreview?.monthUse, Validators.required],
       linkUrl: [projectContentPreview?.linkUrl, Validators.required],
       linkText: [projectContentPreview?.linkText, Validators.required],
@@ -121,8 +125,11 @@ export class ProjectFormComponent implements OnInit, OnChanges {
     this.form.patchValue({newspaperId: newspaperSelected.id});
   }
 
-  onSumbit() {
-    this.submitForm.emit(this.form.value)
+  onSubmit() {
+    this.formSubmitted = true;
+    if(this.form.valid) {
+      this.submitForm.emit(this.form.value);
+    }
   }
 
   get controls(): FormControl[] {
@@ -137,4 +144,9 @@ export class ProjectFormComponent implements OnInit, OnChanges {
       this.router.navigate(["/contents/create"], {queryParams: {previewId: item.id}});
     }
   }
+
+  getCurrentCustomer(): string | undefined {
+    return this.authService.getCurrentUserFromLocalStorage()?.customer?.name;
+  }
+
 }

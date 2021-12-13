@@ -22,6 +22,7 @@
           <option [ngValue]="'ADMIN'">Admin</option>
           <option [ngValue]="'CHIEF_EDITOR'">Capo redattore</option>
           <option [ngValue]="'EDITOR'">Redattore</option>
+          <option [ngValue]="'CUSTOMER'">Cliente</option>
         </select>
         <app-errors [control]="createUserForm.controls.role"[formSubmitted]="formSubmitted"></app-errors>
       </div>
@@ -67,20 +68,18 @@
       </div>
     </div>
   </fieldset>
-<!--  <div class="d-flex align-content-center">-->
-    <div class="btn-toolbar mt-2 justify-content-center" role="toolbar" aria-label="Toolbar with button groups">
-      <div class="btn-group me-2" role="group" aria-label="First group">
-        <button class="btn btn-primary" type="submit" [disabled]="onSaving">
-          <i class="bi bi-save"></i>
-          Salva
-        </button>
-      </div>
-      <div class="btn-group me-2" role="group" aria-label="Second group">
-        <button class="btn btn-secondary" type="reset" [disabled]="onSaving">
-          <i class="bi bi-eraser"></i>
-          Cancella
-        </button>
-      </div>
+  <div class="btn-toolbar mt-2 justify-content-center" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="btn-group me-2" role="group" aria-label="First group">
+      <button class="btn btn-primary" type="submit" [disabled]="onSaving">
+        <i class="bi bi-save"></i>
+        Salva
+      </button>
     </div>
-<!--  </div>-->
+    <div class="btn-group me-2" role="group" aria-label="Second group">
+      <button class="btn btn-secondary" type="reset" [disabled]="onSaving">
+        <i class="bi bi-eraser"></i>
+        Cancella
+      </button>
+    </div>
+  </div>
 </form>

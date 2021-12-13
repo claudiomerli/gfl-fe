@@ -8,6 +8,7 @@ import {SearchContentDto} from "../../../shared/messages/search-content.dto";
 import {ModalComponent, ModalSize} from "../../../shared/components/modal/modal.component";
 import {ActivatedRoute} from "@angular/router";
 import {SortEvent} from "../../../shared/directives/sortable.directive";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-content-list',
@@ -26,6 +27,7 @@ export class ContentListComponent implements OnInit {
   modalSize = ModalSize.XL
 
   selectedContent?: Content;
+  noteDelCliente: string | undefined = "";
 
   constructor(private contentService: ContentService, private activatedRoute: ActivatedRoute) {
   }
@@ -67,7 +69,7 @@ export class ContentListComponent implements OnInit {
 
   showDetail(item: Content) {
     this.selectedContent = item;
-    console.log(item)
+    this.noteDelCliente = item.customerNotes;
     if (this.modal) {
       this.modal.open(`Articolo: ${item.title}`);
     }
@@ -82,5 +84,33 @@ export class ContentListComponent implements OnInit {
 
   onSort($event: SortEvent) {
     this.onPageChange(this.actualPageValue, $event.column, $event.direction);
+  }
+
+  approva() {
+    if (this.selectedContent && this.selectedContent.id) {
+      this.contentService.approveContentCustomer(this.selectedContent.id).subscribe(() => {})
+    }
+  }
+
+  exportDocx() {
+    if (this.selectedContent)
+      this.contentService.exportDocx(this.selectedContent.id)
+        .subscribe((blob) => {
+          saveAs(blob.body as Blob, this.selectedContent?.title + ".docx")
+        })
+  }
+  exportPdf() {
+    if (this.selectedContent)
+      this.contentService.exportPdf(this.selectedContent.id)
+        .subscribe((blob) => {
+          saveAs(blob.body as Blob, this.selectedContent?.title + ".pdf")
+        })
+  }
+
+  inserisciNote() {
+    if (this.selectedContent && this.selectedContent.id && this.noteDelCliente) {
+      this.contentService.saveNotes(this.selectedContent.id, this.noteDelCliente).subscribe(() => {})
+    }
+
   }
 }

@@ -1,5 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from "@angular/forms";
 import {Customer} from "../../../shared/model/customer";
 import {ContentRulesService} from "../../../shared/services/content-rules.service";
 
@@ -14,27 +22,15 @@ export class CustomerSaveFormComponent implements OnInit {
   @Input() isEdit = false;
   @Input() customerToEdit: Customer = new Customer()
   @Output() formSubmit = new EventEmitter<any>();
-
-  passwordMatchesValidatorFunction: ValidatorFn = formGroup => {
-    let passwordValue = formGroup.get("password")?.value;
-    let repeatPasswordValue = formGroup.get("repeatPassword")?.value;
-
-    if ((passwordValue && repeatPasswordValue) && passwordValue != repeatPasswordValue) {
-      return {
-        "passwordMismatches": true
-      }
-    }
-    return null;
-  };
+  formSubmitted: boolean = false;
 
   saveCustomerForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     username: new FormControl('', [Validators.required]),
-    email: new FormControl('', []),
+    email: new FormControl('', [Validators.email]),
     mobile: new FormControl('', []),
-    password: new FormControl('', [Validators.required]),
-    repeatPassword: new FormControl('', [Validators.required]),
-
+    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    repeatPassword: new FormControl('', [Validators.required, this.passwordMatchesValidatorFunction()]),
     contentRules: this.formBuilder.group({
       title: new FormControl(''),
       linkUrl: new FormControl(''),
@@ -42,7 +38,7 @@ export class CustomerSaveFormComponent implements OnInit {
       body: new FormControl(''),
       maxCharacterBodyLength: new FormControl(undefined)
     })
-  }, [this.passwordMatchesValidatorFunction])
+  })
 
 
   constructor(private contentRulesService: ContentRulesService, private formBuilder: FormBuilder) {
@@ -53,7 +49,17 @@ export class CustomerSaveFormComponent implements OnInit {
   }
 
   onSubmit() {
+    this.formSubmitted = true;
     this.formSubmit.emit(this.saveCustomerForm.value)
   }
+
+  passwordMatchesValidatorFunction(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      let passwordValue = this.saveCustomerForm?.controls.password?.value;
+      let repeatPasswordValue = control.value;
+      return (passwordValue && repeatPasswordValue) && passwordValue != repeatPasswordValue
+        ? {repeatPassword: {value: control.value, messaggio: 'Le password non corrispondono'}} : null;
+    }
+  };
 
 }

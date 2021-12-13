@@ -284,8 +284,8 @@
         Consegna
       </button>
     </ng-container>
-    <button class="btn btn-primary me-3" type="button" (click)="copyCustomerLink()" *ngIf="onEdit">Copia Link Cliente
-    </button>
+<!--    <button class="btn btn-primary me-3" type="button" (click)="copyCustomerLink()" *ngIf="onEdit">Copia Link Cliente-->
+<!--    </button>-->
     <button class="btn btn-primary me-3" type="button" (click)="exportPdf.emit()" *ngIf="onEdit">Export PDF</button>
     <button class="btn btn-primary me-3" type="button" (click)="exportDocx.emit()" *ngIf="onEdit">Export DOCX</button>
     <ng-container *isAuthenticated="['ADMIN', 'CHIEF_EDITOR']">

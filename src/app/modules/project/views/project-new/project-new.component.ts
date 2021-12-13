@@ -16,6 +16,6 @@ export class ProjectNewComponent implements OnInit {
   }
 
   submit(value: any) {
-    this.projectService.save(value).subscribe(() => this.router.navigate(['projects']));
+    this.projectService.save(value).subscribe(() => this.router.navigate(['projects/home']));
   }
 }

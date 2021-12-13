@@ -75,7 +75,7 @@ export class ContentService {
     })
   }
 
-  public approveContentCustomer(id: number, customerToken: string): Observable<Content> {
+  public approveContentCustomer_old(id: number, customerToken: string): Observable<Content> {
     return this.httpClient.put<Content>(environment.apiBaseurl + "/content/customer/" + id + "/approve", null, {
       params: {
         token: customerToken
@@ -83,13 +83,23 @@ export class ContentService {
     })
   }
 
-  public saveNotes(id: number, notes: string, customerToken: string): Observable<Content> {
+  public approveContentCustomer(id: number): Observable<Content> {
+    return this.httpClient.put<Content>(environment.apiBaseurl + "/content/customer/" + id + "/approve", null)
+  }
+
+  public saveNotes_old(id: number, notes: string, customerToken: string): Observable<Content> {
     return this.httpClient.put<Content>(environment.apiBaseurl + "/content/customer/" + id + "/notes", {
       notes
     }, {
       params: {
         token: customerToken
       }
+    })
+  }
+
+  public saveNotes(id: number, notes: string): Observable<Content> {
+    return this.httpClient.put<Content>(environment.apiBaseurl + "/content/customer/" + id + "/notes", {
+      notes
     })
   }
 

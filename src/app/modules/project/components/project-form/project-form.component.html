@@ -1,17 +1,25 @@
-<form [formGroup]="form" (ngSubmit)="onSumbit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="mb-3">
     <label for="name" class="form-label">Nome del progetto</label>
-    <input type="text" class="form-control" id="name" formControlName="name">
+    <input type="text" class="form-control" id="name" formControlName="name" [validationMessage]="formSubmitted">
+    <app-errors [control]="form.controls.name"[formSubmitted]="formSubmitted"></app-errors>
   </div>
-  <div class="mb-3">
+  <div class="mb-3" *isAuthenticated="['ADMIN', 'CHIEF_EDITOR']">
     <label for="customer" class="form-label">Cliente</label>
     <ngx-autocomplete #autocompleteComponentCustomer id="customer"
                       placeholderValue="Cerca cliente..."
                       (keyup)="loadCustomer($event)"
                       (selectedValue)="onSelectedValueCustomer($event)"
                       [entries]="customerList"
-                      [searchKeyword]="'name'">
+                      [searchKeyword]="'name'"
+                      [validationMessage]="formSubmitted">
     </ngx-autocomplete>
+    <app-errors [control]="form.controls.customerId"[formSubmitted]="formSubmitted"></app-errors>
+  </div>
+  <div class="mb-3" *isAuthenticated="['CUSTOMER']">
+    <label for="customer" class="form-label">Cliente</label>
+    <input type="text" class="form-control" value="{{getCurrentCustomer()}}" readonly>
+    <app-errors [control]="form.controls.customerId"[formSubmitted]="formSubmitted"></app-errors>
   </div>
   <div class="mb-3">
     <button type="button" class="btn btn-primary text-lg-center" (click)="plus()" title="Aggiungi Articolo">
@@ -24,11 +32,10 @@
       <ng-container formArrayName="projectContentPreviews" *ngFor="let projectContentPreview of controls; let i = index;">
         <ng-container [formGroupName]="i">
           <div class="row">
-            <div class="col-2 d-flex align-items-center">
-            <button type="button" class="btn btn-primary btn-sm m-1" title="Assegna contenuto" (click)="gestisciRedazionale(projectContentPreview.value)">
-              <i class="bi bi-file-earmark-text"></i> Gestisci redazionale
-            </button>
-
+            <div class="col-2 d-flex align-items-center" *isAuthenticated="['ADMIN']">
+              <button type="button" class="btn btn-primary btn-sm m-1" title="Assegna contenuto" (click)="gestisciRedazionale(projectContentPreview.value)">
+                <i class="bi bi-file-earmark-text"></i> Gestisci redazionale
+              </button>
             </div>
             <div class="col-9">
               <div class="accordion-item">
@@ -45,18 +52,18 @@
                           <label for="newspaper{{i}}" class="input-group-text">
                             <i class="bi bi-newspaper mx-auto mb-1"></i>
                           </label>
-                          <select formControlName="newspaperId" id="newspaper{{i}}" class="form-select">
-                            <option value="">-- Seleziona una testata --</option>
+                          <select formControlName="newspaperId" id="newspaper{{i}}" class="form-select" [validationMessage]="formSubmitted">
+                            <option value="''">-- Seleziona una testata --</option>
                             <option *ngFor="let newspaper of newspaperList" value="{{newspaper?.id}}">{{newspaper?.name}}</option>
                           </select>
                         </div>
                       </div>
                       <div class="col">
-                        <div class="mb-3 input-group"  *isAuthenticated="['ADMIN']">
+                        <div class="mb-3 input-group">
                           <label class="input-group-text" for="monthUse{{i}}">
                             <i class="bi bi-calendar-month"></i>
                           </label>
-                          <select class="form-select" id="monthUse{{i}}" formControlName="monthUse">
+                          <select class="form-select" id="monthUse{{i}}" formControlName="monthUse" [validationMessage]="formSubmitted">
                             <option [ngValue]="''">-- Seleziona un mese --</option>
                             <option [ngValue]="'JANUARY'">Gennaio</option>
                             <option [ngValue]="'FEBRUARY'">Febbraio</option>
@@ -82,7 +89,7 @@
                             <div class="input-group-text">
                               <i class="bi bi-link"></i>
                             </div>
-                            <input type="text" class="form-control" id="anchor{{i}}" formControlName="linkUrl">
+                            <input type="text" class="form-control" id="anchor{{i}}" formControlName="linkUrl" [validationMessage]="formSubmitted">
                           </div>
                         </div>
                       </div>
@@ -93,7 +100,7 @@
                             <div class="input-group-text">
                               <i class="bi bi-link-45deg"></i>
                             </div>
-                            <input type="text" class="form-control" id="url{{i}}" formControlName="linkText">
+                            <input type="text" class="form-control" id="url{{i}}" formControlName="linkText" [validationMessage]="formSubmitted">
                           </div>
                         </div>
                       </div>
@@ -106,7 +113,7 @@
                             <div class="input-group-text">
                               <i class="bi bi-fonts"></i>
                             </div>
-                            <input type="text" class="form-control" id="title{{i}}" formControlName="title">
+                            <input type="text" class="form-control" id="title{{i}}" formControlName="title" [validationMessage]="formSubmitted">
                           </div>
                         </div>
                       </div>
@@ -119,7 +126,7 @@
                             <div class="input-group-text">
                               <i class="bi bi-chat-left-text"></i>
                             </div>
-                            <textarea id="note{{i}}" class="form-control" aria-label="note del cliente" formControlName="customerNotes"></textarea>
+                            <textarea id="note{{i}}" class="form-control" aria-label="note del cliente" formControlName="customerNotes" [validationMessage]="formSubmitted"></textarea>
                           </div>
                         </div>
                       </div>
@@ -142,7 +149,7 @@
     <label for="status" class="form-label">Stato</label>
     <input type="text" class="form-control" id="status" [value]="project?.status" readonly>
   </div>
-  <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+  <button type="submit" class="btn btn-primary">
     <i class="bi bi-save"></i>
     Salva
   </button>

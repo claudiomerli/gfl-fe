@@ -2,8 +2,9 @@
   <div class="row">
     <div class="col">
       <div class="form-group">
-        <label>Nome</label>
-        <input class="form-control" type="text" id="name" formControlName="name" value="">
+        <label class="form-label">Nome</label>
+        <input class="form-control" type="text" id="name" formControlName="name" [validationMessage]="formSubmitted">
+        <app-errors [control]="saveCustomerForm.controls.name"[formSubmitted]="formSubmitted"></app-errors>
       </div>
       <div class="card my-3" *ngIf="!isEdit">
         <div class="card-title">
@@ -11,47 +12,57 @@
         </div>
         <div class="card-body">
           <div class="form-group">
-            <label>Username</label>
-            <input class="form-control" type="text" id="username" formControlName="username">
+            <label class="form-label" for="username">Username</label>
+            <input class="form-control" type="text" id="username" formControlName="username" [validationMessage]="formSubmitted">
+            <app-errors [control]="saveCustomerForm.controls.username"[formSubmitted]="formSubmitted"></app-errors>
           </div>
           <div class="form-group">
-            <label>Email</label>
-            <input class="form-control" type="text" id="email" formControlName="email">
+            <label class="form-label" for="email">Email</label>
+            <div class="input-group">
+              <div class="input-group-text">@</div>
+              <input formControlName="email" id="email" class="form-control" type="email" [validationMessage]="formSubmitted">
+            </div>
+            <app-errors [control]="saveCustomerForm.controls.email"[formSubmitted]="formSubmitted"></app-errors>
           </div>
           <div class="form-group">
-            <label>Mobile</label>
-            <input class="form-control" type="text" id="mobile" formControlName="mobile">
+            <label class="form-label" for="mobile">Mobile</label>
+            <div class="input-group">
+              <div class="input-group-text"><i class="bi bi-phone"></i></div>
+              <input formControlName="mobile" id="mobile" class="form-control" type="text">
+            </div>
           </div>
           <div class="form-group">
-            <label>Password</label>
-            <input class="form-control" type="text" id="password" formControlName="password">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" type="text" id="password" formControlName="password" [validationMessage]="formSubmitted">
+            <app-errors [control]="saveCustomerForm.controls.password"[formSubmitted]="formSubmitted"></app-errors>
           </div>
           <div class="form-group">
-            <label>Ripeti Password</label>
-            <input class="form-control" type="text" id="repeatPassword" formControlName="repeatPassword">
+            <label class="form-label" for="repeatPassword">Ripeti Password</label>
+            <input class="form-control" type="text" id="repeatPassword" formControlName="repeatPassword" [validationMessage]="formSubmitted">
+            <app-errors [control]="saveCustomerForm.controls.repeatPassword" [formSubmitted]="formSubmitted" [controlName]="'repeatPassword'"></app-errors>
           </div>
         </div>
       </div>
     </div>
     <div class="col" formGroupName="contentRules">
       <div>
-        <label>Indicazioni sul titolo</label>
+        <label class="form-label">Indicazioni sul titolo</label>
         <textarea class="form-control" id="contentRules.title" formControlName="title"></textarea>
       </div>
       <div>
-        <label>Indicazioni sul testo del link</label>
+        <label class="form-label">Indicazioni sul testo del link</label>
         <textarea class="form-control" id="contentRules.linkText" formControlName="linkText"></textarea>
       </div>
       <div>
-        <label>Indicazioni sull'url del link</label>
+        <label class="form-label">Indicazioni sull'url del link</label>
         <textarea class="form-control" id="contentRules.linkUrl" formControlName="linkUrl"></textarea>
       </div>
       <div>
-        <label>Indicazioni sul contenuto dell'articolo</label>
+        <label class="form-label">Indicazioni sul contenuto dell'articolo</label>
         <textarea class="form-control" id="contentRules.body" formControlName="body"></textarea>
       </div>
       <div>
-        <label>Numero minimo di caratteri articolo</label>
+        <label class="form-label">Numero minimo di caratteri articolo</label>
         <input class="form-control" type="number" id="contentRules.maxCharacterBodyLength"
                formControlName="maxCharacterBodyLength" value="">
       </div>

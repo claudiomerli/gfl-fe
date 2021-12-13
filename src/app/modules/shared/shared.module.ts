@@ -13,6 +13,7 @@ import {SortableDirective} from "./directives/sortable.directive";
 import { RoleDescriptionPipe } from './pipes/role-description.pipe';
 import {FormValidationMessagesDirective} from "./directives/form-validation-messages/form-validation-messages.directive";
 import {ErrorsComponent} from "./components/errors/errors.component";
+import {IsNotInRoleDirective} from "./directives/is-not-in-role.directive";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {ErrorsComponent} from "./components/errors/errors.component";
     StatusLabelPipe,
     RuleSatisfationIndicatorColorPipe,
     IsAuthenticatedDirective,
+    IsNotInRoleDirective,
     ModalComponent,
     FileUploaderComponent,
     SpinnerComponent,
@@ -33,6 +35,7 @@ import {ErrorsComponent} from "./components/errors/errors.component";
     StatusLabelPipe,
     RuleSatisfationIndicatorColorPipe,
     IsAuthenticatedDirective,
+    IsNotInRoleDirective,
     ModalComponent,
     FileUploaderComponent,
     SpinnerComponent,
