@@ -1,28 +1,30 @@
 <div class="h3">
   Gestione testate
 </div>
-<div class="row justify-content-center" *ngIf="(finance$ | async) as financeValue">
-  <div class="col-xl-4 col-md-6 mb-4">
-    <div class="card h-100 py-2">
-      <div class="card-body py-0">
-        <div class="row align-items-center">
-          <div class="col mr-2 border-1">
-            <div class="mb-1">
-              Valore Acquisti: <span class="fw-bold">{{financeValue.purchasesValue}}</span>
+<ng-container *isAuthenticated="['ADMIN']">
+  <div class="row justify-content-center" *ngIf="(finance$ | async) as financeValue">
+    <div class="col-xl-4 col-md-6 mb-4">
+      <div class="card h-100 py-2">
+        <div class="card-body py-0">
+          <div class="row align-items-center">
+            <div class="col mr-2 border-1">
+              <div class="mb-1">
+                Valore Acquisti: <span class="fw-bold">{{financeValue.purchasesValue}}</span>
+              </div>
             </div>
-          </div>
-          <div class="col mr-2">
-            <div class="mb-1">
-              Valore Vendite: <span class="fw-bold">{{financeValue.salesValue}}</span>
+            <div class="col mr-2">
+              <div class="mb-1">
+                Valore Vendite: <span class="fw-bold">{{financeValue.salesValue}}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</ng-container>
 
-<div class="d-flex justify-content-between align-items-center">
+<div class="d-flex justify-content-between align-items-center" *isAuthenticated="['ADMIN']">
   <input type="text" name="globalSearch" class="form-control w-50" placeholder="Cerca..." #globalSearchInput>
   <a class="btn btn-primary" routerLink="/newspapers/create">
     <i class="bi bi-plus"></i>
@@ -36,14 +38,14 @@
       <tr>
         <th sortable="id" (sort)="onSort($event)">Id</th>
         <th sortable="name" (sort)="onSort($event)">Nome</th>
-        <th sortable="purchasedContent" (sort)="onSort($event)">Redazionali Acquistati</th>
-        <th>Redazionali Rimanenti</th>
-        <th sortable="costEach" (sort)="onSort($event)">Costo cadauno</th>
+        <th sortable="purchasedContent" (sort)="onSort($event)" *isAuthenticated="['ADMIN']">Redazionali Acquistati</th>
+        <th *isAuthenticated="['ADMIN']">Redazionali Rimanenti</th>
+        <th sortable="costEach" (sort)="onSort($event)" *isAuthenticated="['ADMIN']">Costo cadauno</th>
         <th sortable="costSell" (sort)="onSort($event)">Costo di vendita</th>
-        <th sortable="email" (sort)="onSort($event)">E-mail di contatto</th>
+        <th sortable="email" (sort)="onSort($event)" *isAuthenticated="['ADMIN']">E-mail di contatto</th>
         <th sortable="regionalGeolocalization" (sort)="onSort($event)">Geolocalizzazione regionale</th>
         <th>Argomento</th>
-        <th>Actions</th>
+        <th *isAuthenticated="['ADMIN']">Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -51,18 +53,18 @@
         *ngFor="let item of actualPageValue.content | paginate : { itemsPerPage: actualPageValue?.pageable?.pageSize, currentPage: (actualPageValue?.pageable?.pageNumber || 0) + 1, totalItems: actualPageValue?.totalElements }">
         <td>{{item.id}}</td>
         <td>{{item.name}}</td>
-        <td>{{item.purchasedContent}}</td>
-        <td>{{item.leftContent}}</td>
-        <td>{{item.costEach}}</td>
+        <td *isAuthenticated="['ADMIN']">{{item.purchasedContent}}</td>
+        <td *isAuthenticated="['ADMIN']">{{item.leftContent}}</td>
+        <td *isAuthenticated="['ADMIN']">{{item.costEach}}</td>
         <td>{{item.costSell}}</td>
-        <td>{{item.email}}</td>
+        <td *isAuthenticated="['ADMIN']">{{item.email}}</td>
         <td>{{item.regionalGeolocalization}}</td>
         <td>
           <span *ngFor="let topic of item.topics; let last = last" class="topics">
             {{ topic.name }}
           </span>
         </td>
-        <td class="text-center">
+        <td class="text-center" *isAuthenticated="['ADMIN']">
           <a class="btn btn-warning mx-1" [routerLink]="['/newspapers',item.id]"><i class="bi bi-pencil"></i></a>
           <a class="btn btn-danger mx-1" (click)="onDelete(item.id)"><i class="bi bi-trash"></i></a>
         </td>

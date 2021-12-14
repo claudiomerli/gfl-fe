@@ -23,7 +23,7 @@ const routes: Routes = [
     path: "newspapers",
     loadChildren: () => import("./modules/newspaper/newspaper.module").then(m => m.NewspaperModule),
     canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN']}
+    data: {availableRoles: ['ADMIN', 'CUSTOMER']}
   },
   {
     path: 'customers',
