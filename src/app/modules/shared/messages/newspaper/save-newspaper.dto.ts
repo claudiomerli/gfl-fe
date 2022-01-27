@@ -5,6 +5,8 @@ export class SaveNewspaperDto {
   costEach: number | undefined
   costSell: number | undefined
   email: string | undefined
+  ip: string | undefined
+  za: string | undefined
   regionalGeolocalization: string | undefined
   topic: string | undefined
 

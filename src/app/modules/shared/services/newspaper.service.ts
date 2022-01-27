@@ -11,6 +11,7 @@ import {PaginationDto} from "../messages/pagination.dto";
 import {Finance} from "../model/finance";
 import {clean} from "../utils/utils";
 import {SelectDto} from "../messages/select.dto";
+import {SearchNewspaperDto} from "../messages/newspaper/search-newspaper.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +38,9 @@ export class NewspaperService {
     })
   }
 
-  public find(globalSearch: string, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Newspaper>> {
+  public find(searchNewspaperDto: SearchNewspaperDto, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Newspaper>> {
     return this.httpClient.get<PageResponseDto<Newspaper>>(environment.apiBaseurl + "/newspaper", {
-      params: {...paginationDto, globalSearch}
+      params: {...paginationDto, ...searchNewspaperDto}
     })
   }
 

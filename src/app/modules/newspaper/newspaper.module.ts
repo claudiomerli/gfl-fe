@@ -9,6 +9,7 @@ import { NewspaperCreateComponent } from './views/newspaper-create/newspaper-cre
 import { NewspaperUpdateComponent } from './views/newspaper-update/newspaper-update.component';
 import {NgxPaginationModule} from "ngx-pagination";
 import {SharedModule} from "../shared/shared.module";
+import { NewspaperSearchFilterComponent } from './components/newspaper-search-filter/newspaper-search-filter.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {SharedModule} from "../shared/shared.module";
     NewspaperSaveFormComponent,
     NewspaperListComponent,
     NewspaperCreateComponent,
-    NewspaperUpdateComponent
+    NewspaperUpdateComponent,
+    NewspaperSearchFilterComponent
   ],
     imports: [
         CommonModule,

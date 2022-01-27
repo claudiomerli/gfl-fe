@@ -47,7 +47,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.newspaperService
-      .find('')
+      .find({})
       .subscribe(value => {
         this.newspaperList = value.content
       });

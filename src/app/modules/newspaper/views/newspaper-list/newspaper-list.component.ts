@@ -7,18 +7,19 @@ import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {PageResponseDto} from "../../../shared/messages/page-response.dto";
 import {SortEvent} from "../../../shared/directives/sortable.directive";
 import {Finance} from "../../../shared/model/finance";
+import {SearchNewspaperDto} from "../../../shared/messages/newspaper/search-newspaper.dto";
 
 @Component({
   selector: 'app-newspaper-list',
   templateUrl: './newspaper-list.component.html',
   styleUrls: ['./newspaper-list.component.scss']
 })
-export class NewspaperListComponent implements OnInit, AfterViewInit {
+export class NewspaperListComponent implements OnInit {
 
   @ViewChild("globalSearchInput")
   globalSearchInput: ElementRef | undefined
   globalSearch = "";
-
+  searchNewspaperDto: SearchNewspaperDto = new SearchNewspaperDto();
   actualPage$ = new BehaviorSubject<PageResponseDto<Newspaper>>(new PageResponseDto<Newspaper>());
   actualPageValue = 1;
   finance$ = new BehaviorSubject<Finance>(new Finance());
@@ -29,17 +30,6 @@ export class NewspaperListComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.newspaperService.finance().subscribe(data => this.finance$.next(data));
     this.onPageChange(this.actualPageValue);
-  }
-
-  ngAfterViewInit(): void {
-    if (this.globalSearchInput) {
-      fromEvent(this.globalSearchInput.nativeElement, 'keyup')
-        .pipe(debounceTime(200))
-        .subscribe((res) => {
-          this.globalSearch = (res as any).target.value
-          this.onPageChange(1);
-        })
-    }
   }
 
   onDelete(id: number | undefined) {
@@ -55,7 +45,7 @@ export class NewspaperListComponent implements OnInit, AfterViewInit {
   onPageChange(pageNumber: number, sortBy?: string, sortDirection?: string) {
     this.actualPageValue = pageNumber;
     this.newspaperService
-      .find(this.globalSearch,  new PaginationDto(this.actualPageValue - 1, undefined ,sortDirection, sortBy ))
+      .find(this.searchNewspaperDto,  new PaginationDto(this.actualPageValue - 1, undefined ,sortDirection, sortBy ))
       .subscribe(res => {
         this.actualPage$.next(res);
       })
@@ -63,5 +53,10 @@ export class NewspaperListComponent implements OnInit, AfterViewInit {
 
   onSort($event: SortEvent) {
     this.onPageChange(this.actualPageValue, $event.column, $event.direction);
+  }
+
+  onSubmitSearchForm($event: SearchNewspaperDto) {
+    this.searchNewspaperDto = $event;
+    this.onPageChange(1);
   }
 }

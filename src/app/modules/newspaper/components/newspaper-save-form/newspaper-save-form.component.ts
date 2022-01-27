@@ -19,6 +19,19 @@ export class NewspaperSaveFormComponent implements OnInit {
 
   topicList = [] as Array<Topic>;
   selectedTopicList = [] as Array<Topic>;
+  saveNewspaperForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    ip: new FormControl('', ),
+    za: new FormControl('', ),
+    purchasedContent: new FormControl('0'),
+    costEach: new FormControl('0.0'),
+    costSell: new FormControl('0.0'),
+    email: new FormControl('' ,[Validators.email]),
+    regionalGeolocalization: new FormControl(''),
+    note: new FormControl(''),
+    topics: new FormControl([]),
+  })
+  formSubmitted: boolean = false;
 
   constructor(private topicService: TopicService) {
   }
@@ -41,19 +54,11 @@ export class NewspaperSaveFormComponent implements OnInit {
 
   }
 
-  saveNewspaperForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    purchasedContent: new FormControl('0.0'),
-    costEach: new FormControl('0.0'),
-    costSell: new FormControl('0.0'),
-    email: new FormControl(''),
-    regionalGeolocalization: new FormControl(''),
-    note: new FormControl(''),
-    topics: new FormControl([]),
-  })
-
   onSubmit() {
-    this.formSubmit.emit(this.saveNewspaperForm.value as SaveNewspaperDto)
+    this.formSubmitted = true;
+    if(this.saveNewspaperForm.valid) {
+      this.formSubmit.emit(this.saveNewspaperForm.value as SaveNewspaperDto);
+    }
   }
 
   countSelectedTopic() {

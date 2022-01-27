@@ -25,12 +25,13 @@
 </ng-container>
 
 <div class="d-flex justify-content-between align-items-center" *isAuthenticated="['ADMIN']">
-  <input type="text" name="globalSearch" class="form-control w-50" placeholder="Cerca..." #globalSearchInput>
+<!--  <input type="text" name="globalSearch" class="form-control w-50" placeholder="Cerca..." #globalSearchInput>-->
   <a class="btn btn-primary" routerLink="/newspapers/create">
     <i class="bi bi-plus"></i>
     Nuova testata
   </a>
 </div>
+<app-newspaper-search-filter (submitSearchForm)="onSubmitSearchForm($event)"></app-newspaper-search-filter>
 <div>
   <ng-container *ngIf="(actualPage$ | async) as actualPageValue">
     <table class="table">
@@ -45,7 +46,7 @@
         <th sortable="email" (sort)="onSort($event)" *isAuthenticated="['ADMIN']">E-mail di contatto</th>
         <th sortable="regionalGeolocalization" (sort)="onSort($event)">Geolocalizzazione regionale</th>
         <th>Argomento</th>
-        <th *isAuthenticated="['ADMIN']">Actions</th>
+        <th *isAuthenticated="['ADMIN']">Azioni</th>
       </tr>
       </thead>
       <tbody>
@@ -60,13 +61,17 @@
         <td *isAuthenticated="['ADMIN']">{{item.email}}</td>
         <td>{{item.regionalGeolocalization}}</td>
         <td>
-          <span *ngFor="let topic of item.topics; let last = last" class="topics">
+          <span *ngFor="let topic of item.topics" class="topics">
             {{ topic.name }}
           </span>
         </td>
-        <td class="text-center" *isAuthenticated="['ADMIN']">
-          <a class="btn btn-warning mx-1" [routerLink]="['/newspapers',item.id]"><i class="bi bi-pencil"></i></a>
-          <a class="btn btn-danger mx-1" (click)="onDelete(item.id)"><i class="bi bi-trash"></i></a>
+        <td class="" *isAuthenticated="['ADMIN']">
+          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group me-2" role="group">
+              <a class="btn btn-primary mx-1" [routerLink]="['/newspapers',item.id]" title="Modifica"><i class="bi bi-pencil"></i></a>
+              <a class="btn btn-danger mx-1" (click)="onDelete(item.id)" title="Elimina"><i class="bi bi-trash"></i></a>
+            </div>
+          </div>
         </td>
       </tr>
       </tbody>
