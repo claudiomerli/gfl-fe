@@ -32,9 +32,10 @@
   </a>
 </div>
 <app-newspaper-search-filter (submitSearchForm)="onSubmitSearchForm($event)"></app-newspaper-search-filter>
+<app-export-excel-pdf [nomeTabella]="'testate'" [nomeFile]="'testate'"></app-export-excel-pdf>
 <div>
   <ng-container *ngIf="(actualPage$ | async) as actualPageValue">
-    <table class="table">
+    <table class="table" id="testate">
       <thead>
       <tr>
         <th sortable="id" (sort)="onSort($event)">Id</th>

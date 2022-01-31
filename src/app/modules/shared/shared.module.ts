@@ -14,6 +14,7 @@ import { RoleDescriptionPipe } from './pipes/role-description.pipe';
 import {FormValidationMessagesDirective} from "./directives/form-validation-messages/form-validation-messages.directive";
 import {ErrorsComponent} from "./components/errors/errors.component";
 import {IsNotInRoleDirective} from "./directives/is-not-in-role.directive";
+import {ExportExcelPdfComponent} from "./components/export-excel-pdf/export-excel-pdf.component";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {IsNotInRoleDirective} from "./directives/is-not-in-role.directive";
     SortableDirective,
     FormValidationMessagesDirective,
     ErrorsComponent,
-    RoleDescriptionPipe
+    RoleDescriptionPipe,
+    ExportExcelPdfComponent
   ],
   exports: [
     HeaderComponent,
@@ -42,7 +44,8 @@ import {IsNotInRoleDirective} from "./directives/is-not-in-role.directive";
     SortableDirective,
     FormValidationMessagesDirective,
     ErrorsComponent,
-    RoleDescriptionPipe
+    RoleDescriptionPipe,
+    ExportExcelPdfComponent
   ],
   imports: [
     CommonModule,
