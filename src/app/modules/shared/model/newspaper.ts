@@ -9,6 +9,7 @@ export class Newspaper {
   costEach: number | undefined
   costSell: number | undefined
   email: string | undefined
+  za: string | undefined
   regionalGeolocalization: string | undefined
   note: string | undefined
   topics: Array<Topic> | undefined

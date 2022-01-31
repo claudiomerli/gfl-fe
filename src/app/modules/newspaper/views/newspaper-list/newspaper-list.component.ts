@@ -57,6 +57,13 @@ export class NewspaperListComponent implements OnInit {
 
   onSubmitSearchForm($event: SearchNewspaperDto) {
     this.searchNewspaperDto = $event;
+    Object.keys(this.searchNewspaperDto).forEach(chiave => {
+      // @ts-ignore
+      if(this.searchNewspaperDto[chiave] == null) {
+        // @ts-ignore
+        this.searchNewspaperDto[chiave] = '';
+      }
+    });
     this.onPageChange(1);
   }
 }

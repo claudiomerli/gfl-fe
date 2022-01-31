@@ -56,7 +56,8 @@
     <div class="row">
       <div class="col-6">
         <label class="form-label" for="regionalGeolocalization">Geolocalizzazione regionale</label>
-        <select id="regionalGeolocalization" formControlName="regionalGeolocalization" class="form-select" [multiple]="true">
+        <select id="regionalGeolocalization" formControlName="regionalGeolocalization" class="form-select">
+          <option></option>
           <option>Generalista</option>
           <option>Abruzzo</option>
           <option>Basilicata</option>
@@ -78,6 +79,12 @@
           <option>Umbria</option>
           <option>Valle d'Aosta</option>
           <option>Veneto</option>
+        </select>
+      </div>
+      <div class="col-6">
+        <label class="form-label" for="topic">Argomento</label>
+        <select id="topic" formControlName="topics" class="form-select" [multiple]="true">
+          <option *ngFor="let topic of topicList" value="{{topic.id}}"> {{topic.name}}</option>
         </select>
       </div>
     </div>

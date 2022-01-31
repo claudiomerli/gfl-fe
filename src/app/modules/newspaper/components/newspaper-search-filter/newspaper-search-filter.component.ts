@@ -17,7 +17,7 @@ export class NewspaperSearchFilterComponent implements OnInit {
   formSubmitted: boolean = false;
 
   searchForm = this.formBuilder.group({
-    name: new FormControl('', [Validators.required]),
+    name: new FormControl(''),
     zaFrom: new FormControl(''),
     zaTo: new FormControl(''),
     purchasedContentFrom: new FormControl(''),
