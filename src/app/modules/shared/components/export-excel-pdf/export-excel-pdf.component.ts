@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ExportExcelPdfService} from "../../services/export-excel-pdf.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-export-excel-pdf',
@@ -8,19 +9,44 @@ import {ExportExcelPdfService} from "../../services/export-excel-pdf.service";
 })
 export class ExportExcelPdfComponent implements OnInit {
 
-  @Input() nomeTabella = '';
-  @Input() nomeFile= '';
+  @Input() nomeFile: string | undefined;
+  @Input() observableExcel: Observable<any> | undefined;
+  @Input() observablePDF: Observable<any> | undefined;
+  @Input() callEnded: boolean = false;
 
-  constructor(private exportExcelPDFService: ExportExcelPdfService) { }
+  constructor() { }
 
   ngOnInit(): void {
+    this.callEnded = true;
   }
 
   exportExcel(): void {
-    this.exportExcelPDFService.exportExcel(this.nomeTabella, this.nomeFile);
+    this.callEnded = false;
+    if(this.observableExcel) {
+      this.observableExcel.subscribe(data => {
+        const contentType = 'application/vnd.ms.excel';
+        const blob = new Blob([data], { type: contentType });
+        const file = new File([blob],this.nomeFile+'.xlsx', { type: contentType });
+        saveAs(file);
+        this.callEnded = true;
+      }, error => {
+        this.callEnded = true;
+      });
+    }
   }
 
   exportPDF(): void {
-    this.exportExcelPDFService.exportPDF(this.nomeTabella, this.nomeFile);
+    this.callEnded = false;
+    if(this.observablePDF) {
+      this.observablePDF.subscribe(data => {
+        const contentType = 'application/pdf';
+        const blob = new Blob([data], {type: contentType});
+        const file = new File([blob], this.nomeFile + '.pdf', {type: contentType});
+        this.callEnded = true;
+        saveAs(file);
+      }, error => {
+        this.callEnded = true;
+      });
+    }
   }
 }

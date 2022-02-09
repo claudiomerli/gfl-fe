@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {BehaviorSubject, fromEvent} from "rxjs";
+import {BehaviorSubject, fromEvent, Observable} from "rxjs";
 import {Newspaper} from "../../../shared/model/newspaper";
 import {debounceTime} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
@@ -65,5 +65,12 @@ export class NewspaperListComponent implements OnInit {
       }
     });
     this.onPageChange(1);
+  }
+
+  exportExcel(): Observable<any> {
+    return this.newspaperService.exportExcel(this.searchNewspaperDto);
+  }
+  exportPDF(): Observable<any> {
+    return this.newspaperService.exportPDF(this.searchNewspaperDto);
   }
 }

@@ -43,6 +43,18 @@ export class NewspaperService {
       params: {...paginationDto, ...searchNewspaperDto}
     })
   }
+  public exportExcel(searchNewspaperDto: SearchNewspaperDto): Observable<any> {
+    return this.httpClient.get(environment.apiBaseurl + "/newspaper/export/excel", {
+      params: {...searchNewspaperDto},
+      responseType : "blob"
+    })
+  }
+  public exportPDF(searchNewspaperDto: SearchNewspaperDto): Observable<any> {
+    return this.httpClient.get(environment.apiBaseurl + "/newspaper/export/pdf", {
+      params: {...searchNewspaperDto},
+      responseType : "blob"
+    })
+  }
 
   public delete(id: number) {
     return this.httpClient.delete(environment.apiBaseurl + "/newspaper/" + id);

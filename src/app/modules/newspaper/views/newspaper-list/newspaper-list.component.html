@@ -32,7 +32,7 @@
   </a>
 </div>
 <app-newspaper-search-filter (submitSearchForm)="onSubmitSearchForm($event)"></app-newspaper-search-filter>
-<app-export-excel-pdf [nomeTabella]="'testate'" [nomeFile]="'testate'"></app-export-excel-pdf>
+<app-export-excel-pdf [nomeFile]="'testate'" [observablePDF]="exportPDF()" [observableExcel]="exportExcel()"></app-export-excel-pdf>
 <div>
   <ng-container *ngIf="(actualPage$ | async) as actualPageValue">
     <table class="table" id="testate">
