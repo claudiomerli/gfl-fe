@@ -23,6 +23,8 @@ export class NewspaperListComponent implements OnInit {
   actualPage$ = new BehaviorSubject<PageResponseDto<Newspaper>>(new PageResponseDto<Newspaper>());
   actualPageValue = 1;
   finance$ = new BehaviorSubject<Finance>(new Finance());
+  sortBy = "";
+  sortDirection = "";
 
   constructor(private newspaperService: NewspaperService) {
   }
@@ -42,17 +44,19 @@ export class NewspaperListComponent implements OnInit {
     }
   }
 
-  onPageChange(pageNumber: number, sortBy?: string, sortDirection?: string) {
+  onPageChange(pageNumber: number) {
     this.actualPageValue = pageNumber;
     this.newspaperService
-      .find(this.searchNewspaperDto,  new PaginationDto(this.actualPageValue - 1, undefined ,sortDirection, sortBy ))
+      .find(this.searchNewspaperDto,  new PaginationDto(this.actualPageValue - 1, undefined, this.sortDirection, this.sortBy ))
       .subscribe(res => {
         this.actualPage$.next(res);
       })
   }
 
   onSort($event: SortEvent) {
-    this.onPageChange(this.actualPageValue, $event.column, $event.direction);
+    this.sortBy = $event.column;
+    this.sortDirection = $event.direction;
+    this.onPageChange(this.actualPageValue);
   }
 
   onSubmitSearchForm($event: SearchNewspaperDto) {
