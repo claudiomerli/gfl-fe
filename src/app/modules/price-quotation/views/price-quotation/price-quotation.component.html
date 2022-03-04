@@ -8,14 +8,14 @@
       <label for="newspaper" class="form-label">Seleziona una testata</label>
       <select id="newspaper" class="form-select" formControlName="newspaperId">
         <option [ngValue]="''">Seleziona</option>
-        <option *ngFor="let newspaper of newspaperList" value="{{newspaper?.id}}" > {{newspaper?.descrizione}} </option>
+        <option *ngFor="let newspaper of newspaperList" value="{{newspaper?.id}}"> {{newspaper?.descrizione}} </option>
       </select>
     </div>
     <div class="col-4">
       <label for="topic" class="form-label">Argomenti</label>
       <select id="topic" class="form-select" formControlName="topicId">
         <option [ngValue]="''">Seleziona</option>
-        <option *ngFor="let topic of topicList" value="{{topic?.id}}" > {{topic?.name}} </option>
+        <option *ngFor="let topic of topicList" value="{{topic?.id}}"> {{topic?.name}} </option>
       </select>
     </div>
     <div class="col-4">
@@ -35,8 +35,8 @@
 
 
 <div class="mb-3">
-<br>
-  <div >
+  <br>
+  <div>
     <table class="table">
       <thead>
       <tr>
@@ -48,33 +48,23 @@
       </tr>
       </thead>
       <tbody [formGroup]="formPriceQuotations">
-      <ng-container formArrayName="priceQuotations" *ngFor="let priceQuotation of priceQuotations['controls']; let i = index;">
+      <ng-container formArrayName="priceQuotations"
+                    *ngFor="let priceQuotation of priceQuotations['controls']; let i = index;">
         <tr [formGroupName]="i">
           <td>{{priceQuotation.value.nameNewspaper}}</td>
           <td>{{priceQuotation.value.costEach}}</td>
           <td>{{priceQuotation.value.costSell}}</td>
           <td><input id="numeroRedazionali" type="number" class="form-control" formControlName="numberOfEditors"></td>
-          <td><button class="btn btn-primary" type="button" (click)="calcolaPreventivo(i)" >Calcola preventivo </button></td>
+          <td>
+            <button class="btn btn-primary" type="button" (click)="calcolaPreventivo(i)">Calcola preventivo</button>
+          </td>
         </tr>
       </ng-container>
-<!--      <ng-container *ngIf="newspapers.length === 0 && search">-->
-<!--        <tr>-->
-<!--          <td colspan="5">-->
-<!--            <div class="alert alert-danger" role="alert">-->
-<!--              Non esistono testate che corrispondono ai criteri di ricerca-->
-<!--            </div>-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--      </ng-container>-->
       </tbody>
     </table>
   </div>
-  <div *ngIf="priceQuotationTableTemp.length > 0">
-    <div class="mt-1">
-      <button class="btn btn-primary" >
-        <i class="fa bi-file-arrow-down" (click)="generateAndDownloadPdf()">Export PDF</i>
-      </button>
-    </div>
+  <div *ngIf="priceQuotationTable.length > 0" class="p-3 border rounded">
+    <h4>Preventivo</h4>
     <table class="table" id="my-table">
       <thead>
       <tr>
@@ -89,7 +79,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let priceQuotation of priceQuotationTableTemp">
+      <tr *ngFor="let priceQuotation of priceQuotationTable">
         <td>{{priceQuotation.nameNewspaper}}</td>
         <td>{{priceQuotation.costEach}}</td>
         <td>{{priceQuotation.costSell}}</td>
@@ -98,17 +88,59 @@
         <td>{{priceQuotation.revenue}}</td>
         <td>{{priceQuotation.earn}}</td>
         <td>
-          <button class="btn-danger" (click)="deleteElement(priceQuotation)"><i class="bi-eraser"></i></button>
-
+          <button class="btn btn-danger" (click)="deleteElement(priceQuotation)"><i class="bi bi-eraser"></i></button>
         </td>
       </tr>
       </tbody>
     </table>
-
-
+    <div class="mt-1">
+      <form [formGroup]="exportForm" (submit)="generate()">
+        <div>
+          <label>Intestazione</label>
+          <input type="file" class="form-control" (change)="handleUpload($event,'header')">
+        </div>
+        <div class="mt-3">
+          <label>Nome cliente</label>
+          <input type="text" class="form-control" formControlName="customerName">
+        </div>
+        <div class="mt-3">
+          <label>Azienda</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" formControlName="activity" [value]="'LINK_BUILDING'" checked>
+            <label class="form-check-label">
+              Link Building
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" formControlName="activity" [value]="'DIGITAL_PR'">
+            <label class="form-check-label">
+              Digital PR
+            </label>
+          </div>
+        </div>
+        <div class="mt-3">
+          <label>IVA</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" formControlName="tax" [value]="true" checked>
+            <label class="form-check-label">
+              SI
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" formControlName="tax" [value]="false">
+            <label class="form-check-label">
+              NO
+            </label>
+          </div>
+        </div>
+        <div class="mt-3">
+          <label>Firma</label>
+          <input type="file" class="form-control" (change)="handleUpload($event,'signature')">
+        </div>
+        <button class="btn btn-primary mt-3" [disabled]="exportForm.invalid" type="submit">
+          <i class="fa bi-file-arrow-down">Export PDF</i>
+        </button>
+      </form>
+    </div>
   </div>
-
-  <br><br><br><br>
-
-
 </div>

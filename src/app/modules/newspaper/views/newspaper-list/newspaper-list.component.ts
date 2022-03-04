@@ -56,7 +56,7 @@ export class NewspaperListComponent implements OnInit {
   onSort($event: SortEvent) {
     this.sortBy = $event.column;
     this.sortDirection = $event.direction;
-    this.onPageChange(this.actualPageValue);
+    this.onPageChange(1);
   }
 
   onSubmitSearchForm($event: SearchNewspaperDto) {

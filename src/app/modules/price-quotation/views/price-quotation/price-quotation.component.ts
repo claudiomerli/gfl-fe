@@ -7,6 +7,8 @@ import autoTable from 'jspdf-autotable'
 import {TopicService} from "../../../shared/services/topic.service";
 import {Topic} from "../../../shared/model/topic";
 import {SelectDto} from "../../../shared/messages/select.dto";
+import {PriceQuotationService} from "../../../shared/services/price-quotation.service";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-price-quotation',
@@ -24,18 +26,30 @@ export class PriceQuotationComponent implements OnInit {
     maxBudget: [''],
   });
 
-  priceQuotations = new FormArray([])
-  formPriceQuotations = this.formBuilder.group ({
-    priceQuotations: this.priceQuotations
+  formPriceQuotations = this.formBuilder.group({
+    priceQuotations: new FormArray([])
   })
 
-  priceQuotationTableTemp: any = [];
+  exportForm = new FormGroup({
+    header: new FormControl('', [Validators.required]),
+    customerName: new FormControl('', [Validators.required]),
+    activity: new FormControl('', [Validators.required]),
+    tax: new FormControl('', [Validators.required]),
+    signature: new FormControl('', [Validators.required])
+  })
+
+  get priceQuotations(): FormArray {
+    return this.formPriceQuotations.controls['priceQuotations'] as FormArray
+  }
+
+  priceQuotationTable: any = [];
   search: boolean = false;
 
 
   constructor(private newspaperService: NewspaperService,
               private topicService: TopicService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private priceQuotationService: PriceQuotationService) {
   }
 
   ngOnInit(): void {
@@ -45,22 +59,25 @@ export class PriceQuotationComponent implements OnInit {
   }
 
   searchNewspaper(): void {
-    if(this.form.valid) {
-      this.newspaperService.findPriceQuotation(this.form.value).subscribe(data => {
-        data.content.forEach(newspaper => {
-          (this.formPriceQuotations.controls.priceQuotations as FormArray)
-            .push(new FormGroup({
-            nameNewspaper: new FormControl(newspaper.name),
-            costEach: new FormControl(newspaper.costEach),
-            costSell: new FormControl(newspaper.costSell),
-            numberOfEditors: new FormControl('',Validators.required),
-            expense: new FormControl(''),
-            revenue: new FormControl(''),
-            earn: new FormControl(''),
-          }));
+    if (this.form.valid) {
+      this.newspaperService.findPriceQuotation(this.form.value)
+        .subscribe(data => {
+          this.formPriceQuotations.controls.priceQuotations = new FormArray(
+            data.content.map(newspaper =>
+              new FormGroup({
+                id: new FormControl(newspaper.id),
+                nameNewspaper: new FormControl(newspaper.name),
+                costEach: new FormControl(newspaper.costEach),
+                costSell: new FormControl(newspaper.costSell),
+                numberOfEditors: new FormControl('', Validators.required),
+                expense: new FormControl(''),
+                revenue: new FormControl(''),
+                earn: new FormControl(''),
+              })
+            )
+          );
+          this.search = true;
         });
-        this.search = true;
-      });
     }
   }
 
@@ -69,7 +86,8 @@ export class PriceQuotationComponent implements OnInit {
     newspaper.expense = newspaper.numberOfEditors * newspaper.costEach;
     newspaper.revenue = newspaper.numberOfEditors * newspaper.costSell;
     newspaper.earn = newspaper.revenue - newspaper.expense;
-    this.priceQuotationTableTemp.push({
+    this.priceQuotationTable.push({
+      id: newspaper.id,
       nameNewspaper: newspaper.nameNewspaper,
       costEach: newspaper.costEach,
       costSell: newspaper.costSell,
@@ -81,18 +99,27 @@ export class PriceQuotationComponent implements OnInit {
   }
 
   deleteElement(priceQuotation: any) {
-
-    const index = this.priceQuotationTableTemp.indexOf(priceQuotation);
+    const index = this.priceQuotationTable.indexOf(priceQuotation);
     if (index > -1) {
-      this.priceQuotationTableTemp.splice(index, 1);
+      this.priceQuotationTable.splice(index, 1);
     }
   }
 
-  generateAndDownloadPdf() {
+  handleUpload(event: any, inputName: string) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.exportForm.controls[inputName].setValue(reader.result)
+    };
+  }
 
-    let nameFile = "Preventivo" + new Date().toLocaleDateString();
-    const doc = new jsPDF()
-    autoTable(doc, {html: '#my-table'})
-    doc.save(nameFile + "pdf")
+  generate() {
+    this.priceQuotationService.generatePdf({
+      rows: this.priceQuotationTable,
+      otherInformation: this.exportForm.value
+    }).subscribe((result) => {
+      saveAs(result.body as Blob, "preventivo.pdf")
+    })
   }
 }
