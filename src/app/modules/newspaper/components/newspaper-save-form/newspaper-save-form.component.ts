@@ -59,6 +59,7 @@ export class NewspaperSaveFormComponent implements OnInit {
   onSubmit() {
     this.formSubmitted = true;
     if (this.saveNewspaperForm.valid) {
+      this.setTopicValue();
       this.formSubmit.emit(this.saveNewspaperForm.value as SaveNewspaperDto);
     }
   }

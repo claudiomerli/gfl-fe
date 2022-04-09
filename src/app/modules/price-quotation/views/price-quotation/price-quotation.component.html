@@ -5,6 +5,12 @@
 <form [formGroup]="form" (ngSubmit)="searchNewspaper()">
   <div class="row">
     <div class="col-4">
+      <ng-template #rt let-r="result" let-t="term">
+        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+      </ng-template>
+      <label for="typeahead-template">Cerca una testata:</label>
+<!--      <input id="typeahead-template" type="text" class="form-control" [ngbTypeahead]="test" [(ngModel)]="model"-->
+<!--             [inputFormatter]="formatter" [ngModelOptions]="{standalone: true}" [resultTemplate]="rt"/>-->
       <label for="newspaper" class="form-label">Seleziona una testata</label>
       <select id="newspaper" class="form-select" formControlName="newspaperId">
         <option [ngValue]="''">Seleziona</option>

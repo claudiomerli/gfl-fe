@@ -47,7 +47,7 @@ export class NewspaperListComponent implements OnInit {
   onPageChange(pageNumber: number) {
     this.actualPageValue = pageNumber;
     this.newspaperService
-      .find(this.searchNewspaperDto,  new PaginationDto(this.actualPageValue - 1, undefined, this.sortDirection, this.sortBy ))
+      .find(this.searchNewspaperDto, new PaginationDto(this.actualPageValue - 1, undefined, this.sortDirection, this.sortBy))
       .subscribe(res => {
         this.actualPage$.next(res);
       })
@@ -63,7 +63,7 @@ export class NewspaperListComponent implements OnInit {
     this.searchNewspaperDto = $event;
     Object.keys(this.searchNewspaperDto).forEach(chiave => {
       // @ts-ignore
-      if(this.searchNewspaperDto[chiave] == null) {
+      if (this.searchNewspaperDto[chiave] == null) {
         // @ts-ignore
         this.searchNewspaperDto[chiave] = '';
       }
@@ -72,9 +72,18 @@ export class NewspaperListComponent implements OnInit {
   }
 
   exportExcel(): Observable<any> {
-    return this.newspaperService.exportExcel(this.searchNewspaperDto);
+    return this.newspaperService.exportExcel({
+      ...this.searchNewspaperDto,
+      sortBy: this.sortBy,
+      sortDirection: this.sortDirection
+    });
   }
+
   exportPDF(): Observable<any> {
-    return this.newspaperService.exportPDF(this.searchNewspaperDto);
+    return this.newspaperService.exportPDF({
+      ...this.searchNewspaperDto,
+      sortBy: this.sortBy,
+      sortDirection: this.sortDirection
+    });
   }
 }

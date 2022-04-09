@@ -14,7 +14,8 @@ export class ExportExcelPdfComponent implements OnInit {
   @Input() observablePDF: Observable<any> | undefined;
   @Input() callEnded: boolean = false;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.callEnded = true;
@@ -22,11 +23,11 @@ export class ExportExcelPdfComponent implements OnInit {
 
   exportExcel(): void {
     this.callEnded = false;
-    if(this.observableExcel) {
+    if (this.observableExcel) {
       this.observableExcel.subscribe(data => {
         const contentType = 'application/vnd.ms.excel';
-        const blob = new Blob([data], { type: contentType });
-        const file = new File([blob],this.nomeFile+'.xlsx', { type: contentType });
+        const blob = new Blob([data], {type: contentType});
+        const file = new File([blob], this.nomeFile + '.xlsx', {type: contentType});
         saveAs(file);
         this.callEnded = true;
       }, error => {
@@ -37,7 +38,7 @@ export class ExportExcelPdfComponent implements OnInit {
 
   exportPDF(): void {
     this.callEnded = false;
-    if(this.observablePDF) {
+    if (this.observablePDF) {
       this.observablePDF.subscribe(data => {
         const contentType = 'application/pdf';
         const blob = new Blob([data], {type: contentType});

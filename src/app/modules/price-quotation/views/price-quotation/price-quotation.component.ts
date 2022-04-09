@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NewspaperService} from "../../../shared/services/newspaper.service";
-import {Newspaper} from "../../../shared/model/newspaper";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {jsPDF} from "jspdf";
-import autoTable from 'jspdf-autotable'
 import {TopicService} from "../../../shared/services/topic.service";
 import {Topic} from "../../../shared/model/topic";
 import {SelectDto} from "../../../shared/messages/select.dto";
@@ -122,4 +119,22 @@ export class PriceQuotationComponent implements OnInit {
       saveAs(result.body as Blob, "preventivo.pdf")
     })
   }
+  //
+  // testate = [{name:'ciao'}, {name:'salve'}, {name:'ugo'}, {name:'luigi'}];
+  //
+  // test: OperatorFunction<string, readonly any[]> = (text$: Observable<string>) =>
+  //   text$.pipe(
+  //     debounceTime(200),
+  //     distinctUntilChanged(),
+  //     map(term => term.length < 2 ? []
+  //       : this.testate.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+  //   )
+  //
+  //
+  //
+  // formatter = (x: any) => {
+  //   console.log(x);
+  //   return x.name;
+  // }
+  // public model: any;
 }

@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PriceQuotationComponent } from './views/price-quotation/price-quotation.component';
-import {PriceQuotationRoutingModule} from "./price-quotation-routing.module";
-import {NgxAutocompleteModule} from "ngx-angular-autocomplete";
-import {ReactiveFormsModule} from "@angular/forms";
+import {NgModule} from "@angular/core";
 import {SharedModule} from "../shared/shared.module";
-
+import {PriceQuotationComponent} from "./views/price-quotation/price-quotation.component";
+import {CommonModule} from "@angular/common";
+import {PriceQuotationRoutingModule} from "./price-quotation-routing.module";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NgxAutocompleteModule} from "ngx-angular-autocomplete";
+import { NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -17,7 +17,9 @@ import {SharedModule} from "../shared/shared.module";
         PriceQuotationRoutingModule,
         NgxAutocompleteModule,
         ReactiveFormsModule,
-        SharedModule
+        SharedModule,
+        NgbTypeaheadModule,
+        FormsModule
     ]
 })
 export class PriceQuotationModule { }

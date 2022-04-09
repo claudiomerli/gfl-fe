@@ -1,8 +1,8 @@
 import {Directive, Input, Output, EventEmitter} from '@angular/core';
 
 export type SortColumn = any;
-export type SortDirection = 'asc' | 'desc' | '';
-const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
+export type SortDirection = 'ASC' | 'DESC' | '';
+const rotate: {[key: string]: SortDirection} = { 'ASC': 'DESC', 'DESC': '', '': 'ASC' };
 
 export interface SortEvent {
   column: SortColumn;
@@ -12,8 +12,8 @@ export interface SortEvent {
 @Directive({
   selector: 'th[sortable]',
   host: {
-    '[class.asc]': 'direction === "asc"',
-    '[class.desc]': 'direction === "desc"',
+    '[class.asc]': 'direction === "ASC"',
+    '[class.desc]': 'direction === "DESC"',
     '(click)': 'rotate()'
   }
 })
