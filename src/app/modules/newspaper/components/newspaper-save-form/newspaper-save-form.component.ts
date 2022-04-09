@@ -57,6 +57,7 @@ export class NewspaperSaveFormComponent implements OnInit {
   onSubmit() {
     this.formSubmitted = true;
     if(this.saveNewspaperForm.valid) {
+      this.setTopicValue();
       this.formSubmit.emit(this.saveNewspaperForm.value as SaveNewspaperDto);
     }
   }
@@ -97,6 +98,5 @@ export class NewspaperSaveFormComponent implements OnInit {
     let values = new Array<number>();
     this.selectedTopicList.forEach(topic => values.push(topic.id));
     this.saveNewspaperForm.controls.topics.setValue(values);
-    console.log(this.saveNewspaperForm.value);
   }
 }

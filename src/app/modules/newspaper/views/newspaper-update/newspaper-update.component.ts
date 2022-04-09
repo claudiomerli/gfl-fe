@@ -3,6 +3,7 @@ import {Newspaper} from "../../../shared/model/newspaper";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SaveNewspaperDto} from "../../../shared/messages/newspaper/save-newspaper.dto";
+import {ToastService} from "../../../shared/services/toast.service";
 
 @Component({
   selector: 'app-newspaper-update',
@@ -14,7 +15,10 @@ export class NewspaperUpdateComponent implements OnInit {
   onSaving = false;
   newspaperToUpdate: Newspaper | undefined;
 
-  constructor(private newspaperService: NewspaperService, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private newspaperService: NewspaperService,
+              private toastService: ToastService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -37,11 +41,13 @@ export class NewspaperUpdateComponent implements OnInit {
       this.newspaperService
         .update(this.newspaperToUpdate?.id, $event)
         .subscribe(() => {
-          this.onSaving = false
+          this.onSaving = false;
+          this.toastService.showGenericSuccess();
           this.router.navigate(["/newspapers"])
         }, error => {
-          this.onSaving = false
-          console.error(error)
+          this.onSaving = false;
+          this.toastService.showError(error.message);
+          console.error(error);
         });
     }
   }

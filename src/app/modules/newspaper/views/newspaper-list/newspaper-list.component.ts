@@ -72,9 +72,9 @@ export class NewspaperListComponent implements OnInit {
   }
 
   exportExcel(): Observable<any> {
-    return this.newspaperService.exportExcel(this.searchNewspaperDto);
+    return this.newspaperService.exportExcel({...this.searchNewspaperDto, sortBy: this.sortBy, sortDirection: this.sortDirection});
   }
   exportPDF(): Observable<any> {
-    return this.newspaperService.exportPDF(this.searchNewspaperDto);
+    return this.newspaperService.exportPDF({...this.searchNewspaperDto, sortBy: this.sortBy, sortDirection: this.sortDirection});
   }
 }

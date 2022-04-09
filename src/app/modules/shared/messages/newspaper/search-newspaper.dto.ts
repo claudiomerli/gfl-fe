@@ -12,5 +12,6 @@ export class SearchNewspaperDto {
   costSellTo?: string;
   regionalGeolocalization?: string;
   topics?: Array<string>;
-
+  sortDirection?: string;
+  sortBy?: string;
 }
