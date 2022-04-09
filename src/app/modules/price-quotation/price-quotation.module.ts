@@ -4,6 +4,7 @@ import { PriceQuotationComponent } from './views/price-quotation/price-quotation
 import {PriceQuotationRoutingModule} from "./price-quotation-routing.module";
 import {NgxAutocompleteModule} from "ngx-angular-autocomplete";
 import {ReactiveFormsModule} from "@angular/forms";
+import {SharedModule} from "../shared/shared.module";
 
 
 
@@ -11,11 +12,12 @@ import {ReactiveFormsModule} from "@angular/forms";
   declarations: [
     PriceQuotationComponent
   ],
-  imports: [
-    CommonModule,
-    PriceQuotationRoutingModule,
-    NgxAutocompleteModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        PriceQuotationRoutingModule,
+        NgxAutocompleteModule,
+        ReactiveFormsModule,
+        SharedModule
+    ]
 })
 export class PriceQuotationModule { }

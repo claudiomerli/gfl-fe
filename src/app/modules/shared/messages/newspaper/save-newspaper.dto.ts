@@ -8,6 +8,6 @@ export class SaveNewspaperDto {
   ip: string | undefined
   za: string | undefined
   regionalGeolocalization: string | undefined
-  topic: string | undefined
+  topics: string[] | undefined
 
 }

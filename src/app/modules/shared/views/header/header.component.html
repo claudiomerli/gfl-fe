@@ -13,19 +13,19 @@
               Home progetti
             </a>
           </li>
-          <li *isAuthenticated="['ADMIN']">
-            <a routerLink="/projects/invoicing" class="nav-link text-white" routerLinkActive="active">
-              <i class="bi bi-receipt d-block mx-auto mb-1"></i>
-              Amministrazione
-            </a>
-          </li>
-          <li *isAuthenticated="['ADMIN']">
+          <!--          <li *isAuthenticated="['ADMIN']">-->
+          <!--            <a routerLink="/projects/invoicing" class="nav-link text-white" routerLinkActive="active">-->
+          <!--              <i class="bi bi-receipt d-block mx-auto mb-1"></i>-->
+          <!--              Amministrazione-->
+          <!--            </a>-->
+          <!--          </li>-->
+          <li *isAuthenticated="['ADMIN', 'CUSTOMER']">
             <a routerLink="/price-quotation" class="nav-link text-white" routerLinkActive="active">
               <i class="bi bi-currency-dollar d-block mx-auto mb-1"></i>
               Preventivo
             </a>
           </li>
-          <li>
+          <li *isAuthenticated="['ADMIN', 'EDITOR','CHIEF_EDITOR']">
             <a routerLink="/contents" class="nav-link text-white" routerLinkActive="active">
               <i class="bi bi-file-earmark-text d-block mx-auto mb-1"></i>
               Contenuti

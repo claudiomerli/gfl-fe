@@ -41,8 +41,9 @@
       <thead>
       <tr>
         <th scope="col">Testata</th>
-        <th scope="col">Costo cadauno</th>
-        <th scope="col">Costo di vendita</th>
+        <th scope="col" *isNotInRole="['CUSTOMER']">Costo cadauno</th>
+        <th scope="col" *isNotInRole="['CUSTOMER']">Costo di vendita</th>
+        <th scope="col" *isAuthenticated="['CUSTOMER']">Costo</th>
         <th scope="col">Numero Redazionali</th>
         <th scope="col">Azioni</th>
       </tr>
@@ -52,7 +53,7 @@
                     *ngFor="let priceQuotation of priceQuotations['controls']; let i = index;">
         <tr [formGroupName]="i">
           <td>{{priceQuotation.value.nameNewspaper}}</td>
-          <td>{{priceQuotation.value.costEach}}</td>
+          <td *isNotInRole="['CUSTOMER']">{{priceQuotation.value.costEach}}</td>
           <td>{{priceQuotation.value.costSell}}</td>
           <td><input id="numeroRedazionali" type="number" class="form-control" formControlName="numberOfEditors"></td>
           <td>
@@ -69,31 +70,32 @@
       <thead>
       <tr>
         <th scope="col">Nome testata</th>
-        <th scope="col">Costo cadauno</th>
-        <th scope="col">Costo di vendita</th>
+        <th scope="col" *isNotInRole="['CUSTOMER']">Costo cadauno</th>
+        <th scope="col" *isNotInRole="['CUSTOMER']">Costo di vendita</th>
+        <th scope="col" *isAuthenticated="['CUSTOMER']">Prezzo</th>
         <th scope="col">Numero redazionali</th>
         <th scope="col">Spesa</th>
-        <th scope="col">Ricavo</th>
-        <th scope="col">Guadagno</th>
+        <th scope="col" *isNotInRole="['CUSTOMER']">Ricavo</th>
+        <th scope="col" *isNotInRole="['CUSTOMER']">Guadagno</th>
         <th scope="col"></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let priceQuotation of priceQuotationTable">
         <td>{{priceQuotation.nameNewspaper}}</td>
-        <td>{{priceQuotation.costEach}}</td>
+        <td *isNotInRole="['CUSTOMER']">{{priceQuotation.costEach}}</td>
         <td>{{priceQuotation.costSell}}</td>
         <td>{{priceQuotation.numberOfEditors}}</td>
         <td>{{priceQuotation.expense}}</td>
-        <td>{{priceQuotation.revenue}}</td>
-        <td>{{priceQuotation.earn}}</td>
+        <td *isNotInRole="['CUSTOMER']">{{priceQuotation.revenue}}</td>
+        <td *isNotInRole="['CUSTOMER']">{{priceQuotation.earn}}</td>
         <td>
           <button class="btn btn-danger" (click)="deleteElement(priceQuotation)"><i class="bi bi-eraser"></i></button>
         </td>
       </tr>
       </tbody>
     </table>
-    <div class="mt-1">
+    <div class="mt-1" *isAuthenticated="['ADMIN']">
       <form [formGroup]="exportForm" (submit)="generate()">
         <div>
           <label>Intestazione</label>

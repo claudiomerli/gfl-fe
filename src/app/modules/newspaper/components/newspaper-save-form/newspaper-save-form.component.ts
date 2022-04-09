@@ -12,7 +12,7 @@ import {TopicService} from "../../../shared/services/topic.service";
 })
 export class NewspaperSaveFormComponent implements OnInit {
 
-  @Input()  onSaving = false;
+  @Input() onSaving = false;
 
   @Input() newspaperToEdit: Newspaper = new Newspaper()
   @Output() formSubmit = new EventEmitter<SaveNewspaperDto>();
@@ -21,12 +21,12 @@ export class NewspaperSaveFormComponent implements OnInit {
   selectedTopicList = [] as Array<Topic>;
   saveNewspaperForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    ip: new FormControl('', ),
-    za: new FormControl('', ),
+    ip: new FormControl('',),
+    za: new FormControl('',),
     purchasedContent: new FormControl('0'),
     costEach: new FormControl('0.0'),
     costSell: new FormControl('0.0'),
-    email: new FormControl('' ,[Validators.email]),
+    email: new FormControl('', [Validators.email]),
     regionalGeolocalization: new FormControl(''),
     note: new FormControl(''),
     topics: new FormControl([]),
@@ -37,26 +37,28 @@ export class NewspaperSaveFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.topicService.findAll().subscribe(data => {
-      this.topicList = data;
-      if(this.newspaperToEdit.topics) {
-        let tempTopics = [] as Array<Topic>;
-        this.topicList.forEach(topic => {
-          if(!this.newspaperToEdit.topics?.find(topicDaModificare => topicDaModificare.id === topic.id)) {
-            tempTopics.push(topic);
-          }
-        });
-        this.topicList = tempTopics;
-      }
-    });
+    this.topicService
+      .findAll()
+      .subscribe(data => {
+        this.topicList = data;
+        if (this.newspaperToEdit.topics) {
+          let tempTopics = [] as Array<Topic>;
+          this.topicList.forEach(topic => {
+            if (!this.newspaperToEdit.topics?.find(topicDaModificare => topicDaModificare.id === topic.id)) {
+              tempTopics.push(topic);
+            }
+          });
+          this.topicList = tempTopics;
+        }
+      });
     this.saveNewspaperForm.patchValue(this.newspaperToEdit);
     this.newspaperToEdit.topics?.forEach(topic => this.selectedTopicList.push(topic));
-
+    this.setTopicValue()
   }
 
   onSubmit() {
     this.formSubmitted = true;
-    if(this.saveNewspaperForm.valid) {
+    if (this.saveNewspaperForm.valid) {
       this.formSubmit.emit(this.saveNewspaperForm.value as SaveNewspaperDto);
     }
   }
@@ -71,32 +73,37 @@ export class NewspaperSaveFormComponent implements OnInit {
 
   fromLeftToRight() {
     this.topicList.filter(leftItem => leftItem.selected)
-      .map(leftItem => {return {...leftItem, selected: false}})
+      .map(leftItem => {
+        return {...leftItem, selected: false}
+      })
       .forEach(leftItem => this.selectedTopicList.push(leftItem));
     this.topicList = this.topicList.filter(leftItem => !leftItem.selected);
     this.setTopicValue();
   }
+
   fromRightToLeft() {
     this.selectedTopicList.filter(rightItem => rightItem.selected)
-      .map(rightItem => {return {...rightItem, selected: false}})
-      .forEach(rightItem => this.topicList.push(rightItem));
+      .map(rightItem => {
+        return {...rightItem, selected: false}
+      }).forEach(rightItem => this.topicList.push(rightItem));
+
     this.selectedTopicList = this.selectedTopicList.filter(rightItem => !rightItem.selected);
     this.setTopicValue();
   }
+
   aggiungiTutti() {
     this.topicList.forEach(leftItem => this.selectedTopicList.push(leftItem));
     this.topicList = [];
     this.setTopicValue();
   }
+
   rimuoviTutti() {
     this.selectedTopicList.forEach(rightItem => this.topicList.push(rightItem));
     this.selectedTopicList = [];
+    this.setTopicValue();
   }
 
   private setTopicValue(): void {
-    let values = new Array<number>();
-    this.selectedTopicList.forEach(topic => values.push(topic.id));
-    this.saveNewspaperForm.controls.topics.setValue(values);
-    console.log(this.saveNewspaperForm.value);
+    this.saveNewspaperForm.controls.topics.setValue(this.selectedTopicList.map(value => value.id));
   }
 }

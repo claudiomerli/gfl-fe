@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from "./modules/shared/guards/auth.guard";
 
 const routes: Routes = [
-  {path: "", redirectTo: "/contents", pathMatch: "full"},
+  {path: "", redirectTo: "/projects/home", pathMatch: "full"},
   {
     path: "auth",
     loadChildren: () => import("./modules/auth/auth.module").then(m => m.AuthModule)
@@ -35,6 +35,7 @@ const routes: Routes = [
     path: 'contents',
     loadChildren: () => import('./modules/content/content.module').then(m => m.ContentModule),
     canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN', 'EDITOR', 'CHIEF_EDITOR']}
   },
   {
     path: 'suggests',
@@ -55,7 +56,7 @@ const routes: Routes = [
     path: "price-quotation",
     loadChildren: () => import("./modules/price-quotation/price-quotation.module").then(m => m.PriceQuotationModule),
     canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN']}
+    data: {availableRoles: ['ADMIN', 'CUSTOMER']}
   },
 ];
 
