@@ -6,6 +6,7 @@ import {PriceQuotationRoutingModule} from "./price-quotation-routing.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgxAutocompleteModule} from "ngx-angular-autocomplete";
 import { NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
+import {NewspaperModule} from "../newspaper/newspaper.module";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
         ReactiveFormsModule,
         SharedModule,
         NgbTypeaheadModule,
-        FormsModule
+        FormsModule,
+        NewspaperModule
     ]
 })
 export class PriceQuotationModule { }

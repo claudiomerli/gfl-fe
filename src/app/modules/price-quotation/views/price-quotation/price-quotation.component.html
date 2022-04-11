@@ -2,43 +2,7 @@
   Preventivo
 </div>
 
-<form [formGroup]="form" (ngSubmit)="searchNewspaper()">
-  <div class="row">
-    <div class="col-4">
-      <ng-template #rt let-r="result" let-t="term">
-        <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-      </ng-template>
-      <label for="typeahead-template">Cerca una testata:</label>
-<!--      <input id="typeahead-template" type="text" class="form-control" [ngbTypeahead]="test" [(ngModel)]="model"-->
-<!--             [inputFormatter]="formatter" [ngModelOptions]="{standalone: true}" [resultTemplate]="rt"/>-->
-      <label for="newspaper" class="form-label">Seleziona una testata</label>
-      <select id="newspaper" class="form-select" formControlName="newspaperId">
-        <option [ngValue]="''">Seleziona</option>
-        <option *ngFor="let newspaper of newspaperList" value="{{newspaper?.id}}"> {{newspaper?.descrizione}} </option>
-      </select>
-    </div>
-    <div class="col-4">
-      <label for="topic" class="form-label">Argomenti</label>
-      <select id="topic" class="form-select" formControlName="topicId">
-        <option [ngValue]="''">Seleziona</option>
-        <option *ngFor="let topic of topicList" value="{{topic?.id}}"> {{topic?.name}} </option>
-      </select>
-    </div>
-    <div class="col-4">
-      <label class="form-label" for="maxBudget">Budget massimo</label>
-      <div class="input-group">
-        <div class="input-group-text">€</div>
-        <input id="maxBudget" formControlName="maxBudget" class="form-control" type="number" step="0.01">
-      </div>
-    </div>
-  </div>
-  <div class="d-flex mt-3">
-    <button class="btn btn-primary" type="submit">
-      <em class="bi bi-search"></em> Cerca
-    </button>
-  </div>
-</form>
-
+<app-newspaper-search-filter (submitSearchForm)="searchNewspaper($event)"></app-newspaper-search-filter>
 
 <div class="mb-3">
   <br>
@@ -59,8 +23,8 @@
                     *ngFor="let priceQuotation of priceQuotations['controls']; let i = index;">
         <tr [formGroupName]="i">
           <td>{{priceQuotation.value.nameNewspaper}}</td>
-          <td *isNotInRole="['CUSTOMER']">{{priceQuotation.value.costEach}}</td>
-          <td>{{priceQuotation.value.costSell}}</td>
+          <td *isNotInRole="['CUSTOMER']"><input id="costEach" type="number" class="form-control" formControlName="costEach"></td>
+          <td><input id="costSell" type="number" class="form-control" formControlName="costSell"></td>
           <td><input id="numeroRedazionali" type="number" class="form-control" formControlName="numberOfEditors"></td>
           <td>
             <button class="btn btn-primary" type="button" (click)="calcolaPreventivo(i)">Calcola preventivo</button>

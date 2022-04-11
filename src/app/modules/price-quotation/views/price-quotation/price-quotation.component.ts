@@ -6,6 +6,8 @@ import {Topic} from "../../../shared/model/topic";
 import {SelectDto} from "../../../shared/messages/select.dto";
 import {PriceQuotationService} from "../../../shared/services/price-quotation.service";
 import {saveAs} from "file-saver";
+import {SearchNewspaperDto} from "../../../shared/messages/newspaper/search-newspaper.dto";
+import {PaginationDto} from "../../../shared/messages/pagination.dto";
 
 @Component({
   selector: 'app-price-quotation',
@@ -17,14 +19,8 @@ export class PriceQuotationComponent implements OnInit {
   newspaperList: (SelectDto | undefined)[] = [];
   topicList: (Topic | undefined)[] = [];
 
-  form = this.formBuilder.group({
-    newspaperId: [''],
-    topicId: [''],
-    maxBudget: [''],
-  });
-
   formPriceQuotations = this.formBuilder.group({
-    priceQuotations: new FormArray([])
+    priceQuotations: new FormArray([]),
   })
 
   exportForm = new FormGroup({
@@ -55,27 +51,34 @@ export class PriceQuotationComponent implements OnInit {
 
   }
 
-  searchNewspaper(): void {
-    if (this.form.valid) {
-      this.newspaperService.findPriceQuotation(this.form.value)
-        .subscribe(data => {
-          this.formPriceQuotations.controls.priceQuotations = new FormArray(
-            data.content.map(newspaper =>
-              new FormGroup({
-                id: new FormControl(newspaper.id),
-                nameNewspaper: new FormControl(newspaper.name),
-                costEach: new FormControl(newspaper.costEach),
-                costSell: new FormControl(newspaper.costSell),
-                numberOfEditors: new FormControl('', Validators.required),
-                expense: new FormControl(''),
-                revenue: new FormControl(''),
-                earn: new FormControl(''),
-              })
-            )
-          );
-          this.search = true;
-        });
-    }
+
+
+  searchNewspaper($event: SearchNewspaperDto) {
+    Object.keys($event).forEach(chiave => {
+      // @ts-ignore
+      if ($event[chiave] == null) {
+        // @ts-ignore
+        $event[chiave] = '';
+      }
+    });
+    this.newspaperService.find($event, new PaginationDto(0, undefined, 'ASC', 'name'))
+      .subscribe(res => {
+        this.formPriceQuotations.controls.priceQuotations = new FormArray(
+          res.content.map(newspaper =>
+            new FormGroup({
+              id: new FormControl(newspaper.id),
+              nameNewspaper: new FormControl(newspaper.name),
+              costEach: new FormControl(newspaper.costEach),
+              costSell: new FormControl(newspaper.costSell),
+              numberOfEditors: new FormControl('', Validators.required),
+              expense: new FormControl(''),
+              revenue: new FormControl(''),
+              earn: new FormControl(''),
+            })
+          )
+        );
+        this.search = true;
+      })
   }
 
   calcolaPreventivo(indice: number) {
@@ -119,22 +122,4 @@ export class PriceQuotationComponent implements OnInit {
       saveAs(result.body as Blob, "preventivo.pdf")
     })
   }
-  //
-  // testate = [{name:'ciao'}, {name:'salve'}, {name:'ugo'}, {name:'luigi'}];
-  //
-  // test: OperatorFunction<string, readonly any[]> = (text$: Observable<string>) =>
-  //   text$.pipe(
-  //     debounceTime(200),
-  //     distinctUntilChanged(),
-  //     map(term => term.length < 2 ? []
-  //       : this.testate.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-  //   )
-  //
-  //
-  //
-  // formatter = (x: any) => {
-  //   console.log(x);
-  //   return x.name;
-  // }
-  // public model: any;
 }

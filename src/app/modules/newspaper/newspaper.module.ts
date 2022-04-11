@@ -13,13 +13,16 @@ import { NewspaperSearchFilterComponent } from './components/newspaper-search-fi
 
 
 @NgModule({
-  declarations: [
-    NewspaperSaveFormComponent,
-    NewspaperListComponent,
-    NewspaperCreateComponent,
-    NewspaperUpdateComponent,
-    NewspaperSearchFilterComponent
-  ],
+    declarations: [
+        NewspaperSaveFormComponent,
+        NewspaperListComponent,
+        NewspaperCreateComponent,
+        NewspaperUpdateComponent,
+        NewspaperSearchFilterComponent
+    ],
+    exports: [
+        NewspaperSearchFilterComponent
+    ],
     imports: [
         CommonModule,
         NewspaperRoutingModule,
