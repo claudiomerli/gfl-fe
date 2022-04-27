@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ExportExcelPdfService} from "../../services/export-excel-pdf.service";
 import {Observable} from "rxjs";
+import { saveAs } from 'file-saver';
+
 
 @Component({
   selector: 'app-export-excel-pdf',
