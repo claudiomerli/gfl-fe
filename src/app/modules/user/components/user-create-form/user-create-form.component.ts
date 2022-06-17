@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
+import {AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {SaveUserDto} from "../../../shared/messages/users/save-user.dto";
 
 @Component({
@@ -9,23 +9,23 @@ import {SaveUserDto} from "../../../shared/messages/users/save-user.dto";
 })
 export class UserCreateFormComponent implements OnInit {
 
-  createUserForm: FormGroup = new FormGroup({});
+  createUserForm: UntypedFormGroup = new UntypedFormGroup({});
   formSubmitted: boolean = false;
 
   constructor() {
   }
 
   ngOnInit(): void {
-    this.createUserForm = new FormGroup({
-      username: new FormControl('', [Validators.required]),
-      fullname: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      mobilePhone: new FormControl(''),
-      level: new FormControl(''),
-      remuneration: new FormControl(''),
-      role: new FormControl(null, [Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      repeatPassword: new FormControl('', [Validators.required, this.passwordMatchesValidatorFunction()])
+    this.createUserForm = new UntypedFormGroup({
+      username: new UntypedFormControl('', [Validators.required]),
+      fullname: new UntypedFormControl('', [Validators.required]),
+      email: new UntypedFormControl('', [Validators.required, Validators.email]),
+      mobilePhone: new UntypedFormControl(''),
+      level: new UntypedFormControl(''),
+      remuneration: new UntypedFormControl(''),
+      role: new UntypedFormControl(null, [Validators.required]),
+      password: new UntypedFormControl('', [Validators.required, Validators.minLength(8)]),
+      repeatPassword: new UntypedFormControl('', [Validators.required, this.passwordMatchesValidatorFunction()])
     });
   }
 

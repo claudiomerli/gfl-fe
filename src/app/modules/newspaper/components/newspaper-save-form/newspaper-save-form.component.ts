@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 import {SaveNewspaperDto} from "../../../shared/messages/newspaper/save-newspaper.dto";
 import {Newspaper} from "../../../shared/model/newspaper";
 import {Topic} from "../../../shared/model/topic";
@@ -19,17 +19,17 @@ export class NewspaperSaveFormComponent implements OnInit {
 
   topicList = [] as Array<Topic>;
   selectedTopicList = [] as Array<Topic>;
-  saveNewspaperForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    ip: new FormControl('',),
-    za: new FormControl('',),
-    purchasedContent: new FormControl('0'),
-    costEach: new FormControl('0.0'),
-    costSell: new FormControl('0.0'),
-    email: new FormControl('', [Validators.email]),
-    regionalGeolocalization: new FormControl(''),
-    note: new FormControl(''),
-    topics: new FormControl([]),
+  saveNewspaperForm = new UntypedFormGroup({
+    name: new UntypedFormControl('', [Validators.required]),
+    ip: new UntypedFormControl('',),
+    za: new UntypedFormControl('',),
+    purchasedContent: new UntypedFormControl('0'),
+    costEach: new UntypedFormControl('0.0'),
+    costSell: new UntypedFormControl('0.0'),
+    email: new UntypedFormControl('', [Validators.email]),
+    regionalGeolocalization: new UntypedFormControl(''),
+    note: new UntypedFormControl(''),
+    topics: new UntypedFormControl([]),
   })
   formSubmitted: boolean = false;
 

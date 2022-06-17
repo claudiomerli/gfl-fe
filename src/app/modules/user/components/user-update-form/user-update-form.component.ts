@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
+import {AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {User} from "../../../shared/model/user";
 import {EditUserDto} from "../../../shared/messages/users/edit-user.dto";
 
@@ -38,16 +38,16 @@ export class UserUpdateFormComponent implements OnInit {
     }
   };
 
-  editUserForm = new FormGroup({
-    fullname: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required]),
-    mobilePhone: new FormControl(''),
-    level: new FormControl(''),
-    remuneration: new FormControl(''),
-    role: new FormControl(null, [Validators.required]),
+  editUserForm = new UntypedFormGroup({
+    fullname: new UntypedFormControl('', [Validators.required]),
+    email: new UntypedFormControl('', [Validators.required]),
+    mobilePhone: new UntypedFormControl(''),
+    level: new UntypedFormControl(''),
+    remuneration: new UntypedFormControl(''),
+    role: new UntypedFormControl(null, [Validators.required]),
 
-    password: new FormControl(''),
-    repeatPassword: new FormControl('')
+    password: new UntypedFormControl(''),
+    repeatPassword: new UntypedFormControl('')
   });
   formSubmitted: boolean = false;
 

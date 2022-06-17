@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
+import {UntypedFormBuilder} from "@angular/forms";
 import {CustomerService} from "../../../shared/services/customer.service";
 import {ProjectService} from "../../../shared/services/project.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -16,7 +16,7 @@ export class ProjectEditComponent implements OnInit {
 
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private customerService: CustomerService,
     private projectService: ProjectService,
     private activatedRoute: ActivatedRoute,

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {Customer} from "../../../shared/model/customer";
 import {Newspaper} from "../../../shared/model/newspaper";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 import {CustomerService} from "../../../shared/services/customer.service";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {Project, ProjectContentPreview} from "../../../shared/model/project";
@@ -17,7 +17,7 @@ import {AuthService} from "../../../shared/services/auth.service";
 })
 export class ProjectFormComponent implements OnInit, OnChanges {
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private customerService: CustomerService,
               private projectService: ProjectService,
               private newspaperService: NewspaperService,
@@ -53,7 +53,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
       });
   }
 
-  aggiungiElemento(projectContentPreview?: any): FormGroup {
+  aggiungiElemento(projectContentPreview?: any): UntypedFormGroup {
     return this.formBuilder.group({
       id: [projectContentPreview?.id],
       contentId: [projectContentPreview?.contentId],
@@ -67,15 +67,15 @@ export class ProjectFormComponent implements OnInit, OnChanges {
   }
 
   plus(projectContentPreview?: any): void {
-    (this.form.get('projectContentPreviews') as FormArray).push(this.aggiungiElemento(projectContentPreview));
+    (this.form.get('projectContentPreviews') as UntypedFormArray).push(this.aggiungiElemento(projectContentPreview));
   }
   minus(i: number) {
-    if((this.form.get('projectContentPreviews') as FormArray).at(i).value.id){
-      this.projectService.deleteContentPreview((this.form.get('projectContentPreviews') as FormArray).at(i).value.id).subscribe(res => {
-        (this.form.get('projectContentPreviews') as FormArray).removeAt(i);
+    if((this.form.get('projectContentPreviews') as UntypedFormArray).at(i).value.id){
+      this.projectService.deleteContentPreview((this.form.get('projectContentPreviews') as UntypedFormArray).at(i).value.id).subscribe(res => {
+        (this.form.get('projectContentPreviews') as UntypedFormArray).removeAt(i);
       });
     } else {
-      (this.form.get('projectContentPreviews') as FormArray).removeAt(i);
+      (this.form.get('projectContentPreviews') as UntypedFormArray).removeAt(i);
     }
   }
 
@@ -132,8 +132,8 @@ export class ProjectFormComponent implements OnInit, OnChanges {
     }
   }
 
-  get controls(): FormControl[] {
-    return (this.form.get('projectContentPreviews') as FormArray).controls as FormControl[];
+  get controls(): UntypedFormControl[] {
+    return (this.form.get('projectContentPreviews') as UntypedFormArray).controls as UntypedFormControl[];
   }
 
   gestisciRedazionale(item: ProjectContentPreview) {

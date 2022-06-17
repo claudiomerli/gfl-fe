@@ -9,7 +9,7 @@ import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {ContentRules} from "../../../shared/model/content-rules";
 import {Content, ContentLink} from "../../../shared/model/content";
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from "@angular/core";
-import {FormArray, FormBuilder, Validators} from "@angular/forms";
+import {UntypedFormArray, UntypedFormBuilder, Validators} from "@angular/forms";
 import {Project, ProjectContentPreview} from "../../../shared/model/project";
 import {ProjectService} from "../../../shared/services/project.service";
 import {filter} from "rxjs/operators";
@@ -29,7 +29,7 @@ export interface ContentSaveEvent {
 export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private customerService: CustomerService,
     private userService: UserService,
     private newspaperService: NewspaperService,
@@ -94,11 +94,11 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
   private intervalSubscription?: Subscription;
 
   get links() {
-    return this.contentForm.get('links') as FormArray;
+    return this.contentForm.get('links') as UntypedFormArray;
   }
 
   get contentRuleLinks() {
-    return this.contentForm.controls.contentRules.get('links') as FormArray;
+    return this.contentForm.controls.contentRules.get('links') as UntypedFormArray;
   }
 
   ngOnInit(): void {

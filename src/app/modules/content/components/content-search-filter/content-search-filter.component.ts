@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
+import {UntypedFormBuilder} from "@angular/forms";
 import {BehaviorSubject} from "rxjs";
 import {Customer} from "../../../shared/model/customer";
 import {CustomerService} from "../../../shared/services/customer.service";
@@ -21,7 +21,7 @@ import {ActivatedRoute} from "@angular/router";
 export class ContentSearchFilterComponent implements OnInit {
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private customerService: CustomerService,
     private userService: UserService,
     private newspaperService: NewspaperService,

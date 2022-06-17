@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormControl, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormControl, Validators} from "@angular/forms";
 import {SearchNewspaperDto} from "../../../shared/messages/newspaper/search-newspaper.dto";
 import {TopicService} from "../../../shared/services/topic.service";
 import {Topic} from "../../../shared/model/topic";
@@ -17,20 +17,20 @@ export class NewspaperSearchFilterComponent implements OnInit {
   formSubmitted: boolean = false;
 
   searchForm = this.formBuilder.group({
-    name: new FormControl(''),
-    zaFrom: new FormControl(''),
-    zaTo: new FormControl(''),
-    purchasedContentFrom: new FormControl(''),
-    purchasedContentTo: new FormControl(''),
-    costEachFrom: new FormControl(''),
-    costEachTo: new FormControl(''),
-    costSellFrom: new FormControl(''),
-    costSellTo: new FormControl(''),
-    regionalGeolocalization: new FormControl(''),
-    topics: new FormControl([]),
+    name: new UntypedFormControl(''),
+    zaFrom: new UntypedFormControl(''),
+    zaTo: new UntypedFormControl(''),
+    purchasedContentFrom: new UntypedFormControl(''),
+    purchasedContentTo: new UntypedFormControl(''),
+    costEachFrom: new UntypedFormControl(''),
+    costEachTo: new UntypedFormControl(''),
+    costSellFrom: new UntypedFormControl(''),
+    costSellTo: new UntypedFormControl(''),
+    regionalGeolocalization: new UntypedFormControl(''),
+    topics: new UntypedFormControl([]),
   })
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private topicService: TopicService) {
   }
 

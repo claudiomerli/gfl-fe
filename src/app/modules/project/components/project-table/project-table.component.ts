@@ -5,7 +5,7 @@ import {ModalComponent, ModalSize} from "../../../shared/components/modal/modal.
 import {ContentMonthUse} from "../../../shared/model/content";
 import {UserService} from "../../../shared/services/user.service";
 import {User} from "../../../shared/model/user";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {ProjectService} from "../../../shared/services/project.service";
 import {Router} from "@angular/router";
@@ -35,28 +35,28 @@ export class ProjectTableComponent implements OnInit {
   selectedProject?: Project;
   contents : ProjectContentPreview[] | undefined = Array<ProjectContentPreview>();
   listUtenti : Array<User>| undefined = Array<User>();
-  assegnazioneForm: FormGroup = this.initAssegnazioneForm();
+  assegnazioneForm: UntypedFormGroup = this.initAssegnazioneForm();
   assegnazioneFormSubmitted: boolean = false;
 
 
   constructor(private userService: UserService,
               private projectService: ProjectService,
-              private fb: FormBuilder,
+              private fb: UntypedFormBuilder,
               private router: Router) {
   }
 
   ngOnInit(): void {
   }
 
-  initAssegnazioneForm(): FormGroup {
+  initAssegnazioneForm(): UntypedFormGroup {
     return this.fb.group({
       projectId: ['', Validators.required],
       userId: ['', Validators.required]
     });
   }
 
-  get userIdControl(): FormControl {
-    return this.assegnazioneForm.controls.userId as FormControl;
+  get userIdControl(): UntypedFormControl {
+    return this.assegnazioneForm.controls.userId as UntypedFormControl;
   }
 
   isInAvailableStatus(project: Project): boolean {

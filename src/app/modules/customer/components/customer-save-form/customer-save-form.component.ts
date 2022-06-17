@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   ValidationErrors,
   ValidatorFn,
   Validators
@@ -24,24 +24,24 @@ export class CustomerSaveFormComponent implements OnInit {
   @Output() formSubmit = new EventEmitter<any>();
   formSubmitted: boolean = false;
 
-  saveCustomerForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.email]),
-    mobile: new FormControl('', []),
-    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-    repeatPassword: new FormControl('', [Validators.required, this.passwordMatchesValidatorFunction()]),
+  saveCustomerForm = new UntypedFormGroup({
+    name: new UntypedFormControl('', [Validators.required]),
+    username: new UntypedFormControl('', [Validators.required]),
+    email: new UntypedFormControl('', [Validators.email]),
+    mobile: new UntypedFormControl('', []),
+    password: new UntypedFormControl('', [Validators.required, Validators.minLength(8)]),
+    repeatPassword: new UntypedFormControl('', [Validators.required, this.passwordMatchesValidatorFunction()]),
     contentRules: this.formBuilder.group({
-      title: new FormControl(''),
-      linkUrl: new FormControl(''),
-      linkText: new FormControl(''),
-      body: new FormControl(''),
-      maxCharacterBodyLength: new FormControl(undefined)
+      title: new UntypedFormControl(''),
+      linkUrl: new UntypedFormControl(''),
+      linkText: new UntypedFormControl(''),
+      body: new UntypedFormControl(''),
+      maxCharacterBodyLength: new UntypedFormControl(undefined)
     })
   })
 
 
-  constructor(private contentRulesService: ContentRulesService, private formBuilder: FormBuilder) {
+  constructor(private contentRulesService: ContentRulesService, private formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {
