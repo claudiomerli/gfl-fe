@@ -9,6 +9,7 @@ import {SecurityInterceptor} from "./modules/shared/interceptors/security.interc
 import {NgxPaginationModule} from "ngx-pagination";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ToastComponent} from "./modules/toast/toast.component";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {ToastComponent} from "./modules/toast/toast.component";
     SharedModule,
     HttpClientModule,
     NgbModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {
