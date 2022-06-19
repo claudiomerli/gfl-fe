@@ -5,7 +5,6 @@ import {CommonModule} from "@angular/common";
 import {PriceQuotationRoutingModule} from "./price-quotation-routing.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgxAutocompleteModule} from "ngx-angular-autocomplete";
-import { NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
 import {NewspaperModule} from "../newspaper/newspaper.module";
 
 
@@ -19,7 +18,6 @@ import {NewspaperModule} from "../newspaper/newspaper.module";
         NgxAutocompleteModule,
         ReactiveFormsModule,
         SharedModule,
-        NgbTypeaheadModule,
         FormsModule,
         NewspaperModule
     ]

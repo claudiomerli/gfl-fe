@@ -1,7 +1,19 @@
-<app-header></app-header>
-<app-toast></app-toast>
-<div class="container my-3">
-  <router-outlet></router-outlet>
-  <app-toast></app-toast>
+<div class="full-body">
+  <div class="h-100 w-100 position-relative">
+    <mat-toolbar color="primary" style="height: 7%">
+      <button *isAuthenticated="[]" (click)="drawer.toggle()" mat-icon-button>
+        <mat-icon *ngIf="!(menuState|async)">menu</mat-icon>
+        <mat-icon *ngIf="(menuState|async)">arrow_back</mat-icon>
+      </button>
+      <span class="ms-auto">Gestione Flusso Lavoro</span>
+    </mat-toolbar>
+    <mat-drawer-container style="height: 93%">
+      <mat-drawer #drawer (openedStart)="toggleMenu(true)" (closedStart)="toggleMenu(false)" mode="over">
+        <app-sidemenu (logout)="onLogout()"></app-sidemenu>
+      </mat-drawer>
+      <mat-drawer-content>
+        <router-outlet></router-outlet>
+      </mat-drawer-content>
+    </mat-drawer-container>
+  </div>
 </div>
-<app-toast></app-toast>

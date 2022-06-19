@@ -1,5 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from "./modules/shared/services/auth.service";
+import {Select, Store} from "@ngxs/store";
+import {ApplicationState, SetStateAction} from "./modules/store/state/application-state";
+import {Observable} from "rxjs";
+import {MatDrawer} from "@angular/material/sidenav";
+import {LoadUserAction, SignoutAction} from "./modules/store/state/authentication-state";
+import {NavigationEnd, Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -9,14 +15,28 @@ import {AuthService} from "./modules/shared/services/auth.service";
 export class AppComponent implements OnInit {
   title = 'gfl-fe';
 
-  constructor(private authenticationService: AuthService) {
-  }
+  @ViewChild("drawer") drawer!: MatDrawer
+  @Select(ApplicationState.menuState) menuState!: Observable<ApplicationState>;
 
+  constructor(private store: Store, private router: Router) {
+  }
 
   ngOnInit(): void {
-    if (this.authenticationService.getAccessTokenFromLocalStorage()) {
-      this.authenticationService.loadUserInfo().subscribe();
-    }
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.drawer.close()
+      }
+    })
   }
 
+
+  toggleMenu(opened: boolean) {
+    this.store.dispatch(new SetStateAction({menuOpen: opened}))
+  }
+
+  onLogout() {
+    this.store.dispatch(new SignoutAction()).subscribe(() => {
+      this.router.navigate(['/auth/login'])
+    })
+  }
 }

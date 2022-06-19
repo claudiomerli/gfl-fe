@@ -13,17 +13,19 @@ import {Router} from "@angular/router";
 @Injectable()
 export class SecurityInterceptor implements HttpInterceptor {
 
-  constructor(private authenticationService: AuthService, private router: Router) {
+  constructor(
+    private authenticationService: AuthService,
+    private router: Router) {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let accessTokenFromLocalStorage = this.authenticationService.getAccessTokenFromLocalStorage();
     let responseObserver
 
-    if (accessTokenFromLocalStorage?.accessToken) {
+    if (accessTokenFromLocalStorage) {
       responseObserver = next.handle(request.clone({
         headers: request.headers
-          .append("Authorization", "Bearer " + accessTokenFromLocalStorage.accessToken)
+          .append("Authorization", "Bearer " + accessTokenFromLocalStorage)
       }))
     } else {
       responseObserver = next.handle(request)

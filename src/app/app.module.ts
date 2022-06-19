@@ -7,9 +7,17 @@ import {SharedModule} from "./modules/shared/shared.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {SecurityInterceptor} from "./modules/shared/interceptors/security.interceptor";
 import {NgxPaginationModule} from "ngx-pagination";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ToastComponent} from "./modules/toast/toast.component";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {NgxsModule} from "@ngxs/store";
+import {ApplicationState} from "./modules/store/state/application-state";
+import {environment} from "../environments/environment";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {AuthenticationState} from "./modules/store/state/authentication-state";
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
@@ -21,14 +29,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     SharedModule,
     HttpClientModule,
-    NgbModule,
     NgxPaginationModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    NgxsModule.forRoot([ApplicationState, AuthenticationState], {
+      developmentMode: !environment.production
+    }),
+    MatIconModule,
+    MatButtonModule,
+    MatSidenavModule
   ],
   providers: [
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill', floatLabel: 'auto'}},
     {
-      provide : HTTP_INTERCEPTORS,
-      useClass : SecurityInterceptor,
+      provide: HTTP_INTERCEPTORS,
+      useClass: SecurityInterceptor,
       multi: true
     }
   ],

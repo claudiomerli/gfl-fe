@@ -15,48 +15,23 @@ export class AuthService {
   constructor(private httpClient: HttpClient) {
   }
 
-  readonly LS_USER_KEY = "current_user";
   readonly LS_ACCESSTOKEN_KEY = "access_token";
-  readonly currentUser = new BehaviorSubject<User | undefined>(undefined)
 
-  public getCurrentUserFromLocalStorage(): User | undefined {
-    let userJson = localStorage.getItem(this.LS_USER_KEY);
 
-    if (!userJson) {
-      return undefined;
-    }
-
-    return JSON.parse(userJson) as User;
+  public getAccessTokenFromLocalStorage(): string | undefined | null {
+    return localStorage.getItem(this.LS_ACCESSTOKEN_KEY);
   }
 
-  public storeUserToLocalStorage(user: User) {
-    localStorage.setItem(this.LS_USER_KEY, JSON.stringify(user));
+  public storeAccessTokenToLocalStorage(accessToken: string) {
+    localStorage.setItem(this.LS_ACCESSTOKEN_KEY, accessToken);
   }
 
-  public getAccessTokenFromLocalStorage(): AccessTokenDto | undefined {
-    let accessTokenJson = localStorage.getItem(this.LS_ACCESSTOKEN_KEY);
-
-    if (!accessTokenJson) {
-      return undefined;
-    }
-
-    return JSON.parse(accessTokenJson) as AccessTokenDto;
-  }
-
-  public storeAccessTokenToLocalStorage(accessToken: AccessTokenDto) {
-    localStorage.setItem(this.LS_ACCESSTOKEN_KEY, JSON.stringify(accessToken));
-  }
-
-  signin(signinDto: SigninDto | undefined): Observable<AccessTokenDto> {
+  signin(signinDto: SigninDto): Observable<AccessTokenDto> {
     return this.httpClient.post<AccessTokenDto>(environment.apiBaseurl + "/auth/signin", signinDto);
   }
 
-  loadUserInfo() : Observable<User>{
+  loadUserInfo(): Observable<User> {
     return this.httpClient.get<User>(environment.apiBaseurl + "/auth/userInfo")
-      .pipe(tap(user => {
-        this.storeUserToLocalStorage(user);
-        this.currentUser.next(user);
-      }))
   }
 
   clearLocalStorage() {

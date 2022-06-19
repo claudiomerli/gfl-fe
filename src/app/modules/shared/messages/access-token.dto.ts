@@ -1,5 +1,5 @@
-export class AccessTokenDto {
+export interface AccessTokenDto {
 
-  accessToken: string | undefined
+  accessToken: string
 
 }

@@ -1,6 +1,6 @@
-export class SigninDto {
+export interface SigninDto {
 
-  username: string | undefined;
-  password: string | undefined;
+  username: string;
+  password: string;
 
 }

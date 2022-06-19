@@ -9,6 +9,8 @@ import {NgxAutocompleteComponent} from "ngx-angular-autocomplete";
 import {ProjectService} from "../../../shared/services/project.service";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../shared/services/auth.service";
+import {Store} from "@ngxs/store";
+import {AuthenticationState} from "../../../store/state/authentication-state";
 
 @Component({
   selector: 'app-project-form',
@@ -22,7 +24,8 @@ export class ProjectFormComponent implements OnInit, OnChanges {
               private projectService: ProjectService,
               private newspaperService: NewspaperService,
               private authService: AuthService,
-              private router: Router) {
+              private router: Router,
+              private store: Store) {
   }
 
   @Input() isEdit = false
@@ -41,7 +44,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
 
   form = this.formBuilder.group({
     name: ['', Validators.required],
-    customerId: [this.authService.getCurrentUserFromLocalStorage()?.customer ? this.authService.getCurrentUserFromLocalStorage()?.customer?.id : '', Validators.required],
+    customerId: [this.store.selectSnapshot(AuthenticationState.user)?.customer || '', Validators.required],
     projectContentPreviews: this.formBuilder.array([])
   });
 
@@ -69,8 +72,9 @@ export class ProjectFormComponent implements OnInit, OnChanges {
   plus(projectContentPreview?: any): void {
     (this.form.get('projectContentPreviews') as UntypedFormArray).push(this.aggiungiElemento(projectContentPreview));
   }
+
   minus(i: number) {
-    if((this.form.get('projectContentPreviews') as UntypedFormArray).at(i).value.id){
+    if ((this.form.get('projectContentPreviews') as UntypedFormArray).at(i).value.id) {
       this.projectService.deleteContentPreview((this.form.get('projectContentPreviews') as UntypedFormArray).at(i).value.id).subscribe(res => {
         (this.form.get('projectContentPreviews') as UntypedFormArray).removeAt(i);
       });
@@ -87,7 +91,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
         projectContentPreviews: []
       };
       this.form.patchValue(projectValue);
-      if(this.project.projectContentPreviews && this.project.projectContentPreviews.length >0){
+      if (this.project.projectContentPreviews && this.project.projectContentPreviews.length > 0) {
         this.project.projectContentPreviews.forEach(projectContentPreview => this.plus(projectContentPreview));
       }
       this.autocompleteComponentCustomer?.setValue(this.project.customer || '')
@@ -127,7 +131,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
 
   onSubmit() {
     this.formSubmitted = true;
-    if(this.form.valid) {
+    if (this.form.valid) {
       this.submitForm.emit(this.form.value);
     }
   }
@@ -138,15 +142,15 @@ export class ProjectFormComponent implements OnInit, OnChanges {
 
   gestisciRedazionale(item: ProjectContentPreview) {
 
-    if(item.contentId) {
-      this.router.navigate(["/contents/"+item.contentId]);
+    if (item.contentId) {
+      this.router.navigate(["/contents/" + item.contentId]);
     } else {
       this.router.navigate(["/contents/create"], {queryParams: {previewId: item.id}});
     }
   }
 
   getCurrentCustomer(): string | undefined {
-    return this.authService.getCurrentUserFromLocalStorage()?.customer?.name;
+    return this.store.selectSnapshot(AuthenticationState.user)?.customer?.name;
   }
 
 }

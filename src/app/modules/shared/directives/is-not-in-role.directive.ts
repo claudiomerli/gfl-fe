@@ -1,6 +1,8 @@
 import {Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
 import {AuthService} from "../services/auth.service";
 import {Subscription} from "rxjs";
+import {Store} from "@ngxs/store";
+import {AuthenticationState} from "../../store/state/authentication-state";
 
 @Directive({
   selector: '[isNotInRole]'
@@ -12,7 +14,7 @@ export class IsNotInRoleDirective implements OnInit, OnDestroy {
   private subscription: Subscription | undefined = undefined;
 
   constructor(private authService: AuthService, private templateRef: TemplateRef<any>,
-              private viewContainer: ViewContainerRef) {
+              private viewContainer: ViewContainerRef, private store: Store) {
   }
 
   @Input() set isNotInRole(roles: string[] | '') {
@@ -20,8 +22,7 @@ export class IsNotInRoleDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.authService
-      .currentUser
+    this.subscription = this.store.select(AuthenticationState.user)
       .subscribe((user) => {
         if (user) {
           if (this.requiredRoles.length == 0) {

@@ -1,6 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {NewspaperService} from "../../../shared/services/newspaper.service";
-import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
+import {
+  FormGroup,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators
+} from "@angular/forms";
 import {TopicService} from "../../../shared/services/topic.service";
 import {Topic} from "../../../shared/model/topic";
 import {SelectDto} from "../../../shared/messages/select.dto";
