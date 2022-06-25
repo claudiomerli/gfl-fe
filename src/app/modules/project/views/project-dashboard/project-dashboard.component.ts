@@ -5,6 +5,8 @@ import {BehaviorSubject, fromEvent} from "rxjs";
 import {PageResponseDto} from "../../../shared/messages/page-response.dto";
 import {debounceTime} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
+import {projectStatuses} from "../../../shared/utils/utils";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'app-project-dashboard',
@@ -18,15 +20,22 @@ export class ProjectDashboardComponent implements OnInit, AfterViewInit {
   @ViewChild("globalSearchInput")
   globalSearchInput: ElementRef | undefined
   globalSearch = "";
+  statusSearch = "";
 
   actualPage$ = new BehaviorSubject<PageResponseDto<Project>>(new PageResponseDto<Project>());
-  actualPageValue = 1;
+  actualPagination: PaginationDto = {
+    page: 0,
+    pageSize: 10,
+    sortBy: "id",
+    sortDirection: "ASC"
+  }
+  projectStatuses = projectStatuses;
 
   constructor(private projectService: ProjectService) {
   }
 
   ngOnInit(): void {
-    this.onPageChange(this.actualPageValue);
+    this.search();
   }
 
   ngAfterViewInit(): void {
@@ -35,7 +44,8 @@ export class ProjectDashboardComponent implements OnInit, AfterViewInit {
         .pipe(debounceTime(200))
         .subscribe((res) => {
           this.globalSearch = (res as any).target.value
-          this.onPageChange(1);
+          this.actualPagination.page = 0;
+          this.search();
         })
     }
   }
@@ -43,24 +53,32 @@ export class ProjectDashboardComponent implements OnInit, AfterViewInit {
   onDelete(project: Project) {
     this.projectService.delete(project.id!)
       .subscribe(() => {
-        this.onPageChange(1);
+        this.actualPagination.page = 0;
+        this.search();
       })
   }
 
-  onPageChange(pageNumber: number) {
-    this.actualPageValue = pageNumber;
+  search() {
     this.projectService
-      .find(this.globalSearch, {...new PaginationDto(), page: this.actualPageValue - 1})
+      .find(this.globalSearch, this.statusSearch, this.actualPagination)
       .subscribe(res => {
         console.log(res);
         this.actualPage$.next(res);
+        this.actualPagination = {...this.actualPagination}
       })
   }
 
   changeStatus(project: Project) {
-    this.projectService.changeStatus(project)
+    this.projectService
+      .changeStatus(project)
       .subscribe(() => {
-        this.onPageChange(this.actualPageValue);
+        this.actualPagination.page = 0;
+        this.search();
       })
+  }
+
+  onChangeStatusFilter($event: MatSelectChange) {
+    this.statusSearch = $event.value
+    this.search()
   }
 }

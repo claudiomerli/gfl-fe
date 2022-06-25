@@ -106,7 +106,7 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
       this.customerService.find("", PaginationDto.buildMaxValueOnePage()),
       this.userService.find("", '', PaginationDto.buildMaxValueOnePage()),
       this.newspaperService.find({}, PaginationDto.buildMaxValueOnePage()),
-      this.projectService.find("", PaginationDto.buildMaxValueOnePage())
+      this.projectService.find("", "" ,PaginationDto.buildMaxValueOnePage())
     ).subscribe(results => {
       this.customers$.next(results[0].content)
       this.editor$.next(results[1].content)

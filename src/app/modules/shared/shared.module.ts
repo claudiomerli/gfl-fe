@@ -21,6 +21,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatDividerModule} from "@angular/material/divider";
+import { ProjectStatusLabelPipe } from './pipes/project-status-label.pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {MatDividerModule} from "@angular/material/divider";
     ErrorsComponent,
     RoleDescriptionPipe,
     ExportExcelPdfComponent,
-    SidemenuComponent
+    SidemenuComponent,
+    ProjectStatusLabelPipe
   ],
   exports: [
     StatusLabelPipe,

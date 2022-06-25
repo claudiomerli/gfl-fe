@@ -1,20 +1,39 @@
-<div class="d-flex justify-content-between my-3">
-  <h3>Dashboard Progetti</h3>
-</div>
-<div class="d-flex justify-content-between align-items-center" *isAuthenticated="['ADMIN', 'CUSTOMER']">
-  <input type="text" name="globalSearch" class="form-control w-50" placeholder="Cerca..." #globalSearchInput>
-  <a class="btn btn-primary" routerLink="/projects/create">
-    <em class="bi bi-plus"></em>
-    Nuovo progetto
-  </a>
-</div>
-<div>
+<mat-toolbar>
+  <span>Progetti</span>
+</mat-toolbar>
+<div class="p-3">
+  <div *isAuthenticated="['ADMIN', 'CUSTOMER']" class="row align-items-center">
+    <div class="col-4">
+      <mat-form-field class="w-100">
+        <mat-label>Ricerca</mat-label>
+        <input matInput type="text" #globalSearchInput>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field>
+        <mat-label>Stato</mat-label>
+        <mat-select (selectionChange)="onChangeStatusFilter($event)">
+          <mat-option [value]="''">Tutti</mat-option>
+          <mat-option *ngFor="let status of projectStatuses" [value]="status.code">
+            {{status.label}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-3 ms-auto text-end">
+      <a mat-raised-button routerLink="/projects/create">
+        <mat-icon>add</mat-icon>
+        Nuovo progetto
+      </a>
+    </div>
+  </div>
   <ng-container *ngIf="(actualPage$ | async) as actualPageValue">
     <app-project-table
-      (pageChange)="onPageChange($event)"
+      (pageChange)="search()"
       (changeStatus)="changeStatus($event)"
       (delete)="onDelete($event)"
-      [actualPageValue]="actualPageValue"
+      [actualPage]="actualPageValue"
+      [actualPaginationRequest]="actualPagination"
       [availableStatusProject]="[ProjectStatus.CREATED,ProjectStatus.WORKING]"
     ></app-project-table>
   </ng-container>

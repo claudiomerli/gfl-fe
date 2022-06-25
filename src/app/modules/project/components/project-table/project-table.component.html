@@ -1,176 +1,89 @@
-<table class="table">
-  <thead>
-  <tr>
-    <th scope="col">ID</th>
-    <th scope="col">Nome</th>
-    <th scope="col">Cliente</th>
-    <th scope="col">Stato</th>
-    <th scope="col" *isAuthenticated="['ADMIN', 'CHIEF_EDITOR']">Capo Redattore</th>
-    <th scope="col">Azioni</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr
-    *ngFor="let project of actualPageValue.content | paginate : { itemsPerPage: actualPageValue?.pageable?.pageSize, currentPage: (actualPageValue?.pageable?.pageNumber || 0) + 1, totalItems: actualPageValue?.totalElements }; let index = index;">
-    <th scope="row">{{project.id}}</th>
-    <td>{{project.name}}</td>
-    <td>{{project.customer?.name}}</td>
-    <td>{{project.status}}</td>
-    <td *isAuthenticated="['ADMIN', 'CHIEF_EDITOR']">{{project.chiefEditor?.fullname}}</td>
-    <td>
-      <button class="btn btn-primary btn-sm m-1" [routerLink]="['/projects',project.id]" title="Modifica progetto"
-              *isAuthenticated="['ADMIN', 'CUSTOMER']">
-        <i class="bi bi-pencil"></i>
+<table mat-table [dataSource]="actualPage.content" class="w-100" matSort (matSortChange)="onSortChange($event)">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+    <td mat-cell *matCellDef="let project"> {{project.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
+    <td mat-cell *matCellDef="let project"> {{project.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="customer.name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
+    <td mat-cell *matCellDef="let project"> {{project.customer?.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Stato</th>
+    <td mat-cell *matCellDef="let project"> {{project.status}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="chiefEditor" >
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Capo Redattore</th>
+    <td mat-cell *matCellDef="let project"> {{project.chiefEditor?.fullname}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Azioni</th>
+    <td mat-cell *matCellDef="let project">
+      <button mat-icon-button [routerLink]="['/projects',project.id]" *isAuthenticated="['ADMIN', 'CUSTOMER']"
+              title="Modifica">
+        <mat-icon>edit</mat-icon>
       </button>
-      <button class="btn btn-danger btn-sm m-1" title="Elimina progetto" (click)="delete.emit(project)"
-              *isAuthenticated="['ADMIN']">
-        <i class="bi bi-trash"></i>
+      <button mat-icon-button title="Elimina progetto" (click)="delete.emit(project)" *isAuthenticated="['ADMIN']">
+        <mat-icon>delete</mat-icon>
       </button>
-      <button class="btn btn-primary btn-sm m-1" (click)="apriDettaglioProgetto(project)" title="Dettaglio progetto">
-        <i class="bi bi-search"></i>
+      <button mat-icon-button (click)="apriDettaglioProgetto(project)" title="Vedi dettaglio">
+        <mat-icon>search</mat-icon>
       </button>
-      <button class="btn btn-primary btn-sm m-1" (click)="assegnaProgetto(project)" title="Assegna progetto" *isAuthenticated="['ADMIN']">
-        <i class="bi bi-arrow-right-square"></i>
+      <button mat-icon-button (click)="assegnaProgetto(project)" title="Assegna progetto" *isAuthenticated="['ADMIN']">
+        <mat-icon>assignment_ind</mat-icon>
       </button>
-      <button class="btn btn-primary btn-sm m-1" [routerLink]="'/contents'" [queryParams]="{projectId: project?.id}" title="gestisci redazionali">
-        <i class="bi bi-file-earmark-text"></i>
-      </button>
+      <a mat-icon-button [routerLink]="'/contents'" [queryParams]="{projectId: project?.id}"
+         title="Gestisci redazionali">
+        <mat-icon>history_edu</mat-icon>
+      </a>
       <ng-container *isAuthenticated="['ADMIN']">
-        <button *ngIf="showChangeStatusButton && project.nextState && isInAvailableStatus(project)"
+        <button mat-icon-button *ngIf="showChangeStatusButton && project.nextState && isInAvailableStatus(project)"
                 class="btn btn-primary btn-sm m-1" (click)="changeStatus.emit(project)" title="Cambia stato">
-          <i class="bi bi-gear"></i> Cambia stato
+          <mat-icon>settings</mat-icon>
         </button>
       </ng-container>
     </td>
-  </tr>
-  </tbody>
-</table>
-<div class="text-center">
-  <pagination-controls (pageChange)="pageChange.emit($event)"></pagination-controls>
-</div>
+  </ng-container>
 
-<app-modal #modal [size]="modalSizeXL" (close)="selectedProject = undefined">
-  <div body>
-    <div class="alert alert-warning" role="alert" *ngIf="!contents || contents.length == 0">
-      Il progetto non ha articoli inseriti
-    </div>
-    <div class="accordion" id="accordionExample" *ngIf="contents && contents.length > 0">
-      <ng-container *ngFor="let item of contents; let i = index;">
-        <div class="row">
-          <div class="col-2 d-flex align-items-center" *isAuthenticated="['ADMIN']">
-            <button type="button" class="btn btn-primary btn-sm m-1" title="Assegna contenuto" (click)="gestisciRedazionale(item)">
-              <i class="bi bi-file-earmark-text"></i> Gestisci redazionale
-            </button>
-          </div>
-          <div class="col-10">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="heading{{i}}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        [attr.data-bs-target]="'#collapse'+i" aria-expanded="false" [attr.aria-controls]="'collapse'+i">
-                  {{item.title}}
-                </button>
-              </h2>
-              <div id="collapse{{i}}" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading'+i"
-                   data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <div class="row">
-                    <div class="col">
-                      <div class="mb-3 input-group">
-                        <label for="newspaper{{i}}" class="input-group-text">
-                          <i class="bi bi-newspaper mx-auto mb-1"></i>
-                        </label>
-                        <input type="text" class="form-control" value="{{item.newspaper?.name}}" id="newspaper{{i}}"
-                               readonly>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="mb-3 input-group">
-                        <label class="input-group-text" for="monthUse{{i}}">
-                          <i class="bi bi-calendar-month"></i>
-                        </label>
-                        <input type="text" class="form-control" value="{{decodeMonth(item.monthUse)}}"
-                               id="monthUse{{i}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="mb-3">
-                        <label for="anchor{{i}}" class="form-label">Link</label>
-                        <div class="input-group">
-                          <div class="input-group-text">
-                            <i class="bi bi-link"></i>
-                          </div>
-                          <input type="text" class="form-control" id="anchor{{i}}" value="{{item.linkUrl}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="mb-3">
-                        <label for="url{{i}}" class="form-label">Url</label>
-                        <div class="input-group">
-                          <div class="input-group-text">
-                            <i class="bi bi-link-45deg"></i>
-                          </div>
-                          <input type="text" class="form-control" id="url{{i}}" value="{{item.linkText}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="mb-3">
-                        <label for="title{{i}}" class="form-label">Titolo</label>
-                        <div class="input-group">
-                          <div class="input-group-text">
-                            <i class="bi bi-fonts"></i>
-                          </div>
-                          <input type="text" class="form-control" id="title{{i}}" value="{{item.title}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="mb-3">
-                        <label for="note{{i}}" class="form-label">Note del cliente</label>
-                        <div class="input-group">
-                          <div class="input-group-text">
-                            <i class="bi bi-chat-left-text"></i>
-                          </div>
-                          <textarea id="note{{i}}" class="form-control" aria-label="note del cliente"
-                                    value="{{item.customerNotes}}" readonly></textarea>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-    </div>
-  </div>
-</app-modal>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]"
+               showFirstLastButtons
+               [length]="actualPage.totalElements"
+               [pageSize]="actualPaginationRequest.pageSize"
+               (page)="onPageChange($event)"
+               aria-label="Select page of periodic elements">
+</mat-paginator>
+
 
 <app-modal #modalAssegnazione [size]="modalSizeSM" (close)="ripulisciFormAssegnazione()" *isAuthenticated="['ADMIN']">
-    <div body>
-      <div class="alert alert-warning" role="alert" *ngIf="!listUtenti || listUtenti.length == 0">
-        Non ci sono capi redattore
-      </div>
-      <div class="row">
-        <div class="col">
-          <label for="utente" class="form-label">Capo Redattore</label>
-          <select name="utente" id="utente" class="form-select" [formControl]="userIdControl"  [validationMessage]="assegnazioneFormSubmitted">
-            <option value="">-- Seleziona un capo redattore</option>
-            <option *ngFor="let utente of listUtenti" value="{{utente.id}}">{{utente.fullname}}</option>
-          </select>
-          <app-errors [control]="assegnazioneForm?.controls?.userId" [formSubmitted]="assegnazioneFormSubmitted"></app-errors>
-        </div>
+  <div body>
+    <div class="alert alert-warning" role="alert" *ngIf="!listUtenti || listUtenti.length == 0">
+      Non ci sono capi redattore
+    </div>
+    <div class="row">
+      <div class="col">
+        <label for="utente" class="form-label">Capo Redattore</label>
+        <select name="utente" id="utente" class="form-select" [formControl]="userIdControl"
+                [validationMessage]="assegnazioneFormSubmitted">
+          <option value="">&#45;&#45; Seleziona un capo redattore</option>
+          <option *ngFor="let utente of listUtenti" value="{{utente.id}}">{{utente.fullname}}</option>
+        </select>
+        <app-errors [control]="assegnazioneForm?.controls?.userId"
+                    [formSubmitted]="assegnazioneFormSubmitted"></app-errors>
       </div>
     </div>
-    <div footer>
-      <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="assegna()">Assegna</button>
-    </div>
+  </div>
+  <div footer>
+    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="assegna()">Assegna</button>
+  </div>
 </app-modal>

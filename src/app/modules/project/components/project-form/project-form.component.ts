@@ -1,7 +1,26 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {Customer} from "../../../shared/model/customer";
 import {Newspaper} from "../../../shared/model/newspaper";
-import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators
+} from "@angular/forms";
 import {CustomerService} from "../../../shared/services/customer.service";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {Project, ProjectContentPreview} from "../../../shared/model/project";
@@ -11,6 +30,7 @@ import {Router} from "@angular/router";
 import {AuthService} from "../../../shared/services/auth.service";
 import {Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 
 @Component({
   selector: 'app-project-form',
@@ -37,16 +57,22 @@ export class ProjectFormComponent implements OnInit, OnChanges {
   @ViewChild("autocompleteComponentNewspaper") autocompleteComponentNewspaper?: NgxAutocompleteComponent;
   @ViewChild("autocompleteComponentCustomer") autocompleteComponentCustomer?: NgxAutocompleteComponent;
 
+  @ViewChild("customerAutoComplete") customerAutoCompleteInputField!: ElementRef;
+
   customerList: (Customer | undefined)[] = [];
   newspaperList: (Newspaper | undefined)[] = [];
 
   formSubmitted: boolean = false;
 
-  form = this.formBuilder.group({
-    name: ['', Validators.required],
-    customerId: [this.store.selectSnapshot(AuthenticationState.user)?.customer || '', Validators.required],
-    projectContentPreviews: this.formBuilder.array([])
-  });
+  form = new UntypedFormGroup({
+    name: new FormControl('', Validators.required),
+    customerId: new FormControl(this.store.selectSnapshot(AuthenticationState.user)?.customer || '', [Validators.required]),
+    projectContentPreviews: new FormArray([])
+  })
+
+  displayCustomerFn = (customer: any): string => {
+    return customer.name
+  };
 
   ngOnInit(): void {
     this.newspaperService
@@ -91,6 +117,8 @@ export class ProjectFormComponent implements OnInit, OnChanges {
         projectContentPreviews: []
       };
       this.form.patchValue(projectValue);
+      this.customerAutoCompleteInputField.nativeElement.value = this.project.customer?.name
+
       if (this.project.projectContentPreviews && this.project.projectContentPreviews.length > 0) {
         this.project.projectContentPreviews.forEach(projectContentPreview => this.plus(projectContentPreview));
       }
@@ -106,7 +134,6 @@ export class ProjectFormComponent implements OnInit, OnChanges {
         .subscribe(value => {
           this.customerList = value.content
         })
-      this.form.patchValue({customerId: ''});
     }
   }
 
@@ -141,7 +168,6 @@ export class ProjectFormComponent implements OnInit, OnChanges {
   }
 
   gestisciRedazionale(item: ProjectContentPreview) {
-
     if (item.contentId) {
       this.router.navigate(["/contents/" + item.contentId]);
     } else {
@@ -153,4 +179,7 @@ export class ProjectFormComponent implements OnInit, OnChanges {
     return this.store.selectSnapshot(AuthenticationState.user)?.customer?.name;
   }
 
+  optionSelectedCustomer($event: MatAutocompleteSelectedEvent) {
+    this.form.controls.customerId.setValue($event.option.value)
+  }
 }

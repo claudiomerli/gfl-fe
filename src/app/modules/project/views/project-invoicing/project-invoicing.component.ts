@@ -26,7 +26,7 @@ export class ProjectInvoicingComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.onPageChange(this.actualPageValue);
+    this.onPageChange();
   }
 
   ngAfterViewInit(): void {
@@ -35,15 +35,14 @@ export class ProjectInvoicingComponent implements OnInit, AfterViewInit {
         .pipe(debounceTime(200))
         .subscribe((res) => {
           this.globalSearch = (res as any).target.value
-          this.onPageChange(1);
+          this.onPageChange();
         })
     }
   }
 
-  onPageChange(pageNumber: number) {
-    this.actualPageValue = pageNumber;
+  onPageChange() {
     this.projectService
-      .find(this.globalSearch, {...new PaginationDto(), page: this.actualPageValue - 1})
+      .find(this.globalSearch, "", {...new PaginationDto(), page: this.actualPageValue - 1})
       .subscribe(res => {
         this.actualPage$.next(res);
       })
@@ -52,7 +51,7 @@ export class ProjectInvoicingComponent implements OnInit, AfterViewInit {
   changeStatus(project: Project) {
     this.projectService.changeStatus(project)
       .subscribe(() => {
-        this.onPageChange(this.actualPageValue);
+        this.onPageChange();
       })
   }
 

@@ -23,9 +23,9 @@ export class ProjectService {
     return this.httpClient.post<any>(environment.apiBaseurl + "/project", project);
   }
 
-  public find(globalSearch: string,paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Project>> {
+  public find(globalSearch: string, statusSearch: string, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Project>> {
     return this.httpClient.get<PageResponseDto<Project>>(environment.apiBaseurl + "/project", {
-      params: {...paginationDto, globalSearch}
+      params: {...paginationDto, globalSearch, statusSearch}
     }).pipe(
       map(result => {
         result.content = result.content.map((c: any) => new Project(c));
@@ -49,14 +49,17 @@ export class ProjectService {
   public delete(id: number) {
     return this.httpClient.delete(environment.apiBaseurl + "/project/" + id);
   }
+
   public deleteContentPreview(id: number) {
     return this.httpClient.delete(environment.apiBaseurl + "/project/projectContentPreview/" + id);
   }
+
   public getContentPreview(id: string): Observable<ProjectContentPreview> {
     return this.httpClient.get<ProjectContentPreview>(environment.apiBaseurl + "/project/projectContentPreview/" + id);
   }
+
   public assegnaCapoRedattore(projectID: number, userID: number) {
-    return this.httpClient.put(environment.apiBaseurl + "/project/"+ projectID+ "/assign-chief-editor", {id: userID});
+    return this.httpClient.put(environment.apiBaseurl + "/project/" + projectID + "/assign-chief-editor", {id: userID});
   }
 
   changeStatus(project: Project) {

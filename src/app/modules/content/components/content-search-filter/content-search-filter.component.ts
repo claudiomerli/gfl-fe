@@ -65,7 +65,7 @@ export class ContentSearchFilterComponent implements OnInit {
       this.newspaper$.next(value.content)
     })
 
-    this.projectService.find("", PaginationDto.buildMaxValueOnePage()).subscribe(value => {
+    this.projectService.find("", "", PaginationDto.buildMaxValueOnePage()).subscribe(value => {
       this.project$.next(value.content)
     })
 

@@ -4,9 +4,9 @@
 <div>
   <ng-container *ngIf="(actualPage$ | async) as actualPageValue">
     <app-project-table
-      (pageChange)="onPageChange($event)"
+      (pageChange)="onPageChange()"
       (changeStatus)="changeStatus($event)"
-      [actualPageValue]="actualPageValue"
+      [actualPage]="actualPageValue"
       [showDeleteButton]="false"
       [showEditButton]="false"
       [showChangeStatusButton]="true"
