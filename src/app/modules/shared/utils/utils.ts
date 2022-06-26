@@ -15,3 +15,9 @@ export const projectStatuses = [
   {code: 'TERMINATED', label: "Terminato"},
   {code: 'INVOICED', label: "Fatturato"},
 ]
+
+
+export const userRoles = [
+  {code : 'ADMIN', label: 'Amministratore'},
+  {code : 'CUSTOMER', label: 'Cliente'},
+]

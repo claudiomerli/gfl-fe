@@ -5,7 +5,7 @@
         <mat-icon *ngIf="!(menuState|async)">menu</mat-icon>
         <mat-icon *ngIf="(menuState|async)">arrow_back</mat-icon>
       </button>
-      <span class="ms-auto">Gestione Flusso Lavoro</span>
+      <span class="ms-auto">Tilinkotool</span>
     </mat-toolbar>
     <mat-drawer-container style="height: 93%">
       <mat-drawer #drawer (openedStart)="toggleMenu(true)" (closedStart)="toggleMenu(false)" mode="over">
@@ -17,3 +17,11 @@
     </mat-drawer-container>
   </div>
 </div>
+<ngx-spinner
+  [fullScreen]="true"
+  [type]="'cube-transition'"
+  [color]="'#fff'"
+  [size]="'medium'"
+>
+  <p class="text-white">Loading...</p>
+</ngx-spinner>

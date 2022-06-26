@@ -18,27 +18,29 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {AuthenticationState} from "./modules/store/state/authentication-state";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   declarations: [
     AppComponent,
     ToastComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    SharedModule,
-    HttpClientModule,
-    NgxPaginationModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    NgxsModule.forRoot([ApplicationState, AuthenticationState], {
-      developmentMode: !environment.production
-    }),
-    MatIconModule,
-    MatButtonModule,
-    MatSidenavModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        SharedModule,
+        HttpClientModule,
+        NgxPaginationModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        NgxsModule.forRoot([ApplicationState, AuthenticationState], {
+            developmentMode: !environment.production
+        }),
+        MatIconModule,
+        MatButtonModule,
+        MatSidenavModule,
+        NgxSpinnerModule
+    ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill', floatLabel: 'auto'}},
     {

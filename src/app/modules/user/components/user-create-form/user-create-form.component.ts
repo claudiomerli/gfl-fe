@@ -1,6 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
+import {
+  AbstractControl,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from "@angular/forms";
 import {SaveUserDto} from "../../../shared/messages/users/save-user.dto";
+import {userRoles} from "../../../shared/utils/utils";
 
 @Component({
   selector: 'app-user-create-form',
@@ -9,14 +17,13 @@ import {SaveUserDto} from "../../../shared/messages/users/save-user.dto";
 })
 export class UserCreateFormComponent implements OnInit {
 
-  createUserForm: UntypedFormGroup = new UntypedFormGroup({});
-  formSubmitted: boolean = false;
+  userForm: UntypedFormGroup = new UntypedFormGroup({});
 
   constructor() {
   }
 
   ngOnInit(): void {
-    this.createUserForm = new UntypedFormGroup({
+    this.userForm = new UntypedFormGroup({
       username: new UntypedFormControl('', [Validators.required]),
       fullname: new UntypedFormControl('', [Validators.required]),
       email: new UntypedFormControl('', [Validators.required, Validators.email]),
@@ -35,9 +42,11 @@ export class UserCreateFormComponent implements OnInit {
   @Output()
   formSubmit = new EventEmitter<SaveUserDto>();
 
+  userRoles = userRoles;
+
   passwordMatchesValidatorFunction(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      let passwordValue = this.createUserForm.controls.password?.value;
+      let passwordValue = this.userForm.controls.password?.value;
       let repeatPasswordValue = control.value;
       return (passwordValue && repeatPasswordValue) && passwordValue != repeatPasswordValue
         ? {repeatPassword: {value: control.value, messaggio: 'Le password non corrispondono'}} : null;
@@ -45,9 +54,8 @@ export class UserCreateFormComponent implements OnInit {
   };
 
   onSubmit() {
-    this.formSubmitted = true;
-    if(this.createUserForm.valid) {
-      this.formSubmit.emit(this.createUserForm.value as SaveUserDto);
+    if (this.userForm.valid) {
+      this.formSubmit.emit(this.userForm.value as SaveUserDto);
     }
   }
 

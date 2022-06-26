@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 
+@import "~ngx-spinner/animations/cube-transition.css";
 @import "~bootstrap/dist/css/bootstrap-grid.min.css";
 @import "~bootstrap/dist/css/bootstrap-utilities.css";
 
@@ -22,4 +23,13 @@
   width: 3rem;
 }
 
-
+.mat-row{
+  -webkit-transition: background-color 250ms linear;
+  -moz-transition: background-color 250ms linear;
+  -o-transition: background-color 250ms linear;
+  -ms-transition: background-color 250ms linear;
+  transition: background-color 250ms linear;
+}
+.mat-row:hover {
+  background-color: lightgray;
+}

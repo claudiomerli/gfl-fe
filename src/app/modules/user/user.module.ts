@@ -10,6 +10,16 @@ import {NgxPaginationModule} from "ngx-pagination";
 import { UserUpdateFormComponent } from './components/user-update-form/user-update-form.component';
 import { UserUpdateComponent } from './views/user-update/user-update.component';
 import {SharedModule} from "../shared/shared.module";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatTableModule} from "@angular/material/table";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
+import {MatSelectModule} from "@angular/material/select";
+import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatCardModule} from "@angular/material/card";
 
 
 @NgModule({
@@ -20,13 +30,23 @@ import {SharedModule} from "../shared/shared.module";
     UserUpdateFormComponent,
     UserUpdateComponent
   ],
-    imports: [
-        CommonModule,
-        UserRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgxPaginationModule,
-        SharedModule
-    ]
+  imports: [
+    CommonModule,
+    UserRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
+    SharedModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSelectModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatCardModule
+  ]
 })
 export class UserModule { }

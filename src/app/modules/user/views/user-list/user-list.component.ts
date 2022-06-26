@@ -6,6 +6,10 @@ import {PageResponseDto} from "../../../shared/messages/page-response.dto";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {debounceTime} from "rxjs/operators";
 import {SortEvent} from "../../../shared/directives/sortable.directive";
+import {userRoles} from "../../../shared/utils/utils";
+import {PageEvent} from "@angular/material/paginator";
+import {Sort} from "@angular/material/sort";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'app-user-list',
@@ -16,18 +20,30 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
 
   actualPage$ = new BehaviorSubject<PageResponseDto<User>>(new PageResponseDto<User>());
-  actualPageValue = 1;
+  actualPagination: PaginationDto = {
+    page: 0,
+    pageSize: 10,
+    sortBy: "id",
+    sortDirection: "ASC"
+  }
+
 
   @ViewChild("globalSearchInput")
   globalSearchInput: ElementRef | undefined
   globalSearch = "";
+  roleSearch = "";
+
+  displayedColumns = ['id', 'username', 'fullname', 'email', 'mobilePhone', 'role', 'actions'];
+
+  userRoles = userRoles;
 
   constructor(private userService: UserService) {
   }
 
   ngOnInit(): void {
-    this.onPageChange(this.actualPageValue);
+    this.search();
   }
+
 
   ngAfterViewInit(): void {
     if (this.globalSearchInput) {
@@ -35,15 +51,15 @@ export class UserListComponent implements OnInit, AfterViewInit {
         .pipe(debounceTime(200))
         .subscribe((res) => {
           this.globalSearch = (res as any).target.value
-          this.onPageChange(1);
+          this.actualPagination.page = 0;
+          this.search();
         })
     }
   }
 
-  onPageChange(pageNumber: number, sortBy?: string, sortDirection?: string) {
-    this.actualPageValue = pageNumber;
+  search() {
     this.userService
-      .find(this.globalSearch,'', new PaginationDto(this.actualPageValue - 1, undefined ,sortDirection, sortBy ))
+      .find(this.globalSearch, this.roleSearch, this.actualPagination)
       .subscribe(res => {
         this.actualPage$.next(res);
       })
@@ -54,12 +70,36 @@ export class UserListComponent implements OnInit, AfterViewInit {
       this.userService
         .delete(id)
         .subscribe(() => {
-          this.onPageChange(1);
+          this.actualPagination.page = 0;
+          this.search()
         })
     }
   }
 
-  onSort($event: SortEvent) {
-    this.onPageChange(this.actualPageValue, $event.column, $event.direction);
+  onPageChange($event: PageEvent) {
+    this.actualPagination.page = $event.pageIndex;
+    this.actualPagination.pageSize = $event.pageSize;
+    this.search()
+  }
+
+  onSortChange($event: Sort) {
+    this.actualPagination.page = 0
+    this.actualPagination.sortBy = $event.active
+    this.actualPagination.sortDirection = $event.direction.toUpperCase()
+    this.search()
+  }
+
+
+  changeRoleSearch($event: MatSelectChange) {
+    this.roleSearch = $event.value
+    this.actualPagination.page = 0
+    this.search()
+  }
+
+  cancelSearch() {
+    this.globalSearch = ''
+    this.globalSearchInput!.nativeElement.value = ''
+    this.actualPagination.page = 0;
+    this.search();
   }
 }

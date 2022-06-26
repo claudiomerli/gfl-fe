@@ -1,38 +1,26 @@
 <div>
   <div class="p-3 pb-0">
-    <div class="fw-bold">{{(user$| async)?.fullname}}</div>
-    <small>Ruolo: {{(user$| async)?.role | roleDescription}}</small>
+    <div class="fw-bold">{{(user$| async)!?.fullname}}</div>
+    <small>Ruolo: {{(user$| async)!?.role | roleDescription}}</small>
   </div>
   <mat-divider class="my-3"></mat-divider>
-  <a class="d-flex align-items-center justify-content-start" mat-button
-     *isAuthenticated="['ADMIN', 'CUSTOMER']" routerLinkActive="active" routerLink="/projects/home">
-    <mat-icon>engineering</mat-icon>
-    <span class="mx-3">Progetti</span>
-  </a>
+  <!--  <a class="d-flex align-items-center justify-content-start" mat-button-->
+  <!--     *isAuthenticated="['ADMIN', 'CUSTOMER']" routerLinkActive="active" routerLink="/projects/home">-->
+  <!--    <mat-icon>engineering</mat-icon>-->
+  <!--    <span class="mx-3">Progetti</span>-->
+  <!--  </a>-->
 
-  <a class="d-flex align-items-center justify-content-start" mat-button
-     *isAuthenticated="['ADMIN', 'CUSTOMER']" routerLinkActive="active" routerLink="/price-quotation">
-    <mat-icon>payments</mat-icon>
-    <span class="mx-3">Preventivi</span>
-  </a>
+  <!--  <a class="d-flex align-items-center justify-content-start" mat-button-->
+  <!--     *isAuthenticated="['ADMIN', 'CUSTOMER']" routerLinkActive="active" routerLink="/price-quotation">-->
+  <!--    <mat-icon>payments</mat-icon>-->
+  <!--    <span class="mx-3">Preventivi</span>-->
+  <!--  </a>-->
 
-  <a class="d-flex align-items-center justify-content-start" mat-button
-     *isAuthenticated="['ADMIN', 'EDITOR','CHIEF_EDITOR']" routerLinkActive="active" routerLink="/contents">
-    <mat-icon>history_edu</mat-icon>
-    <span class="mx-3">Contenuti</span>
-  </a>
-
-  <a class="d-flex align-items-center justify-content-start" mat-button
-     *isAuthenticated="['ADMIN']" routerLinkActive="active" routerLink="/users">
-    <mat-icon>group</mat-icon>
-    <span class="mx-3">Utenti</span>
-  </a>
-
-  <a class="d-flex align-items-center justify-content-start" mat-button
-     *isAuthenticated="['ADMIN']" routerLinkActive="active" routerLink="/customer">
-    <mat-icon>hail</mat-icon>
-    <span class="mx-3">Clienti</span>
-  </a>
+  <!--  <a class="d-flex align-items-center justify-content-start" mat-button-->
+  <!--     *isAuthenticated="['ADMIN', 'EDITOR','CHIEF_EDITOR']" routerLinkActive="active" routerLink="/contents">-->
+  <!--    <mat-icon>history_edu</mat-icon>-->
+  <!--    <span class="mx-3">Contenuti</span>-->
+  <!--  </a>-->
 
   <a class="d-flex align-items-center justify-content-start" mat-button
      *isAuthenticated="['ADMIN','CUSTOMER']" routerLinkActive="active" routerLink="/newspapers">
@@ -40,11 +28,25 @@
     <span class="mx-3">Testate</span>
   </a>
 
+  <mat-divider class="my-3"></mat-divider>
+
   <a class="d-flex align-items-center justify-content-start" mat-button
-     *isAuthenticated="['ADMIN']" routerLinkActive="active" routerLink="/suggests">
-    <mat-icon>assistant</mat-icon>
-    <span class="mx-3">Keywords</span>
+     *isAuthenticated="['ADMIN']" routerLinkActive="active" routerLink="/users">
+    <mat-icon>group</mat-icon>
+    <span class="mx-3">Utenti</span>
   </a>
+
+  <!--  <a class="d-flex align-items-center justify-content-start" mat-button-->
+  <!--     *isAuthenticated="['ADMIN']" routerLinkActive="active" routerLink="/customer">-->
+  <!--    <mat-icon>hail</mat-icon>-->
+  <!--    <span class="mx-3">Clienti</span>-->
+  <!--  </a>-->
+
+  <!--  <a class="d-flex align-items-center justify-content-start" mat-button-->
+  <!--     *isAuthenticated="['ADMIN']" routerLinkActive="active" routerLink="/suggests">-->
+  <!--    <mat-icon>assistant</mat-icon>-->
+  <!--    <span class="mx-3">Keywords</span>-->
+  <!--  </a>-->
   <mat-divider class="my-3"></mat-divider>
   <button class="d-flex align-items-center justify-content-start w-100" mat-button (click)="onLogout()">
     <mat-icon>logout</mat-icon>

@@ -22,6 +22,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatDividerModule} from "@angular/material/divider";
 import { ProjectStatusLabelPipe } from './pipes/project-status-label.pipe';
+import { ExtractLabelByCodePipe } from './pipes/extract-label-by-code.pipe';
 
 @NgModule({
   declarations: [
@@ -38,23 +39,25 @@ import { ProjectStatusLabelPipe } from './pipes/project-status-label.pipe';
     RoleDescriptionPipe,
     ExportExcelPdfComponent,
     SidemenuComponent,
-    ProjectStatusLabelPipe
+    ProjectStatusLabelPipe,
+    ExtractLabelByCodePipe
   ],
-  exports: [
-    StatusLabelPipe,
-    RuleSatisfationIndicatorColorPipe,
-    IsAuthenticatedDirective,
-    IsNotInRoleDirective,
-    ModalComponent,
-    FileUploaderComponent,
-    SpinnerComponent,
-    SortableDirective,
-    FormValidationMessagesDirective,
-    ErrorsComponent,
-    RoleDescriptionPipe,
-    ExportExcelPdfComponent,
-    SidemenuComponent
-  ],
+    exports: [
+        StatusLabelPipe,
+        RuleSatisfationIndicatorColorPipe,
+        IsAuthenticatedDirective,
+        IsNotInRoleDirective,
+        ModalComponent,
+        FileUploaderComponent,
+        SpinnerComponent,
+        SortableDirective,
+        FormValidationMessagesDirective,
+        ErrorsComponent,
+        RoleDescriptionPipe,
+        ExportExcelPdfComponent,
+        SidemenuComponent,
+        ExtractLabelByCodePipe
+    ],
   imports: [
     CommonModule,
     RouterModule,
