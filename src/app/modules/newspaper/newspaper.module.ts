@@ -10,6 +10,18 @@ import { NewspaperUpdateComponent } from './views/newspaper-update/newspaper-upd
 import {NgxPaginationModule} from "ngx-pagination";
 import {SharedModule} from "../shared/shared.module";
 import { NewspaperSearchFilterComponent } from './components/newspaper-search-filter/newspaper-search-filter.component';
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {NgxSliderModule} from "@angular-slider/ngx-slider";
+import {MatSelectModule} from "@angular/material/select";
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatMenuModule} from "@angular/material/menu";
 
 
 @NgModule({
@@ -23,12 +35,24 @@ import { NewspaperSearchFilterComponent } from './components/newspaper-search-fi
     exports: [
         NewspaperSearchFilterComponent
     ],
-    imports: [
-        CommonModule,
-        NewspaperRoutingModule,
-        ReactiveFormsModule,
-        NgxPaginationModule,
-        SharedModule
-    ]
+  imports: [
+    CommonModule,
+    NewspaperRoutingModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
+    SharedModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxSliderModule,
+    MatSelectModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatMenuModule
+  ]
 })
 export class NewspaperModule { }

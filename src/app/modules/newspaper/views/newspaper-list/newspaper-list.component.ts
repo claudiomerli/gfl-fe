@@ -1,13 +1,16 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {BehaviorSubject, fromEvent, Observable} from "rxjs";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {BehaviorSubject, Observable} from "rxjs";
 import {Newspaper} from "../../../shared/model/newspaper";
-import {debounceTime} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {PageResponseDto} from "../../../shared/messages/page-response.dto";
-import {SortEvent} from "../../../shared/directives/sortable.directive";
 import {Finance} from "../../../shared/model/finance";
 import {SearchNewspaperDto} from "../../../shared/messages/newspaper/search-newspaper.dto";
+import {Sort} from "@angular/material/sort";
+import {Store} from "@ngxs/store";
+import {AuthenticationState} from "../../../store/state/authentication-state";
+import {PageEvent} from "@angular/material/paginator";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-newspaper-list',
@@ -19,19 +22,54 @@ export class NewspaperListComponent implements OnInit {
   @ViewChild("globalSearchInput")
   globalSearchInput: ElementRef | undefined
   globalSearch = "";
-  searchNewspaperDto: SearchNewspaperDto = new SearchNewspaperDto();
-  actualPage$ = new BehaviorSubject<PageResponseDto<Newspaper>>(new PageResponseDto<Newspaper>());
-  actualPageValue = 1;
-  finance$ = new BehaviorSubject<Finance>(new Finance());
-  sortBy = "";
-  sortDirection = "";
 
-  constructor(private newspaperService: NewspaperService) {
+  finance$ = new BehaviorSubject<Finance>(new Finance());
+  searchNewspaperDto: SearchNewspaperDto = new SearchNewspaperDto();
+
+  actualPage$ = new BehaviorSubject<PageResponseDto<Newspaper>>(new PageResponseDto<Newspaper>());
+
+  displayedColumns: string[] = [];
+  actualPagination: PaginationDto = {
+    page: 0,
+    pageSize: 10,
+    sortBy: "id",
+    sortDirection: "ASC"
+  }
+
+  constructor(private newspaperService: NewspaperService, private store: Store) {
   }
 
   ngOnInit(): void {
+    this.defineColumns()
     this.newspaperService.finance().subscribe(data => this.finance$.next(data));
-    this.onPageChange(this.actualPageValue);
+  }
+
+  defineColumns() {
+    const user = this.store.selectSnapshot(AuthenticationState.user);
+
+    this.displayedColumns.push("id");
+    this.displayedColumns.push("name")
+
+    if (user?.role === "ADMIN")
+      this.displayedColumns.push("purchasedContent");
+    if (user?.role === "ADMIN")
+      this.displayedColumns.push("leftContent");
+    if (user?.role === "ADMIN")
+      this.displayedColumns.push("costEach");
+
+    this.displayedColumns.push("costSell");
+
+    if (user?.role === "ADMIN")
+      this.displayedColumns.push("za");
+
+    if (user?.role === "ADMIN")
+      this.displayedColumns.push("email");
+
+    this.displayedColumns.push("regionalGeolocalization")
+    this.displayedColumns.push("topics")
+
+    if (user?.role === "ADMIN")
+      this.displayedColumns.push("actions");
   }
 
   onDelete(id: number | undefined) {
@@ -39,51 +77,59 @@ export class NewspaperListComponent implements OnInit {
       this.newspaperService
         .delete(id)
         .subscribe(() => {
-          this.onPageChange(1);
+          this.search();
         })
     }
   }
 
-  onPageChange(pageNumber: number) {
-    this.actualPageValue = pageNumber;
+  search() {
     this.newspaperService
-      .find(this.searchNewspaperDto, new PaginationDto(this.actualPageValue - 1, undefined, this.sortDirection, this.sortBy))
+      .find(this.searchNewspaperDto, this.actualPagination)
       .subscribe(res => {
         this.actualPage$.next(res);
       })
   }
 
-  onSort($event: SortEvent) {
-    this.sortBy = $event.column;
-    this.sortDirection = $event.direction;
-    this.onPageChange(1);
-  }
-
   onSubmitSearchForm($event: SearchNewspaperDto) {
     this.searchNewspaperDto = $event;
-    Object.keys(this.searchNewspaperDto).forEach(chiave => {
-      // @ts-ignore
-      if (this.searchNewspaperDto[chiave] == null) {
-        // @ts-ignore
-        this.searchNewspaperDto[chiave] = '';
-      }
-    });
-    this.onPageChange(1);
+    this.actualPagination.page = 0
+    this.search();
   }
 
-  exportExcel(): Observable<any> {
-    return this.newspaperService.exportExcel({
-      ...this.searchNewspaperDto,
-      sortBy: this.sortBy,
-      sortDirection: this.sortDirection
+  exportExcel() {
+    this.newspaperService.exportExcel(this.searchNewspaperDto).subscribe(data => {
+      const contentType = 'application/vnd.ms.excel';
+      const blob = new Blob([data], {type: contentType});
+      const file = new File([blob], 'testate.xlsx', {type: contentType});
+      saveAs(file);
     });
   }
 
-  exportPDF(): Observable<any> {
-    return this.newspaperService.exportPDF({
-      ...this.searchNewspaperDto,
-      sortBy: this.sortBy,
-      sortDirection: this.sortDirection
+  exportPDF() {
+    this.newspaperService.exportPDF(this.searchNewspaperDto).subscribe(data => {
+      const contentType = 'application/pdf';
+      const blob = new Blob([data], {type: contentType});
+      const file = new File([blob], 'testate.pdf', {type: contentType});
+      saveAs(file);
     });
   }
+
+  onSortChange($event: Sort) {
+    if($event.direction != ''){
+      this.actualPagination.sortBy = $event.active
+      this.actualPagination.sortDirection = $event.direction?.toUpperCase()
+    } else {
+      this.actualPagination.sortBy = "id"
+      this.actualPagination.sortDirection = "ASC"
+    }
+
+    this.search()
+  }
+
+  onPageChange($event: PageEvent) {
+    this.actualPagination.page = $event.pageIndex
+    this.actualPagination.pageSize = $event.pageSize
+    this.search()
+  }
+
 }

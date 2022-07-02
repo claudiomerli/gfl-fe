@@ -1,8 +1,13 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {UntypedFormBuilder, UntypedFormControl, Validators} from "@angular/forms";
+import {FormControl, FormGroup, UntypedFormBuilder} from "@angular/forms";
 import {SearchNewspaperDto} from "../../../shared/messages/newspaper/search-newspaper.dto";
 import {TopicService} from "../../../shared/services/topic.service";
 import {Topic} from "../../../shared/model/topic";
+import {ChangeContext, Options} from "@angular-slider/ngx-slider";
+import {regionalGeolocalizzation} from "../../../shared/utils/utils";
+import {debounceTime} from "rxjs/operators";
+import {NewspaperService} from "../../../shared/services/newspaper.service";
+import {MaxMinRangeNewspaperAttributes} from "../../../shared/model/max-min-range-newspaper-attributes";
 
 @Component({
   selector: 'app-newspaper-search-filter',
@@ -11,38 +16,163 @@ import {Topic} from "../../../shared/model/topic";
 })
 export class NewspaperSearchFilterComponent implements OnInit {
 
-  @Output()
-  submitSearchForm = new EventEmitter<SearchNewspaperDto>();
-  topicList = new Array<Topic>();
-  formSubmitted: boolean = false;
-
-  searchForm = this.formBuilder.group({
-    name: new UntypedFormControl(''),
-    zaFrom: new UntypedFormControl(''),
-    zaTo: new UntypedFormControl(''),
-    purchasedContentFrom: new UntypedFormControl(''),
-    purchasedContentTo: new UntypedFormControl(''),
-    costEachFrom: new UntypedFormControl(''),
-    costEachTo: new UntypedFormControl(''),
-    costSellFrom: new UntypedFormControl(''),
-    costSellTo: new UntypedFormControl(''),
-    regionalGeolocalization: new UntypedFormControl(''),
-    topics: new UntypedFormControl([]),
-  })
-
-  constructor(private formBuilder: UntypedFormBuilder,
-              private topicService: TopicService) {
+  constructor(private topicService: TopicService, private newsPaperService: NewspaperService) {
   }
 
+  @Output()
+  submitSearchForm = new EventEmitter<SearchNewspaperDto>();
 
+  maxMinRangeNewspaperAttributes: MaxMinRangeNewspaperAttributes | undefined;
+
+  topicList: Topic[] = [];
+  regionalGeolocalizzation = regionalGeolocalizzation
+  searchForm = new FormGroup({
+    name: new FormControl(''),
+    zaFrom: new FormControl(),
+    zaTo: new FormControl(),
+    purchasedContentFrom: new FormControl(),
+    purchasedContentTo: new FormControl(),
+    leftContentFrom: new FormControl(),
+    leftContentTo: new FormControl(),
+    costEachFrom: new FormControl(),
+    costEachTo: new FormControl(),
+    costSellFrom: new FormControl(),
+    costSellTo: new FormControl(),
+    regionalGeolocalization: new FormControl([]),
+    topics: new FormControl([]),
+  })
+
+  getPointerColor = () => {
+    return "#3f51b5"
+  }
+
+  getSelectionBarColor = () => {
+    return "#3f51b5"
+  }
+
+  translateCurrency: (value: number) => string = (value) => {
+    return value + " €"
+  }
+
+  zaSliderOptions: Options = {
+    ceil: 0,
+    floor: 0,
+    getSelectionBarColor: this.getSelectionBarColor,
+    getPointerColor: this.getPointerColor
+  }
+
+  purchasedContentSliderOptions: Options = {
+    ceil: 0,
+    floor: 0,
+    getSelectionBarColor: this.getSelectionBarColor,
+    getPointerColor: this.getPointerColor
+  }
+
+  leftContentSliderOptions: Options = {
+    ceil: 0,
+    floor: 0,
+    getSelectionBarColor: this.getSelectionBarColor,
+    getPointerColor: this.getPointerColor
+  }
+
+  costEachSliderOptions: Options = {
+    ceil: 0,
+    floor: 0,
+    getSelectionBarColor: this.getSelectionBarColor,
+    getPointerColor: this.getPointerColor,
+    translate: this.translateCurrency
+  }
+
+  costSellSliderOptions: Options = {
+    ceil: 0,
+    floor: 0,
+    getSelectionBarColor: this.getSelectionBarColor,
+    getPointerColor: this.getPointerColor,
+    translate: this.translateCurrency
+  }
 
   ngOnInit(): void {
     this.topicService.findAll().subscribe(data => {
       this.topicList = data;
     });
+
+    this.searchForm.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe(() => {
+        this.submitSearchForm.emit(this.searchForm.value as SearchNewspaperDto)
+      })
+
+    this.newsPaperService.getMaxMinRangeNewspaperAttributes().subscribe((result) => {
+      this.maxMinRangeNewspaperAttributes = result
+      this.searchForm.patchValue({
+        zaFrom: result.minZA,
+        zaTo: result.maxZA,
+        purchasedContentFrom: result.minPurchasedContent,
+        purchasedContentTo: result.maxPurchasedContent,
+        leftContentFrom: result.minLeftContent,
+        leftContentTo: result.maxLeftContent,
+        costEachFrom: result.minCostEach,
+        costEachTo: result.maxCostEach,
+        costSellFrom: result.minCostSell,
+        costSellTo: result.maxCostSell
+      })
+
+      this.zaSliderOptions = {
+        ...this.zaSliderOptions,
+        floor: result.minZA,
+        ceil: result.maxZA
+      }
+
+      this.purchasedContentSliderOptions = {
+        ...this.purchasedContentSliderOptions,
+        floor: result.minPurchasedContent,
+        ceil: result.maxPurchasedContent
+      }
+
+      this.leftContentSliderOptions = {
+        ...this.leftContentSliderOptions,
+        floor: result.minLeftContent,
+        ceil: result.maxLeftContent
+      }
+
+      this.costEachSliderOptions = {
+        ...this.costEachSliderOptions,
+        floor: result.minCostEach,
+        ceil: result.maxCostEach
+      }
+
+      this.costSellSliderOptions = {
+        ...this.costSellSliderOptions,
+        floor: result.minCostSell,
+        ceil: result.maxCostSell
+      }
+    })
   }
 
-  onSubmit() {
-    this.submitSearchForm.emit(this.searchForm.value as SearchNewspaperDto)
+  onZaChange($event: ChangeContext) {
+    this.searchForm.controls.zaFrom.setValue($event.value)
+    this.searchForm.controls.zaTo.setValue($event.highValue)
+
   }
+
+  onPurchasedContentChange($event: ChangeContext) {
+    this.searchForm.controls.purchasedContentFrom.setValue($event.value)
+    this.searchForm.controls.purchasedContentTo.setValue($event.highValue)
+  }
+
+  onLeftContentChange($event: ChangeContext) {
+    this.searchForm.controls.leftContentFrom.setValue($event.value)
+    this.searchForm.controls.leftContentTo.setValue($event.highValue)
+  }
+
+  onCostEachChange($event: ChangeContext) {
+    this.searchForm.controls.costEachFrom.setValue($event.value)
+    this.searchForm.controls.costEachTo.setValue($event.highValue)
+  }
+
+  onCostSellChange($event: ChangeContext) {
+    this.searchForm.controls.costSellFrom.setValue($event.value)
+    this.searchForm.controls.costSellTo.setValue($event.highValue)
+  }
+
 }

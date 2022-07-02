@@ -21,3 +21,27 @@ export const userRoles = [
   {code : 'ADMIN', label: 'Amministratore'},
   {code : 'CUSTOMER', label: 'Cliente'},
 ]
+
+export const regionalGeolocalizzation = [
+  {label: "Generalista", code: "Generalista"},
+  {label: "Abruzzo", code: "Abruzzo"},
+  {label: "Basilicata", code: "Basilicata"},
+  {label: "Calabria", code: "Calabria"},
+  {label: "Campania", code: "Campania"},
+  {label: "Emilia-Romagna", code: "EmiliaRomagna"},
+  {label: "Friuli Venezia Giulia", code: "FriuliVeneziaGiulia"},
+  {label: "Lazio", code: "Lazio"},
+  {label: "Liguria", code: "Liguria"},
+  {label: "Lombardia", code: "Lombardia"},
+  {label: "Marche", code: "Marche"},
+  {label: "Molise", code: "Molise"},
+  {label: "Piemonte", code: "Piemonte"},
+  {label: "Puglia", code: "Puglia"},
+  {label: "Sardegna", code: "Sardegna"},
+  {label: "Sicilia", code: "Sicilia"},
+  {label: "Toscana", code: "Toscana"},
+  {label: "Trentino-Alto Adige", code: "TrentinoAltoAdige"},
+  {label: "Umbria", code: "Umbria"},
+  {label: "Valle d'Aosta", code: "ValleDAosta"},
+  {label: "Veneto", code: "Veneto"},
+]

@@ -1,86 +1,139 @@
-<div class="h3">
-  Gestione testate
-</div>
-<ng-container *isAuthenticated="['ADMIN']">
-  <div class="row justify-content-center" *ngIf="(finance$ | async) as financeValue">
-    <div class="col-xl-4 col-md-6 mb-4">
-      <div class="card h-100 py-2">
-        <div class="card-body py-0">
-          <div class="row align-items-center">
-            <div class="col mr-2 border-1">
-              <div class="mb-1">
-                Valore Acquisti: <span class="fw-bold">{{financeValue.purchasesValue}}</span>
-              </div>
-            </div>
-            <div class="col mr-2">
-              <div class="mb-1">
-                Valore Vendite: <span class="fw-bold">{{financeValue.salesValue}}</span>
-              </div>
-            </div>
-          </div>
-        </div>
+<mat-toolbar>
+  <span>Gestione testate</span>
+</mat-toolbar>
+<div class="row m-0 mt-3">
+  <div class="col-8 p-3">
+    <app-newspaper-search-filter (submitSearchForm)="onSubmitSearchForm($event)"></app-newspaper-search-filter>
+  </div>
+  <div class="col-4 d-flex flex-column">
+    <div class="row" *ngIf="(finance$ | async) as financeValue">
+      <div class="col-6">
+        <mat-card>
+          <mat-card-title class="text-danger">
+            <mat-icon>south_east</mat-icon>
+            Acquisti
+          </mat-card-title>
+          <mat-card-content>
+            <div class="w-100 text-center fs-3">{{financeValue.purchasesValue | currency:"EUR"}}</div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-6">
+        <mat-card>
+          <mat-card-title class="text-success">
+            <mat-icon>north_east</mat-icon>
+            Vendite
+          </mat-card-title>
+          <mat-card-content>
+            <div class="w-100 text-center fs-3">{{financeValue.salesValue| currency:"EUR"}}</div>
+          </mat-card-content>
+        </mat-card>
       </div>
     </div>
+    <a *isAuthenticated="['ADMIN']" mat-raised-button type="button" color="primary" class="w-100 mt-3"
+       routerLink="/newspapers/create">
+      <mat-icon>add</mat-icon>
+      Nuova testata
+    </a>
   </div>
-</ng-container>
-
-<div class="d-flex justify-content-between align-items-center" *isAuthenticated="['ADMIN']">
-<!--  <input type="text" name="globalSearch" class="form-control w-50" placeholder="Cerca..." #globalSearchInput>-->
-  <a class="btn btn-primary" routerLink="/newspapers/create">
-    <i class="bi bi-plus"></i>
-    Nuova testata
-  </a>
 </div>
-<app-newspaper-search-filter (submitSearchForm)="onSubmitSearchForm($event)"></app-newspaper-search-filter>
-<app-export-excel-pdf [nomeFile]="'testate'" [observablePDF]="exportPDF()" [observableExcel]="exportExcel()"></app-export-excel-pdf>
-<div>
+<div class="p-3">
   <ng-container *ngIf="(actualPage$ | async) as actualPageValue">
-    <table class="table" id="testate">
-      <thead>
-      <tr>
-        <th sortable="id" (sort)="onSort($event)">Id</th>
-        <th sortable="name" (sort)="onSort($event)">Nome</th>
-        <th sortable="purchasedContent" (sort)="onSort($event)" *isAuthenticated="['ADMIN']">Redazionali Acquistati</th>
-        <th *isAuthenticated="['ADMIN']">Redazionali Rimanenti</th>
-        <th sortable="costEach" (sort)="onSort($event)" *isAuthenticated="['ADMIN']">Costo cadauno</th>
-        <th sortable="costSell" (sort)="onSort($event)">Costo di vendita</th>
-        <th sortable="za" (sort)="onSort($event)">ZA</th>
-        <th sortable="email" (sort)="onSort($event)" *isAuthenticated="['ADMIN']">E-mail di contatto</th>
-        <th sortable="regionalGeolocalization" (sort)="onSort($event)">Geolocalizzazione regionale</th>
-        <th>Argomento</th>
-        <th *isAuthenticated="['ADMIN']">Azioni</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr
-        *ngFor="let item of actualPageValue.content | paginate : { itemsPerPage: actualPageValue?.pageable?.pageSize, currentPage: (actualPageValue?.pageable?.pageNumber || 0) + 1, totalItems: actualPageValue?.totalElements }">
-        <td>{{item.id}}</td>
-        <td>{{item.name}}</td>
-        <td *isAuthenticated="['ADMIN']">{{item.purchasedContent}}</td>
-        <td *isAuthenticated="['ADMIN']">{{item.leftContent}}</td>
-        <td *isAuthenticated="['ADMIN']">{{item.costEach}}</td>
-        <td>{{item.costSell}}</td>
-        <td>{{item.za}}</td>
-        <td *isAuthenticated="['ADMIN']">{{item.email}}</td>
-        <td>{{item.regionalGeolocalization}}</td>
-        <td>
-          <span *ngFor="let topic of item.topics" class="topics">
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="actualPageValue.content" class="w-100" matSort
+             (matSortChange)="onSortChange($event)">
+
+        <ng-container matColumnDef="id">
+          <th mat-sort-header="id" mat-header-cell *matHeaderCellDef> Identificativo</th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-sort-header="name" mat-header-cell *matHeaderCellDef> Nome</th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="purchasedContent">
+          <th mat-sort-header="purchasedContent" mat-header-cell *matHeaderCellDef> Redazionali Acquistati</th>
+          <td mat-cell *matCellDef="let element"> {{element.purchasedContent}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="leftContent">
+          <th mat-sort-header="leftContent" mat-header-cell *matHeaderCellDef> Redazionali Rimanenti</th>
+          <td mat-cell *matCellDef="let element"> {{element.leftContent}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="costEach">
+          <th mat-sort-header="costEach" mat-header-cell *matHeaderCellDef> Costo cadauno</th>
+          <td mat-cell *matCellDef="let element"> {{element.costEach}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="costSell">
+          <th mat-sort-header="costSell" mat-header-cell *matHeaderCellDef> Costo di vendita</th>
+          <td mat-cell *matCellDef="let element"> {{element.costSell}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="za">
+          <th mat-sort-header="za" mat-header-cell *matHeaderCellDef> ZA</th>
+          <td mat-cell *matCellDef="let element"> {{element.za}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-sort-header="email" mat-header-cell *matHeaderCellDef> E-mail di contatto</th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="regionalGeolocalization">
+          <th mat-sort-header="regionalGeolocalization" mat-header-cell *matHeaderCellDef>Geolocalizzazione regionale
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.regionalGeolocalization}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="topics">
+          <th mat-header-cell *matHeaderCellDef>Argomento</th>
+          <td mat-cell *matCellDef="let element">
+          <span *ngFor="let topic of element.topics">
             {{ topic.name }}
           </span>
-        </td>
-        <td class="" *isAuthenticated="['ADMIN']">
-          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-            <div class="btn-group me-2" role="group">
-              <a class="btn btn-primary mx-1" [routerLink]="['/newspapers',item.id]" title="Modifica"><i class="bi bi-pencil"></i></a>
-              <a class="btn btn-danger mx-1" (click)="onDelete(item.id)" title="Elimina"><i class="bi bi-trash"></i></a>
-            </div>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <div class="text-center">
-      <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Azioni</th>
+          <td mat-cell *matCellDef="let element">
+            <a mat-icon-button [routerLink]="['/newspapers',element.id]" title="Modifica">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <a mat-icon-button (click)="onDelete(element.id)" title="Elimina">
+              <mat-icon>delete</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <div class="row">
+        <div class="col d-flex align-items-center">
+          <button *ngIf="(actualPage$ | async)!.content.length>0" mat-button [matMenuTriggerFor]="exportMenu"
+                  class="ms-3">
+            Export
+            <mat-icon>file_download</mat-icon>
+          </button>
+          <mat-menu #exportMenu="matMenu">
+            <button mat-menu-item (click)="exportExcel()">.excel</button>
+            <button mat-menu-item (click)="exportPDF()">.pdf</button>
+          </mat-menu>
+        </div>
+        <div class="col">
+          <mat-paginator [pageSizeOptions]="[10, 20, 50]"
+                         showFirstLastButtons
+                         [length]="(actualPage$ | async)!.totalElements"
+                         [pageSize]="actualPagination.pageSize"
+                         (page)="onPageChange($event)">
+          </mat-paginator>
+        </div>
+      </div>
     </div>
   </ng-container>
 </div>

@@ -6,12 +6,12 @@ export class SearchNewspaperDto {
   zaTo?: string;
   purchasedContentFrom?: string;
   purchasedContentTo?: string;
+  leftContentFrom?: string;
+  leftContentTo?: string;
   costEachFrom?: string;
   costEachTo?: string;
   costSellFrom?: string;
   costSellTo?: string;
   regionalGeolocalization?: string;
   topics?: Array<string>;
-  sortDirection?: string;
-  sortBy?: string;
 }

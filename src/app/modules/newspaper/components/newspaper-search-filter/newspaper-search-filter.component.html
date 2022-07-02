@@ -1,98 +1,61 @@
-<div class="border rounded p-3">
-  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-    <div class="row">
-      <div class="col-6">
-        <label class="form-label" for="name">Nome testata</label>
-        <input id="name" formControlName="name" class="form-control" type="text" [validationMessage]="formSubmitted">
-        <app-errors [control]="searchForm.controls.name" [formSubmitted]="formSubmitted"></app-errors>
+<form [formGroup]="searchForm">
+  <div class="row">
+    <div class="col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Nome testata</mat-label>
+        <input matInput formControlName="name" type="text">
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-label>Geolocalizzazione regionale</mat-label>
+        <mat-select formControlName="regionalGeolocalization" multiple>
+          <mat-option *ngFor="let element of regionalGeolocalizzation"
+                      [value]="element.code">{{element.label}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-label>Argomento</mat-label>
+        <mat-select formControlName="topics" multiple>
+          <mat-option *ngFor="let topic of topicList" [value]="topic.id">{{topic.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-6" *ngIf="maxMinRangeNewspaperAttributes">
+      <div class="mat-typography">
+        <label>ZA (Zoom authority)</label>
+        <ngx-slider (userChangeEnd)="onZaChange($event)"
+                    [value]="maxMinRangeNewspaperAttributes.minZA"
+                    [highValue]="maxMinRangeNewspaperAttributes.maxZA"
+                    [options]="zaSliderOptions"></ngx-slider>
       </div>
-      <div class="col-3">
-        <label class="form-label" for="zaFrom">ZA (Zoom Authority) Da:</label>
-        <input id="zaFrom" formControlName="zaFrom" class="form-control" type="text">
+      <div class="mat-typography">
+        <label>Redazionali acquistati</label>
+        <ngx-slider (userChangeEnd)="onPurchasedContentChange($event)"
+                    [value]="maxMinRangeNewspaperAttributes.minPurchasedContent"
+                    [highValue]="maxMinRangeNewspaperAttributes.maxPurchasedContent"
+                    [options]="purchasedContentSliderOptions"></ngx-slider>
       </div>
-      <div class="col-3">
-        <label class="form-label" for="zaTo">ZA (Zoom Authority) A:</label>
-        <input id="zaTo" formControlName="zaTo" class="form-control" type="text">
+      <div class="mat-typography">
+        <label>Redazionali rimanenti</label>
+        <ngx-slider (userChangeEnd)="onLeftContentChange($event)"
+                    [value]="maxMinRangeNewspaperAttributes.minLeftContent"
+                    [highValue]="maxMinRangeNewspaperAttributes.maxLeftContent"
+                    [options]="leftContentSliderOptions"></ngx-slider>
+      </div>
+      <div class="mat-typography">
+        <label>Costo cadauno</label>
+        <ngx-slider (userChangeEnd)="onCostEachChange($event)"
+                    [value]="maxMinRangeNewspaperAttributes.minCostEach"
+                    [highValue]="maxMinRangeNewspaperAttributes.maxCostEach"
+                    [options]="costEachSliderOptions"></ngx-slider>
+      </div>
+      <div class="mat-typography">
+        <label>Costo di vendita</label>
+        <ngx-slider (userChangeEnd)="onCostSellChange($event)"
+                    [value]="maxMinRangeNewspaperAttributes.minCostSell"
+                    [highValue]="maxMinRangeNewspaperAttributes.maxCostSell"
+                    [options]="costSellSliderOptions"></ngx-slider>
       </div>
     </div>
-    <div class="row">
-      <div class="col-2">
-        <label class="form-label" for="purchasedContentFrom">Redazionali acquistati da:</label>
-        <input id="purchasedContentFrom" formControlName="purchasedContentFrom" class="form-control" type="number" step="1">
-      </div>
-      <div class="col-2">
-        <label class="form-label" for="purchasedContentTo">Redazionali acquistati a:</label>
-        <input id="purchasedContentTo" formControlName="purchasedContentTo" class="form-control" type="number" step="1">
-      </div>
-      <div class="col-2">
-        <label class="form-label" for="costEachFrom">Costo cadauno Da:</label>
-        <div class="input-group">
-          <div class="input-group-text">€</div>
-          <input id="costEachFrom" formControlName="costEachFrom" class="form-control" type="number" step="0.01">
-        </div>
-      </div>
-      <div class="col-2">
-        <label class="form-label" for="costEachTo">Costo cadauno A:</label>
-        <div class="input-group">
-          <div class="input-group-text">€</div>
-          <input id="costEachTo" formControlName="costEachTo" class="form-control" type="number" step="0.01">
-        </div>
-      </div>
-      <div class="col-2">
-        <label class="form-label" for="costSellFrom">Costo di vendita Da:</label>
-        <div class="input-group">
-          <div class="input-group-text">€</div>
-          <input id="costSellFrom" formControlName="costSellFrom" class="form-control" type="number" step="0.01">
-        </div>
-      </div>
-      <div class="col-2">
-        <label class="form-label" for="costSellTo">Costo di vendita A:</label>
-        <div class="input-group">
-          <div class="input-group-text">€</div>
-          <input id="costSellTo" formControlName="costSellTo" class="form-control" type="number" step="0.01">
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <label class="form-label" for="regionalGeolocalization">Geolocalizzazione regionale</label>
-        <select id="regionalGeolocalization" formControlName="regionalGeolocalization" class="form-select">
-          <option></option>
-          <option>Generalista</option>
-          <option>Abruzzo</option>
-          <option>Basilicata</option>
-          <option>Calabria</option>
-          <option>Campania</option>
-          <option>Emilia-Romagna</option>
-          <option>Friuli Venezia Giulia</option>
-          <option>Lazio</option>
-          <option>Liguria</option>
-          <option>Lombardia</option>
-          <option>Marche</option>
-          <option>Molise</option>
-          <option>Piemonte</option>
-          <option>Puglia</option>
-          <option>Sardegna</option>
-          <option>Sicilia</option>
-          <option>Toscana</option>
-          <option>Trentino-Alto Adige</option>
-          <option>Umbria</option>
-          <option>Valle d'Aosta</option>
-          <option>Veneto</option>
-        </select>
-      </div>
-      <div class="col-6">
-        <label class="form-label" for="topic">Argomento</label>
-        <select id="topic" formControlName="topics" class="form-select" [multiple]="true">
-          <option *ngFor="let topic of topicList" value="{{topic.id}}"> {{topic.name}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="d-flex mt-3">
-      <button class="btn btn-secondary" type="submit">
-        <em class="bi bi-search"></em> Cerca
-      </button>
-    </div>
-  </form>
+  </div>
+</form>
 
-</div>

@@ -12,6 +12,7 @@ import {Finance} from "../model/finance";
 import {clean} from "../utils/utils";
 import {SelectDto} from "../messages/select.dto";
 import {SearchNewspaperDto} from "../messages/newspaper/search-newspaper.dto";
+import {MaxMinRangeNewspaperAttributes} from "../model/max-min-range-newspaper-attributes";
 
 @Injectable({
   providedIn: 'root'
@@ -32,9 +33,10 @@ export class NewspaperService {
   public findForSelect(): Observable<Array<SelectDto>> {
     return this.httpClient.get<Array<SelectDto>>(environment.apiBaseurl + "/newspaper/select");
   }
+
   public findPriceQuotation(form: any, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Newspaper>> {
     return this.httpClient.get<PageResponseDto<Newspaper>>(environment.apiBaseurl + "/newspaper/price-quotation", {
-      params: {...clean(form),...paginationDto}
+      params: {...clean(form), ...paginationDto}
     })
   }
 
@@ -43,16 +45,22 @@ export class NewspaperService {
       params: {...paginationDto, ...searchNewspaperDto}
     })
   }
+
+  public getMaxMinRangeNewspaperAttributes() {
+    return this.httpClient.get<MaxMinRangeNewspaperAttributes>(environment.apiBaseurl + "/newspaper/maxMinRangeAttributes")
+  }
+
   public exportExcel(searchNewspaperDto: SearchNewspaperDto): Observable<any> {
     return this.httpClient.get(environment.apiBaseurl + "/newspaper/export/excel", {
       params: {...searchNewspaperDto},
-      responseType : "blob"
+      responseType: "blob"
     })
   }
+
   public exportPDF(searchNewspaperDto: SearchNewspaperDto): Observable<any> {
     return this.httpClient.get(environment.apiBaseurl + "/newspaper/export/pdf", {
       params: {...searchNewspaperDto},
-      responseType : "blob"
+      responseType: "blob"
     })
   }
 
