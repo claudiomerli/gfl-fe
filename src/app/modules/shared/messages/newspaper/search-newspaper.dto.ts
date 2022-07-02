@@ -2,6 +2,7 @@
 export class SearchNewspaperDto {
 
   name?: string;
+  id?: string;
   zaFrom?: string;
   zaTo?: string;
   purchasedContentFrom?: string;

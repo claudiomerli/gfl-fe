@@ -1,18 +1,18 @@
 import {Topic} from "./topic";
 
-export class Newspaper {
+export interface Newspaper {
 
-  id: number | undefined
-  name: string | undefined
-  purchasedContent: number | undefined
-  leftContent: number | undefined
-  costEach: number | undefined
-  costSell: number | undefined
-  email: string | undefined
-  za: string | undefined
-  regionalGeolocalization: string | undefined
-  note: string | undefined
-  topics: Array<Topic> | undefined
-  numberOfEditors: number = 10
+  id: number
+  name: string
+  purchasedContent: number
+  leftContent: number
+  costEach: number
+  costSell: number
+  email: string
+  ip: string
+  za: number
+  regionalGeolocalization: string
+  note: string
+  topics: Array<Topic>
 
 }

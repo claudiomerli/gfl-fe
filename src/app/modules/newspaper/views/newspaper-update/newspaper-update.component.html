@@ -1,9 +1,9 @@
-<div>
-  <div class="h3">
-    Modifica testata
-  </div>
+<mat-toolbar>
+  Modifica testata
+</mat-toolbar>
+<div class="p-3">
   <app-newspaper-save-form *ngIf="newspaperToUpdate"
-                          [newspaperToEdit]="newspaperToUpdate"
-                          (formSubmit)="onSubmit($event)"
-                          [onSaving]="onSaving"></app-newspaper-save-form>
+                           [newspaperToEdit]="newspaperToUpdate"
+                           (formSubmit)="onSubmit($event)"
+                           [onSaving]="onSaving"></app-newspaper-save-form>
 </div>

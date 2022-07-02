@@ -18,8 +18,8 @@ export const projectStatuses = [
 
 
 export const userRoles = [
-  {code : 'ADMIN', label: 'Amministratore'},
-  {code : 'CUSTOMER', label: 'Cliente'},
+  {code: 'ADMIN', label: 'Amministratore'},
+  {code: 'CUSTOMER', label: 'Cliente'},
 ]
 
 export const regionalGeolocalizzation = [
@@ -45,3 +45,19 @@ export const regionalGeolocalizzation = [
   {label: "Valle d'Aosta", code: "ValleDAosta"},
   {label: "Veneto", code: "Veneto"},
 ]
+
+export const getPointerColor = () => {
+  return "#3f51b5"
+}
+
+export const getSelectionBarColor = () => {
+  return "#3f51b5"
+}
+
+export const translateCurrency: (value: number) => string = (value) => {
+  return value + " €"
+}
+
+export const translatePercentage: (value: number) => string = (value) => {
+  return value + " %"
+}

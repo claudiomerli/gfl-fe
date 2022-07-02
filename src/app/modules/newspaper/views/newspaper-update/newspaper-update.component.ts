@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Newspaper} from "../../../shared/model/newspaper";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -43,7 +43,7 @@ export class NewspaperUpdateComponent implements OnInit {
         .subscribe(() => {
           this.onSaving = false;
           this.toastService.showGenericSuccess();
-          this.router.navigate(["/newspapers"])
+          this.router.navigate(["/newspapers"], {queryParams: {id: this.newspaperToUpdate?.id}})
         }, error => {
           this.onSaving = false;
           this.toastService.showError(error.message);

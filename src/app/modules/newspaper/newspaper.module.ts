@@ -22,6 +22,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatChipsModule} from "@angular/material/chips";
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import {MatMenuModule} from "@angular/material/menu";
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatMenuModule
+    MatMenuModule,
+    MatChipsModule
   ]
 })
 export class NewspaperModule { }

@@ -1,13 +1,19 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup, UntypedFormBuilder} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 import {SearchNewspaperDto} from "../../../shared/messages/newspaper/search-newspaper.dto";
 import {TopicService} from "../../../shared/services/topic.service";
 import {Topic} from "../../../shared/model/topic";
 import {ChangeContext, Options} from "@angular-slider/ngx-slider";
-import {regionalGeolocalizzation} from "../../../shared/utils/utils";
+import {
+  getPointerColor,
+  getSelectionBarColor,
+  regionalGeolocalizzation,
+  translateCurrency
+} from "../../../shared/utils/utils";
 import {debounceTime} from "rxjs/operators";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {MaxMinRangeNewspaperAttributes} from "../../../shared/model/max-min-range-newspaper-attributes";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-newspaper-search-filter',
@@ -16,7 +22,7 @@ import {MaxMinRangeNewspaperAttributes} from "../../../shared/model/max-min-rang
 })
 export class NewspaperSearchFilterComponent implements OnInit {
 
-  constructor(private topicService: TopicService, private newsPaperService: NewspaperService) {
+  constructor(private activatedRoute: ActivatedRoute, private topicService: TopicService, private newsPaperService: NewspaperService) {
   }
 
   @Output()
@@ -27,6 +33,7 @@ export class NewspaperSearchFilterComponent implements OnInit {
   topicList: Topic[] = [];
   regionalGeolocalizzation = regionalGeolocalizzation
   searchForm = new FormGroup({
+    id: new FormControl(''),
     name: new FormControl(''),
     zaFrom: new FormControl(),
     zaTo: new FormControl(),
@@ -42,53 +49,42 @@ export class NewspaperSearchFilterComponent implements OnInit {
     topics: new FormControl([]),
   })
 
-  getPointerColor = () => {
-    return "#3f51b5"
-  }
-
-  getSelectionBarColor = () => {
-    return "#3f51b5"
-  }
-
-  translateCurrency: (value: number) => string = (value) => {
-    return value + " €"
-  }
 
   zaSliderOptions: Options = {
     ceil: 0,
     floor: 0,
-    getSelectionBarColor: this.getSelectionBarColor,
-    getPointerColor: this.getPointerColor
+    getSelectionBarColor: getSelectionBarColor,
+    getPointerColor: getPointerColor
   }
 
   purchasedContentSliderOptions: Options = {
     ceil: 0,
     floor: 0,
-    getSelectionBarColor: this.getSelectionBarColor,
-    getPointerColor: this.getPointerColor
+    getSelectionBarColor: getSelectionBarColor,
+    getPointerColor: getPointerColor
   }
 
   leftContentSliderOptions: Options = {
     ceil: 0,
     floor: 0,
-    getSelectionBarColor: this.getSelectionBarColor,
-    getPointerColor: this.getPointerColor
+    getSelectionBarColor: getSelectionBarColor,
+    getPointerColor: getPointerColor
   }
 
   costEachSliderOptions: Options = {
     ceil: 0,
     floor: 0,
-    getSelectionBarColor: this.getSelectionBarColor,
-    getPointerColor: this.getPointerColor,
-    translate: this.translateCurrency
+    getSelectionBarColor: getSelectionBarColor,
+    getPointerColor: getPointerColor,
+    translate: translateCurrency
   }
 
   costSellSliderOptions: Options = {
     ceil: 0,
     floor: 0,
-    getSelectionBarColor: this.getSelectionBarColor,
-    getPointerColor: this.getPointerColor,
-    translate: this.translateCurrency
+    getSelectionBarColor: getSelectionBarColor,
+    getPointerColor: getPointerColor,
+    translate: translateCurrency
   }
 
   ngOnInit(): void {
@@ -105,6 +101,7 @@ export class NewspaperSearchFilterComponent implements OnInit {
     this.newsPaperService.getMaxMinRangeNewspaperAttributes().subscribe((result) => {
       this.maxMinRangeNewspaperAttributes = result
       this.searchForm.patchValue({
+        id: this.activatedRoute.snapshot.queryParamMap.get("id") || '',
         zaFrom: result.minZA,
         zaTo: result.maxZA,
         purchasedContentFrom: result.minPurchasedContent,
