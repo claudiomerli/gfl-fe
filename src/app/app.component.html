@@ -5,7 +5,9 @@
         <mat-icon *ngIf="!(menuState|async)">menu</mat-icon>
         <mat-icon *ngIf="(menuState|async)">arrow_back</mat-icon>
       </button>
-      <span class="ms-auto">Tilinkotool</span>
+      <div class="ms-auto d-flex justify-content-end align-items-center h-100">
+        <img src="assets/logo-tilinko-cropped-transparent.png" class="h-75">
+      </div>
     </mat-toolbar>
     <mat-drawer-container style="height: 93%">
       <mat-drawer #drawer (openedStart)="toggleMenu(true)" (closedStart)="toggleMenu(false)" mode="over">

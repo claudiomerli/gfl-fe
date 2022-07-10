@@ -46,6 +46,12 @@ export const regionalGeolocalizzation = [
   {label: "Veneto", code: "Veneto"},
 ]
 
+export const orderStatus = [
+  {label: "Richiesto", code: 'REQUESTED'},
+  {label: 'Confermato', code: 'CONFIRMED'},
+  {label: 'Respinto', code: 'CANCELED'}
+]
+
 export const getPointerColor = () => {
   return "#3f51b5"
 }

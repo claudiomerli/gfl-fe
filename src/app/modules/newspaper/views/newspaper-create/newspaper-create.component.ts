@@ -23,10 +23,10 @@ export class NewspaperCreateComponent implements OnInit {
 
   onSubmit($event: SaveNewspaperDto) {
     this.onSaving = true
-    this.newspaperService.save($event).subscribe(() => {
+    this.newspaperService.save($event).subscribe((saved) => {
       this.onSaving = false;
       this.toastService.showGenericSuccess();
-      this.router.navigate(["/newspapers"])
+      this.router.navigate(["/newspapers"], {queryParams: {id: saved.id}})
     }, error => {
       this.onSaving = false;
       this.toastService.showError(error);

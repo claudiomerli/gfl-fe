@@ -30,6 +30,13 @@ export class UserService {
     })
   }
 
+  public findForAutocomplete(globalSearch: string, role: string, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<User>> {
+    return this.httpClient.get<PageResponseDto<User>>(environment.apiBaseurl + "/user", {
+      params: {...paginationDto, globalSearch, role},
+      headers: {disableSpinner: "true"}
+    })
+  }
+
   public delete(id: number) {
     return this.httpClient.delete(environment.apiBaseurl + "/user/" + id);
   }

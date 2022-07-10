@@ -23,23 +23,25 @@ export class SecurityInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let accessTokenFromLocalStorage = this.authenticationService.getAccessTokenFromLocalStorage();
     let responseObserver
+    let disableSpinner = request.headers.get("disableSpinner")
 
     if (accessTokenFromLocalStorage) {
       responseObserver = next.handle(request.clone({
-        headers: request.headers
-          .append("Authorization", "Bearer " + accessTokenFromLocalStorage)
+        headers: request.headers.append("Authorization", "Bearer " + accessTokenFromLocalStorage)
       }))
     } else {
       responseObserver = next.handle(request)
     }
 
-    console.log("Mostro spinner")
-    this.spinner.show()
+    if (!disableSpinner) {
+      this.spinner.show()
+    }
+
     return responseObserver
       .pipe(
         tap((response) => {
           console.log(response)
-          if(response instanceof HttpResponseBase){
+          if (response instanceof HttpResponseBase) {
             this.spinner.hide()
           }
         }),

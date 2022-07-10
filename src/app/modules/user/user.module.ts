@@ -20,6 +20,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatCardModule} from "@angular/material/card";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 
 @NgModule({
@@ -30,23 +31,24 @@ import {MatCardModule} from "@angular/material/card";
     UserUpdateFormComponent,
     UserUpdateComponent
   ],
-  imports: [
-    CommonModule,
-    UserRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxPaginationModule,
-    SharedModule,
-    MatToolbarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSelectModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatCardModule
-  ]
+    imports: [
+        CommonModule,
+        UserRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxPaginationModule,
+        SharedModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatTableModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSelectModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatCardModule,
+        MatSlideToggleModule
+    ]
 })
 export class UserModule { }

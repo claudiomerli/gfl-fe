@@ -1,6 +1,7 @@
 <div class="d-flex w-100 h-100 align-items-center justify-content-center">
   <mat-card class="w-25">
     <form [formGroup]="loginForm" (submit)="doSignin()">
+      <img mat-card-image src="assets/logo-tilinko.png">
       <mat-card-title class="text-center">
         Log In
       </mat-card-title>
@@ -12,8 +13,8 @@
         <mat-form-field class="d-block">
           <mat-label>Password</mat-label>
           <input formControlName="password" matInput type="password">
-          <mat-error *ngIf="loginError">Credenziali errate</mat-error>
         </mat-form-field>
+        <mat-error *ngIf="loginError">Credenziali errate</mat-error>
       </mat-card-content>
       <mat-card-actions>
         <button [disabled]="loginForm.invalid" type="submit" color="primary" mat-button>SIGN IN</button>

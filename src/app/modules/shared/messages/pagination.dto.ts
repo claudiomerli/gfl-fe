@@ -1,6 +1,6 @@
 export class PaginationDto {
-  page = 0;
-  pageSize = 10;
+  page? = 0;
+  pageSize? = 10;
   sortDirection = "ASC";
   sortBy = '';
 

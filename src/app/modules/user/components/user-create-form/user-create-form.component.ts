@@ -41,7 +41,6 @@ export class UserCreateFormComponent implements OnInit {
 
   @Output()
   formSubmit = new EventEmitter<SaveUserDto>();
-
   userRoles = userRoles;
 
   passwordMatchesValidatorFunction(): ValidatorFn {

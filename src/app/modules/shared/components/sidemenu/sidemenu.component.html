@@ -28,13 +28,21 @@
     <span class="mx-3">Testate</span>
   </a>
 
-  <mat-divider class="my-3"></mat-divider>
-
   <a class="d-flex align-items-center justify-content-start" mat-button
-     *isAuthenticated="['ADMIN']" routerLinkActive="active" routerLink="/users">
-    <mat-icon>group</mat-icon>
-    <span class="mx-3">Utenti</span>
+     *isAuthenticated="['ADMIN','CUSTOMER']" routerLinkActive="active" routerLink="/orders">
+    <mat-icon>attach_money</mat-icon>
+    <span class="mx-3">Ordini</span>
   </a>
+
+
+  <ng-container *isAuthenticated="['ADMIN']">
+    <mat-divider class="my-3"></mat-divider>
+    <a class="d-flex align-items-center justify-content-start" mat-button routerLinkActive="active" routerLink="/users">
+      <mat-icon>group</mat-icon>
+      <span class="mx-3">Utenti</span>
+    </a>
+  </ng-container>
+
 
   <!--  <a class="d-flex align-items-center justify-content-start" mat-button-->
   <!--     *isAuthenticated="['ADMIN']" routerLinkActive="active" routerLink="/customer">-->

@@ -1,9 +1,9 @@
-<div>
-  <div class="h3">
-    Modifica utente
-  </div>
+<mat-toolbar>
+  Modifica utente
+</mat-toolbar>
+<div class="p-3">
   <app-user-update-form *ngIf="userToUpdate"
-                          [userToEdit]="userToUpdate"
-                          (formSubmit)="onSubmit($event)"
-                          [onSaving]="onSaving"></app-user-update-form>
+                        [userToEdit]="userToUpdate"
+                        (formSubmit)="onSubmit($event)"
+                        [onSaving]="onSaving"></app-user-update-form>
 </div>

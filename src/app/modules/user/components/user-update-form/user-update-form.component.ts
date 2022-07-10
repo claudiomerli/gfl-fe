@@ -1,7 +1,16 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
+import {
+  AbstractControl,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from "@angular/forms";
 import {User} from "../../../shared/model/user";
 import {EditUserDto} from "../../../shared/messages/users/edit-user.dto";
+import {userRoles} from "../../../shared/utils/utils";
+import {MatSlideToggle, MatSlideToggleChange} from "@angular/material/slide-toggle";
 
 @Component({
   selector: 'app-user-update-form',
@@ -40,7 +49,7 @@ export class UserUpdateFormComponent implements OnInit {
 
   editUserForm = new UntypedFormGroup({
     fullname: new UntypedFormControl('', [Validators.required]),
-    email: new UntypedFormControl('', [Validators.required]),
+    email: new UntypedFormControl('', [Validators.required, Validators.email]),
     mobilePhone: new UntypedFormControl(''),
     level: new UntypedFormControl(''),
     remuneration: new UntypedFormControl(''),
@@ -50,12 +59,13 @@ export class UserUpdateFormComponent implements OnInit {
     repeatPassword: new UntypedFormControl('')
   });
   formSubmitted: boolean = false;
+  userRoles = userRoles;
 
-  togglePassword($event: any) {
-    this.showChangePassword = $event.target.checked;
+  togglePassword($event: MatSlideToggleChange) {
+    this.showChangePassword = $event.checked;
     if (this.showChangePassword) {
       this.editUserForm.controls.password.setValidators([Validators.required, Validators.minLength(8)])
-      this.editUserForm.controls.repeatPassword.setValidators([this.passwordMatchesValidatorFunction()])
+      this.editUserForm.controls.repeatPassword.setValidators([Validators.required, this.passwordMatchesValidatorFunction()])
     } else {
       this.editUserForm.patchValue({password: '', repeatPassword: ''})
       this.editUserForm.controls.password.clearValidators()
@@ -68,7 +78,7 @@ export class UserUpdateFormComponent implements OnInit {
 
   onSubmit() {
     this.formSubmitted = true;
-    if(this.editUserForm.valid) {
+    if (this.editUserForm.valid) {
       this.formSubmit.emit(this.editUserForm.value as EditUserDto);
     }
   }

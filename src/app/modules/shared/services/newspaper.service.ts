@@ -22,12 +22,12 @@ export class NewspaperService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public save(saveNewspaperDto: SaveNewspaperDto): Observable<void> {
-    return this.httpClient.post<void>(environment.apiBaseurl + "/newspaper", saveNewspaperDto)
+  public save(saveNewspaperDto: SaveNewspaperDto): Observable<Newspaper> {
+    return this.httpClient.post<Newspaper>(environment.apiBaseurl + "/newspaper", saveNewspaperDto)
   }
 
-  public update(id: number, editNewspaperDto: SaveNewspaperDto): Observable<void> {
-    return this.httpClient.put<void>(environment.apiBaseurl + "/newspaper/" + id, editNewspaperDto)
+  public update(id: number, editNewspaperDto: SaveNewspaperDto): Observable<Newspaper> {
+    return this.httpClient.put<Newspaper>(environment.apiBaseurl + "/newspaper/" + id, editNewspaperDto)
   }
 
   public findForSelect(): Observable<Array<SelectDto>> {
@@ -43,6 +43,13 @@ export class NewspaperService {
   public find(searchNewspaperDto: SearchNewspaperDto, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Newspaper>> {
     return this.httpClient.get<PageResponseDto<Newspaper>>(environment.apiBaseurl + "/newspaper", {
       params: {...paginationDto, ...searchNewspaperDto}
+    })
+  }
+
+  public findForAutocomplete(searchNewspaperDto: SearchNewspaperDto, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Newspaper>> {
+    return this.httpClient.get<PageResponseDto<Newspaper>>(environment.apiBaseurl + "/newspaper", {
+      params: {...paginationDto, ...searchNewspaperDto},
+      headers: {disableSpinner: "true"}
     })
   }
 

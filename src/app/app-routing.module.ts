@@ -58,6 +58,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {availableRoles: ['ADMIN', 'CUSTOMER']}
   },
+  {
+    path: "orders",
+    loadChildren: () => import("./modules/order/order.module").then(m => m.OrderModule),
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN', 'CUSTOMER']}
+  }
 ];
 
 @NgModule({

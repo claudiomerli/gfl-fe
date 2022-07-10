@@ -1,7 +1,7 @@
 <form [formGroup]="searchForm">
   <div class="row">
     <div class="col-6">
-      <mat-form-field class="w-100">
+      <mat-form-field class="w-100" *isAuthenticated="['ADMIN']">
         <mat-label>Identificativo</mat-label>
         <input matInput formControlName="id" type="text">
       </mat-form-field>
@@ -24,28 +24,28 @@
       </mat-form-field>
     </div>
     <div class="col-6" *ngIf="maxMinRangeNewspaperAttributes">
-      <div class="mat-typography">
+      <div class="mat-typography" *isAuthenticated="['ADMIN']">
         <label>ZA (Zoom authority)</label>
         <ngx-slider (userChangeEnd)="onZaChange($event)"
                     [value]="maxMinRangeNewspaperAttributes.minZA"
                     [highValue]="maxMinRangeNewspaperAttributes.maxZA"
                     [options]="zaSliderOptions"></ngx-slider>
       </div>
-      <div class="mat-typography">
+      <div class="mat-typography" *isAuthenticated="['ADMIN']">
         <label>Redazionali acquistati</label>
         <ngx-slider (userChangeEnd)="onPurchasedContentChange($event)"
                     [value]="maxMinRangeNewspaperAttributes.minPurchasedContent"
                     [highValue]="maxMinRangeNewspaperAttributes.maxPurchasedContent"
                     [options]="purchasedContentSliderOptions"></ngx-slider>
       </div>
-      <div class="mat-typography">
+      <div class="mat-typography" *isAuthenticated="['ADMIN']">
         <label>Redazionali rimanenti</label>
         <ngx-slider (userChangeEnd)="onLeftContentChange($event)"
                     [value]="maxMinRangeNewspaperAttributes.minLeftContent"
                     [highValue]="maxMinRangeNewspaperAttributes.maxLeftContent"
                     [options]="leftContentSliderOptions"></ngx-slider>
       </div>
-      <div class="mat-typography">
+      <div class="mat-typography" *isAuthenticated="['ADMIN']">
         <label>Costo cadauno</label>
         <ngx-slider (userChangeEnd)="onCostEachChange($event)"
                     [value]="maxMinRangeNewspaperAttributes.minCostEach"
