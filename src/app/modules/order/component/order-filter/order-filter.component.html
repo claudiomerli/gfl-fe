@@ -1,0 +1,66 @@
+<form [formGroup]="form">
+  <div class="row align-items-center">
+    <div class="col" *isAuthenticated="['ADMIN']">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Cliente</mat-label>
+        <input type="text" placeholder="Cerca cliente..."
+               matInput
+               [formControl]="customerInput"
+               [matAutocomplete]="auto"
+        >
+        <mat-autocomplete #auto="matAutocomplete"
+                          (optionSelected)="customerOptionSelected($event)"
+                          [displayWith]="displayFullnameCustomer"
+        >
+          <mat-option *ngFor="let option of customers" [value]="option">
+            {{option.fullname}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field class="w-100">
+        <mat-label>Stato</mat-label>
+        <mat-select formControlName="status">
+          <mat-option [value]="null">Seleziona</mat-option>
+          <mat-option *ngFor="let status of orderStatus" [value]="status.code">
+            {{status.label}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Testate</mat-label>
+        <mat-chip-list #chipListNewspaper>
+          <mat-chip *ngFor="let newspaper of form.controls.newspapers.value"
+                    (removed)="removeNewspaper(newspaper.id)">
+            {{newspaper.name}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+            placeholder="Cerca testata..."
+            [formControl]="newspaperInput"
+            #newspaperInputElement
+            [matAutocomplete]="autoNewspaper"
+            [matChipInputFor]="chipListNewspaper"
+          >
+        </mat-chip-list>
+        <mat-autocomplete #autoNewspaper="matAutocomplete"
+                          (optionSelected)="newspaperSelected($event,newspaperInputElement)">
+          <mat-option *ngFor="let newspaper of newspapers" [value]="newspaper">
+            {{newspaper.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="col-3" *isAuthenticated="['CUSTOMER']">
+      <a color="primary" mat-raised-button class="w-100" [routerLink]="['/orders/create']">
+        <mat-icon>add</mat-icon>
+        Nuovo Ordine
+      </a>
+    </div>
+  </div>
+</form>
