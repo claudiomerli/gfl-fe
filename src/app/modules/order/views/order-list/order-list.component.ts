@@ -28,7 +28,7 @@ export class OrderListComponent implements OnInit {
     page: 0,
     pageSize: 10,
     sortBy: "id",
-    sortDirection: "ASC"
+    sortDirection: "DESC"
   }
   displayedColumns: string[] = [];
   orderStatus = orderStatus;
