@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Scegli Ordine</h1>
+<div mat-dialog-content>
+  <div class="mat-typography">Aggiungi testata {{data.name}} a ordine</div>
+  <div class="mat-typography" *ngIf="orders.length == 0">Non sono presenti ordini disponibili!</div>
+  <form [formGroup]="chooseOrderForm" *ngIf="orders.length != 0">
+    <div class="row">
+      <div class="col-6">
+        <mat-form-field class="w-100">
+          <mat-label>Ordine</mat-label>
+          <mat-select formControlName="order">
+            <mat-option *ngFor="let order of orders" [value]="order">
+              {{order.name}} (ID: {{order.id}})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field class="w-100">
+          <mat-label>Quantità</mat-label>
+          <input type="number" formControlName="quantity" matInput>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annulla</button>
+  <button mat-button *ngIf="orders.length > 0" (click)="onConfirm()">Conferma</button>
+</div>
