@@ -11,6 +11,9 @@ import {Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {PageEvent} from "@angular/material/paginator";
 import {saveAs} from "file-saver";
+import {MatDialog} from "@angular/material/dialog";
+import {ChooseOrderDialogComponent} from "../../components/choose-order-dialog/choose-order-dialog.component";
+import {OrderService} from "../../../shared/services/order.service";
 
 @Component({
   selector: 'app-newspaper-list',
@@ -36,10 +39,16 @@ export class NewspaperListComponent implements OnInit {
     sortDirection: "ASC"
   }
 
-  constructor(private newspaperService: NewspaperService, private store: Store) {
+  constructor(private newspaperService: NewspaperService,
+              private store: Store,
+              private matDialog: MatDialog,
+              private orderService: OrderService
+  ) {
   }
 
-  ngOnInit(): void {
+  ngOnInit()
+    :
+    void {
     this.defineColumns()
     this.newspaperService.finance().subscribe(data => this.finance$.next(data));
   }
@@ -67,12 +76,13 @@ export class NewspaperListComponent implements OnInit {
 
     this.displayedColumns.push("regionalGeolocalization")
     this.displayedColumns.push("topics")
-
-    if (user?.role === "ADMIN")
-      this.displayedColumns.push("actions");
+    this.displayedColumns.push("actions");
   }
 
-  onDelete(id: number | undefined) {
+  onDelete(id
+             :
+             number | undefined
+  ) {
     if (id) {
       this.newspaperService
         .delete(id)
@@ -90,7 +100,10 @@ export class NewspaperListComponent implements OnInit {
       })
   }
 
-  onSubmitSearchForm($event: SearchNewspaperDto) {
+  onSubmitSearchForm($event
+                       :
+                       SearchNewspaperDto
+  ) {
     this.searchNewspaperDto = $event;
     this.actualPagination.page = 0
     this.search();
@@ -114,8 +127,11 @@ export class NewspaperListComponent implements OnInit {
     });
   }
 
-  onSortChange($event: Sort) {
-    if($event.direction != ''){
+  onSortChange($event
+                 :
+                 Sort
+  ) {
+    if ($event.direction != '') {
       this.actualPagination.sortBy = $event.active
       this.actualPagination.sortDirection = $event.direction?.toUpperCase()
     } else {
@@ -126,10 +142,27 @@ export class NewspaperListComponent implements OnInit {
     this.search()
   }
 
-  onPageChange($event: PageEvent) {
+  onPageChange($event
+                 :
+                 PageEvent
+  ) {
     this.actualPagination.page = $event.pageIndex
     this.actualPagination.pageSize = $event.pageSize
     this.search()
   }
 
+  openChooseOrderDialog(newspaper: Newspaper) {
+    this.matDialog.open(ChooseOrderDialogComponent,{
+      data: newspaper
+    })
+      .afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.orderService.addOrderElement(result.orderId, result.saveOrderElement)
+            .subscribe(() => {
+              this.search()
+            })
+        }
+      })
+  }
 }

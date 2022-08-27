@@ -10,6 +10,9 @@ import {User} from "../../../shared/model/user";
 import {orderStatus} from "../../../shared/utils/utils";
 import {PageEvent} from "@angular/material/paginator";
 import {Sort} from "@angular/material/sort";
+import {Route, Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {OrderDraftDialogComponent} from "../../component/order-draft-dialog/order-draft-dialog.component";
 
 @Component({
   selector: 'app-order-list',
@@ -18,7 +21,10 @@ import {Sort} from "@angular/material/sort";
 })
 export class OrderListComponent implements OnInit {
 
-  constructor(private orderService: OrderService, private store: Store) {
+  constructor(private orderService: OrderService,
+              private store: Store,
+              private router: Router,
+              private matDialog: MatDialog) {
   }
 
   filters?: FindOrderDto
@@ -37,9 +43,10 @@ export class OrderListComponent implements OnInit {
     let currentUser = this.store.selectSnapshot(AuthenticationState.user);
 
     this.displayedColumns.push("id")
+    this.displayedColumns.push("name")
     if (currentUser?.role == "ADMIN")
-
       this.displayedColumns.push("customer")
+
     this.displayedColumns.push("status")
     this.displayedColumns.push("newspaper")
     this.displayedColumns.push("total")
@@ -77,5 +84,21 @@ export class OrderListComponent implements OnInit {
     }
 
     this.search()
+  }
+
+  createNewOrder() {
+    this.matDialog.open(OrderDraftDialogComponent)
+      .afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.orderService.saveDraft({
+            name: result.name
+          })
+            .subscribe(order => {
+              this.router.navigate(['/orders', order.id])
+            })
+        }
+      })
+
   }
 }

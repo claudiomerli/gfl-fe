@@ -1,11 +1,15 @@
 <mat-toolbar>
   Dettaglio ordine {{orderToEdit?.id}}
   <mat-divider class="w-100 mx-3"></mat-divider>
-  <span class="text-warning" *ngIf="orderToEdit?.status === 'REQUESTED'">Stato inviato</span> <span class="text-success"
-                                                                                                    *ngIf="orderToEdit?.status === 'CONFIRMED'">Stato confermato</span>
+  <span class="text-success" *ngIf="orderToEdit?.status === 'DRAFT'">Bozza</span>
+  <span class="text-warning" *ngIf="orderToEdit?.status === 'REQUESTED'">Inviato</span>
+  <span class="text-success" *ngIf="orderToEdit?.status === 'CONFIRMED'">Stato confermato</span>
   <span class="text-danger" *ngIf="orderToEdit?.status === 'CANCELED'">Stato respinto</span>
 </mat-toolbar>
 <div class="p-3">
-  <app-order-form *ngIf="orderToEdit" [orderToEdit]="orderToEdit" (formSubmit)="updateOrder($event)"
-                  (approve)="onApprove()" (cancel)="onCancel()"></app-order-form>
+  <app-order-form *ngIf="orderToEdit" [orderToEdit]="orderToEdit"
+                  (saveDraft)="updateOrder($event)"
+                  (sendOrder)="sendOrder($event)"
+                  (approve)="onApprove()"
+                  (cancel)="onCancel()"></app-order-form>
 </div>

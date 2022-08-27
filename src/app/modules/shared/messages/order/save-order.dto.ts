@@ -1,5 +1,6 @@
 export interface SaveOrderDto {
   note?: string | null
+  name?: string;
   elements: SaveOrderElementDto[]
 }
 

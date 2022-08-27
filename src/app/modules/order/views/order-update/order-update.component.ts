@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {OrderService} from "../../../shared/services/order.service";
 import {SaveOrderDto} from "../../../shared/messages/order/save-order.dto";
 import {Order} from "../../../shared/model/order";
+import {switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-order-update',
@@ -11,7 +12,7 @@ import {Order} from "../../../shared/model/order";
 })
 export class OrderUpdateComponent implements OnInit {
 
-  constructor(private orderService: OrderService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private orderService: OrderService, private activatedRoute: ActivatedRoute) {
   }
 
   orderToEdit?: Order
@@ -28,8 +29,10 @@ export class OrderUpdateComponent implements OnInit {
   }
 
   updateOrder($event: SaveOrderDto) {
-    this.orderService.update(this.orderToEdit!.id, $event).subscribe(() => {
-      this.router.navigate(['/orders'])
+    console.log("update")
+    this.orderService.update(this.orderToEdit!.id, $event)
+      .subscribe((order) => {
+      this.orderToEdit = order
     })
   }
 
@@ -39,5 +42,16 @@ export class OrderUpdateComponent implements OnInit {
 
   onCancel() {
     this.orderService.cancel(this.orderToEdit!.id).subscribe(() => this.load(this.orderToEdit!.id))
+  }
+
+  sendOrder($event: SaveOrderDto) {
+    this.orderService
+      .update(this.orderToEdit!.id, $event)
+      .pipe(
+        switchMap((orderSaved) => this.orderService.send(orderSaved.id))
+      )
+      .subscribe((order) => {
+        this.orderToEdit = order
+      })
   }
 }

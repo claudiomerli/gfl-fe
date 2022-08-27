@@ -1,5 +1,11 @@
 <form [formGroup]="form">
   <div class="row align-items-center">
+    <div class="col">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Nome</mat-label>
+        <input type="text" formControlName="name" matInput>
+      </mat-form-field>
+    </div>
     <div class="col" *isAuthenticated="['ADMIN']">
       <mat-form-field class="w-100" appearance="fill">
         <mat-label>Cliente</mat-label>
@@ -57,7 +63,7 @@
       </mat-form-field>
     </div>
     <div class="col-3" *isAuthenticated="['CUSTOMER']">
-      <a color="primary" mat-raised-button class="w-100" [routerLink]="['/orders/create']">
+      <a color="primary" mat-raised-button class="w-100" (click)="newOrder.emit()">
         <mat-icon>add</mat-icon>
         Nuovo Ordine
       </a>

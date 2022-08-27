@@ -29,7 +29,6 @@ export class AppComponent implements OnInit {
     })
   }
 
-
   toggleMenu(opened: boolean) {
     this.store.dispatch(new SetStateAction({menuOpen: opened}))
   }

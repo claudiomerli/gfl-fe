@@ -23,6 +23,8 @@ import {MatCardModule} from "@angular/material/card";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { OrderUpdateComponent } from './views/order-update/order-update.component';
 import {MatDividerModule} from "@angular/material/divider";
+import { OrderDraftDialogComponent } from './component/order-draft-dialog/order-draft-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -31,27 +33,29 @@ import {MatDividerModule} from "@angular/material/divider";
     OrderFilterComponent,
     OrderFormComponent,
     OrderCreateComponent,
-    OrderUpdateComponent
+    OrderUpdateComponent,
+    OrderDraftDialogComponent
   ],
-  imports: [
-    CommonModule,
-    OrderRoutingModule,
-    MatToolbarModule,
-    MatFormFieldModule,
-    MatChipsModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
-    MatSortModule,
-    MatButtonModule,
-    SharedModule,
-    MatCardModule,
-    MatPaginatorModule,
-    MatDividerModule
-  ]
+    imports: [
+        CommonModule,
+        OrderRoutingModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        MatChipsModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        MatTableModule,
+        MatSortModule,
+        MatButtonModule,
+        SharedModule,
+        MatCardModule,
+        MatPaginatorModule,
+        MatDividerModule,
+        MatDialogModule
+    ]
 })
 export class OrderModule { }

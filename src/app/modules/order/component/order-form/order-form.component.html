@@ -1,4 +1,8 @@
-<form [formGroup]="orderForm" (submit)="onFormSubmit()">
+<form [formGroup]="orderForm">
+  <mat-form-field class="w-100">
+    <mat-label>Nome</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
   <ng-container formArrayName="orderElements">
     <div class="row align-items-center"
          *ngFor="let orderElement of orderForm.controls.orderElements.controls; index as i"
@@ -35,7 +39,7 @@
             (orderElement.controls.contentNumber.value * orderElement.controls.newspaper.value.costSell) : 0) | currency:'EUR'}}">
         </mat-form-field>
       </div>
-      <ng-container *ngIf="!orderToEdit">
+      <ng-container *ngIf="orderToEdit?.status == 'DRAFT'">
         <div class="col-1" *isAuthenticated="['CUSTOMER']">
           <button class="w-100" type="button" mat-raised-button (click)="removeOrderElement(i)">
             Elimina
@@ -56,27 +60,29 @@
   </mat-form-field>
   <div class="p-3 text-end">
     <ng-container *ngIf="orderToEdit?.status === 'REQUESTED'">
-      <button color="primary" type="button" mat-raised-button (click)="onApprove()" *isAuthenticated="['ADMIN']">
+      <button type="button" color="primary" mat-raised-button (click)="onApprove()" *isAuthenticated="['ADMIN']">
         <mat-icon>check</mat-icon>
         Approva
       </button>
-      <button class="ms-3" color="warn" type="button" mat-raised-button (click)="onCancel()" *isAuthenticated="['ADMIN']">
+      <button type="button" class="ms-3" color="warn" mat-raised-button (click)="onCancel()" *isAuthenticated="['ADMIN']">
         <mat-icon>close</mat-icon>
         Respingi
       </button>
     </ng-container>
-
-
-    <ng-container *ngIf="!orderToEdit">
+    <ng-container *ngIf="orderToEdit?.status == 'DRAFT'">
       <button type="button" mat-raised-button (click)="addOrderElement()" *isAuthenticated="['CUSTOMER']">
         <mat-icon>add</mat-icon>
         Aggiungi elemento
       </button>
-    </ng-container>
-    <ng-container  *ngIf="!orderToEdit || (orderToEdit && orderToEdit.status == 'REQUESTED')">
-      <button mat-raised-button color="primary" type="submit" class="ms-3" *isAuthenticated="['CUSTOMER']">
+      <button type="button" (click)="onSaveDraft()"  mat-raised-button color="primary" class="ms-3" *isAuthenticated="['CUSTOMER']">
         <mat-icon>save</mat-icon>
-        Salva ordine
+        Salva bozza
+      </button>
+    </ng-container>
+    <ng-container  *ngIf="orderToEdit?.status == 'DRAFT' && orderForm.controls.orderElements.length > 0 && orderForm.valid" >
+      <button type="button" (click)="onSend()" mat-raised-button color="primary" class="ms-3" *isAuthenticated="['CUSTOMER']">
+        <mat-icon>send</mat-icon>
+        Invia ordine
       </button>
     </ng-container>
   </div>

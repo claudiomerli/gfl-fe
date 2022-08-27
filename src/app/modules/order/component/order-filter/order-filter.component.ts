@@ -20,8 +20,10 @@ import {Newspaper} from "../../../shared/model/newspaper";
 export class OrderFilterComponent implements OnInit, AfterViewInit {
 
   @Output() filterChanged = new EventEmitter<FindOrderDto>()
+  @Output() newOrder = new EventEmitter<void>()
 
   form = new FormGroup({
+    name: new FormControl<string | null>(null),
     customer: new FormControl<User | null>(null),
     status: new FormControl<string | null>(null),
     newspapers: new FormControl<Newspaper[]>([])
@@ -44,6 +46,7 @@ export class OrderFilterComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.form.valueChanges
+      .pipe(debounceTime(500))
       .subscribe(() => {
         this.emitChange();
       })
@@ -54,7 +57,8 @@ export class OrderFilterComponent implements OnInit, AfterViewInit {
     this.filterChanged.emit({
       customerId: (this.form.value?.customer as User)?.id || null,
       status: this.form.value.status!,
-      newspaperIds: this.form.value.newspapers!.map(value => value.id)
+      newspaperIds: this.form.value.newspapers!.map(value => value.id),
+      name : this.form.value.name!
     })
   }
 

@@ -23,6 +23,8 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatChipsModule} from "@angular/material/chips";
+import { ChooseOrderDialogComponent } from './components/choose-order-dialog/choose-order-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -31,30 +33,32 @@ import {MatChipsModule} from "@angular/material/chips";
         NewspaperListComponent,
         NewspaperCreateComponent,
         NewspaperUpdateComponent,
-        NewspaperSearchFilterComponent
+        NewspaperSearchFilterComponent,
+        ChooseOrderDialogComponent
     ],
     exports: [
         NewspaperSearchFilterComponent
     ],
-  imports: [
-    CommonModule,
-    NewspaperRoutingModule,
-    ReactiveFormsModule,
-    NgxPaginationModule,
-    SharedModule,
-    MatToolbarModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    NgxSliderModule,
-    MatSelectModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatMenuModule,
-    MatChipsModule
-  ]
+    imports: [
+        CommonModule,
+        NewspaperRoutingModule,
+        ReactiveFormsModule,
+        NgxPaginationModule,
+        SharedModule,
+        MatToolbarModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        NgxSliderModule,
+        MatSelectModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatMenuModule,
+        MatChipsModule,
+        MatDialogModule
+    ]
 })
 export class NewspaperModule { }

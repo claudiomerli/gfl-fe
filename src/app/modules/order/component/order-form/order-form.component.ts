@@ -18,6 +18,8 @@ export class OrderFormComponent implements OnInit {
   @Output() formSubmit = new EventEmitter<SaveOrderDto>()
   @Output() approve = new EventEmitter<void>()
   @Output() cancel = new EventEmitter<void>()
+  @Output() saveDraft = new EventEmitter<SaveOrderDto>()
+  @Output() sendOrder = new EventEmitter<SaveOrderDto>()
 
   constructor(private newspaperService: NewspaperService) {
   }
@@ -26,8 +28,7 @@ export class OrderFormComponent implements OnInit {
     if (this.orderToEdit) {
       this.orderToEdit.orderElements.forEach(this.addOrderElement)
       this.orderForm.patchValue(this.orderToEdit)
-      this.orderForm.controls.orderElements.disable()
-      if(this.orderToEdit.status != "REQUESTED"){
+      if (this.orderToEdit.status != "DRAFT") {
         this.orderForm.disable()
       }
     } else {
@@ -43,8 +44,9 @@ export class OrderFormComponent implements OnInit {
   }
 
   orderForm = new FormGroup({
+    name: new FormControl<string | null>(null, Validators.required),
     note: new FormControl<string | null>(null),
-    orderElements: new FormArray<FormGroup>([], [Validators.required])
+    orderElements: new FormArray<FormGroup>([])
   })
 
 
@@ -100,26 +102,49 @@ export class OrderFormComponent implements OnInit {
     this.newspapersAutocomplete = []
   }
 
-  onFormSubmit() {
-    if (this.orderForm.valid) {
-      this.formSubmit.emit({
-        note: this.orderForm.getRawValue().note,
-        elements: this.orderForm.getRawValue().orderElements!.map(oe => {
-          return {
-            contentNumber: oe.contentNumber,
-            newspaperId: oe.newspaper.id
-          }
-        })
-      })
-    }
-
-  }
+  // onFormSubmit() {
+  //   if (this.orderForm.valid) {
+  //     this.formSubmit.emit({
+  //       note: this.orderForm.getRawValue().note,
+  //       elements: this.orderForm.getRawValue().orderElements!.map(oe => {
+  //         return {
+  //           contentNumber: oe.contentNumber,
+  //           newspaperId: oe.newspaper.id
+  //         }
+  //       })
+  //     })
+  //   }
+  //
+  // }
 
   onApprove() {
     this.approve.emit()
   }
 
-  onCancel(){
+  onCancel() {
     this.cancel.emit()
+  }
+
+  onSend() {
+    if (this.orderForm.valid)
+      this.sendOrder.emit(this.buildDto())
+  }
+
+  onSaveDraft() {
+    if (this.orderForm.valid)
+      this.saveDraft.emit(this.buildDto())
+  }
+
+  buildDto() : SaveOrderDto {
+    return {
+      name: this.orderForm.value.name!,
+      note: this.orderForm.value.note,
+      elements: this.orderForm.value.orderElements!.map(oe => {
+        return {
+          contentNumber: oe.contentNumber,
+          newspaperId: oe.newspaper.id
+        }
+      })
+    }
   }
 }

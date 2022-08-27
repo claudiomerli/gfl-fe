@@ -47,6 +47,7 @@ export const regionalGeolocalizzation = [
 ]
 
 export const orderStatus = [
+  {label: 'Bozza', code: 'DRAFT'},
   {label: "Richiesto", code: 'REQUESTED'},
   {label: 'Confermato', code: 'CONFIRMED'},
   {label: 'Respinto', code: 'CANCELED'}
