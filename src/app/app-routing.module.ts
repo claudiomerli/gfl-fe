@@ -1,9 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from "./modules/shared/guards/auth.guard";
+import {RedirectGuard} from "./modules/shared/guards/redirect.guard";
 
 const routes: Routes = [
-  {path: "", redirectTo: "/newspapers", pathMatch: "full"},
+  {
+    path: "", pathMatch: "full", redirectTo: "", canActivate: [RedirectGuard]
+  },
   {
     path: "auth",
     loadChildren: () => import("./modules/auth/auth.module").then(m => m.AuthModule)
@@ -61,6 +64,12 @@ const routes: Routes = [
   {
     path: "orders",
     loadChildren: () => import("./modules/order/order.module").then(m => m.OrderModule),
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN', 'CUSTOMER']}
+  },
+  {
+    path: "news",
+    loadChildren: () => import("./modules/news/news.module").then(m => m.NewsModule),
     canActivate: [AuthGuard],
     data: {availableRoles: ['ADMIN', 'CUSTOMER']}
   }

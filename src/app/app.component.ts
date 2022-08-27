@@ -4,8 +4,8 @@ import {Select, Store} from "@ngxs/store";
 import {ApplicationState, SetStateAction} from "./modules/store/state/application-state";
 import {Observable} from "rxjs";
 import {MatDrawer} from "@angular/material/sidenav";
-import {LoadUserAction, SignoutAction} from "./modules/store/state/authentication-state";
-import {NavigationEnd, Route, Router} from "@angular/router";
+import {AuthenticationState, SignoutAction} from "./modules/store/state/authentication-state";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   @ViewChild("drawer") drawer!: MatDrawer
   @Select(ApplicationState.menuState) menuState!: Observable<ApplicationState>;
 
-  constructor(private store: Store, private router: Router) {
+  constructor(private store: Store, private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {

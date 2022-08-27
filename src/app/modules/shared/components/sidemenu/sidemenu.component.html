@@ -1,5 +1,5 @@
 <div>
-  <div class="p-3 pb-0 mat-typography">
+  <div class="p-3 pb-0 mat-typography fs-5">
     <div class="fw-bold">{{(user$| async)!?.fullname}}</div>
     <small>Ruolo: {{(user$| async)!?.role | roleDescription}}</small>
   </div>
@@ -21,26 +21,17 @@
   <!--    <mat-icon>history_edu</mat-icon>-->
   <!--    <span class="mx-3">Contenuti</span>-->
   <!--  </a>-->
-
-  <a class="d-flex align-items-center justify-content-start" mat-button
-     *isAuthenticated="['ADMIN','CUSTOMER']" routerLinkActive="active" routerLink="/newspapers">
-    <mat-icon>newspaper</mat-icon>
-    <span class="mx-3">Testate</span>
-  </a>
-
-  <a class="d-flex align-items-center justify-content-start" mat-button
-     *isAuthenticated="['ADMIN','CUSTOMER']" routerLinkActive="active" routerLink="/orders">
-    <mat-icon>attach_money</mat-icon>
-    <span class="mx-3">Ordini</span>
-  </a>
-
+  <app-sidemenu-item [icon]="'campaign'" [title]="'News'" *isAuthenticated="['ADMIN','CUSTOMER']"
+                     routerLinkActive="active" routerLink="/news"></app-sidemenu-item>
+  <app-sidemenu-item [icon]="'newspaper'" [title]="'Testate'" *isAuthenticated="['ADMIN','CUSTOMER']"
+                     routerLinkActive="active" routerLink="/newspapers"></app-sidemenu-item>
+  <app-sidemenu-item [icon]="'attach_money'" [title]="'Ordini'" *isAuthenticated="['ADMIN','CUSTOMER']"
+                     routerLinkActive="active" routerLink="/orders"></app-sidemenu-item>
 
   <ng-container *isAuthenticated="['ADMIN']">
     <mat-divider class="my-3"></mat-divider>
-    <a class="d-flex align-items-center justify-content-start" mat-button routerLinkActive="active" routerLink="/users">
-      <mat-icon>group</mat-icon>
-      <span class="mx-3">Utenti</span>
-    </a>
+    <app-sidemenu-item [icon]="'group'" [title]="'Utenti'" routerLinkActive="active"
+                       routerLink="/users"></app-sidemenu-item>
   </ng-container>
 
 
@@ -56,9 +47,5 @@
   <!--    <span class="mx-3">Keywords</span>-->
   <!--  </a>-->
   <mat-divider class="my-3"></mat-divider>
-  <button class="d-flex align-items-center justify-content-start w-100" mat-button (click)="onLogout()">
-    <mat-icon>logout</mat-icon>
-    <span class="mx-3">Logout</span>
-  </button>
-
+  <app-sidemenu-item [icon]="'logout'" [title]="'Logout'" (click)="onLogout()"></app-sidemenu-item>
 </div>

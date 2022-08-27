@@ -2,14 +2,22 @@ import {Action, Selector, State, StateContext} from "@ngxs/store";
 import {Injectable} from "@angular/core";
 import {User} from "../../shared/model/user";
 import {AuthService} from "../../shared/services/auth.service";
-import {map, switchMap, tap} from "rxjs/operators";
+import {catchError, map, switchMap, tap} from "rxjs/operators";
 import {Router} from "@angular/router";
-import {Observable, of} from "rxjs";
+import {EMPTY, Observable, of} from "rxjs";
+import {PaginatePipe} from "ngx-pagination";
 
 export interface AuthenticationStateModel {
   isAuthenticated: boolean
   user?: User
   accessToken?: string
+}
+
+export class LoadInitialAuthentication {
+  static readonly type = '[Authentication] Initial Authentication'
+
+  constructor() {
+  }
 }
 
 export class LoadUserAction {
@@ -67,6 +75,22 @@ export class AuthenticationState {
           user: user
         });
       }))
+  }
+
+  @Action(LoadInitialAuthentication)
+  loadInitialAuthentication(ctx: StateContext<AuthenticationStateModel>) {
+    let token = this.authService.getAccessTokenFromLocalStorage();
+    if (token)
+      return ctx.dispatch(new LoadUserAction(token))
+        .pipe(
+          catchError(err => {
+            this.authService.clearLocalStorage();
+            return EMPTY
+          })
+        )
+    else {
+      return EMPTY
+    }
   }
 
 }

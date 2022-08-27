@@ -6,11 +6,11 @@
         <mat-icon *ngIf="(menuState|async)">arrow_back</mat-icon>
       </button>
       <div class="ms-auto d-flex justify-content-end align-items-center h-100">
-        <img src="assets/logo-tilinko-cropped-transparent.png" class="h-75">
+        <img src="assets/logo-tilinko-cropped-transparent.png" class="h-75" alt="">
       </div>
     </mat-toolbar>
     <mat-drawer-container style="height: 93%">
-      <mat-drawer #drawer (openedStart)="toggleMenu(true)" (closedStart)="toggleMenu(false)" mode="over">
+      <mat-drawer #drawer (openedStart)="toggleMenu(true)" (closedStart)="toggleMenu(false)" mode="over" style="min-width: 25%">
         <app-sidemenu (logout)="onLogout()"></app-sidemenu>
       </mat-drawer>
       <mat-drawer-content>

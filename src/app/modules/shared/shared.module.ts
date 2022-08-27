@@ -23,6 +23,10 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatDividerModule} from "@angular/material/divider";
 import { ProjectStatusLabelPipe } from './pipes/project-status-label.pipe';
 import { ExtractLabelByCodePipe } from './pipes/extract-label-by-code.pipe';
+import { SidemenuItemComponent } from './components/sidemenu-item/sidemenu-item.component';
+import { ImageUploaderComponent } from './components/image-uploader/image-uploader.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -40,7 +44,10 @@ import { ExtractLabelByCodePipe } from './pipes/extract-label-by-code.pipe';
     ExportExcelPdfComponent,
     SidemenuComponent,
     ProjectStatusLabelPipe,
-    ExtractLabelByCodePipe
+    ExtractLabelByCodePipe,
+    SidemenuItemComponent,
+    ImageUploaderComponent,
+    ConfirmDialogComponent
   ],
     exports: [
         StatusLabelPipe,
@@ -56,7 +63,8 @@ import { ExtractLabelByCodePipe } from './pipes/extract-label-by-code.pipe';
         RoleDescriptionPipe,
         ExportExcelPdfComponent,
         SidemenuComponent,
-        ExtractLabelByCodePipe
+        ExtractLabelByCodePipe,
+        ImageUploaderComponent
     ],
   imports: [
     CommonModule,
@@ -65,7 +73,8 @@ import { ExtractLabelByCodePipe } from './pipes/extract-label-by-code.pipe';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    MatDividerModule
+    MatDividerModule,
+    MatDialogModule
   ]
 })
 export class SharedModule {

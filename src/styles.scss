@@ -33,3 +33,62 @@
 .mat-row:hover {
   background-color: lightgray;
 }
+
+.menu-item {
+  cursor: pointer;
+  -webkit-transition: background-color 250ms linear;
+  -moz-transition: background-color 250ms linear;
+  -o-transition: background-color 250ms linear;
+  -ms-transition: background-color 250ms linear;
+  transition: background-color 250ms linear;
+}
+
+.menu-item:hover {
+  background-color: lightgray;
+}
+
+.menu-item:active {
+  background-color: gray;
+}
+
+app-sidemenu-item.active .menu-item{
+  background-color: lightgray;
+}
+
+.ratio-1-1{
+  aspect-ratio: 1/1;
+}
+
+.image-uploader {
+  cursor: pointer;
+  -webkit-transition: background-color 250ms linear;
+  -moz-transition: background-color 250ms linear;
+  -o-transition: background-color 250ms linear;
+  -ms-transition: background-color 250ms linear;
+  transition: background-color 250ms linear;
+}
+
+.image-uploader:hover {
+  background-color: lightgray;
+}
+
+.image-uploader:active {
+  background-color: gray;
+}
+
+.news-list-detail {
+  cursor: pointer;
+  -webkit-transition: background-color 250ms linear !important;
+  -moz-transition: background-color 250ms linear !important;
+  -o-transition: background-color 250ms linear !important;
+  -ms-transition: background-color 250ms linear !important;
+  transition: background-color 250ms linear !important;
+}
+
+.news-list-detail:hover {
+  background-color: lightgray;
+}
+
+.news-list-detail:active {
+  background-color: gray;
+}
