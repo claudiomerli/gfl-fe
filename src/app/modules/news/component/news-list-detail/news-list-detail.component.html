@@ -1,0 +1,10 @@
+<mat-card (mouseenter)="showOption = true" (mouseleave)="showOption = false" class="news-list-detail">
+  <mat-card-title-group>
+    <mat-card-title>{{newsElement.title}}</mat-card-title>
+    <mat-card-subtitle>{{newsElement.createdDate | date:"dd/MM/yyyy"}}</mat-card-subtitle>
+    <img mat-card-lg-image [src]="newsElement.image" alt="">
+  </mat-card-title-group>
+  <mat-card-content>
+    {{newsPreview}}
+  </mat-card-content>
+</mat-card>

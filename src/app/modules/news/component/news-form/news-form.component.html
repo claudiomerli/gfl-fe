@@ -1,0 +1,23 @@
+<form [formGroup]="newsForm" (ngSubmit)="sumbitForm()">
+  <div class="row">
+    <div class="col-3">
+      <app-image-uploader [text]="'Immagine per lista news'" [imageBase64]="newsForm.controls.image.value!"
+                          (imageSelected)="imageSelected($event)"></app-image-uploader>
+    </div>
+    <div class="col-9">
+      <mat-form-field class="w-100">
+        <mat-label>Titolo</mat-label>
+        <input matInput formControlName="title">
+      </mat-form-field>
+      <editor [init]="{ plugins: 'lists link image table code help wordcount' }" formControlName="body">
+      </editor>
+    </div>
+  </div>
+  <div class="text-end mt-3">
+    <button type="submit" mat-raised-button color="primary">Pubblica
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</form>
+
+

@@ -1,0 +1,18 @@
+<div
+  class="image-uploader p-1 border rounded d-flex flex-column justify-content-center align-items-center position-relative ratio-1-1 w-100"
+  (click)="openChooseFileDialog()">
+  <ng-container *ngIf="!imageBase64">
+    <mat-icon>image</mat-icon>
+    <span class="fs-5 mat-typography">{{text || 'Carica immagine'}}</span>
+  </ng-container>
+  <ng-container *ngIf="imageBase64">
+    <img class="w-100" [src]="imageBase64" alt="">
+    <button mat-mini-fab color="warn"
+            style="position: absolute; top: 0; right: 0; transform: translate(50%, -50%);"
+            (click)="remove($event)">
+      <mat-icon>remove</mat-icon>
+    </button>
+  </ng-container>
+  <input accept="image/*" #fileInput type="file" hidden (change)="fileSelected($event)">
+</div>
+

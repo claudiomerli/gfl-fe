@@ -1,0 +1,20 @@
+<mat-toolbar class="d-flex align-items-center justify-content-between">
+  <span>Ultime news</span>
+  <button mat-raised-button color="primary" (click)="createNews()">
+    <mat-icon>add</mat-icon>
+    Nuova
+  </button>
+</mat-toolbar>
+<div class="p-3">
+  <div class="fs-6 mat-typography fst-italic" *ngIf="news.totalElements === 0">Non ci sono news al momento</div>
+  <app-news-list-detail (click)="navigateToDetail(newsElement.id)" *ngFor="let newsElement of news.content"
+                        [newsElement]="newsElement"></app-news-list-detail>
+  <ngx-skeleton-loader *ngIf="news.totalElements == undefined" count="5" appearance=""></ngx-skeleton-loader>
+  <mat-paginator
+    showFirstLastButtons
+    [length]="news.totalElements"
+    [pageSize]="actualPagination.pageSize"
+    [pageSizeOptions]="[10,20,50]"
+    (page)="changePage($event)">
+  </mat-paginator>
+</div>
