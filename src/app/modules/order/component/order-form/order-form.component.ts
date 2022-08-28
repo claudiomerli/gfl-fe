@@ -20,6 +20,7 @@ export class OrderFormComponent implements OnInit {
   @Output() cancel = new EventEmitter<void>()
   @Output() saveDraft = new EventEmitter<SaveOrderDto>()
   @Output() sendOrder = new EventEmitter<SaveOrderDto>()
+  @Output() deleteOrder = new EventEmitter<void>()
 
   constructor(private newspaperService: NewspaperService) {
   }
@@ -73,13 +74,18 @@ export class OrderFormComponent implements OnInit {
       .pipe(
         debounceTime(200),
         switchMap((change: any) => {
-            if (typeof change === "string" && change != "") {
-              return this.newspaperService.findForAutocomplete({name: change}, {
-                page: 0,
-                pageSize: 50,
-                sortBy: "name",
-                sortDirection: "ASC"
-              })
+            if (typeof change === "string") {
+              if (change != "") {
+                return this.newspaperService.findForAutocomplete({name: change}, {
+                  page: 0,
+                  pageSize: 50,
+                  sortBy: "name",
+                  sortDirection: "ASC"
+                })
+              } else {
+                this.newspapersAutocomplete = []
+                return EMPTY
+              }
             } else {
               return EMPTY
             }
@@ -135,7 +141,7 @@ export class OrderFormComponent implements OnInit {
       this.saveDraft.emit(this.buildDto())
   }
 
-  buildDto() : SaveOrderDto {
+  buildDto(): SaveOrderDto {
     return {
       name: this.orderForm.value.name!,
       note: this.orderForm.value.note,
@@ -146,5 +152,9 @@ export class OrderFormComponent implements OnInit {
         }
       })
     }
+  }
+
+  onDelete() {
+    this.deleteOrder.emit()
   }
 }

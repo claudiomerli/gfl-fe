@@ -60,4 +60,8 @@ export class OrderService {
   public addOrderElement(id: number, orderelement: SaveOrderElementDto): Observable<Order> {
     return this.httpClient.put<Order>(environment.apiBaseurl + "/order/" + id + "/addOrderElement", orderelement);
   }
+
+  public deleteOrder(id: number){
+    return this.httpClient.delete<void>(environment.apiBaseurl + "/order/" + id)
+  }
 }

@@ -18,7 +18,7 @@
                  [matAutocomplete]="auto"
                  (focusin)="emptyArray()"
           >
-          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayNewspaperName">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayNewspaperName">
             <mat-option *ngFor="let newspaper of newspapersAutocomplete" [value]="newspaper">
               {{newspaper.name}}
             </mat-option>
@@ -64,7 +64,8 @@
         <mat-icon>check</mat-icon>
         Approva
       </button>
-      <button type="button" class="ms-3" color="warn" mat-raised-button (click)="onCancel()" *isAuthenticated="['ADMIN']">
+      <button type="button" class="ms-3" color="warn" mat-raised-button (click)="onCancel()"
+              *isAuthenticated="['ADMIN']">
         <mat-icon>close</mat-icon>
         Respingi
       </button>
@@ -74,15 +75,25 @@
         <mat-icon>add</mat-icon>
         Aggiungi elemento
       </button>
-      <button type="button" (click)="onSaveDraft()"  mat-raised-button color="primary" class="ms-3" *isAuthenticated="['CUSTOMER']">
+      <button type="button" (click)="onSaveDraft()" mat-raised-button color="primary" class="ms-3"
+              *isAuthenticated="['CUSTOMER']">
         <mat-icon>save</mat-icon>
         Salva bozza
       </button>
     </ng-container>
-    <ng-container  *ngIf="orderToEdit?.status == 'DRAFT' && orderForm.controls.orderElements.length > 0 && orderForm.valid" >
-      <button type="button" (click)="onSend()" mat-raised-button color="primary" class="ms-3" *isAuthenticated="['CUSTOMER']">
+    <ng-container
+      *ngIf="orderToEdit?.status == 'DRAFT' && orderForm.controls.orderElements.length > 0 && orderForm.valid">
+      <button type="button" (click)="onSend()" mat-raised-button color="primary" class="ms-3"
+              *isAuthenticated="['CUSTOMER']">
         <mat-icon>send</mat-icon>
         Invia ordine
+      </button>
+    </ng-container>
+    <ng-container *ngIf="orderToEdit?.status == 'DRAFT'">
+      <button type="button" (click)="onDelete()" mat-raised-button color="warn" class="ms-3"
+              *isAuthenticated="['CUSTOMER']">
+        <mat-icon>delete</mat-icon>
+        Elimina
       </button>
     </ng-container>
   </div>
