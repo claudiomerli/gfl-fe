@@ -1,0 +1,7 @@
+<mat-toolbar>
+  Modifica pacchetto
+</mat-toolbar>
+<div class="p-3">
+  <app-order-pack-form (delete)="onDelete()" *ngIf="orderPackToEdit"
+                       [orderPackToEdit]="orderPackToEdit" (save)="onSave($event)"></app-order-pack-form>
+</div>

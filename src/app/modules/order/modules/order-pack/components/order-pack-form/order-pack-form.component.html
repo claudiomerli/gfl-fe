@@ -1,0 +1,66 @@
+<form [formGroup]="orderPackForm">
+  <mat-form-field class="w-100">
+    <mat-label>Nome</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+  <mat-form-field class="w-100">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+  <mat-form-field class="w-100">
+    <mat-label>Prezzo</mat-label>
+    <input matInput formControlName="price" type="number" step="0.01">
+    <span matSuffix>€</span>
+  </mat-form-field>
+  <ng-container formArrayName="orderElements">
+    <div class="row align-items-center"
+         *ngFor="let orderElement of orderPackForm.controls.orderElements.controls; index as i"
+         [formGroupName]="i">
+      <div class="col-5">
+        <mat-form-field class="w-100">
+          <mat-label>Testata</mat-label>
+          <input type="text"
+                 placeholder="Pick one"
+                 aria-label="Number"
+                 matInput
+                 formControlName="newspaper"
+                 [matAutocomplete]="auto"
+                 (focusin)="emptyArray()"
+          >
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayNewspaperName">
+            <mat-option *ngFor="let newspaper of newspapersAutocomplete" [value]="newspaper">
+              {{newspaper.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-5">
+        <mat-form-field class="w-100">
+          <mat-label>Numero di contenuti</mat-label>
+          <input matInput type="number" formControlName="contentNumber">
+        </mat-form-field>
+      </div>
+      <ng-container>
+        <div class="col-2">
+          <button class="w-100" type="button" mat-raised-button (click)="removeOrderElement(i)">
+            Elimina
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+  <div class="p-3 text-end">
+    <button type="button" mat-raised-button (click)="addOrderElement()">
+      <mat-icon>add</mat-icon>
+      Aggiungi elemento
+    </button>
+    <button type="button" (click)="onSave()" mat-raised-button color="primary" class="ms-3">
+      <mat-icon>save</mat-icon>
+      Salva
+    </button>
+    <button *ngIf="orderPackToEdit" type="button" (click)="onDelete()" mat-raised-button color="warn" class="ms-3">
+      <mat-icon>delete</mat-icon>
+      Elimina
+    </button>
+  </div>
+</form>

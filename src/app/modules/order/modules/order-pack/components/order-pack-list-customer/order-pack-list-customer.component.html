@@ -1,0 +1,24 @@
+<div class="mx-5 row justify-content-center" *ngIf="orderPacks?.content">
+  <div class="p-3 my-3 col-4" *ngFor="let orderPack of orderPacks.content">
+    <mat-card class="order-pack-card" style="min-height: 100%">
+      <mat-card-title>{{orderPack.name}}</mat-card-title>
+      <mat-card-title class="fs-2">{{orderPack.price | currency:"EUR"}}</mat-card-title>
+      <mat-card-subtitle>{{orderPack.description}}</mat-card-subtitle>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" class="w-100" (click)="createOrder(orderPack)">Crea ordine</button>
+      </mat-card-actions>
+      <mat-card-content>
+        <div class="mat-typography">Cosa include</div>
+        <mat-list>
+          <mat-list-item *ngFor="let e of orderPack.orderElements" class="d-flex align-items-center">
+            <mat-icon mat-list-icon>arrow_right</mat-icon>
+            <div mat-line>{{e.contentNumber}} pubblicazioni &#183; <span class="fw-bold">{{e.newspaper.name}}</span></div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div *ngIf="orderPacks?.content?.length === 0" class="d-flex justify-content-center">
+  <span class="mat-typography fst-italic">Non sono presenti pacchetti attualmente</span>
+</div>
