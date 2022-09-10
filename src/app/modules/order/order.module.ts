@@ -17,7 +17,6 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatButtonModule} from "@angular/material/button";
 import { OrderFormComponent } from './component/order-form/order-form.component';
-import { OrderCreateComponent } from './views/order-create/order-create.component';
 import {SharedModule} from "../shared/shared.module";
 import {MatCardModule} from "@angular/material/card";
 import {MatPaginatorModule} from "@angular/material/paginator";
@@ -25,6 +24,7 @@ import { OrderUpdateComponent } from './views/order-update/order-update.componen
 import {MatDividerModule} from "@angular/material/divider";
 import { OrderDraftDialogComponent } from './component/order-draft-dialog/order-draft-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { RequestQuoteDialogComponent } from './component/request-quote-dialog/request-quote-dialog.component';
 
 
 @NgModule({
@@ -32,9 +32,9 @@ import {MatDialogModule} from "@angular/material/dialog";
     OrderListComponent,
     OrderFilterComponent,
     OrderFormComponent,
-    OrderCreateComponent,
     OrderUpdateComponent,
-    OrderDraftDialogComponent
+    OrderDraftDialogComponent,
+    RequestQuoteDialogComponent
   ],
     imports: [
         CommonModule,

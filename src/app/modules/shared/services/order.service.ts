@@ -8,6 +8,7 @@ import {Order, OrderElement} from "../model/order";
 import {PageResponseDto} from "../messages/page-response.dto";
 import {SaveOrderDto, SaveOrderElementDto} from "../messages/order/save-order.dto";
 import {SaveDraftOrderDto} from "../messages/order/save-draft-order.dto";
+import {OrderPack} from "../model/order-pack";
 
 @Injectable({
   providedIn: 'root'
@@ -31,10 +32,6 @@ export class OrderService {
         ...paginationDto
       }
     })
-  }
-
-  public save(order: SaveOrderDto): Observable<void> {
-    return this.httpClient.post<void>(environment.apiBaseurl + "/order", order)
   }
 
   public update(id: number, order: SaveOrderDto): Observable<Order> {
@@ -61,7 +58,15 @@ export class OrderService {
     return this.httpClient.put<Order>(environment.apiBaseurl + "/order/" + id + "/addOrderElement", orderelement);
   }
 
-  public deleteOrder(id: number){
+  public deleteOrder(id: number) {
     return this.httpClient.delete<void>(environment.apiBaseurl + "/order/" + id)
+  }
+
+  public generateFromOrderPack(orderPack: OrderPack): Observable<Order> {
+    return this.httpClient.post<Order>(environment.apiBaseurl + "/order/pack/generate", {
+      idOrderPack: orderPack.id,
+      name: orderPack.name
+    })
+
   }
 }

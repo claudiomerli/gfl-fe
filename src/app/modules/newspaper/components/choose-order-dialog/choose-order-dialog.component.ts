@@ -25,7 +25,7 @@ export class ChooseOrderDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.orderService.find(
-      {status: "DRAFT", newspaperIds: []},
+      {status: "DRAFT", excludeOrderPack: true, newspaperIds: []},
       PaginationDto.build(0, 2147483647))
       .subscribe((orderPage) => {
         this.orders = orderPage.content.filter(value => !value.orderElements.find(oe => oe.newspaper.id === this.data.id));

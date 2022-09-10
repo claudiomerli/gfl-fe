@@ -1,5 +1,6 @@
 import {User} from "./user";
 import {Newspaper} from "./newspaper";
+import {OrderPack} from "./order-pack";
 
 export interface Order {
   id: number;
@@ -9,7 +10,8 @@ export interface Order {
   customer: User;
   total: number;
   orderElements: OrderElement[]
-
+  orderPack: OrderPack
+  orderPackPrice: number
 }
 
 export interface OrderElement {

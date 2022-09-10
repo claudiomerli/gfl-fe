@@ -15,12 +15,13 @@ import {Order} from "../../../shared/model/order";
 export class OrderFormComponent implements OnInit {
 
   @Input() orderToEdit?: Order
-  @Output() formSubmit = new EventEmitter<SaveOrderDto>()
   @Output() approve = new EventEmitter<void>()
   @Output() cancel = new EventEmitter<void>()
   @Output() saveDraft = new EventEmitter<SaveOrderDto>()
   @Output() sendOrder = new EventEmitter<SaveOrderDto>()
+  @Output() generateRequestQuote = new EventEmitter<SaveOrderDto>();
   @Output() deleteOrder = new EventEmitter<void>()
+  @Output() sendOrderPack = new EventEmitter<void>();
 
   constructor(private newspaperService: NewspaperService) {
   }
@@ -31,6 +32,9 @@ export class OrderFormComponent implements OnInit {
       this.orderForm.patchValue(this.orderToEdit)
       if (this.orderToEdit.status != "DRAFT") {
         this.orderForm.disable()
+      }
+      if (this.isOrderPack) {
+        this.orderForm.controls.orderElements.disable()
       }
     } else {
       this.addOrderElement()
@@ -100,6 +104,10 @@ export class OrderFormComponent implements OnInit {
 
   }
 
+  get isOrderPack(): boolean {
+    return !!this.orderToEdit?.orderPack
+  }
+
   removeOrderElement(i: number) {
     this.orderForm.controls.orderElements.removeAt(i)
   }
@@ -107,21 +115,6 @@ export class OrderFormComponent implements OnInit {
   emptyArray() {
     this.newspapersAutocomplete = []
   }
-
-  // onFormSubmit() {
-  //   if (this.orderForm.valid) {
-  //     this.formSubmit.emit({
-  //       note: this.orderForm.getRawValue().note,
-  //       elements: this.orderForm.getRawValue().orderElements!.map(oe => {
-  //         return {
-  //           contentNumber: oe.contentNumber,
-  //           newspaperId: oe.newspaper.id
-  //         }
-  //       })
-  //     })
-  //   }
-  //
-  // }
 
   onApprove() {
     this.approve.emit()
@@ -132,8 +125,11 @@ export class OrderFormComponent implements OnInit {
   }
 
   onSend() {
-    if (this.orderForm.valid)
+    if (this.orderForm.valid && !this.isOrderPack) {
       this.sendOrder.emit(this.buildDto())
+    } else if (this.isOrderPack) {
+      this.sendOrderPack.emit()
+    }
   }
 
   onSaveDraft() {
@@ -156,5 +152,11 @@ export class OrderFormComponent implements OnInit {
 
   onDelete() {
     this.deleteOrder.emit()
+  }
+
+  onGenerateRequestQuote() {
+    if(this.orderForm.valid){
+      this.generateRequestQuote.emit(this.buildDto())
+    }
   }
 }

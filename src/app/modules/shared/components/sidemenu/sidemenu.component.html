@@ -26,7 +26,9 @@
   <app-sidemenu-item [icon]="'newspaper'" [title]="'Testate'" *isAuthenticated="['ADMIN','CUSTOMER']"
                      routerLinkActive="active" routerLink="/newspapers"></app-sidemenu-item>
   <app-sidemenu-item [icon]="'attach_money'" [title]="'Ordini'" *isAuthenticated="['ADMIN','CUSTOMER']"
-                     routerLinkActive="active" routerLink="/orders"></app-sidemenu-item>
+                     routerLinkActive="active" routerLink="/orders" [routerLinkActiveOptions]="{exact: true}"></app-sidemenu-item>
+  <app-sidemenu-item [icon]="'feed'" [title]="'Pacchetti comunicati stampa'" *isAuthenticated="['ADMIN','CUSTOMER']"
+                     routerLinkActive="active" routerLink="/orders/pack" [indent]="true"></app-sidemenu-item>
 
   <ng-container *isAuthenticated="['ADMIN']">
     <mat-divider class="my-3"></mat-divider>

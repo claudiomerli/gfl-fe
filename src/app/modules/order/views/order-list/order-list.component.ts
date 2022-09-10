@@ -49,6 +49,7 @@ export class OrderListComponent implements OnInit {
 
     this.displayedColumns.push("status")
     this.displayedColumns.push("newspaper")
+    this.displayedColumns.push("orderPack")
     this.displayedColumns.push("total")
     this.displayedColumns.push('actions')
 

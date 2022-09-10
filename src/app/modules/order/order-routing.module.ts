@@ -1,13 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {OrderListComponent} from "./views/order-list/order-list.component";
-import {OrderCreateComponent} from "./views/order-create/order-create.component";
 import {OrderUpdateComponent} from "./views/order-update/order-update.component";
 
 const routes: Routes = [
   {path: "", component: OrderListComponent},
-  {path: "create", component: OrderCreateComponent},
-  {path: ":id", component: OrderUpdateComponent}
+  {path: "pack", loadChildren: () => import('./modules/order-pack/order-pack.module').then(m => m.OrderPackModule)},
+  {path: ":id", component: OrderUpdateComponent},
 ];
 
 @NgModule({

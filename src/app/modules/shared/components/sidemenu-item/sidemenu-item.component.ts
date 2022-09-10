@@ -8,8 +8,10 @@ import {Component, Input, OnInit} from '@angular/core';
 export class SidemenuItemComponent implements OnInit {
   @Input() icon!: string;
   @Input() title!: string;
+  @Input() indent = false
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

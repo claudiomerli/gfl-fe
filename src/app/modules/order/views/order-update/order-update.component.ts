@@ -71,4 +71,18 @@ export class OrderUpdateComponent implements OnInit {
       }
     })
   }
+
+  onSendOrderPack() {
+    this.orderService.send(this.orderToEdit?.id!).subscribe((orderSaved) => {
+      this.orderToEdit = orderSaved
+    })
+  }
+
+  onGenerateRequestCode($event: SaveOrderDto) {
+    this.orderService
+      .update(this.orderToEdit!.id, $event)
+      .subscribe((order) => {
+        // this.matDialog.open()
+      })
+  }
 }
