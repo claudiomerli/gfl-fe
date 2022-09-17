@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpResponse} from "@angular/common/http";
 import {FindOrderDto} from "../messages/order/find-order.dto";
 import {PaginationDto} from "../messages/pagination.dto";
 import {environment} from "../../../../environments/environment";
@@ -9,6 +9,8 @@ import {PageResponseDto} from "../messages/page-response.dto";
 import {SaveOrderDto, SaveOrderElementDto} from "../messages/order/save-order.dto";
 import {SaveDraftOrderDto} from "../messages/order/save-draft-order.dto";
 import {OrderPack} from "../model/order-pack";
+import {GenerateRequestQuoteDto} from "../messages/order/generate-request-quote.dto";
+import {RequestQuote} from "../model/request-quote";
 
 @Injectable({
   providedIn: 'root'
@@ -68,5 +70,24 @@ export class OrderService {
       name: orderPack.name
     })
 
+  }
+
+  generateRequestQuote(generateRequestQuoteDto: GenerateRequestQuoteDto, format: string) {
+    return this.httpClient.post<any>(environment.apiBaseurl + "/order/request-quote", generateRequestQuoteDto, {
+      params: {
+        format
+      },
+      observe: 'response',
+      responseType: "blob" as "json"
+    })
+  }
+
+  findRequestQuoteById(orderId: number): Observable<RequestQuote[]> {
+    return this.httpClient
+      .get<RequestQuote[]>(environment.apiBaseurl + "/order/" + orderId + "/request-quote")
+  }
+
+  deleteRequestQuote(id: number) : Observable<void> {
+    return this.httpClient.delete<void>(environment.apiBaseurl + "/order/request-quote/" + id)
   }
 }

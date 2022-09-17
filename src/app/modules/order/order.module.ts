@@ -25,6 +25,9 @@ import {MatDividerModule} from "@angular/material/divider";
 import { OrderDraftDialogComponent } from './component/order-draft-dialog/order-draft-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { RequestQuoteDialogComponent } from './component/request-quote-dialog/request-quote-dialog.component';
+import {EditorComponent} from "@tinymce/tinymce-angular";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({
@@ -36,26 +39,29 @@ import { RequestQuoteDialogComponent } from './component/request-quote-dialog/re
     OrderDraftDialogComponent,
     RequestQuoteDialogComponent
   ],
-    imports: [
-        CommonModule,
-        OrderRoutingModule,
-        MatToolbarModule,
-        MatFormFieldModule,
-        MatChipsModule,
-        MatInputModule,
-        MatAutocompleteModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MatTableModule,
-        MatSortModule,
-        MatButtonModule,
-        SharedModule,
-        MatCardModule,
-        MatPaginatorModule,
-        MatDividerModule,
-        MatDialogModule
-    ]
+  imports: [
+    CommonModule,
+    OrderRoutingModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatChipsModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatSortModule,
+    MatButtonModule,
+    SharedModule,
+    MatCardModule,
+    MatPaginatorModule,
+    MatDividerModule,
+    MatDialogModule,
+    EditorComponent,
+    MatMenuModule,
+    MatListModule
+  ]
 })
 export class OrderModule { }

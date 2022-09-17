@@ -6,6 +6,8 @@ import {Order} from "../../../shared/model/order";
 import {switchMap} from "rxjs/operators";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
+import {RequestQuoteDialogComponent} from "../../component/request-quote-dialog/request-quote-dialog.component";
+import {RequestQuote} from "../../../shared/model/request-quote";
 
 @Component({
   selector: 'app-order-update',
@@ -14,6 +16,7 @@ import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/
 })
 export class OrderUpdateComponent implements OnInit {
 
+
   constructor(private orderService: OrderService,
               private activatedRoute: ActivatedRoute,
               private matDialog: MatDialog,
@@ -21,10 +24,13 @@ export class OrderUpdateComponent implements OnInit {
   }
 
   orderToEdit?: Order
+  requestQuotes: RequestQuote[] = [];
+  showRequestQuote = false;
 
   ngOnInit(): void {
     let orderId = this.activatedRoute.snapshot.paramMap.get("id");
     this.load(orderId as any)
+    this.loadRequestQuote(orderId as any)
   }
 
   load(id: number) {
@@ -48,7 +54,6 @@ export class OrderUpdateComponent implements OnInit {
   onCancel() {
     this.orderService.cancel(this.orderToEdit!.id).subscribe(() => this.load(this.orderToEdit!.id))
   }
-
   sendOrder($event: SaveOrderDto) {
     this.orderService
       .update(this.orderToEdit!.id, $event)
@@ -59,7 +64,6 @@ export class OrderUpdateComponent implements OnInit {
         this.orderToEdit = order
       })
   }
-
   onDeleteOrder() {
     this.matDialog.open(ConfirmDialogComponent, {
       data: "Sei sicuro di voler cancellare l'ordine?"
@@ -71,7 +75,6 @@ export class OrderUpdateComponent implements OnInit {
       }
     })
   }
-
   onSendOrderPack() {
     this.orderService.send(this.orderToEdit?.id!).subscribe((orderSaved) => {
       this.orderToEdit = orderSaved
@@ -82,7 +85,28 @@ export class OrderUpdateComponent implements OnInit {
     this.orderService
       .update(this.orderToEdit!.id, $event)
       .subscribe((order) => {
-        // this.matDialog.open()
+        this.matDialog.open(RequestQuoteDialogComponent, {
+          data: {order},
+          width: "750px",
+          disableClose: true
+        }).afterClosed().subscribe(() => {
+          this.loadRequestQuote(this.orderToEdit?.id as any)
+        })
       })
+  }
+  private loadRequestQuote(orderId: number) {
+    return this.orderService.findRequestQuoteById(orderId).subscribe(value => {
+      this.requestQuotes = value;
+    });
+  }
+
+  openRequestQuoteEditDialog(requestQuote: RequestQuote) {
+    this.matDialog.open(RequestQuoteDialogComponent,{
+      data: {requestQuoteToEdit : requestQuote},
+      width: "750px",
+      disableClose: true
+    }).afterClosed().subscribe(() => {
+      this.loadRequestQuote(this.orderToEdit?.id as any)
+    })
   }
 }

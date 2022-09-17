@@ -1,7 +1,53 @@
-<h1 mat-dialog-title>Genera preventivo</h1>
+<h1 mat-dialog-title>Genera nuovo preventivo</h1>
 <div mat-dialog-content>
-
+  <form [formGroup]="requestQuoteForm">
+    <div class="mat-typography fs-6 fw-bold">Intestazione</div>
+    <editor [init]="initEditor" formControlName="header">
+    </editor>
+    <div class="mat-typography mt-3 fs-6 fw-bold mt-3">Revizione prezzi</div>
+    <div formArrayName="priceReplacements" class="mat-typography border rounded p-3 row align-items-center">
+      <ng-container *ngIf="isEdit">
+        <ng-container class="" *ngFor="let requestQuotePriceReplacement of filteredPriceReplacements; let i = index"
+                      [formGroupName]="i">
+          <div class="col-4 fs-5 fw-bold">{{requestQuotePriceReplacement.newspaper.name}}</div>
+          <div class="col-4 fs-5">{{findContentNumberByRequestQuotePriceReplacement(requestQuotePriceReplacement)}} contenuti</div>
+          <div class="col-4">
+            <mat-form-field>
+              <mat-label>Prezzo</mat-label>
+              <input type="number" matInput formControlName="priceReplacement">
+              <span matSuffix>€</span>
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="!isEdit">
+        <ng-container class="" *ngFor="let orderElement of data.order.orderElements; let i = index"
+                      [formGroupName]="i">
+          <div class="col-4 fs-5 fw-bold">{{orderElement.newspaper.name}}</div>
+          <div class="col-4 fs-5">{{orderElement.contentNumber}} contenuti</div>
+          <div class="col-4">
+            <mat-form-field>
+              <mat-label>Prezzo</mat-label>
+              <input type="number" matInput formControlName="priceReplacement">
+              <span matSuffix>€</span>
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </ng-container>
+      <div class="col-12 text-end fs-6">
+        Totale calcolato: <span class="fw-bold">{{total|currency:"EUR"}}</span>
+      </div>
+    </div>
+    <div class="mat-typography mt-3 fs-6 fw-bold">Firma</div>
+    <editor [init]="initEditor" formControlName="signature"></editor>
+  </form>
 </div>
-<div mat-dialog-actions>
-
+<div mat-dialog-actions class="justify-content-end">
+  <button mat-button [matMenuTriggerFor]="menuExport" color="primary">Download preventivo <mat-icon>download_file</mat-icon></button>
+  <mat-menu #menuExport="matMenu">
+    <button mat-menu-item (click)="downloadRequestQuote('pdf')">.PDF</button>
+    <button mat-menu-item (click)="downloadRequestQuote('docx')">.DOCX</button>
+  </mat-menu>
+  <button mat-raised-button (click)="dialogRef.close()">Chiudi</button>
+  <button mat-raised-button (click)="deleteRequestQuote()" *ngIf="isEdit" color="warn">Elimina preventivo</button>
 </div>

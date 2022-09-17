@@ -92,3 +92,16 @@ app-sidemenu-item.active .menu-item{
 .news-list-detail:active {
   background-color: gray;
 }
+
+.card-hoverable{
+  cursor: pointer;
+  -webkit-transition: background-color 250ms linear !important;
+  -moz-transition: background-color 250ms linear !important;
+  -o-transition: background-color 250ms linear !important;
+  -ms-transition: background-color 250ms linear !important;
+  transition: background-color 250ms linear !important;
+}
+
+.card-hoverable:hover{
+  background-color: lightgray;
+}
