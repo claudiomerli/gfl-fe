@@ -10,7 +10,7 @@
         <input matInput formControlName="name" type="text">
       </mat-form-field>
       <mat-form-field class="w-100">
-        <mat-label>Geolocalizzazione regionale</mat-label>
+        <mat-label>Tipologia sito web</mat-label>
         <mat-select formControlName="regionalGeolocalization" multiple>
           <mat-option *ngFor="let element of regionalGeolocalizzation"
                       [value]="element.code">{{element.label}}</mat-option>

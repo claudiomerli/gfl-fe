@@ -4,7 +4,6 @@ import {Order} from "../../../shared/model/order";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpResponse} from "@angular/common/http";
 import {OrderService} from "../../../shared/services/order.service";
-import {GenerateRequestQuoteDto} from "../../../shared/messages/order/generate-request-quote.dto";
 import {saveAs} from "file-saver";
 import {RequestQuote} from "../../../shared/model/request-quote";
 import {Newspaper} from "../../../shared/model/newspaper";
@@ -25,16 +24,19 @@ export class RequestQuoteDialogComponent implements OnInit {
   ) {
   }
 
+  order?: Order;
+  requestQuoteToEdit?: RequestQuote;
+
   requestQuoteForm = new FormGroup({
-    header: new FormControl("<div></div>"),
-    priceReplacements: new FormArray<FormGroup>([]),
-    signature: new FormControl("<div></div>"),
+    header: new FormControl(),
+    priceReplacements: new FormArray<FormGroup<{ priceReplacement: any, newspaperId: any }>>([]),
+    signature: new FormControl(),
   })
   initEditor = {plugins: 'link image', height: '200px'};
 
   get filteredPriceReplacements() {
-    return this.data.requestQuoteToEdit.requestQuotePriceReplacements.filter(value => {
-      return this.data.requestQuoteToEdit.order.orderElements.map(value => value.newspaper.id).includes(value.newspaper.id)
+    return this.requestQuoteToEdit!.requestQuotePriceReplacements.filter(value => {
+      return this.requestQuoteToEdit!.order.orderElements.map(value => value.newspaper.id).includes(value.newspaper.id)
     })
   };
 
@@ -47,19 +49,27 @@ export class RequestQuoteDialogComponent implements OnInit {
   };
 
   get isEdit() {
-    return !!this.data.requestQuoteToEdit
+    return !!this.requestQuoteToEdit
   }
 
 
   ngOnInit(): void {
-    this.addPriceReplacementFormControl();
+    this.order = this.data.order
+    this.requestQuoteToEdit = this.data.requestQuoteToEdit
+    this.setupForm();
   }
 
-  addPriceReplacementFormControl() {
+  setupForm() {
+    this.requestQuoteForm = new FormGroup({
+      header: new FormControl("<div></div>"),
+      priceReplacements: new FormArray<FormGroup>([]),
+      signature: new FormControl("<div></div>"),
+    });
+
     if (this.isEdit) {
-      this.requestQuoteForm.controls.header.setValue(this.data.requestQuoteToEdit.header)
-      this.requestQuoteForm.controls.signature.setValue(this.data.requestQuoteToEdit.signature)
-      this.data.requestQuoteToEdit.requestQuotePriceReplacements.forEach((value, index) => {
+      this.requestQuoteForm.controls.header.setValue(this.requestQuoteToEdit!.header)
+      this.requestQuoteForm.controls.signature.setValue(this.requestQuoteToEdit!.signature)
+      this.requestQuoteToEdit!.requestQuotePriceReplacements.forEach((value, index) => {
         this.requestQuoteForm.controls.priceReplacements
           .push(new FormGroup({
               priceReplacement: new FormControl(value.priceReplacement, Validators.required),
@@ -68,7 +78,7 @@ export class RequestQuoteDialogComponent implements OnInit {
           )
       })
     } else {
-      this.data.order.orderElements.forEach((value, index) => {
+      this.order!.orderElements.forEach((value, index) => {
         this.requestQuoteForm.controls.priceReplacements
           .push(new FormGroup({
               priceReplacement: new FormControl(value.newspaper.costSell * value.contentNumber, Validators.required),
@@ -80,28 +90,8 @@ export class RequestQuoteDialogComponent implements OnInit {
 
   }
 
-  downloadRequestQuote(format: string) {
-    if (this.requestQuoteForm.valid) {
-      let value = this.requestQuoteForm.value as GenerateRequestQuoteDto;
-
-      if (!this.isEdit) {
-        value.orderId = this.data.order.id;
-      } else {
-        value.requestQuoteId = this.data.requestQuoteToEdit.id
-        value.orderId = this.data.requestQuoteToEdit.order.id
-      }
-
-      this.orderService.generateRequestQuote(value, format).subscribe((response: HttpResponse<Blob>) => {
-        saveAs(response.body!, this.data.order?.name || this.data.requestQuoteToEdit.order.name + "_preventivo." + format)
-        if (!this.isEdit) {
-          this.dialogRef.close()
-        }
-      })
-    }
-  }
-
   findContentNumberByRequestQuotePriceReplacement(requestQuotePriceReplacement: { id: number; priceReplacement: number; newspaper: Newspaper }): number {
-    return this.data.requestQuoteToEdit.order.orderElements.find(oe => {
+    return this.requestQuoteToEdit!.order.orderElements.find(oe => {
       return oe.newspaper.id === requestQuotePriceReplacement.newspaper.id
     })!.contentNumber
   }
@@ -111,11 +101,55 @@ export class RequestQuoteDialogComponent implements OnInit {
       data: "Sei sicuro di voler eliminare il preventivo?"
     }).afterClosed().subscribe((answer) => {
       if (answer) {
-        this.orderService.deleteRequestQuote(this.data.requestQuoteToEdit.id).subscribe(() => {
+        this.orderService.deleteRequestQuote(this.requestQuoteToEdit!.order.id, this.requestQuoteToEdit!.id).subscribe(() => {
           this.dialogRef.close()
         })
       }
     })
 
+  }
+
+  buildDto() {
+    let value = this.requestQuoteForm.value;
+    return {
+      header: value.header,
+      signature: value.signature,
+      priceReplacements: value.priceReplacements?.map(pr => {
+        return {
+          priceReplacement: pr.priceReplacement as number,
+          newspaperId: pr.newspaperId as number
+        }
+      })!
+    }
+  }
+
+  generateRequestQuote(format: string) {
+    this.orderService.generateRequestQuote(this.requestQuoteToEdit!.order.id, this.requestQuoteToEdit!.id, format)
+      .subscribe((response: HttpResponse<Blob>) => {
+        saveAs(response.body!, (this.order?.name || this.requestQuoteToEdit?.order.name) + "_preventivo." + format)
+        if (!this.isEdit) {
+          this.dialogRef.close()
+        }
+      })
+  }
+
+  updateRequestQuote() {
+    if (this.requestQuoteForm.valid) {
+      if (this.requestQuoteForm.valid) {
+        this.orderService.updateRequestQuote(this.requestQuoteToEdit!.order.id, this.buildDto(), this.requestQuoteToEdit!.id).subscribe(response => {
+          this.requestQuoteToEdit = response;
+          this.setupForm();
+        })
+      }
+    }
+  }
+
+  createRequestQuote() {
+    if (this.requestQuoteForm.valid) {
+      this.orderService.createRequestQuote(this.order!.id, this.buildDto()).subscribe(response => {
+        this.requestQuoteToEdit = response;
+        this.setupForm();
+      })
+    }
   }
 }

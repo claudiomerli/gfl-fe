@@ -44,6 +44,8 @@ export const regionalGeolocalizzation = [
   {label: "Umbria", code: "Umbria"},
   {label: "Valle d'Aosta", code: "ValleDAosta"},
   {label: "Veneto", code: "Veneto"},
+  {label: "Verticali", code: "Verticali"},
+  {label: "Agenzie di stampa", code: "AgenzieDiStampa"},
 ]
 
 export const orderStatus = [

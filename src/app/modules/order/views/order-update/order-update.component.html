@@ -13,14 +13,14 @@
     <app-order-form *ngIf="orderToEdit" [orderToEdit]="orderToEdit"
                     (saveDraft)="updateOrder($event)"
                     (sendOrder)="sendOrder($event)"
-                    (generateRequestQuote)="onGenerateRequestCode($event)"
                     (approve)="onApprove()"
                     (cancel)="onCancel()"
                     (deleteOrder)="onDeleteOrder()"
                     (sendOrderPack)="onSendOrderPack()"
     ></app-order-form>
   </div>
-  <mat-card *isAuthenticated="['CUSTOMER']" [ngClass]="{'d-flex justify-content-center align-items-center card-hoverable' : !showRequestQuote}"
+  <mat-card *isAuthenticated="['CUSTOMER']"
+            [ngClass]="{'d-flex justify-content-center align-items-center card-hoverable' : !showRequestQuote}"
             (click)="showRequestQuote = true">
     <mat-card-content>
       <div *ngIf="!showRequestQuote" class="d-flex align-items-center" style="writing-mode: vertical-lr">
@@ -35,12 +35,21 @@
             </button>
             Preventivi
           </div>
-          <small *ngIf="requestQuotes.length === 0" class="mat-typography fst-italic text-dark">Nessun preventivo disponibile</small>
-          <mat-list-item class="card-hoverable" *ngFor="let requestQuote of requestQuotes" (click)="openRequestQuoteEditDialog(requestQuote)">
+          <div>
+            <small *ngIf="requestQuotes.length === 0" class="mat-typography fst-italic text-dark">Nessun preventivo
+              disponibile</small>
+          </div>
+          <mat-list-item class="card-hoverable" *ngFor="let requestQuote of requestQuotes"
+                         (click)="openRequestQuoteEditDialog(requestQuote)">
             <mat-icon mat-list-icon>request_quote</mat-icon>
             <div mat-line>{{requestQuote.total| currency:"EUR"}}</div>
             <div mat-line> {{requestQuote.createdDate | date:"YYYY-MM-dd"}} </div>
           </mat-list-item>
+          <button type="button" (click)="onCreateRequestQuote()" mat-raised-button color="primary" class="w-100 mt-3"
+                  *isAuthenticated="['CUSTOMER']">
+            <mat-icon>request_quote</mat-icon>
+            Crea preventivo
+          </button>
         </mat-list>
       </div>
     </mat-card-content>

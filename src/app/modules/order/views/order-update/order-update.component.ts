@@ -30,7 +30,7 @@ export class OrderUpdateComponent implements OnInit {
   ngOnInit(): void {
     let orderId = this.activatedRoute.snapshot.paramMap.get("id");
     this.load(orderId as any)
-    this.loadRequestQuote(orderId as any)
+    this.loadRequestQuotes(orderId as any)
   }
 
   load(id: number) {
@@ -54,6 +54,7 @@ export class OrderUpdateComponent implements OnInit {
   onCancel() {
     this.orderService.cancel(this.orderToEdit!.id).subscribe(() => this.load(this.orderToEdit!.id))
   }
+
   sendOrder($event: SaveOrderDto) {
     this.orderService
       .update(this.orderToEdit!.id, $event)
@@ -64,6 +65,7 @@ export class OrderUpdateComponent implements OnInit {
         this.orderToEdit = order
       })
   }
+
   onDeleteOrder() {
     this.matDialog.open(ConfirmDialogComponent, {
       data: "Sei sicuro di voler cancellare l'ordine?"
@@ -75,27 +77,25 @@ export class OrderUpdateComponent implements OnInit {
       }
     })
   }
+
   onSendOrderPack() {
     this.orderService.send(this.orderToEdit?.id!).subscribe((orderSaved) => {
       this.orderToEdit = orderSaved
     })
   }
 
-  onGenerateRequestCode($event: SaveOrderDto) {
-    this.orderService
-      .update(this.orderToEdit!.id, $event)
-      .subscribe((order) => {
-        this.matDialog.open(RequestQuoteDialogComponent, {
-          data: {order},
-          width: "750px",
-          disableClose: true
-        }).afterClosed().subscribe(() => {
-          this.loadRequestQuote(this.orderToEdit?.id as any)
-        })
-      })
+  onCreateRequestQuote() {
+    this.matDialog.open(RequestQuoteDialogComponent, {
+      data: {order : this.orderToEdit},
+      width: "750px",
+      disableClose: true
+    }).afterClosed().subscribe(() => {
+      this.loadRequestQuotes(this.orderToEdit?.id as any)
+    })
   }
-  private loadRequestQuote(orderId: number) {
-    return this.orderService.findRequestQuoteById(orderId).subscribe(value => {
+
+  private loadRequestQuotes(orderId: number) {
+    return this.orderService.findRequestQuotesById(orderId).subscribe(value => {
       this.requestQuotes = value;
     });
   }
@@ -106,7 +106,7 @@ export class OrderUpdateComponent implements OnInit {
       width: "750px",
       disableClose: true
     }).afterClosed().subscribe(() => {
-      this.loadRequestQuote(this.orderToEdit?.id as any)
+      this.loadRequestQuotes(this.orderToEdit?.id as any)
     })
   }
 }

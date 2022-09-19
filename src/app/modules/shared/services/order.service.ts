@@ -9,7 +9,7 @@ import {PageResponseDto} from "../messages/page-response.dto";
 import {SaveOrderDto, SaveOrderElementDto} from "../messages/order/save-order.dto";
 import {SaveDraftOrderDto} from "../messages/order/save-draft-order.dto";
 import {OrderPack} from "../model/order-pack";
-import {GenerateRequestQuoteDto} from "../messages/order/generate-request-quote.dto";
+import {SaveRequestQuoteDto} from "../messages/order/save-request-quote.dto";
 import {RequestQuote} from "../model/request-quote";
 
 @Injectable({
@@ -72,22 +72,30 @@ export class OrderService {
 
   }
 
-  generateRequestQuote(generateRequestQuoteDto: GenerateRequestQuoteDto, format: string) {
-    return this.httpClient.post<any>(environment.apiBaseurl + "/order/request-quote", generateRequestQuoteDto, {
+  createRequestQuote(orderId: number, saveRequestQuoteDto: SaveRequestQuoteDto): Observable<RequestQuote> {
+    return this.httpClient.post<RequestQuote>(environment.apiBaseurl + `/order/${orderId}/request-quote`, saveRequestQuoteDto)
+  }
+
+  updateRequestQuote(orderId: number, saveRequestQuoteDto: SaveRequestQuoteDto, requestQuoteId: number): Observable<RequestQuote> {
+    return this.httpClient.put<RequestQuote>(environment.apiBaseurl + `/order/${orderId}/request-quote/${requestQuoteId}`, saveRequestQuoteDto)
+  }
+
+  generateRequestQuote(orderId: number, requestQuoteId: number, format: string): Observable<HttpResponse<any>> {
+    return this.httpClient.get<HttpResponse<any>>(environment.apiBaseurl + `/order/${orderId}/request-quote/${requestQuoteId}/generate`, {
       params: {
         format
       },
-      observe: 'response',
+      observe: "response",
       responseType: "blob" as "json"
     })
   }
 
-  findRequestQuoteById(orderId: number): Observable<RequestQuote[]> {
+  findRequestQuotesById(orderId: number): Observable<RequestQuote[]> {
     return this.httpClient
-      .get<RequestQuote[]>(environment.apiBaseurl + "/order/" + orderId + "/request-quote")
+      .get<RequestQuote[]>(environment.apiBaseurl + `/order/${orderId}/request-quote`)
   }
 
-  deleteRequestQuote(id: number) : Observable<void> {
-    return this.httpClient.delete<void>(environment.apiBaseurl + "/order/request-quote/" + id)
+  deleteRequestQuote(orderId : number, id: number): Observable<void> {
+    return this.httpClient.delete<void>(environment.apiBaseurl + `/order/${orderId}/request-quote/${id}`)
   }
 }

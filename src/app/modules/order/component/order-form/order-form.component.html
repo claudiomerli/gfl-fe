@@ -81,11 +81,6 @@
         <mat-icon>save</mat-icon>
         Salva bozza
       </button>
-      <button type="button" (click)="onGenerateRequestQuote()" mat-raised-button color="primary" class="ms-3"
-              *isAuthenticated="['CUSTOMER']">
-        <mat-icon>request_quote</mat-icon>
-        Genera preventivo
-      </button>
     </ng-container>
     <ng-container
       *ngIf="orderToEdit?.status == 'DRAFT' && orderForm.controls.orderElements.length > 0 && orderForm.valid">

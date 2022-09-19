@@ -43,11 +43,13 @@
   </form>
 </div>
 <div mat-dialog-actions class="justify-content-end">
-  <button mat-button [matMenuTriggerFor]="menuExport" color="primary">Download preventivo <mat-icon>download_file</mat-icon></button>
+  <button *ngIf="isEdit" mat-button [matMenuTriggerFor]="menuExport" color="primary">Download preventivo <mat-icon>download_file</mat-icon></button>
   <mat-menu #menuExport="matMenu">
-    <button mat-menu-item (click)="downloadRequestQuote('pdf')">.PDF</button>
-    <button mat-menu-item (click)="downloadRequestQuote('docx')">.DOCX</button>
+    <button mat-menu-item (click)="generateRequestQuote('pdf')">.PDF</button>
+    <button mat-menu-item (click)="generateRequestQuote('docx')">.DOCX</button>
   </mat-menu>
   <button mat-raised-button (click)="dialogRef.close()">Chiudi</button>
+  <button mat-raised-button (click)="createRequestQuote()" *ngIf="!isEdit" color="primary">Salva preventivo</button>
+  <button mat-raised-button (click)="updateRequestQuote()" *ngIf="isEdit" color="primary">Aggiorna preventivo</button>
   <button mat-raised-button (click)="deleteRequestQuote()" *ngIf="isEdit" color="warn">Elimina preventivo</button>
 </div>

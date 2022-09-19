@@ -67,15 +67,16 @@ export class NewspaperListComponent implements OnInit {
       this.displayedColumns.push("costEach");
 
     this.displayedColumns.push("costSell");
-
-    if (user?.role === "ADMIN")
-      this.displayedColumns.push("za");
+    this.displayedColumns.push("za");
+    this.displayedColumns.push("ip")
 
     if (user?.role === "ADMIN")
       this.displayedColumns.push("email");
 
     this.displayedColumns.push("regionalGeolocalization")
-    this.displayedColumns.push("topics")
+
+    // this.displayedColumns.push("topics")
+
     this.displayedColumns.push("actions");
   }
 
@@ -152,7 +153,7 @@ export class NewspaperListComponent implements OnInit {
   }
 
   openChooseOrderDialog(newspaper: Newspaper) {
-    this.matDialog.open(ChooseOrderDialogComponent,{
+    this.matDialog.open(ChooseOrderDialogComponent, {
       data: newspaper
     })
       .afterClosed()

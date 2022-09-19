@@ -19,7 +19,6 @@ export class OrderFormComponent implements OnInit {
   @Output() cancel = new EventEmitter<void>()
   @Output() saveDraft = new EventEmitter<SaveOrderDto>()
   @Output() sendOrder = new EventEmitter<SaveOrderDto>()
-  @Output() generateRequestQuote = new EventEmitter<SaveOrderDto>();
   @Output() deleteOrder = new EventEmitter<void>()
   @Output() sendOrderPack = new EventEmitter<void>();
 
@@ -152,11 +151,5 @@ export class OrderFormComponent implements OnInit {
 
   onDelete() {
     this.deleteOrder.emit()
-  }
-
-  onGenerateRequestQuote() {
-    if(this.orderForm.valid){
-      this.generateRequestQuote.emit(this.buildDto())
-    }
   }
 }
