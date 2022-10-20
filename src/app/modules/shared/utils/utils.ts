@@ -46,6 +46,11 @@ export const regionalGeolocalizzation = [
   {label: "Veneto", code: "Veneto"},
   {label: "Verticali", code: "Verticali"},
   {label: "Agenzie di stampa", code: "AgenzieDiStampa"},
+  {label: "Inglese", code: "Inglese"},
+  {label: "Francese", code: "Francese"},
+  {label: "Spagnolo", code: "Spagnolo"},
+  {label: "Tedesco", code: "Tedesco"},
+  {label: "Svizzera", code: "Svizzera"},
 ]
 
 export const orderStatus = [
