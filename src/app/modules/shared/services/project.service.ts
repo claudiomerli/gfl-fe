@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import {environment} from "../../../../environments/environment";
-import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {Project, ProjectContentPreview} from "../model/project";
 import {PaginationDto} from "../messages/pagination.dto";
+import {environment} from "../../../../environments/environment";
 import {PageResponseDto} from "../messages/page-response.dto";
-import {map} from "rxjs/operators";
+import {Project} from "../model/project";
+import {Observable} from "rxjs";
+import {SaveProjectDto} from "../messages/project/save-project.dto";
+import {SaveProjectCommissionDto} from "../messages/project/save-project-commission.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -15,56 +16,50 @@ export class ProjectService {
   constructor(private httpClient: HttpClient) {
   }
 
-  get(): Observable<any> {
-    return this.httpClient.get<any>(environment.apiBaseurl + "/project")
-  }
-
-  save(project: any): Observable<any> {
-    return this.httpClient.post<any>(environment.apiBaseurl + "/project", project);
-  }
-
-  public find(globalSearch: string, statusSearch: string, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Project>> {
+  public find(globalSearch: string, status: string, pagination: PaginationDto): Observable<PageResponseDto<Project>> {
     return this.httpClient.get<PageResponseDto<Project>>(environment.apiBaseurl + "/project", {
-      params: {...paginationDto, globalSearch, statusSearch}
-    }).pipe(
-      map(result => {
-        result.content = result.content.map((c: any) => new Project(c));
-        return result;
-      })
-    );
+      params: {
+        globalSearch: globalSearch || "",
+        status: status || "",
+        ...pagination
+      }
+    })
   }
 
   public findById(id: number): Observable<Project> {
-    return this.httpClient.get<Project>(environment.apiBaseurl + "/project/" + id).pipe(
-      map(result => {
-        return new Project(result);
-      })
-    );
+    return this.httpClient.get<Project>(environment.apiBaseurl + "/project/" + id)
   }
 
-  public update(id: number, project: any): Observable<void> {
-    return this.httpClient.put<void>(environment.apiBaseurl + "/project/" + id, project)
+  public deleteById(id: number): Observable<void> {
+    return this.httpClient.delete<void>(environment.apiBaseurl + "/project/" + id)
   }
 
-  public delete(id: number) {
-    return this.httpClient.delete(environment.apiBaseurl + "/project/" + id);
+  public save(saveProjectDto: SaveProjectDto): Observable<Project> {
+    return this.httpClient.post<Project>(environment.apiBaseurl + "/project", saveProjectDto)
   }
 
-  public deleteContentPreview(id: number) {
-    return this.httpClient.delete(environment.apiBaseurl + "/project/projectContentPreview/" + id);
+  public update(id: number, saveProjectDto: SaveProjectDto): Observable<Project> {
+    return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + id, saveProjectDto)
   }
 
-  public getContentPreview(id: string): Observable<ProjectContentPreview> {
-    return this.httpClient.get<ProjectContentPreview>(environment.apiBaseurl + "/project/projectContentPreview/" + id);
+  public close(id: number): Observable<Project> {
+    return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + id + "/close", {})
   }
 
-  public assegnaCapoRedattore(projectID: number, userID: number) {
-    return this.httpClient.put(environment.apiBaseurl + "/project/" + projectID + "/assign-chief-editor", {id: userID});
+  public saveCommission(idProject: number, saveCommissionProjectDto: SaveProjectCommissionDto): Observable<Project> {
+    return this.httpClient.post<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission", saveCommissionProjectDto)
   }
 
-  changeStatus(project: Project) {
-    return this.httpClient.put(environment.apiBaseurl + "/project/" + project.id + "/change-status", {
-      status: project.nextState
-    });
+  public updateCommission(idProject: number, idProjectCommission: number, saveCommissionProjectDto: SaveProjectCommissionDto): Observable<Project> {
+    return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/" + idProjectCommission, saveCommissionProjectDto)
   }
+
+  public removeCommission(idProject: number, idProjectCommission: number): Observable<Project> {
+    return this.httpClient.delete<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/" + idProjectCommission)
+  }
+
+  public updateCommissionStatus(idProject: number, idProjectCommission: number, status: string): Observable<Project> {
+    return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/" + idProjectCommission + "/" + status, {})
+  }
+
 }

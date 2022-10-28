@@ -30,6 +30,9 @@
   <app-sidemenu-item [icon]="'feed'" [title]="'Pacchetti comunicati stampa'" *isAuthenticated="['ADMIN','CUSTOMER']"
                      routerLinkActive="active" routerLink="/orders/pack" [indent]="true"></app-sidemenu-item>
 
+  <app-sidemenu-item [icon]="'assessment'" [title]="'Gestione progetti'"
+                     routerLinkActive="active" routerLink="/projects"></app-sidemenu-item>
+
   <ng-container *isAuthenticated="['ADMIN']">
     <mat-divider class="my-3"></mat-divider>
     <app-sidemenu-item [icon]="'group'" [title]="'Utenti'" routerLinkActive="active"

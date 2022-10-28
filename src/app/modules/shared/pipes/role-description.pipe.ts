@@ -5,7 +5,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class RoleDescriptionPipe implements PipeTransform {
 
-  transform(value: "ADMIN" | "CHIEF_EDITOR" | "EDITOR" | "CUSTOMER" | undefined): string {
+  transform(value: string | undefined): string {
     switch (value) {
       case "ADMIN":
         return "Admin";
@@ -15,6 +15,10 @@ export class RoleDescriptionPipe implements PipeTransform {
         return "Editor"
       case "CUSTOMER":
         return "Cliente"
+      case "PUBLISHER":
+        return "Pubblicatore"
+      case "ADMINISTRATION":
+        return "Amministrazione fatturazione"
     }
 
     return "Sconosciuto";

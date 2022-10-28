@@ -79,7 +79,7 @@ export class UserUpdateFormComponent implements OnInit {
   onSubmit() {
     this.formSubmitted = true;
     if (this.editUserForm.valid) {
-      this.formSubmit.emit(this.editUserForm.value as EditUserDto);
+      this.formSubmit.emit(this.editUserForm.getRawValue() as EditUserDto);
     }
   }
 

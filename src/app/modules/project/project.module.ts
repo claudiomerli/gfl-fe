@@ -2,17 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {ProjectRoutingModule} from './project-routing.module';
-import {ProjectDashboardComponent} from './views/project-dashboard/project-dashboard.component';
-import {ProjectNewComponent} from "./views/project-new/project-new.component";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ProjectEditComponent} from './views/project-edit/project-edit.component';
-import {NgxPaginationModule} from "ngx-pagination";
-import {NgxAutocompleteModule} from "ngx-angular-autocomplete";
-import {ProjectFormComponent} from './components/project-form/project-form.component';
-import { ProjectInvoicingComponent } from './views/project-invoicing/project-invoicing.component';
-import {ProjectDetailDialog, ProjectTableComponent} from './components/project-table/project-table.component';
-import {SharedModule} from "../shared/shared.module";
-import { ProjectContentPreviewComponent } from './components/project-content-preview/project-content-preview.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -25,18 +14,28 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatCardModule} from "@angular/material/card";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {SharedModule} from "../shared/shared.module";
+import {NgxAutocompleteModule} from "ngx-angular-autocomplete";
+import {NgxPaginationModule} from "ngx-pagination";
+import { ProjectDashboardComponent } from './views/project-dashboard/project-dashboard.component';
+import { CreateProjectComponent } from './components/create-project/create-project.component';
+import { ProjectDetailsComponent } from './views/project-details/project-details.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatMomentDateModule} from "@angular/material-moment-adapter";
+import {MAT_DATE_FORMATS} from "@angular/material/core";
+import {MatExpansionModule} from "@angular/material/expansion";
+import { ProjectCommissionFormComponent } from './components/project-commission-form/project-commission-form.component';
+import { ProjectCommissionDialogFormComponent } from './components/project-commission-dialog-form/project-commission-dialog-form.component';
 
 
 @NgModule({
   declarations: [
     ProjectDashboardComponent,
-    ProjectNewComponent,
-    ProjectEditComponent,
-    ProjectFormComponent,
-    ProjectInvoicingComponent,
-    ProjectTableComponent,
-    ProjectContentPreviewComponent,
-    ProjectDetailDialog
+    CreateProjectComponent,
+    ProjectDetailsComponent,
+    ProjectCommissionFormComponent,
+    ProjectCommissionDialogFormComponent
   ],
   imports: [
     CommonModule,
@@ -58,6 +57,25 @@ import {MatCardModule} from "@angular/material/card";
     MatDialogModule,
     MatAutocompleteModule,
     MatCardModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatExpansionModule
+  ],
+  providers: [
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        parse: {
+          dateInput: 'DD/MM/YYYY'
+        },
+        display: {
+          dateInput: 'DD/MM/YYYY',
+          monthYearLabel: 'MMM YYYY',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'MMMM YYYY',
+        },
+      },
+    },
   ]
 })
 export class ProjectModule {

@@ -1,3 +1,5 @@
+import {ValidatorFn} from "@angular/forms";
+
 export function clean(obj: any) {
   for (const propName in obj) {
     if (obj[propName] === null || obj[propName] === undefined) {
@@ -7,19 +9,26 @@ export function clean(obj: any) {
   return obj
 }
 
+export const validateObject: ValidatorFn = control => {
+  if (!(typeof control.value === "object")) {
+    return {wrongType: "Option not selected"}
+  }
+  return null
+}
+
 export const projectStatuses = [
   {code: 'CREATED', label: "Creato"},
-  {code: 'ASSIGNED', label: "Assegnato"},
-  {code: 'WORKING', label: "In lavorazione"},
-  {code: 'TO_BE_PUBLISHED', label: "Da pubblicare"},
-  {code: 'TERMINATED', label: "Terminato"},
-  {code: 'INVOICED', label: "Fatturato"},
+  {code: 'PUBLISHED', label: "Pubblicato"},
+  {code: 'CLOSED', label: "Concluso"},
 ]
 
 
 export const userRoles = [
   {code: 'ADMIN', label: 'Amministratore'},
   {code: 'CUSTOMER', label: 'Cliente'},
+  {code: 'CHIEF_EDITOR', label: 'Capo redattore'},
+  {code: 'PUBLISHER', label: 'Pubblicatore'},
+  {code: 'ADMINISTRATION', label: 'Amministrazione fatturazione'},
 ]
 
 export const regionalGeolocalizzation = [
@@ -53,12 +62,36 @@ export const regionalGeolocalizzation = [
   {label: "Svizzera", code: "Svizzera"},
 ]
 
+export const periods = [
+  {label: 'GENNAIO', code: 'GENNAIO'},
+  {label: 'FEBBRAIO', code: 'FEBBRAIO'},
+  {label: 'MARZO', code: 'MARZO'},
+  {label: 'APRILE', code: 'APRILE'},
+  {label: 'MAGGIO', code: 'MAGGIO'},
+  {label: 'GIUGNO', code: 'GIUGNO'},
+  {label: 'LUGLIO', code: 'LUGLIO'},
+  {label: 'AGOSTO', code: 'AGOSTO'},
+  {label: 'SETTEMBRE', code: 'SETTEMBRE'},
+  {label: 'OTTOBRE', code: 'OTTOBRE'},
+  {label: 'NOVEMBRE', code: 'NOVEMBRE'},
+  {label: 'DICEMBRE', code: 'DICEMBRE'}
+]
+
 export const orderStatus = [
   {label: 'Bozza', code: 'DRAFT'},
   {label: "Richiesto", code: 'REQUESTED'},
   {label: 'Confermato', code: 'CONFIRMED'},
   {label: 'Respinto', code: 'CANCELED'}
 ]
+
+
+export const projectCommissionStatus = [
+  {label: 'Creato', code: 'CREATED'},
+  {label: 'Avviato', code: 'STARTED'},
+  {label: 'Da pubblicare', code: 'TO_PUBLISH'},
+  {label: 'Pubblicato', code: 'PUBLISHED'},
+]
+
 
 export const getPointerColor = () => {
   return "#3f51b5"
@@ -75,3 +108,5 @@ export const translateCurrency: (value: number) => string = (value) => {
 export const translatePercentage: (value: number) => string = (value) => {
   return value + " %"
 }
+
+export const momentDatePatternIso = "YYYY-MM-DD"

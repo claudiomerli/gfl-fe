@@ -106,12 +106,12 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
       this.customerService.find("", PaginationDto.buildMaxValueOnePage()),
       this.userService.find("", '', PaginationDto.buildMaxValueOnePage()),
       this.newspaperService.find({}, PaginationDto.buildMaxValueOnePage()),
-      this.projectService.find("", "" ,PaginationDto.buildMaxValueOnePage())
+      // this.projectService.find("", "" ,PaginationDto.buildMaxValueOnePage())
     ).subscribe(results => {
       this.customers$.next(results[0].content)
       this.editor$.next(results[1].content)
       this.newspaper$.next(results[2].content)
-      this.projects$.next(results[3].content)
+      // this.projects$.next(results[3].content)
 
       this.contentForm.controls.customerId.valueChanges.subscribe(actualValue => {
         if (actualValue) {
@@ -121,13 +121,13 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
         }
       })
       let previewId = this.activatedRoute.snapshot.queryParamMap.get('previewId');
-      if(previewId) {
-        this.projectService.getContentPreview(previewId).subscribe(contentPreview => {
-
-          this.patchValueToFormFromPreview(contentPreview);
-
-        });
-      }
+      // if(previewId) {
+      //   this.projectService.getContentPreview(previewId).subscribe(contentPreview => {
+      //
+      //     this.patchValueToFormFromPreview(contentPreview);
+      //
+      //   });
+      // }
 
 
       this.patchValueToForm(this.contentToUpdate as Content)
@@ -218,19 +218,19 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   patchValueToFormFromPreview(preview: ProjectContentPreview) {
-    if (preview) {
-      this.contentForm.patchValue({
-        projectId: preview.projectId,
-        newspaperId: preview.newspaper?.id,
-        contentRules: {
-          title: preview.title,
-          linkUrl: preview.linkUrl,
-          linkText: preview.linkText
-        },
-        monthUse: preview.monthUse,
-        projectContentPreviewId: preview.id
-      })
-    }
+    // if (preview) {
+    //   this.contentForm.patchValue({
+    //     projectId: preview.projectId,
+    //     newspaperId: preview.newspaper?.id,
+    //     contentRules: {
+    //       title: preview.title,
+    //       linkUrl: preview.linkUrl,
+    //       linkText: preview.linkText
+    //     },
+    //     monthUse: preview.monthUse,
+    //     projectContentPreviewId: preview.id
+    //   })
+    // }
   }
 
   copyCustomerLink() {

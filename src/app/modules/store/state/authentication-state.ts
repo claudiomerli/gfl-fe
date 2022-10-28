@@ -1,4 +1,4 @@
-import {Action, Selector, State, StateContext} from "@ngxs/store";
+import {Action, createSelector, Selector, State, StateContext} from "@ngxs/store";
 import {Injectable} from "@angular/core";
 import {User} from "../../shared/model/user";
 import {AuthService} from "../../shared/services/auth.service";
@@ -44,6 +44,13 @@ export class SignoutAction {
 export class AuthenticationState {
 
   constructor(private authService: AuthService) {
+  }
+
+
+  static isUserInRole(role: string) {
+    return createSelector([AuthenticationState], (state: AuthenticationStateModel) => {
+      return state.user?.role === role
+    })
   }
 
   @Selector()
