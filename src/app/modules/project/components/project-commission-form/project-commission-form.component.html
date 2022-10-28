@@ -1,0 +1,103 @@
+<form #formGroupDirective="ngForm" [formGroup]="projectCommissionForm">
+  <div class="row p-3">
+    <div class="col-6">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Testata</mat-label>
+        <input type="text" placeholder="Cerca testate..."
+               matInput
+               [readonly]="!(isUserAdmin$ | async)"
+               [formControl]="newspaperInput"
+               [matAutocomplete]="auto"
+        >
+        <mat-autocomplete #auto="matAutocomplete"
+                          (optionSelected)="newspaperOptionSelected($event)"
+                          [displayWith]="displayNewspaperName"
+        >
+          <mat-option *ngFor="let option of newspaper" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Periodo</mat-label>
+        <input matInput formControlName="period" [readonly]="true" *ngIf="!(isUserAdmin$ | async)">
+        <mat-select formControlName="period" *ngIf="isUserAdmin$ | async">
+          <mat-option *ngFor="let period of periods" [value]="period.code">{{period.label}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field class="w-100">
+        <mat-label>Titolo</mat-label>
+        <input [readonly]="!(isUserAdmin$ | async)" matInput type="type" formControlName="title">
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field class="w-100">
+        <mat-label>Ancora</mat-label>
+        <input [readonly]="!(isUserAdmin$ | async)" matInput type="type" formControlName="anchor">
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field class="w-100">
+        <mat-label>URL</mat-label>
+        <input [readonly]="!(isUserAdmin$ | async)" matInput type="type" formControlName="url">
+      </mat-form-field>
+    </div>
+    <div class="col-12">
+      <mat-form-field class="w-100">
+        <mat-label>Url di pubblicazione</mat-label>
+        <input [readonly]="!(isUserAdmin$ | async) && !(isUserPublisher$ | async)" matInput type="type"
+               formControlName="publicationUrl">
+      </mat-form-field>
+    </div>
+    <div class="col-12">
+      <mat-form-field class="w-100">
+        <mat-label>Note</mat-label>
+        <textarea [readonly]="!(isUserAdmin$ | async)" matInput type="type" formControlName="notes"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-12 d-flex justify-content-between">
+      <div>
+        <button *isAuthenticated="['ADMIN','PUBLISHER']" mat-raised-button class="me-1" (click)="onSave()" type="button">
+          <mat-icon>save</mat-icon>
+          {{projectCommission ? "Aggiorna" : "Salva"}}</button>
+        <ng-container *isAuthenticated="['ADMIN']">
+          <button mat-raised-button class="me-1" (click)="onDelete()" *ngIf="projectCommission" type="button">
+            <mat-icon>delete</mat-icon>
+            Elimina
+          </button>
+        </ng-container>
+        <button mat-raised-button (click)="onCancel()" *ngIf="projectCommission" type="button">
+          <mat-icon>cancel</mat-icon>
+          Annulla
+        </button>
+      </div>
+      <div *ngIf="projectCommission">
+        <ng-container *ngIf="projectCommission.status === 'CREATED'">
+          <button mat-raised-button color="primary" class="me-1" *isAuthenticated="['ADMIN']"
+                  (click)="onChangeStatus('STARTED')">
+            <mat-icon>send</mat-icon>
+            Invia a redazione
+          </button>
+        </ng-container>
+        <ng-container *ngIf="projectCommission.status === 'STARTED'">
+          <button mat-raised-button color="primary" class="me-1" *isAuthenticated="['CHIEF_EDITOR','ADMIN']"
+                  (click)="onChangeStatus('TO_PUBLISH')">
+            <mat-icon>send</mat-icon>
+            Invia a pubblicazione
+          </button>
+        </ng-container>
+        <ng-container *ngIf="projectCommission.status === 'TO_PUBLISH'">
+          <button mat-raised-button color="primary" class="me-1" *isAuthenticated="['PUBLISHER','ADMIN']"
+                  (click)="onChangeStatus('PUBLISHED')">
+            <mat-icon>check</mat-icon>
+            Pubblicato
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</form>

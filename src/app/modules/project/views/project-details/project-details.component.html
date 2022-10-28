@@ -1,0 +1,132 @@
+<mat-toolbar>
+  <span>Progetto <span *ngIf="projectToEdit">{{projectToEdit.name}}
+    - {{projectStatuses | extractLabelByCode:projectToEdit.status}}</span></span>
+</mat-toolbar>
+<div class="p-3">
+  <form [formGroup]="projectFormGroup" (ngSubmit)="update()">
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="w-100">
+          <mat-label>Nome progetto</mat-label>
+          <input [readonly]="!(isUserAdmin$ | async)" matInput type="text" formControlName="name">
+        </mat-form-field>
+      </div>
+      <div class="col-6" *isNotInRole="['CUSTOMER']">
+        <mat-form-field class="w-100">
+          <mat-label>Descrizione fatturazione</mat-label>
+          <input [readonly]="!(isUserAdmin$ | async)" matInput type="text" formControlName="billingDescription">
+        </mat-form-field>
+      </div>
+      <div class="col-6" *isNotInRole="['CUSTOMER']">
+        <mat-form-field class="w-100">
+          <mat-label>Importo fatturazione</mat-label>
+          <input [readonly]="!(isUserAdmin$ | async)" matInput type="number" formControlName="billingAmount">
+        </mat-form-field>
+      </div>
+      <div class="col-6" *isNotInRole="['CUSTOMER']">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Scadenza</mat-label>
+          <input [readonly]="!(isUserAdmin$ | async)" matInput [matDatepicker]="picker" formControlName="expiration">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-6" *isNotInRole="['CUSTOMER']">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Cliente</mat-label>
+          <input [readonly]="!(isUserAdmin$ | async)" type="text" placeholder="Cerca cliente..."
+                 matInput
+                 formControlName="customer"
+                 [matAutocomplete]="auto"
+          >
+          <mat-autocomplete #auto="matAutocomplete"
+                            [displayWith]="displayFullnameCustomer"
+          >
+            <mat-option *ngFor="let option of customers" [value]="option">
+              {{option.fullname}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-12 text-end">
+      <ng-container *ngIf="projectToEdit?.status === 'PUBLISHED'">
+        <button *isAuthenticated="['ADMIN','ADMINISTRATION']" mat-raised-button color="primary" type="button"
+                class="me-1" (click)="onCloseProject()">
+          <mat-icon>check</mat-icon>
+          Fatturato
+        </button>
+      </ng-container>
+
+      <button mat-raised-button color="primary" type="submit" *isAuthenticated="['ADMIN']">
+        <mat-icon>save</mat-icon>
+        Salva
+      </button>
+    </div>
+  </form>
+  <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR','PUBLISHER','CUSTOMER']">
+    <div class="p-3" *ngIf="projectFormGroup.valid">
+      <div class="text-center" *isAuthenticated="['ADMIN']">
+        <button mat-raised-button (click)="createCommission()">
+          <mat-icon>add</mat-icon>
+          Nuova commissione
+        </button>
+      </div>
+      <table mat-table
+             *ngIf="projectToEdit && projectToEdit.projectCommissions"
+             [dataSource]="projectToEdit.projectCommissions"
+             class="mat-elevation-z8 w-100 mt-3">
+        <!-- Position Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Stato</th>
+          <td mat-cell *matCellDef="let element"> {{projectCommissionStatus | extractLabelByCode:element.status}} </td>
+        </ng-container>
+        <ng-container matColumnDef="newspaper">
+          <th mat-header-cell *matHeaderCellDef> Testata</th>
+          <td mat-cell *matCellDef="let element"> {{element.newspaper.name}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="period">
+          <th mat-header-cell *matHeaderCellDef> Periodo</th>
+          <td mat-cell *matCellDef="let element"> {{element.period}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef> Titolo</th>
+          <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="anchor">
+          <th mat-header-cell *matHeaderCellDef> Ancora</th>
+          <td mat-cell *matCellDef="let element"> {{element['anchor']}} </td>
+        </ng-container>
+        <ng-container matColumnDef="url">
+          <th mat-header-cell *matHeaderCellDef> Url</th>
+          <td mat-cell *matCellDef="let element"> {{element.url}} </td>
+        </ng-container>
+        <ng-container matColumnDef="publicationUrl">
+          <th mat-header-cell *matHeaderCellDef> Url di pubblicazione</th>
+          <td mat-cell *matCellDef="let element"> {{element.publicationUrl}} </td>
+        </ng-container>
+        <ng-container matColumnDef="lastModifiedDate">
+          <th mat-header-cell *matHeaderCellDef> Ultima modifica</th>
+          <td mat-cell *matCellDef="let element">{{element.lastModifiedDate | date:"dd/MM/yyyy"}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Azioni</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button (click)="updateCommission(element)">
+              <mat-icon>search</mat-icon>
+              Dettaglio
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </ng-container>
+</div>
