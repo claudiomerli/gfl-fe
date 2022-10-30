@@ -7,13 +7,16 @@ import {Project} from "../model/project";
 import {Observable} from "rxjs";
 import {SaveProjectDto} from "../messages/project/save-project.dto";
 import {SaveProjectCommissionDto} from "../messages/project/save-project-commission.dto";
+import {Store} from "@ngxs/store";
+import {tap} from "rxjs/operators";
+import {AuthenticationState} from "../../store/state/authentication-state";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private store: Store) {
   }
 
   public find(globalSearch: string, status: string, pagination: PaginationDto): Observable<PageResponseDto<Project>> {
@@ -23,11 +26,34 @@ export class ProjectService {
         status: status || "",
         ...pagination
       }
-    })
+    }).pipe(
+      tap((page) => {
+        let user = this.store.selectSnapshot(AuthenticationState.user);
+        page.content.forEach(project => {
+          if (user?.role === "CHIEF_EDITOR") {
+            project.projectCommissions = project.projectCommissions.filter(pc => pc.status === "STARTED")
+          }
+          if (user?.role === "PUBLISHER") {
+            project.projectCommissions = project.projectCommissions.filter(pc => pc.status === "TO_PUBLISH")
+          }
+        })
+      })
+    )
   }
 
   public findById(id: number): Observable<Project> {
     return this.httpClient.get<Project>(environment.apiBaseurl + "/project/" + id)
+      .pipe(
+        tap((project) => {
+          let user = this.store.selectSnapshot(AuthenticationState.user);
+          if (user?.role === "CHIEF_EDITOR") {
+            project.projectCommissions = project.projectCommissions.filter(pc => pc.status === "STARTED")
+          }
+          if (user?.role === "PUBLISHER") {
+            project.projectCommissions = project.projectCommissions.filter(pc => pc.status === "TO_PUBLISH")
+          }
+        })
+      )
   }
 
   public deleteById(id: number): Observable<void> {

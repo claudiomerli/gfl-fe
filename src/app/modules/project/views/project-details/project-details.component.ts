@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ProjectService} from "../../../shared/services/project.service";
 import {Project, ProjectCommission} from "../../../shared/model/project";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
@@ -48,7 +48,8 @@ export class ProjectDetailsComponent implements OnInit {
     private projectService: ProjectService,
     private userService: UserService,
     private matDialog: MatDialog,
-    private store: Store
+    private store: Store,
+    private router: Router
   ) {
   }
 
@@ -86,9 +87,21 @@ export class ProjectDetailsComponent implements OnInit {
 
   loadProject() {
     let id = this.activatedRoute.snapshot.params.id;
+    let isUserAdmin = this.store.selectSnapshot(AuthenticationState.isUserInRole("ADMIN"));
+    let isUserAdministration = this.store.selectSnapshot(AuthenticationState.isUserInRole("ADMINISTRATION"));
+
     this.projectService
       .findById(id)
       .subscribe(value => {
+        //User not allowed yet to see this project
+        if (
+          (value.projectCommissions.length === 0 && !isUserAdmin)
+          ||
+          (value.status !== "PUBLISHED" && isUserAdministration)
+        ) {
+          this.router.navigate(['/projects'])
+        }
+
         this.projectToEdit = value;
         this.patchForm(value)
       })
