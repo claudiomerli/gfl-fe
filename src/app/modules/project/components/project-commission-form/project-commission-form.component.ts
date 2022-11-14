@@ -8,7 +8,7 @@ import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {SaveProjectCommissionDto} from "../../../shared/messages/project/save-project-commission.dto";
 import {periods} from "../../../shared/utils/utils";
-import {Select} from "@ngxs/store";
+import {Select, Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {Observable} from "rxjs";
 
@@ -22,11 +22,13 @@ export class ProjectCommissionFormComponent implements OnInit {
   projectCommissionForm = this.createFormGroup();
 
   @Select(AuthenticationState.isUserInRole("ADMIN"))
-  isUserAdmin$! : Observable<boolean>;
+  isUserAdmin$!: Observable<boolean>;
   @Select(AuthenticationState.isUserInRole("PUBLISHER"))
-  isUserPublisher$! : Observable<boolean>;
+  isUserPublisher$!: Observable<boolean>;
+  @Select(AuthenticationState.isUserInRole("CHIEF_EDITOR"))
+  isUserChiefEditor$!: Observable<boolean>;
 
-  constructor(private newspaperService: NewspaperService) {
+  constructor(private newspaperService: NewspaperService, private store: Store) {
   }
 
   createFormGroup() {
@@ -121,5 +123,16 @@ export class ProjectCommissionFormComponent implements OnInit {
 
   onChangeStatus(status: string) {
     this.changeStatus.emit(status)
+  }
+
+  isRoleAllowedToEdit() {
+    let user = this.store.selectSnapshot(AuthenticationState.user);
+    if (user?.role === "ADMIN") {
+      return true
+    }
+
+    return (user?.role === "CHIEF_EDITOR" && ['STARTED', 'ASSIGNED', 'STANDBY_EDITORIAL'].includes(this.projectCommission.status))
+      ||
+      (user?.role === "PUBLISHER" && ['TO_PUBLISH', 'SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION'].includes(this.projectCommission.status));
   }
 }

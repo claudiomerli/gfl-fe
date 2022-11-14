@@ -56,14 +56,18 @@
     <div class="col-12">
       <mat-form-field class="w-100">
         <mat-label>Note</mat-label>
-        <textarea [readonly]="!(isUserAdmin$ | async)" matInput type="type" formControlName="notes"></textarea>
+        <textarea
+          [readonly]="!(isUserAdmin$ | async) && !((isUserChiefEditor$| async) && ['STARTED','ASSIGNED','STANDBY_EDITORIAL'].includes(projectCommission.status))"
+          matInput type="type" formControlName="notes"></textarea>
       </mat-form-field>
     </div>
     <div class="col-12 d-flex justify-content-between">
       <div>
-        <button *isAuthenticated="['ADMIN','PUBLISHER']" mat-raised-button class="me-1" (click)="onSave()" type="button">
-          <mat-icon>save</mat-icon>
-          {{projectCommission ? "Aggiorna" : "Salva"}}</button>
+        <ng-container *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR']">
+          <button mat-raised-button class="me-1" (click)="onSave()" type="button" *ngIf="isRoleAllowedToEdit()">
+            <mat-icon>save</mat-icon>
+            {{projectCommission ? "Aggiorna" : "Salva"}}</button>
+        </ng-container>
         <ng-container *isAuthenticated="['ADMIN']">
           <button mat-raised-button class="me-1" (click)="onDelete()" *ngIf="projectCommission" type="button">
             <mat-icon>delete</mat-icon>
@@ -76,25 +80,51 @@
         </button>
       </div>
       <div *ngIf="projectCommission">
-        <ng-container *ngIf="projectCommission.status === 'CREATED'">
-          <button mat-raised-button color="primary" class="me-1" *isAuthenticated="['ADMIN']"
-                  (click)="onChangeStatus('STARTED')">
+        <ng-container *isAuthenticated="['ADMIN']">
+          <button mat-raised-button color="primary" class="me-1"
+                  (click)="onChangeStatus('STARTED')" *ngIf="projectCommission.status === 'CREATED'">
             <mat-icon>send</mat-icon>
             Invia a redazione
           </button>
         </ng-container>
-        <ng-container *ngIf="projectCommission.status === 'STARTED'">
-          <button mat-raised-button color="primary" class="me-1" *isAuthenticated="['CHIEF_EDITOR','ADMIN']"
+        <ng-container *isAuthenticated="['CHIEF_EDITOR','ADMIN']">
+          <button mat-raised-button color="primary" class="me-1"
+                  *ngIf="['STARTED','STANDBY_EDITORIAL'].includes(projectCommission.status)"
+                  (click)="onChangeStatus('ASSIGNED')">
+            <mat-icon>assignment_turned_in</mat-icon>
+            Assegnato
+          </button>
+          <button mat-raised-button color="primary" class="me-1"
+                  *ngIf="['STARTED','ASSIGNED'].includes(projectCommission.status)"
+                  (click)="onChangeStatus('STANDBY_EDITORIAL')">
+            <mat-icon>front_hand</mat-icon>
+            Stand By
+          </button>
+          <button mat-raised-button color="primary" class="me-1"
+                  *ngIf="['STARTED','ASSIGNED','STANDBY_EDITORIAL'].includes(projectCommission.status)"
                   (click)="onChangeStatus('TO_PUBLISH')">
             <mat-icon>send</mat-icon>
             Invia a pubblicazione
           </button>
         </ng-container>
-        <ng-container *ngIf="projectCommission.status === 'TO_PUBLISH'">
-          <button mat-raised-button color="primary" class="me-1" *isAuthenticated="['PUBLISHER','ADMIN']"
-                  (click)="onChangeStatus('PUBLISHED')">
-            <mat-icon>check</mat-icon>
-            Pubblicato
+        <ng-container *isAuthenticated="['PUBLISHER','ADMIN']">
+          <button mat-raised-button color="primary" class="me-1"
+                  *ngIf="['STANDBY_PUBLICATION','TO_PUBLISH'].includes(projectCommission.status)"
+                  (click)="onChangeStatus('SENT_TO_NEWSPAPER')">
+            <mat-icon>outgoing_mail</mat-icon>
+            Inviato alla testata
+          </button>
+          <button mat-raised-button color="primary" class="me-1"
+                  *ngIf="['SENT_TO_NEWSPAPER','TO_PUBLISH'].includes(projectCommission.status)"
+                  (click)="onChangeStatus('STANDBY_PUBLICATION')">
+            <mat-icon>front_hand</mat-icon>
+            Stand By
+          </button>
+          <button mat-raised-button color="primary" class="me-1"
+                  *ngIf="['SENT_TO_NEWSPAPER','STANDBY_PUBLICATION','TO_PUBLISH'].includes(projectCommission.status)"
+                  (click)="onChangeStatus('SENT_TO_ADMINISTRATION')">
+            <mat-icon>public</mat-icon>
+            Invia in amministrazione
           </button>
         </ng-container>
       </div>

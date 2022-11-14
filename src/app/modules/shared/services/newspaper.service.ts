@@ -30,16 +30,6 @@ export class NewspaperService {
     return this.httpClient.put<Newspaper>(environment.apiBaseurl + "/newspaper/" + id, editNewspaperDto)
   }
 
-  public findForSelect(): Observable<Array<SelectDto>> {
-    return this.httpClient.get<Array<SelectDto>>(environment.apiBaseurl + "/newspaper/select");
-  }
-
-  public findPriceQuotation(form: any, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Newspaper>> {
-    return this.httpClient.get<PageResponseDto<Newspaper>>(environment.apiBaseurl + "/newspaper/price-quotation", {
-      params: {...clean(form), ...paginationDto}
-    })
-  }
-
   public find(searchNewspaperDto: SearchNewspaperDto, paginationDto: PaginationDto = new PaginationDto()): Observable<PageResponseDto<Newspaper>> {
     return this.httpClient.get<PageResponseDto<Newspaper>>(environment.apiBaseurl + "/newspaper", {
       params: {...paginationDto, ...searchNewspaperDto}

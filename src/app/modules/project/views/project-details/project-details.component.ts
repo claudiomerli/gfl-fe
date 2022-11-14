@@ -9,7 +9,7 @@ import {User} from "../../../shared/model/user";
 import {debounceTime} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {
-  momentDatePatternIso,
+  momentDatePatternIso, periods,
   projectCommissionStatus,
   projectStatuses, validateObject
 } from "../../../shared/utils/utils";
@@ -63,6 +63,11 @@ export class ProjectDetailsComponent implements OnInit {
     })
   }
 
+  globalSearchFormControl = new FormControl('');
+  originalCommissionForm: ProjectCommission[] | undefined
+  statusFormControl = new FormControl('');
+  periodFormControl = new FormControl('');
+
   ngOnInit(): void {
     this.loadProject();
     this.projectFormGroup.controls.customer.valueChanges
@@ -82,7 +87,29 @@ export class ProjectDetailsComponent implements OnInit {
         }
       })
 
+    this.globalSearchFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
+    this.statusFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
+    this.periodFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
+
     this.showColumns()
+  }
+
+  applyFilterSearch() {
+    let globalSearchValue = this.globalSearchFormControl.value;
+    let statusValue = this.statusFormControl.value;
+    let periodValue = this.periodFormControl.value;
+
+    this.originalCommissionForm = this.originalCommissionForm || this.projectToEdit.projectCommissions;
+    this.projectToEdit.projectCommissions = this.originalCommissionForm.filter(commissionForm =>
+      (commissionForm.url.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
+        commissionForm.notes.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
+        commissionForm.anchor.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
+        commissionForm.publicationUrl.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
+        commissionForm.title.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
+        commissionForm.newspaper.name.toUpperCase().includes(globalSearchValue!.trim().toUpperCase())) &&
+      (statusValue === '' || commissionForm.status === statusValue) &&
+      (periodValue === '' || commissionForm.period === periodValue)
+    )
   }
 
   loadProject() {
@@ -97,12 +124,14 @@ export class ProjectDetailsComponent implements OnInit {
         if (
           (value.projectCommissions.length === 0 && !isUserAdmin)
           ||
-          (value.status !== "PUBLISHED" && isUserAdministration)
+          (value.status !== "SENT_TO_ADMINISTRATION" && isUserAdministration)
         ) {
           this.router.navigate(['/projects'])
         }
 
         this.projectToEdit = value;
+        this.originalCommissionForm = undefined
+        this.applyFilterSearch()
         this.patchForm(value)
       })
   }
@@ -111,8 +140,12 @@ export class ProjectDetailsComponent implements OnInit {
   displayFullnameCustomer = (customer: User) => customer?.fullname || ""
   displayedColumns: string[] = [];
 
-  projectCommissionStatus = projectCommissionStatus;
+  projectCommissionStatus = projectCommissionStatus.filter(value => {
+    let {role} = this.store.selectSnapshot(AuthenticationState.user)!;
+    return value.roleCanView.includes(role!)
+  });
   projectStatuses = projectStatuses;
+  periods = periods;
 
 
   patchForm(project: Project) {
@@ -144,11 +177,11 @@ export class ProjectDetailsComponent implements OnInit {
   private showColumns() {
     this.displayedColumns.push("status");
     this.displayedColumns.push("newspaper");
-    this.displayedColumns.push("title");
     this.displayedColumns.push("publicationUrl");
 
     let user = this.store.selectSnapshot(AuthenticationState.user);
     if (user?.role !== "CUSTOMER") {
+      this.displayedColumns.push("title");
       this.displayedColumns.push("period");
       this.displayedColumns.push("url");
       this.displayedColumns.push("anchor");
@@ -196,5 +229,19 @@ export class ProjectDetailsComponent implements OnInit {
             })
         }
       })
+  }
+
+  rowClass(projectCommission: ProjectCommission) {
+    let user = this.store.selectSnapshot(AuthenticationState.user)!;
+    let result = {
+      'bg-warning': (user.role === "CHIEF_EDITOR" && projectCommission.status === "ASSIGNED") ||
+        (user.role === "PUBLISHER" && projectCommission.status === "SENT_TO_NEWSPAPER"),
+      'bg-danger': (user.role === "CHIEF_EDITOR" && projectCommission.status === "STANDBY_EDITORIAL") ||
+        (user.role === "PUBLISHER" && projectCommission.status === "STANDBY_PUBLICATION"),
+      'bg-success': (user.role === "CHIEF_EDITOR" && projectCommission.status === "TO_PUBLISH") ||
+        (user.role === "PUBLISHER" && projectCommission.status === "SENT_TO_ADMINISTRATION")
+    }
+    console.log(result)
+    return result
   }
 }

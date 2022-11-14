@@ -65,7 +65,8 @@ export class ProjectCommissionDialogFormComponent implements OnInit {
     }).afterClosed()
       .subscribe((answer) => {
         if (answer) {
-          this.projectService.updateCommissionStatus(this.data.project.id, this.data.projectCommission.id, $event)
+          this.projectService
+            .updateCommissionStatus(this.data.project.id, this.data.projectCommission.id, $event)
             .subscribe((result) => {
               this.dialogRef.close(result)
             })

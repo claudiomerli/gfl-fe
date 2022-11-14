@@ -14,6 +14,7 @@ import {saveAs} from "file-saver";
 import {MatDialog} from "@angular/material/dialog";
 import {ChooseOrderDialogComponent} from "../../components/choose-order-dialog/choose-order-dialog.component";
 import {OrderService} from "../../../shared/services/order.service";
+import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-newspaper-list',
@@ -85,10 +86,17 @@ export class NewspaperListComponent implements OnInit {
              number | undefined
   ) {
     if (id) {
-      this.newspaperService
-        .delete(id)
-        .subscribe(() => {
-          this.search();
+      this.matDialog.open(ConfirmDialogComponent, {
+        data: "Sei sicuro di voler emiminare la testata?"
+      }).afterClosed()
+        .subscribe(answer => {
+          if (answer) {
+            this.newspaperService
+              .delete(id)
+              .subscribe(() => {
+                this.search();
+              })
+          }
         })
     }
   }

@@ -56,12 +56,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: "price-quotation",
-    loadChildren: () => import("./modules/price-quotation/price-quotation.module").then(m => m.PriceQuotationModule),
-    canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN', 'CUSTOMER']}
-  },
-  {
     path: "orders",
     loadChildren: () => import("./modules/order/order.module").then(m => m.OrderModule),
     canActivate: [AuthGuard],

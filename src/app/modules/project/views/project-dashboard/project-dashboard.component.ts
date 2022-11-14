@@ -12,6 +12,9 @@ import {Sort} from "@angular/material/sort";
 import {PageEvent} from "@angular/material/paginator";
 import {projectStatuses} from "../../../shared/utils/utils";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
+import {Store} from "@ngxs/store";
+import {AuthenticationState} from "../../../store/state/authentication-state";
+import {debounceTime} from "rxjs/operators";
 
 @Component({
   selector: 'app-project-dashboard',
@@ -22,7 +25,7 @@ export class ProjectDashboardComponent implements OnInit {
   searchProjectFormControl = new FormControl<string>('');
   searchProjectStatusFormControl = new FormControl<string>('');
 
-  constructor(private matDialog: MatDialog, private projectService: ProjectService, private router: Router) {
+  constructor(private matDialog: MatDialog, private projectService: ProjectService, private router: Router, private store: Store) {
   }
 
   pagination: PaginationDto = {
@@ -34,17 +37,35 @@ export class ProjectDashboardComponent implements OnInit {
 
   actualPage = new BehaviorSubject<PageResponseDto<Project> | null>(null);
   projectStatuses = projectStatuses;
+  columnsToShow: string[] = [];
 
   ngOnInit(): void {
     this.search()
-    this.searchProjectFormControl.valueChanges.subscribe(() =>{
+    this.searchProjectFormControl.valueChanges
+      .pipe(
+        debounceTime(500)
+      )
+      .subscribe(() => {
+        this.pagination.page = 0;
+        this.search()
+      })
+    this.searchProjectStatusFormControl.valueChanges.subscribe(() => {
       this.pagination.page = 0;
       this.search()
     })
-    this.searchProjectStatusFormControl.valueChanges.subscribe(() =>{
-      this.pagination.page = 0;
-      this.search()
-    })
+
+    this.setupColumns();
+  }
+
+  private setupColumns() {
+    let isCustomer = this.store.selectSnapshot(AuthenticationState.isUserInRole("CUSTOMER"));
+    this.columnsToShow.push('name');
+    this.columnsToShow.push('status');
+    if (!isCustomer) {
+      this.columnsToShow.push('customer');
+      this.columnsToShow.push('expiration');
+    }
+    this.columnsToShow.push('action');
   }
 
   search() {

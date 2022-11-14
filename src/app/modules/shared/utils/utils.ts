@@ -18,7 +18,7 @@ export const validateObject: ValidatorFn = control => {
 
 export const projectStatuses = [
   {code: 'CREATED', label: "Creato"},
-  {code: 'PUBLISHED', label: "Pubblicato"},
+  {code: 'SENT_TO_ADMINISTRATION', label: "Inviato in amministrazione"},
   {code: 'CLOSED', label: "Concluso"},
 ]
 
@@ -86,10 +86,28 @@ export const orderStatus = [
 
 
 export const projectCommissionStatus = [
-  {label: 'Creato', code: 'CREATED'},
-  {label: 'Avviato', code: 'STARTED'},
-  {label: 'Da pubblicare', code: 'TO_PUBLISH'},
-  {label: 'Pubblicato', code: 'PUBLISHED'},
+  {label: 'Creato', code: 'CREATED', roleCanView: ['CUSTOMER', 'ADMIN']},
+  {label: 'Avviato', code: 'STARTED', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR']},
+
+  {label: 'Assegnato', code: 'ASSIGNED', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR']},
+  {label: 'Stand By - Redazione', code: 'STANDBY_EDITORIAL', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR']},
+  {label: 'Da pubblicare', code: 'TO_PUBLISH', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'PUBLISHER']},
+
+  {
+    label: 'Inviato alla testata',
+    code: 'SENT_TO_NEWSPAPER',
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'PUBLISHER']
+  },
+  {
+    label: 'Stand By - Pubblicazione',
+    code: 'STANDBY_PUBLICATION',
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'PUBLISHER']
+  },
+  {
+    label: 'Inviato in amministrazione',
+    code: 'SENT_TO_ADMINISTRATION',
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'PUBLISHER']
+  },
 ]
 
 

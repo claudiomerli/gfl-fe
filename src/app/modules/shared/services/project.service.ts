@@ -47,10 +47,10 @@ export class ProjectService {
         tap((project) => {
           let user = this.store.selectSnapshot(AuthenticationState.user);
           if (user?.role === "CHIEF_EDITOR") {
-            project.projectCommissions = project.projectCommissions.filter(pc => pc.status === "STARTED")
+            project.projectCommissions = project.projectCommissions.filter(pc => ["STARTED", "ASSIGNED", "STANDBY_EDITORIAL", "TO_PUBLISH", "SENT_TO_NEWSPAPER", "STANDBY_PUBLICATION", "SENT_TO_ADMINISTRATION",].includes(pc.status))
           }
           if (user?.role === "PUBLISHER") {
-            project.projectCommissions = project.projectCommissions.filter(pc => pc.status === "TO_PUBLISH")
+            project.projectCommissions = project.projectCommissions.filter(pc => ["TO_PUBLISH", "SENT_TO_NEWSPAPER", "STANDBY_PUBLICATION", "SENT_TO_ADMINISTRATION"].includes(pc.status))
           }
         })
       )
