@@ -43,6 +43,9 @@ export class ProjectDetailsComponent implements OnInit {
   @Select(AuthenticationState.isUserInRole("ADMIN"))
   isUserAdmin$!: Observable<boolean>;
 
+  @Select(AuthenticationState.isUserInRole("CHIEF_EDITOR"))
+  isUserChiefEditor$!: Observable<boolean>;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private projectService: ProjectService,
@@ -115,6 +118,7 @@ export class ProjectDetailsComponent implements OnInit {
   loadProject() {
     let id = this.activatedRoute.snapshot.params.id;
     let isUserAdmin = this.store.selectSnapshot(AuthenticationState.isUserInRole("ADMIN"));
+    let isUserChiefEditor = this.store.selectSnapshot(AuthenticationState.isUserInRole("CHIEF_EDITOR"));
     let isUserAdministration = this.store.selectSnapshot(AuthenticationState.isUserInRole("ADMINISTRATION"));
 
     this.projectService
@@ -122,7 +126,7 @@ export class ProjectDetailsComponent implements OnInit {
       .subscribe(value => {
         //User not allowed yet to see this project
         if (
-          (value.projectCommissions.length === 0 && !isUserAdmin)
+          (value.projectCommissions.length === 0 && !isUserAdmin && !isUserChiefEditor)
           ||
           (value.status !== "SENT_TO_ADMINISTRATION" && isUserAdministration)
         ) {

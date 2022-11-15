@@ -86,7 +86,7 @@ export const orderStatus = [
 
 
 export const projectCommissionStatus = [
-  {label: 'Creato', code: 'CREATED', roleCanView: ['CUSTOMER', 'ADMIN']},
+  {label: 'Creato', code: 'CREATED', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR']},
   {label: 'Avviato', code: 'STARTED', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR']},
 
   {label: 'Assegnato', code: 'ASSIGNED', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR']},

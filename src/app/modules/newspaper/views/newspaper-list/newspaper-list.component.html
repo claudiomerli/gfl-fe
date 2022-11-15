@@ -35,7 +35,7 @@
       <mat-icon>add</mat-icon>
       Nuova testata
     </a>
-  </div >
+  </div>
 </div>
 <div class="p-3">
   <ng-container *ngIf="(actualPage$ | async) as actualPageValue">
@@ -91,7 +91,14 @@
         <ng-container matColumnDef="regionalGeolocalization">
           <th mat-sort-header="regionalGeolocalization" mat-header-cell *matHeaderCellDef>Tipologia sito web
           </th>
-          <td mat-cell *matCellDef="let element"> {{element.regionalGeolocalization}} </td>
+          <td mat-cell
+              *matCellDef="let element"> {{regionalGeolocalization | extractLabelByCode:element.regionalGeolocalization}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hidden">
+          <th mat-sort-header="hidden" mat-header-cell *matHeaderCellDef>Nascosta
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.hidden ? "Si" : "No"}} </td>
         </ng-container>
 
         <ng-container matColumnDef="topics">
@@ -112,7 +119,8 @@
             <a *isAuthenticated="['ADMIN']" mat-icon-button (click)="onDelete(element.id)" title="Elimina">
               <mat-icon>delete</mat-icon>
             </a>
-            <a *isAuthenticated="['CUSTOMER']" mat-icon-button (click)="openChooseOrderDialog(element)" title="Aggiungi a ordine">
+            <a *isAuthenticated="['CUSTOMER']" mat-icon-button (click)="openChooseOrderDialog(element)"
+               title="Aggiungi a ordine">
               <mat-icon>add</mat-icon>
             </a>
           </td>

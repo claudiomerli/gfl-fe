@@ -125,14 +125,48 @@ export class ProjectCommissionFormComponent implements OnInit {
     this.changeStatus.emit(status)
   }
 
-  isRoleAllowedToEdit() {
+  isRoleAllowedToChange(){
+    let user = this.store.selectSnapshot(AuthenticationState.user);
+    if (user?.role === "ADMIN") {
+      return true
+    }
+    if (user?.role === "CHIEF_EDITOR" && (!this.projectCommission || ['CREATED', 'STARTED', 'ASSIGNED', 'STANDBY_EDITORIAL'].includes(this.projectCommission.status))) {
+      return true
+    }
+
+    return false;
+  }
+
+  isRoleAllowedToChangePublicationUrl(){
+    let user = this.store.selectSnapshot(AuthenticationState.user);
+    if (user?.role === "ADMIN") {
+      return true
+    }
+    if (user?.role === "CHIEF_EDITOR" && (!this.projectCommission || ['CREATED', 'STARTED', 'ASSIGNED', 'STANDBY_EDITORIAL'].includes(this.projectCommission.status))) {
+      return true
+    }
+
+    if (user?.role === "PUBLISHER" && ['TO_PUBLISH', 'SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION'].includes(this.projectCommission.status)) {
+      return true
+    }
+
+    return false
+  }
+
+  isRoleAllowedToSave() {
     let user = this.store.selectSnapshot(AuthenticationState.user);
     if (user?.role === "ADMIN") {
       return true
     }
 
-    return (user?.role === "CHIEF_EDITOR" && ['STARTED', 'ASSIGNED', 'STANDBY_EDITORIAL'].includes(this.projectCommission.status))
-      ||
-      (user?.role === "PUBLISHER" && ['TO_PUBLISH', 'SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION'].includes(this.projectCommission.status));
+    if (user?.role === "CHIEF_EDITOR" && (!this.projectCommission || ['CREATED', 'STARTED', 'ASSIGNED', 'STANDBY_EDITORIAL'].includes(this.projectCommission.status))) {
+      return true
+    }
+
+    if (user?.role === "PUBLISHER" && ['TO_PUBLISH', 'SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION'].includes(this.projectCommission.status)) {
+      return true
+    }
+
+    return false;
   }
 }

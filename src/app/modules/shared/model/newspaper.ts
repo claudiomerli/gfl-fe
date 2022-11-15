@@ -14,5 +14,6 @@ export interface Newspaper {
   regionalGeolocalization: string
   note: string
   topics: Array<Topic>
+  hidden: boolean
 
 }

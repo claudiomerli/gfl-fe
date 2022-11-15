@@ -9,5 +9,6 @@ export class SaveNewspaperDto {
   za: string | undefined
   regionalGeolocalization: string | undefined
   topics: string[] | undefined
+  hidden: boolean | undefined
 
 }

@@ -22,6 +22,14 @@
           <mat-option *ngFor="let topic of topicList" [value]="topic.id">{{topic.name}}</mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field *isAuthenticated="['ADMIN']" class="w-100">
+        <mat-label>Nascosta</mat-label>
+        <mat-select formControlName="hidden">
+          <mat-option [value]="''">Selezione</mat-option>
+          <mat-option [value]="true">Si</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
     <div class="col-6" *ngIf="maxMinRangeNewspaperAttributes">
       <div class="mat-typography" *isAuthenticated="['ADMIN']">

@@ -25,6 +25,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatChipsModule} from "@angular/material/chips";
 import { ChooseOrderDialogComponent } from './components/choose-order-dialog/choose-order-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import {MatDialogModule} from "@angular/material/dialog";
         MatPaginatorModule,
         MatMenuModule,
         MatChipsModule,
-        MatDialogModule
+        MatDialogModule,
+        MatCheckboxModule
     ]
 })
 export class NewspaperModule { }

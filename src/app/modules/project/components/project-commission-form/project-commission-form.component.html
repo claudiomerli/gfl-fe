@@ -5,7 +5,7 @@
         <mat-label>Testata</mat-label>
         <input type="text" placeholder="Cerca testate..."
                matInput
-               [readonly]="!(isUserAdmin$ | async)"
+               [readonly]="!isRoleAllowedToChange()"
                [formControl]="newspaperInput"
                [matAutocomplete]="auto"
         >
@@ -22,8 +22,8 @@
     <div class="col-6">
       <mat-form-field class="w-100">
         <mat-label>Periodo</mat-label>
-        <input matInput formControlName="period" [readonly]="true" *ngIf="!(isUserAdmin$ | async)">
-        <mat-select formControlName="period" *ngIf="isUserAdmin$ | async">
+        <input matInput formControlName="period" [readonly]="true" *ngIf="!isRoleAllowedToChange()">
+        <mat-select formControlName="period" *ngIf="isRoleAllowedToChange()">
           <mat-option *ngFor="let period of periods" [value]="period.code">{{period.label}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -31,25 +31,25 @@
     <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>Titolo</mat-label>
-        <input [readonly]="!(isUserAdmin$ | async)" matInput type="type" formControlName="title">
+        <input [readonly]="!isRoleAllowedToChange()" matInput type="type" formControlName="title">
       </mat-form-field>
     </div>
     <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>Ancora</mat-label>
-        <input [readonly]="!(isUserAdmin$ | async)" matInput type="type" formControlName="anchor">
+        <input [readonly]="!isRoleAllowedToChange()" matInput type="type" formControlName="anchor">
       </mat-form-field>
     </div>
     <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>URL</mat-label>
-        <input [readonly]="!(isUserAdmin$ | async)" matInput type="type" formControlName="url">
+        <input [readonly]="!isRoleAllowedToChange()" matInput type="type" formControlName="url">
       </mat-form-field>
     </div>
     <div class="col-12">
       <mat-form-field class="w-100">
         <mat-label>Url di pubblicazione</mat-label>
-        <input [readonly]="!(isUserAdmin$ | async) && !(isUserPublisher$ | async)" matInput type="type"
+        <input [readonly]="!isRoleAllowedToChangePublicationUrl()" matInput type="type"
                formControlName="publicationUrl">
       </mat-form-field>
     </div>
@@ -57,14 +57,14 @@
       <mat-form-field class="w-100">
         <mat-label>Note</mat-label>
         <textarea
-          [readonly]="!(isUserAdmin$ | async) && !((isUserChiefEditor$| async) && ['STARTED','ASSIGNED','STANDBY_EDITORIAL'].includes(projectCommission.status))"
+          [readonly]="!isRoleAllowedToChange()"
           matInput type="type" formControlName="notes"></textarea>
       </mat-form-field>
     </div>
     <div class="col-12 d-flex justify-content-between">
       <div>
         <ng-container *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR']">
-          <button mat-raised-button class="me-1" (click)="onSave()" type="button" *ngIf="isRoleAllowedToEdit()">
+          <button mat-raised-button class="me-1" (click)="onSave()" type="button" *ngIf="isRoleAllowedToSave()">
             <mat-icon>save</mat-icon>
             {{projectCommission ? "Aggiorna" : "Salva"}}</button>
         </ng-container>
@@ -80,14 +80,12 @@
         </button>
       </div>
       <div *ngIf="projectCommission">
-        <ng-container *isAuthenticated="['ADMIN']">
+        <ng-container *isAuthenticated="['CHIEF_EDITOR','ADMIN']">
           <button mat-raised-button color="primary" class="me-1"
                   (click)="onChangeStatus('STARTED')" *ngIf="projectCommission.status === 'CREATED'">
             <mat-icon>send</mat-icon>
             Invia a redazione
           </button>
-        </ng-container>
-        <ng-container *isAuthenticated="['CHIEF_EDITOR','ADMIN']">
           <button mat-raised-button color="primary" class="me-1"
                   *ngIf="['STARTED','STANDBY_EDITORIAL'].includes(projectCommission.status)"
                   (click)="onChangeStatus('ASSIGNED')">

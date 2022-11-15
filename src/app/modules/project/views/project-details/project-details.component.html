@@ -8,33 +8,33 @@
       <div class="col-12">
         <mat-form-field class="w-100">
           <mat-label>Nome progetto</mat-label>
-          <input [readonly]="!(isUserAdmin$ | async)" matInput type="text" formControlName="name">
+          <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="text" formControlName="name">
         </mat-form-field>
       </div>
       <div class="col-6" *isNotInRole="['CUSTOMER']">
         <mat-form-field class="w-100">
           <mat-label>Descrizione fatturazione</mat-label>
-          <input [readonly]="!(isUserAdmin$ | async)" matInput type="text" formControlName="billingDescription">
+          <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="text" formControlName="billingDescription">
         </mat-form-field>
       </div>
       <div class="col-6" *isNotInRole="['CUSTOMER']">
         <mat-form-field class="w-100">
           <mat-label>Importo fatturazione</mat-label>
-          <input [readonly]="!(isUserAdmin$ | async)" matInput type="number" formControlName="billingAmount">
+          <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="number" formControlName="billingAmount">
         </mat-form-field>
       </div>
       <div class="col-6" *isNotInRole="['CUSTOMER']">
         <mat-form-field appearance="fill" class="w-100">
           <mat-label>Scadenza</mat-label>
-          <input [readonly]="!(isUserAdmin$ | async)" matInput [matDatepicker]="picker" formControlName="expiration">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput [matDatepicker]="picker" formControlName="expiration">
+          <mat-datepicker-toggle *ngIf="(isUserAdmin$ | async) || (isUserChiefEditor$ | async)" matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
       <div class="col-6" *isNotInRole="['CUSTOMER']">
         <mat-form-field class="w-100" appearance="fill">
           <mat-label>Cliente</mat-label>
-          <input [readonly]="!(isUserAdmin$ | async)" type="text" placeholder="Cerca cliente..."
+          <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" type="text" placeholder="Cerca cliente..."
                  matInput
                  formControlName="customer"
                  [matAutocomplete]="auto"
@@ -58,7 +58,7 @@
         </button>
       </ng-container>
 
-      <button mat-raised-button color="primary" type="submit" *isAuthenticated="['ADMIN']">
+      <button mat-raised-button color="primary" type="submit" *isAuthenticated="['ADMIN','CHIEF_EDITOR']">
         <mat-icon>save</mat-icon>
         Salva
       </button>
@@ -95,7 +95,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-2" *isAuthenticated="['ADMIN']">
+        <div class="col-2" *isAuthenticated="['ADMIN','CHIEF_EDITOR']">
           <div class="text-center">
             <button mat-raised-button (click)="createCommission()">
               <mat-icon>add</mat-icon>
