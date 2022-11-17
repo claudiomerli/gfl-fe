@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Storico commissione</h1>
+<div mat-dialog-content>
+  <mat-vertical-stepper [selectedIndex]="data.projectStatusChanges.length-1" [linear]="true" class="py-3">
+    <mat-step
+      [optional]="false"
+      [completed]="true"
+      [editable]="false"
+      *ngFor="let statusChanges of data.projectStatusChanges">
+      <ng-template matStepLabel>
+        <span class="text-dark">{{statusChanges.createdDate | date:"yyyy-MM-dd"}}</span> -
+        <span>{{projectCommissionStatus | extractLabelByCode:statusChanges.projectCommissionStatus}}</span>
+      </ng-template>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()">Chiudi</button>
+</div>
