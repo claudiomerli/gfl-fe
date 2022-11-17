@@ -194,10 +194,8 @@ export class ProjectDetailsComponent implements OnInit {
     if (user?.role !== "CUSTOMER") {
       this.displayedColumns.push("title");
       this.displayedColumns.push("period");
-      this.displayedColumns.push("url");
-      this.displayedColumns.push("anchor");
-      this.displayedColumns.push("actions");
     }
+    this.displayedColumns.push("actions");
     this.displayedColumns.push("lastModifiedDate");
   }
 
@@ -234,7 +232,7 @@ export class ProjectDetailsComponent implements OnInit {
     }).afterClosed()
       .subscribe((answer) => {
         if (answer) {
-          this.projectService.close(this.projectToEdit.id)
+          this.projectService.invoice(this.projectToEdit.id)
             .subscribe(() => {
               this.update()
             })

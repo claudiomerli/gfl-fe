@@ -105,3 +105,16 @@ app-sidemenu-item.active .menu-item{
 .card-hoverable:hover{
   background-color: lightgray;
 }
+
+table.fixed-width {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.fixed-width th,
+.fixed-width td {
+  overflow: hidden;
+  width:auto;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

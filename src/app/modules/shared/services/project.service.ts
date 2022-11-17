@@ -52,6 +52,9 @@ export class ProjectService {
           if (user?.role === "PUBLISHER") {
             project.projectCommissions = project.projectCommissions.filter(pc => ["TO_PUBLISH", "SENT_TO_NEWSPAPER", "STANDBY_PUBLICATION", "SENT_TO_ADMINISTRATION"].includes(pc.status))
           }
+        }),
+        tap((project) => {
+          project.projectCommissions = project.projectCommissions.sort((a, b) => b.id - a.id)
         })
       )
   }
@@ -68,8 +71,8 @@ export class ProjectService {
     return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + id, saveProjectDto)
   }
 
-  public close(id: number): Observable<Project> {
-    return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + id + "/close", {})
+  public invoice(id: number): Observable<Project> {
+    return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + id + "/invoice", {})
   }
 
   public saveCommission(idProject: number, saveCommissionProjectDto: SaveProjectCommissionDto): Observable<Project> {

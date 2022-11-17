@@ -17,9 +17,9 @@ export const validateObject: ValidatorFn = control => {
 }
 
 export const projectStatuses = [
-  {code: 'CREATED', label: "Creato"},
+  {code: 'CREATED', label: "In corso"},
   {code: 'SENT_TO_ADMINISTRATION', label: "Inviato in amministrazione"},
-  {code: 'CLOSED', label: "Concluso"},
+  {code: 'INVOICED', label: "Fatturato"},
 ]
 
 
