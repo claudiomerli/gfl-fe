@@ -40,7 +40,6 @@ export class OrderUpdateComponent implements OnInit {
   }
 
   updateOrder($event: SaveOrderDto) {
-    console.log("update")
     this.orderService.update(this.orderToEdit!.id, $event)
       .subscribe((order) => {
         this.orderToEdit = order

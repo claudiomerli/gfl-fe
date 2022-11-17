@@ -22,14 +22,12 @@ export class ImageUploaderComponent implements OnInit {
   }
 
   openChooseFileDialog() {
-    console.log(this.imageBase64)
     if (this.imageBase64 == undefined || this.imageBase64 == "") {
       this.fileInput.nativeElement.click()
     }
   }
 
   fileSelected($event: any) {
-    console.log($event)
     const reader = new FileReader();
     reader.readAsDataURL($event.target.files[0]);
     reader.onload = () => {

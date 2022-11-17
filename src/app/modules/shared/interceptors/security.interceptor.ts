@@ -40,7 +40,6 @@ export class SecurityInterceptor implements HttpInterceptor {
     return responseObserver
       .pipe(
         tap((response) => {
-          console.log(response)
           if (response instanceof HttpResponseBase) {
             this.spinner.hide()
           }

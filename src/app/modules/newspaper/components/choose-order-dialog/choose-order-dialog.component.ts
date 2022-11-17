@@ -29,7 +29,6 @@ export class ChooseOrderDialogComponent implements OnInit {
       PaginationDto.build(0, 2147483647))
       .subscribe((orderPage) => {
         this.orders = orderPage.content.filter(value => !value.orderElements.find(oe => oe.newspaper.id === this.data.id));
-        console.log(this.orders)
       })
   }
 

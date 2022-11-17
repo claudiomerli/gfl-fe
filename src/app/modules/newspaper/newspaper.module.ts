@@ -26,6 +26,8 @@ import {MatChipsModule} from "@angular/material/chips";
 import { ChooseOrderDialogComponent } from './components/choose-order-dialog/choose-order-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { CommissionHistoryDialogComponent } from './components/commission-history-dialog/commission-history-dialog.component';
+import {MatStepperModule} from "@angular/material/stepper";
 
 
 @NgModule({
@@ -35,7 +37,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         NewspaperCreateComponent,
         NewspaperUpdateComponent,
         NewspaperSearchFilterComponent,
-        ChooseOrderDialogComponent
+        ChooseOrderDialogComponent,
+        CommissionHistoryDialogComponent
     ],
     exports: [
         NewspaperSearchFilterComponent
@@ -60,7 +63,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         MatMenuModule,
         MatChipsModule,
         MatDialogModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatStepperModule
     ]
 })
 export class NewspaperModule { }

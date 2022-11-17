@@ -3,67 +3,95 @@
     - {{projectStatuses | extractLabelByCode:projectToEdit.status}}</span></span>
 </mat-toolbar>
 <div class="p-3">
-  <form [formGroup]="projectFormGroup" (ngSubmit)="update()">
-    <div class="row">
-      <div class="col-12">
-        <mat-form-field class="w-100">
-          <mat-label>Nome progetto</mat-label>
-          <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="text" formControlName="name">
-        </mat-form-field>
-      </div>
-      <div class="col-6" *isNotInRole="['CUSTOMER']">
-        <mat-form-field class="w-100">
-          <mat-label>Descrizione fatturazione</mat-label>
-          <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="text" formControlName="billingDescription">
-        </mat-form-field>
-      </div>
-      <div class="col-6" *isNotInRole="['CUSTOMER']">
-        <mat-form-field class="w-100">
-          <mat-label>Importo fatturazione</mat-label>
-          <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="number" formControlName="billingAmount">
-        </mat-form-field>
-      </div>
-      <div class="col-6" *isNotInRole="['CUSTOMER']">
-        <mat-form-field appearance="fill" class="w-100">
-          <mat-label>Scadenza</mat-label>
-          <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput [matDatepicker]="picker" formControlName="expiration">
-          <mat-datepicker-toggle *ngIf="(isUserAdmin$ | async) || (isUserChiefEditor$ | async)" matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="col-6" *isNotInRole="['CUSTOMER']">
-        <mat-form-field class="w-100" appearance="fill">
-          <mat-label>Cliente</mat-label>
-          <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" type="text" placeholder="Cerca cliente..."
-                 matInput
-                 formControlName="customer"
-                 [matAutocomplete]="auto"
-          >
-          <mat-autocomplete #auto="matAutocomplete"
-                            [displayWith]="displayFullnameCustomer"
-          >
-            <mat-option *ngFor="let option of customers" [value]="option">
-              {{option.fullname}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="col-12 text-end">
-      <ng-container *ngIf="projectToEdit?.status === 'SENT_TO_ADMINISTRATION'">
-        <button *isAuthenticated="['ADMIN','ADMINISTRATION']" mat-raised-button color="primary" type="button"
-                class="me-1" (click)="onCloseProject()">
-          <mat-icon>check</mat-icon>
-          Fatturato
-        </button>
-      </ng-container>
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="projectFormGroup" (ngSubmit)="update()">
+        <div class="row">
+          <div class="col-12">
+            <mat-form-field class="w-100">
+              <mat-label>Nome progetto</mat-label>
+              <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="text"
+                     formControlName="name">
+            </mat-form-field>
+          </div>
+          <div class="col-6" *isNotInRole="['CUSTOMER']">
+            <mat-form-field class="w-100">
+              <mat-label>Descrizione fatturazione</mat-label>
+              <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="text"
+                     formControlName="billingDescription">
+            </mat-form-field>
+          </div>
+          <div class="col-6" *isNotInRole="['CUSTOMER']">
+            <mat-form-field class="w-100">
+              <mat-label>Importo fatturazione</mat-label>
+              <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="number"
+                     formControlName="billingAmount">
+            </mat-form-field>
+          </div>
+          <div class="col-6" *isNotInRole="['CUSTOMER']">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Scadenza</mat-label>
+              <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput
+                     [matDatepicker]="picker" formControlName="expiration">
+              <mat-datepicker-toggle *ngIf="(isUserAdmin$ | async) || (isUserChiefEditor$ | async)" matSuffix
+                                     [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-6" *isNotInRole="['CUSTOMER']">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Cliente</mat-label>
+              <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" type="text"
+                     placeholder="Cerca cliente..."
+                     matInput
+                     formControlName="customer"
+                     [matAutocomplete]="auto"
+              >
+              <mat-autocomplete #auto="matAutocomplete"
+                                [displayWith]="displayFullnameCustomer"
+              >
+                <mat-option *ngFor="let option of customers" [value]="option">
+                  {{option.fullname}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-12 text-end">
+          <ng-container *ngIf="projectToEdit?.status === 'SENT_TO_ADMINISTRATION'">
+            <button *isAuthenticated="['ADMIN','ADMINISTRATION']" mat-raised-button color="primary" type="button"
+                    class="me-1" (click)="onCloseProject()">
+              <mat-icon>check</mat-icon>
+              Fatturato
+            </button>
+          </ng-container>
 
-      <button mat-raised-button color="primary" type="submit" *isAuthenticated="['ADMIN','CHIEF_EDITOR']">
-        <mat-icon>save</mat-icon>
-        Salva
-      </button>
+          <button mat-raised-button color="primary" type="submit" *isAuthenticated="['ADMIN','CHIEF_EDITOR']">
+            <mat-icon>save</mat-icon>
+            Salva
+          </button>
+        </div>
+      </form>
     </div>
-  </form>
+    <div class="col-3 mat-typography" *ngIf="projectToEdit">
+      <div class="fs-4">
+        Storico progetto
+      </div>
+      <mat-vertical-stepper [selectedIndex]="lastStatusChange" [linear]="true" class="py-3">
+        <mat-step
+          [optional]="false"
+          [completed]="true"
+          [editable]="false"
+          *ngFor="let statusChanges of projectToEdit.projectStatusChanges">
+          <ng-template matStepLabel>
+            <span class="text-dark">{{statusChanges.createdDate | date:"yyyy-MM-dd"}}</span> -
+            <span>{{projectStatuses | extractLabelByCode:statusChanges.projectStatus}}</span>
+          </ng-template>
+        </mat-step>
+      </mat-vertical-stepper>
+    </div>
+  </div>
+
   <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR','PUBLISHER','CUSTOMER']">
     <div class="p-3" *ngIf="projectFormGroup.valid">
       <div class="row align-items-center">
@@ -73,7 +101,7 @@
             <input matInput type="text" [formControl]="globalSearchFormControl">
           </mat-form-field>
         </div>
-        <div class="col-2" >
+        <div class="col-2">
           <mat-form-field appearance="fill" class="w-100">
             <mat-label>Stato commissione</mat-label>
             <mat-select [formControl]="statusFormControl">
@@ -151,9 +179,13 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Azioni</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-raised-button (click)="updateCommission(element)">
+            <button class="me-1" mat-raised-button (click)="updateCommission(element)">
               <mat-icon>search</mat-icon>
               Dettaglio
+            </button>
+            <button  mat-raised-button (click)="openHistory(element)">
+              <mat-icon>history</mat-icon>
+              Storico
             </button>
           </td>
         </ng-container>

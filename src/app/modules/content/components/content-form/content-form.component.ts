@@ -10,7 +10,7 @@ import {ContentRules} from "../../../shared/model/content-rules";
 import {Content, ContentLink} from "../../../shared/model/content";
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from "@angular/core";
 import {UntypedFormArray, UntypedFormBuilder, Validators} from "@angular/forms";
-import {Project, ProjectContentPreview} from "../../../shared/model/project";
+import {Project} from "../../../shared/model/project";
 import {ProjectService} from "../../../shared/services/project.service";
 import {filter} from "rxjs/operators";
 import {ActivatedRoute} from "@angular/router";
@@ -168,7 +168,6 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
     if (!changes.contentToUpdate?.isFirstChange())
       this.patchValueToForm(changes.contentToUpdate?.currentValue as Content)
   }
@@ -215,22 +214,6 @@ export class ContentFormComponent implements OnInit, OnChanges, OnDestroy {
         );
       });
     }
-  }
-
-  patchValueToFormFromPreview(preview: ProjectContentPreview) {
-    // if (preview) {
-    //   this.contentForm.patchValue({
-    //     projectId: preview.projectId,
-    //     newspaperId: preview.newspaper?.id,
-    //     contentRules: {
-    //       title: preview.title,
-    //       linkUrl: preview.linkUrl,
-    //       linkText: preview.linkText
-    //     },
-    //     monthUse: preview.monthUse,
-    //     projectContentPreviewId: preview.id
-    //   })
-    // }
   }
 
   copyCustomerLink() {

@@ -27,6 +27,7 @@ import {MAT_DATE_FORMATS} from "@angular/material/core";
 import {MatExpansionModule} from "@angular/material/expansion";
 import { ProjectCommissionFormComponent } from './components/project-commission-form/project-commission-form.component';
 import { ProjectCommissionDialogFormComponent } from './components/project-commission-dialog-form/project-commission-dialog-form.component';
+import {MatStepperModule} from "@angular/material/stepper";
 
 
 @NgModule({
@@ -37,30 +38,31 @@ import { ProjectCommissionDialogFormComponent } from './components/project-commi
     ProjectCommissionFormComponent,
     ProjectCommissionDialogFormComponent
   ],
-  imports: [
-    CommonModule,
-    ProjectRoutingModule,
-    ReactiveFormsModule,
-    NgxPaginationModule,
-    NgxAutocompleteModule,
-    FormsModule,
-    SharedModule,
-    MatToolbarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatAutocompleteModule,
-    MatCardModule,
-    MatDatepickerModule,
-    MatMomentDateModule,
-    MatExpansionModule
-  ],
+    imports: [
+        CommonModule,
+        ProjectRoutingModule,
+        ReactiveFormsModule,
+        NgxPaginationModule,
+        NgxAutocompleteModule,
+        FormsModule,
+        SharedModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatSelectModule,
+        MatDialogModule,
+        MatAutocompleteModule,
+        MatCardModule,
+        MatDatepickerModule,
+        MatMomentDateModule,
+        MatExpansionModule,
+        MatStepperModule
+    ],
   providers: [
     {
       provide: MAT_DATE_FORMATS,

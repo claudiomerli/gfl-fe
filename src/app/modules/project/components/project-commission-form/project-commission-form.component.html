@@ -5,7 +5,7 @@
         <mat-label>Testata</mat-label>
         <input type="text" placeholder="Cerca testate..."
                matInput
-               [readonly]="!isRoleAllowedToChange()"
+               [readonly]="!isRoleAllowedToChangeCommonField()"
                [formControl]="newspaperInput"
                [matAutocomplete]="auto"
         >
@@ -22,8 +22,8 @@
     <div class="col-6">
       <mat-form-field class="w-100">
         <mat-label>Periodo</mat-label>
-        <input matInput formControlName="period" [readonly]="true" *ngIf="!isRoleAllowedToChange()">
-        <mat-select formControlName="period" *ngIf="isRoleAllowedToChange()">
+        <input matInput formControlName="period" [readonly]="true" *ngIf="!isRoleAllowedToChangeCommonField()">
+        <mat-select formControlName="period" *ngIf="isRoleAllowedToChangeCommonField()">
           <mat-option *ngFor="let period of periods" [value]="period.code">{{period.label}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -31,19 +31,19 @@
     <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>Titolo</mat-label>
-        <input [readonly]="!isRoleAllowedToChange()" matInput type="type" formControlName="title">
+        <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="type" formControlName="title">
       </mat-form-field>
     </div>
     <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>Ancora</mat-label>
-        <input [readonly]="!isRoleAllowedToChange()" matInput type="type" formControlName="anchor">
+        <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="type" formControlName="anchor">
       </mat-form-field>
     </div>
     <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>URL</mat-label>
-        <input [readonly]="!isRoleAllowedToChange()" matInput type="type" formControlName="url">
+        <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="type" formControlName="url">
       </mat-form-field>
     </div>
     <div class="col-12">
@@ -57,7 +57,7 @@
       <mat-form-field class="w-100">
         <mat-label>Note</mat-label>
         <textarea
-          [readonly]="!isRoleAllowedToChange()"
+          [readonly]="!isRoleAllowedToChangeCommonField()"
           matInput type="type" formControlName="notes"></textarea>
       </mat-form-field>
     </div>

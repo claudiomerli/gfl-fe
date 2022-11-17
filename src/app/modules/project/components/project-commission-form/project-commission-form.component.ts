@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ProjectCommission} from "../../../shared/model/project";
-import {FormControl, FormGroup, NgForm} from "@angular/forms";
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {Newspaper} from "../../../shared/model/newspaper";
 import {debounceTime} from "rxjs/operators";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {SaveProjectCommissionDto} from "../../../shared/messages/project/save-project-commission.dto";
-import {periods} from "../../../shared/utils/utils";
+import {periods, validateObject} from "../../../shared/utils/utils";
 import {Select, Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {Observable} from "rxjs";
@@ -33,7 +33,7 @@ export class ProjectCommissionFormComponent implements OnInit {
 
   createFormGroup() {
     return new FormGroup({
-      newspaper: new FormControl<Newspaper | null>(null),
+      newspaper: new FormControl<Newspaper | null>(null, [validateObject]),
       period: new FormControl(''),
       anchor: new FormControl(''),
       url: new FormControl(''),
@@ -125,7 +125,7 @@ export class ProjectCommissionFormComponent implements OnInit {
     this.changeStatus.emit(status)
   }
 
-  isRoleAllowedToChange(){
+  isRoleAllowedToChangeCommonField() {
     let user = this.store.selectSnapshot(AuthenticationState.user);
     if (user?.role === "ADMIN") {
       return true
@@ -137,12 +137,9 @@ export class ProjectCommissionFormComponent implements OnInit {
     return false;
   }
 
-  isRoleAllowedToChangePublicationUrl(){
+  isRoleAllowedToChangePublicationUrl() {
     let user = this.store.selectSnapshot(AuthenticationState.user);
-    if (user?.role === "ADMIN") {
-      return true
-    }
-    if (user?.role === "CHIEF_EDITOR" && (!this.projectCommission || ['CREATED', 'STARTED', 'ASSIGNED', 'STANDBY_EDITORIAL'].includes(this.projectCommission.status))) {
+    if (this.isRoleAllowedToChangeCommonField()) {
       return true
     }
 
@@ -154,19 +151,6 @@ export class ProjectCommissionFormComponent implements OnInit {
   }
 
   isRoleAllowedToSave() {
-    let user = this.store.selectSnapshot(AuthenticationState.user);
-    if (user?.role === "ADMIN") {
-      return true
-    }
-
-    if (user?.role === "CHIEF_EDITOR" && (!this.projectCommission || ['CREATED', 'STARTED', 'ASSIGNED', 'STANDBY_EDITORIAL'].includes(this.projectCommission.status))) {
-      return true
-    }
-
-    if (user?.role === "PUBLISHER" && ['TO_PUBLISH', 'SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION'].includes(this.projectCommission.status)) {
-      return true
-    }
-
-    return false;
+    return this.isRoleAllowedToChangeCommonField() || this.isRoleAllowedToChangePublicationUrl()
   }
 }

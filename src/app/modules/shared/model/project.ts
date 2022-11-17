@@ -14,6 +14,7 @@ export interface Project {
   createdDate: string
   lastModifiedDate: string
   projectCommissions: ProjectCommission[]
+  projectStatusChanges: ProjectStatusChange[]
 
 }
 
@@ -29,7 +30,12 @@ export interface ProjectCommission {
   status: string
   createdDate: string
   lastModifiedDate: string
+  projectStatusChanges: ProjectStatusChange[]
 }
 
-export class ProjectContentPreview {
+export interface ProjectStatusChange {
+  id: number;
+  projectStatus: string;
+  projectCommissionStatus: string;
+  createdDate: string
 }

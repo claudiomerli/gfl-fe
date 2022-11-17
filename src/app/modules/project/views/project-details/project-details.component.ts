@@ -26,6 +26,9 @@ import {
 import {Select, Store} from "@ngxs/store";
 import {AuthenticationState, AuthenticationStateModel} from "../../../store/state/authentication-state";
 import {Observable} from "rxjs";
+import {
+  CommissionHistoryDialogComponent
+} from "../../../newspaper/components/commission-history-dialog/commission-history-dialog.component";
 
 @Component({
   selector: 'app-project-details',
@@ -151,6 +154,10 @@ export class ProjectDetailsComponent implements OnInit {
   projectStatuses = projectStatuses;
   periods = periods;
 
+  get lastStatusChange() {
+    return this.projectToEdit.projectStatusChanges.length - 1
+  };
+
 
   patchForm(project: Project) {
     this.projectFormGroup.patchValue({
@@ -245,7 +252,12 @@ export class ProjectDetailsComponent implements OnInit {
       'bg-success': (user.role === "CHIEF_EDITOR" && projectCommission.status === "TO_PUBLISH") ||
         (user.role === "PUBLISHER" && projectCommission.status === "SENT_TO_ADMINISTRATION")
     }
-    console.log(result)
     return result
+  }
+
+  openHistory(projectCommission: ProjectCommission) {
+    this.matDialog.open(CommissionHistoryDialogComponent, {
+      data: projectCommission
+    })
   }
 }

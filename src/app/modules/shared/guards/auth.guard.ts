@@ -25,7 +25,6 @@ export class AuthGuard implements CanActivate {
     let currentUser = this.store.selectSnapshot(AuthenticationState.user);
 
     if (currentUser) {
-      console.log("currentUser Present")
       if (!!(currentUser && (availableRoles.length == 0 || availableRoles.includes(currentUser.role)))) {
         return true
       } else {
@@ -33,7 +32,6 @@ export class AuthGuard implements CanActivate {
         return false
       }
     } else {
-      console.log("Not Authenticated, redirect to login")
       this.router.navigate(["/auth/login"]);
       return false;
     }
