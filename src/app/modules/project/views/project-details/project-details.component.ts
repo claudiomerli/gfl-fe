@@ -9,6 +9,7 @@ import {User} from "../../../shared/model/user";
 import {debounceTime} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {
+  getYearList,
   momentDatePatternIso, periods,
   projectCommissionStatus,
   projectStatuses, validateObject
@@ -29,6 +30,8 @@ import {Observable} from "rxjs";
 import {
   CommissionHistoryDialogComponent
 } from "../../../newspaper/components/commission-history-dialog/commission-history-dialog.component";
+import {SelectionModel} from "@angular/cdk/collections";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'app-project-details',
@@ -48,6 +51,10 @@ export class ProjectDetailsComponent implements OnInit {
 
   @Select(AuthenticationState.isUserInRole("CHIEF_EDITOR"))
   isUserChiefEditor$!: Observable<boolean>;
+
+  getYearList = getYearList
+
+  selection = new SelectionModel<ProjectCommission>(true, []);
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -73,6 +80,7 @@ export class ProjectDetailsComponent implements OnInit {
   originalCommissionForm: ProjectCommission[] | undefined
   statusFormControl = new FormControl('');
   periodFormControl = new FormControl('');
+  yearFormControl = new FormControl<number | null>(null);
 
   ngOnInit(): void {
     this.loadProject();
@@ -96,14 +104,63 @@ export class ProjectDetailsComponent implements OnInit {
     this.globalSearchFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
     this.statusFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
     this.periodFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
+    this.yearFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
 
     this.showColumns()
+
+    this.selection.changed.subscribe((value) => {
+      this.nextStateBulkAction = []
+      let selected = this.selection.selected;
+      let user = this.store.selectSnapshot(AuthenticationState.user)!;
+
+      if (selected.length > 0) {
+        let status = selected[0].status;
+        switch (status) {
+          case 'CREATED':
+            if (['ADMIN', 'CHIEF_EDITOR'].includes(user.role!)) {
+              this.nextStateBulkAction.push('STARTED')
+            }
+            break;
+          case 'STARTED':
+            if (['ADMIN', 'CHIEF_EDITOR'].includes(user.role!)) {
+              this.nextStateBulkAction.push('ASSIGNED')
+            }
+            break
+          case 'ASSIGNED':
+            if (['ADMIN', 'CHIEF_EDITOR'].includes(user.role!)) {
+              this.nextStateBulkAction.push('STANDBY_EDITORIAL', 'TO_PUBLISH')
+            }
+            break
+          case 'STANDBY_EDITORIAL':
+            if (['ADMIN', 'CHIEF_EDITOR'].includes(user.role!)) {
+              this.nextStateBulkAction.push('ASSIGNED', 'TO_PUBLISH')
+            }
+            break
+          case 'TO_PUBLISH':
+            if (['ADMIN', 'PUBLISHER'].includes(user.role!)) {
+              this.nextStateBulkAction.push('SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION')
+            }
+            break
+          case 'SENT_TO_NEWSPAPER':
+            if (['ADMIN', 'PUBLISHER'].includes(user.role!)) {
+              this.nextStateBulkAction.push('STANDBY_PUBLICATION', 'SENT_TO_ADMINISTRATION')
+            }
+            break
+          case 'STANDBY_PUBLICATION':
+            if (['ADMIN', 'PUBLISHER'].includes(user.role!)) {
+              this.nextStateBulkAction.push('SENT_TO_NEWSPAPER', 'SENT_TO_ADMINISTRATION')
+            }
+            break
+        }
+      }
+    })
   }
 
   applyFilterSearch() {
     let globalSearchValue = this.globalSearchFormControl.value;
     let statusValue = this.statusFormControl.value;
     let periodValue = this.periodFormControl.value;
+    let yearValue = this.yearFormControl.value;
 
     this.originalCommissionForm = this.originalCommissionForm || this.projectToEdit.projectCommissions;
     this.projectToEdit.projectCommissions = this.originalCommissionForm.filter(commissionForm =>
@@ -114,7 +171,8 @@ export class ProjectDetailsComponent implements OnInit {
         commissionForm.title.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
         commissionForm.newspaper.name.toUpperCase().includes(globalSearchValue!.trim().toUpperCase())) &&
       (statusValue === '' || commissionForm.status === statusValue) &&
-      (periodValue === '' || commissionForm.period === periodValue)
+      (periodValue === '' || commissionForm.period === periodValue) &&
+      (yearValue === null || commissionForm.year === yearValue)
     )
   }
 
@@ -153,6 +211,7 @@ export class ProjectDetailsComponent implements OnInit {
   });
   projectStatuses = projectStatuses;
   periods = periods;
+  nextStateBulkAction: string[] = [];
 
   get lastStatusChange() {
     return this.projectToEdit.projectStatusChanges.length - 1
@@ -186,14 +245,20 @@ export class ProjectDetailsComponent implements OnInit {
 
 
   private showColumns() {
+    let user = this.store.selectSnapshot(AuthenticationState.user);
+    if (user?.role !== "CUSTOMER") {
+      this.displayedColumns.push("select");
+    }
+
     this.displayedColumns.push("status");
     this.displayedColumns.push("newspaper");
     this.displayedColumns.push("publicationUrl");
+    this.displayedColumns.push("publicationDate");
 
-    let user = this.store.selectSnapshot(AuthenticationState.user);
     if (user?.role !== "CUSTOMER") {
       this.displayedColumns.push("title");
       this.displayedColumns.push("period");
+      this.displayedColumns.push("year");
     }
     this.displayedColumns.push("actions");
     this.displayedColumns.push("lastModifiedDate");
@@ -257,5 +322,21 @@ export class ProjectDetailsComponent implements OnInit {
     this.matDialog.open(CommissionHistoryDialogComponent, {
       data: projectCommission
     })
+  }
+
+  getDisabledSelectionCheckBox(projectCommission: ProjectCommission) {
+    let selected = this.selection.selected;
+    return selected.length != 0 && projectCommission.status != this.selection.selected[0].status;
+  }
+
+
+  onBulkAction($event: MatSelectChange) {
+    let ids = this.selection.selected.map(value => value.id);
+    this.projectService.updateCommissionStatusBulk(this.projectToEdit.id, ids, $event.value)
+      .subscribe(() => {
+        this.nextStateBulkAction = []
+        this.selection.clear();
+        this.update();
+      })
   }
 }

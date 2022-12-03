@@ -91,4 +91,9 @@ export class ProjectService {
     return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/" + idProjectCommission + "/" + status, {})
   }
 
+  updateCommissionStatusBulk(idProject: number, ids: number[], status: any) {
+    return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/bulk/" + status, {
+      ids
+    })
+  }
 }

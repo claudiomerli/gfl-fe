@@ -1,4 +1,6 @@
 import {ValidatorFn} from "@angular/forms";
+import * as moment from "moment";
+
 
 export function clean(obj: any) {
   for (const propName in obj) {
@@ -110,6 +112,14 @@ export const projectCommissionStatus = [
   },
 ]
 
+
+export const getYearList = (): number[] => {
+  let years = [];
+  for (let i = 2022; i <= moment().add(1, 'year').year(); i++) {
+    years.push(i)
+  }
+  return years;
+}
 
 export const getPointerColor = () => {
   return "#3f51b5"

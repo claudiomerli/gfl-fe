@@ -47,7 +47,8 @@ export class NewspaperSearchFilterComponent implements OnInit {
     costSellTo: new FormControl(),
     regionalGeolocalization: new FormControl([]),
     topics: new FormControl([]),
-    hidden: new FormControl('')
+    hidden: new FormControl(''),
+    sensitiveTopics: new FormControl('')
   })
 
 

@@ -15,4 +15,6 @@ export class SearchNewspaperDto {
   costSellTo?: string;
   regionalGeolocalization?: string;
   topics?: Array<string>;
+  hidden?: boolean;
+  sensitiveTopics?: boolean;
 }

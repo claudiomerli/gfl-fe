@@ -15,5 +15,6 @@ export interface Newspaper {
   note: string
   topics: Array<Topic>
   hidden: boolean
+  sensitiveTopics: boolean
 
 }

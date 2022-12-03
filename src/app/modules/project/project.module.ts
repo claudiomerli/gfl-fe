@@ -29,6 +29,7 @@ import { ProjectCommissionFormComponent } from './components/project-commission-
 import { ProjectCommissionDialogFormComponent } from './components/project-commission-dialog-form/project-commission-dialog-form.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import {MatMenuModule} from "@angular/material/menu";
         MatMomentDateModule,
         MatExpansionModule,
         MatStepperModule,
-        MatMenuModule
+        MatMenuModule,
+        MatCheckboxModule
     ],
   providers: [
     {

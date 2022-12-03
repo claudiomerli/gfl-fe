@@ -49,9 +49,7 @@ export class NewspaperListComponent implements OnInit {
   ) {
   }
 
-  ngOnInit()
-    :
-    void {
+  ngOnInit(): void {
     this.defineColumns()
     this.newspaperService.finance().subscribe(data => this.finance$.next(data));
   }
@@ -77,8 +75,9 @@ export class NewspaperListComponent implements OnInit {
       this.displayedColumns.push("email");
 
     this.displayedColumns.push("regionalGeolocalization")
+    this.displayedColumns.push("sensitiveTopics")
 
-    if(user?.role === "ADMIN")
+    if (user?.role === "ADMIN")
       this.displayedColumns.push("hidden")
 
     // this.displayedColumns.push("topics")

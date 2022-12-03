@@ -19,12 +19,21 @@
         </mat-autocomplete>
       </mat-form-field>
     </div>
-    <div class="col-6">
+    <div class="col-3">
       <mat-form-field class="w-100">
         <mat-label>Periodo</mat-label>
         <input matInput formControlName="period" [readonly]="true" *ngIf="!isRoleAllowedToChangeCommonField()">
         <mat-select formControlName="period" *ngIf="isRoleAllowedToChangeCommonField()">
           <mat-option *ngFor="let period of periods" [value]="period.code">{{period.label}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-3">
+      <mat-form-field class="w-100">
+        <mat-label>Anno</mat-label>
+        <input matInput formControlName="year" [readonly]="true" *ngIf="!isRoleAllowedToChangeCommonField()">
+        <mat-select formControlName="year" *ngIf="isRoleAllowedToChangeCommonField()">
+          <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -46,11 +55,19 @@
         <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="type" formControlName="url">
       </mat-form-field>
     </div>
-    <div class="col-12">
+    <div class="col-6">
       <mat-form-field class="w-100">
         <mat-label>Url di pubblicazione</mat-label>
         <input [readonly]="!isRoleAllowedToChangePublicationUrl()" matInput type="type"
                formControlName="publicationUrl">
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Data di pubblicazione</mat-label>
+        <input [readonly]="!isRoleAllowedToChangePublicationDate()" matInput [matDatepicker]="picker" formControlName="publicationDate">
+        <mat-datepicker-toggle *ngIf="isRoleAllowedToChangePublicationDate()" matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </div>
     <div class="col-12">

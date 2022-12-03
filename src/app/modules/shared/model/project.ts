@@ -22,11 +22,13 @@ export interface ProjectCommission {
   id: number
   newspaper: Newspaper
   period: string
+  year: number
   anchor: string
   url: string
   title: string
   notes: string
   publicationUrl: string
+  publicationDate: string
   status: string
   createdDate: string
   lastModifiedDate: string
