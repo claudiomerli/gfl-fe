@@ -82,13 +82,15 @@ export class ProjectDashboardComponent implements OnInit {
     this.matDialog.open(CreateProjectComponent)
       .afterClosed()
       .subscribe((value) => {
-        this.projectService
-          .save({
-            name: value
-          })
-          .subscribe((project) => {
-            this.router.navigate(['/projects', project.id])
-          })
+        if (value && value != "") {
+          this.projectService
+            .save({
+              name: value
+            })
+            .subscribe((project) => {
+              this.router.navigate(['/projects', project.id])
+            })
+        }
       })
   }
 

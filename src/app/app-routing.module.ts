@@ -66,6 +66,12 @@ const routes: Routes = [
     loadChildren: () => import("./modules/news/news.module").then(m => m.NewsModule),
     canActivate: [AuthGuard],
     data: {availableRoles: ['ADMIN', 'CUSTOMER']}
+  },
+  {
+    path: "statistics",
+    loadChildren: () => import("./modules/statistics/statistics.module").then(m => m.StatisticsModule),
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN', 'CUSTOMER']}
   }
 ];
 

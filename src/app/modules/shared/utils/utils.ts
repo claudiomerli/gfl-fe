@@ -115,7 +115,7 @@ export const projectCommissionStatus = [
 
 export const getYearList = (): number[] => {
   let years = [];
-  for (let i = 2022; i <= moment().add(1, 'year').year(); i++) {
+  for (let i = 2020; i <= moment().add(1, 'year').year(); i++) {
     years.push(i)
   }
   return years;

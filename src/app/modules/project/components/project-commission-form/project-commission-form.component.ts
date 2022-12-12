@@ -39,6 +39,8 @@ export class ProjectCommissionFormComponent implements OnInit {
       period: new FormControl(''),
       year: new FormControl<number | null>(null),
       anchor: new FormControl(''),
+      isAnchorBold: new FormControl(false),
+      isAnchorItalic: new FormControl(false),
       url: new FormControl(''),
       title: new FormControl(''),
       notes: new FormControl(''),
@@ -52,6 +54,8 @@ export class ProjectCommissionFormComponent implements OnInit {
       this.projectCommissionForm.patchValue({
         newspaper: this.projectCommission.newspaper,
         anchor: this.projectCommission.anchor,
+        isAnchorBold: this.projectCommission.isAnchorBold,
+        isAnchorItalic: this.projectCommission.isAnchorItalic,
         notes: this.projectCommission.notes,
         period: this.projectCommission.period,
         year: this.projectCommission.year,
@@ -114,6 +118,8 @@ export class ProjectCommissionFormComponent implements OnInit {
     let value = this.projectCommissionForm.value;
     return {
       anchor: value.anchor!,
+      isAnchorBold: value.isAnchorBold!,
+      isAnchorItalic: value.isAnchorItalic!,
       url: value.url!,
       publicationUrl: value.publicationUrl!,
       publicationDate: value.publicationDate?.format(momentDatePatternIso)!,

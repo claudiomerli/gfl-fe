@@ -3,6 +3,8 @@ export interface SaveProjectCommissionDto{
   period : string
   year : number
   anchor : string
+  isAnchorBold : boolean
+  isAnchorItalic : boolean
   url : string
   title : string
   notes : string

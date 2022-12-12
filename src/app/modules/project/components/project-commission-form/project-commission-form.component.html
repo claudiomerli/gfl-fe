@@ -47,6 +47,10 @@
       <mat-form-field class="w-100">
         <mat-label>Ancora</mat-label>
         <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="type" formControlName="anchor">
+        <div matSuffix>
+          <mat-checkbox class="d-block" *ngIf="isRoleAllowedToChangeCommonField()"  formControlName="isAnchorBold">Grassetto</mat-checkbox>
+          <mat-checkbox class="d-block" *ngIf="isRoleAllowedToChangeCommonField()" formControlName="isAnchorItalic">Corsivo</mat-checkbox>
+        </div>
       </mat-form-field>
     </div>
     <div class="col-4">
@@ -65,8 +69,10 @@
     <div class="col-6">
       <mat-form-field appearance="fill" class="w-100">
         <mat-label>Data di pubblicazione</mat-label>
-        <input [readonly]="!isRoleAllowedToChangePublicationDate()" matInput [matDatepicker]="picker" formControlName="publicationDate">
-        <mat-datepicker-toggle *ngIf="isRoleAllowedToChangePublicationDate()" matSuffix [for]="picker"></mat-datepicker-toggle>
+        <input [readonly]="!isRoleAllowedToChangePublicationDate()" matInput [matDatepicker]="picker"
+               formControlName="publicationDate">
+        <mat-datepicker-toggle *ngIf="isRoleAllowedToChangePublicationDate()" matSuffix
+                               [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </div>
