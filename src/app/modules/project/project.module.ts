@@ -30,6 +30,10 @@ import { ProjectCommissionDialogFormComponent } from './components/project-commi
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { ProjectStatisticsComponent } from './views/project-statistics/project-statistics.component';
+import {MatListModule} from "@angular/material/list";
+import { ProjectNewspaperToolDialogComponent } from './components/project-newspaper-tool-dialog/project-newspaper-tool-dialog.component';
+import {NewspaperModule} from "../newspaper/newspaper.module";
 
 
 @NgModule({
@@ -38,35 +42,39 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     CreateProjectComponent,
     ProjectDetailsComponent,
     ProjectCommissionFormComponent,
-    ProjectCommissionDialogFormComponent
+    ProjectCommissionDialogFormComponent,
+    ProjectStatisticsComponent,
+    ProjectNewspaperToolDialogComponent
   ],
-    imports: [
-        CommonModule,
-        ProjectRoutingModule,
-        ReactiveFormsModule,
-        NgxPaginationModule,
-        NgxAutocompleteModule,
-        FormsModule,
-        SharedModule,
-        MatToolbarModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatSelectModule,
-        MatDialogModule,
-        MatAutocompleteModule,
-        MatCardModule,
-        MatDatepickerModule,
-        MatMomentDateModule,
-        MatExpansionModule,
-        MatStepperModule,
-        MatMenuModule,
-        MatCheckboxModule
-    ],
+  imports: [
+    CommonModule,
+    ProjectRoutingModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
+    NgxAutocompleteModule,
+    FormsModule,
+    SharedModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatAutocompleteModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatExpansionModule,
+    MatStepperModule,
+    MatMenuModule,
+    MatCheckboxModule,
+    MatListModule,
+    NewspaperModule
+  ],
   providers: [
     {
       provide: MAT_DATE_FORMATS,

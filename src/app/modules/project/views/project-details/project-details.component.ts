@@ -32,6 +32,9 @@ import {
 } from "../../../newspaper/components/commission-history-dialog/commission-history-dialog.component";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatSelectChange} from "@angular/material/select";
+import {
+  ProjectNewspaperToolDialogComponent
+} from "../../components/project-newspaper-tool-dialog/project-newspaper-tool-dialog.component";
 
 @Component({
   selector: 'app-project-details',
@@ -329,6 +332,10 @@ export class ProjectDetailsComponent implements OnInit {
     return selected.length != 0 && projectCommission.status != this.selection.selected[0].status;
   }
 
+  getDisabledAllSelectionCheckBox() {
+    return new Set(this.projectToEdit.projectCommissions.map(value => value.status)).size != 1
+  }
+
 
   onBulkAction($event: MatSelectChange) {
     let ids = this.selection.selected.map(value => value.id);
@@ -338,5 +345,26 @@ export class ProjectDetailsComponent implements OnInit {
         this.selection.clear();
         this.update();
       })
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.projectToEdit.projectCommissions.length;
+    return numSelected === numRows;
+  }
+
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.projectToEdit.projectCommissions);
+  }
+
+  openToolNewspaperDialog() {
+    this.matDialog.open(ProjectNewspaperToolDialogComponent,{
+      data : this.activatedRoute.snapshot.paramMap.get("id")
+    })
   }
 }

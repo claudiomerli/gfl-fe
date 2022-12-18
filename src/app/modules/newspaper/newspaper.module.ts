@@ -28,6 +28,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { CommissionHistoryDialogComponent } from './components/commission-history-dialog/commission-history-dialog.component';
 import {MatStepperModule} from "@angular/material/stepper";
+import { NewspaperTableComponent } from './components/newspaper-table/newspaper-table.component';
 
 
 @NgModule({
@@ -38,11 +39,14 @@ import {MatStepperModule} from "@angular/material/stepper";
         NewspaperUpdateComponent,
         NewspaperSearchFilterComponent,
         ChooseOrderDialogComponent,
-        CommissionHistoryDialogComponent
+        CommissionHistoryDialogComponent,
+        NewspaperTableComponent
     ],
-    exports: [
-        NewspaperSearchFilterComponent
-    ],
+  exports: [
+    NewspaperSearchFilterComponent,
+    NewspaperListComponent,
+    NewspaperTableComponent
+  ],
     imports: [
         CommonModule,
         NewspaperRoutingModule,

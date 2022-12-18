@@ -24,23 +24,17 @@ import {regionalGeolocalizzation} from "../../../shared/utils/utils";
 })
 export class NewspaperListComponent implements OnInit {
 
-  @ViewChild("globalSearchInput")
-  globalSearchInput: ElementRef | undefined
-  globalSearch = "";
-
   finance$ = new BehaviorSubject<Finance>(new Finance());
   searchNewspaperDto: SearchNewspaperDto = new SearchNewspaperDto();
 
   actualPage$ = new BehaviorSubject<PageResponseDto<Newspaper>>(new PageResponseDto<Newspaper>());
 
-  displayedColumns: string[] = [];
   actualPagination: PaginationDto = {
     page: 0,
     pageSize: 10,
     sortBy: "id",
     sortDirection: "ASC"
   }
-  regionalGeolocalization = regionalGeolocalizzation;
 
   constructor(private newspaperService: NewspaperService,
               private store: Store,
@@ -50,45 +44,11 @@ export class NewspaperListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.defineColumns()
     this.newspaperService.finance().subscribe(data => this.finance$.next(data));
   }
 
-  defineColumns() {
-    const user = this.store.selectSnapshot(AuthenticationState.user);
 
-    this.displayedColumns.push("id");
-    this.displayedColumns.push("name")
-
-    if (user?.role === "ADMIN")
-      this.displayedColumns.push("purchasedContent");
-    if (user?.role === "ADMIN")
-      this.displayedColumns.push("leftContent");
-    if (user?.role === "ADMIN")
-      this.displayedColumns.push("costEach");
-
-    this.displayedColumns.push("costSell");
-    this.displayedColumns.push("za");
-    this.displayedColumns.push("ip")
-
-    if (user?.role === "ADMIN")
-      this.displayedColumns.push("email");
-
-    this.displayedColumns.push("regionalGeolocalization")
-    this.displayedColumns.push("sensitiveTopics")
-
-    if (user?.role === "ADMIN")
-      this.displayedColumns.push("hidden")
-
-    // this.displayedColumns.push("topics")
-
-    this.displayedColumns.push("actions");
-  }
-
-  onDelete(id
-             :
-             number | undefined
-  ) {
+  onDelete(id: number | undefined) {
     if (id) {
       this.matDialog.open(ConfirmDialogComponent, {
         data: "Sei sicuro di voler emiminare la testata?"
@@ -113,10 +73,7 @@ export class NewspaperListComponent implements OnInit {
       })
   }
 
-  onSubmitSearchForm($event
-                       :
-                       SearchNewspaperDto
-  ) {
+  onSubmitSearchForm($event: SearchNewspaperDto) {
     this.searchNewspaperDto = $event;
     this.actualPagination.page = 0
     this.search();
@@ -140,10 +97,7 @@ export class NewspaperListComponent implements OnInit {
     });
   }
 
-  onSortChange($event
-                 :
-                 Sort
-  ) {
+  onSortChange($event: Sort) {
     if ($event.direction != '') {
       this.actualPagination.sortBy = $event.active
       this.actualPagination.sortDirection = $event.direction?.toUpperCase()
@@ -155,10 +109,7 @@ export class NewspaperListComponent implements OnInit {
     this.search()
   }
 
-  onPageChange($event
-                 :
-                 PageEvent
-  ) {
+  onPageChange($event:PageEvent) {
     this.actualPagination.page = $event.pageIndex
     this.actualPagination.pageSize = $event.pageSize
     this.search()

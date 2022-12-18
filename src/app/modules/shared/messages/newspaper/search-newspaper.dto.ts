@@ -17,4 +17,5 @@ export class SearchNewspaperDto {
   topics?: Array<string>;
   hidden?: boolean;
   sensitiveTopics?: boolean;
+  notUsedInProject?: number;
 }
