@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Testate non utilizzate</h1>
+<div mat-dialog-content>
+  <app-newspaper-search-filter (submitSearchForm)="onSubmitSearchForm($event)"></app-newspaper-search-filter>
+  <ng-container *ngIf="actualPage$|async; let actualPageValue">
+    <app-newspaper-table
+      [actualPageValue]="actualPageValue"
+      [actualPagination]="actualPagination"
+      (sortChange)="onSortChange($event)"
+      (pageChange)="onPageChange($event)"
+      [showActionColumn]="false"
+      [showExport]="false"
+    ></app-newspaper-table>
+  </ng-container>
+</div>
