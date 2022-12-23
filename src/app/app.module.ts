@@ -20,7 +20,6 @@ import {AuthenticationState, LoadInitialAuthentication} from "./modules/store/st
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {TINYMCE_SCRIPT_SRC} from "@tinymce/tinymce-angular";
-import {Observable} from "rxjs";
 
 @NgModule({
   declarations: [

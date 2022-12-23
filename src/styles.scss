@@ -23,13 +23,14 @@
   width: 3rem;
 }
 
-.mat-row{
+.mat-row {
   -webkit-transition: background-color 250ms linear;
   -moz-transition: background-color 250ms linear;
   -o-transition: background-color 250ms linear;
   -ms-transition: background-color 250ms linear;
   transition: background-color 250ms linear;
 }
+
 .mat-row:hover {
   background-color: lightgray;
 }
@@ -51,11 +52,11 @@
   background-color: gray;
 }
 
-app-sidemenu-item.active .menu-item{
+app-sidemenu-item.active .menu-item {
   background-color: lightgray;
 }
 
-.ratio-1-1{
+.ratio-1-1 {
   aspect-ratio: 1/1;
 }
 
@@ -93,7 +94,7 @@ app-sidemenu-item.active .menu-item{
   background-color: gray;
 }
 
-.card-hoverable{
+.card-hoverable {
   cursor: pointer;
   -webkit-transition: background-color 250ms linear !important;
   -moz-transition: background-color 250ms linear !important;
@@ -102,7 +103,7 @@ app-sidemenu-item.active .menu-item{
   transition: background-color 250ms linear !important;
 }
 
-.card-hoverable:hover{
+.card-hoverable:hover {
   background-color: lightgray;
 }
 
@@ -114,7 +115,18 @@ table.fixed-width {
 .fixed-width th,
 .fixed-width td {
   overflow: hidden;
-  width:auto;
+  width: auto;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+
+@media print {
+  .mat-drawer-container, .mat-drawer-content {
+    overflow: visible !important;
+  }
+
+  .print-display-none {
+    display: none;
+  }
 }

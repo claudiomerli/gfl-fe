@@ -1,7 +1,7 @@
 <div class="full-body">
   <div class="h-100 w-100 position-relative">
     <mat-toolbar color="primary" style="height: 7%">
-      <button *isAuthenticated="[]" (click)="drawer.toggle()" mat-icon-button>
+      <button *isAuthenticated="[]" (click)="drawer.toggle()" mat-icon-button class="print-display-none">
         <mat-icon *ngIf="!(menuState|async)">menu</mat-icon>
         <mat-icon *ngIf="(menuState|async)">arrow_back</mat-icon>
       </button>

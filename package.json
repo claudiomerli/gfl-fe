@@ -36,6 +36,7 @@
     "moment-timezone": "^0.5.38",
     "ngx-angular-autocomplete": "^1.0.7",
     "ngx-pagination": "^5.1.1",
+    "ngx-print-element": "^2.0.18",
     "ngx-skeleton-loader": "^6.0.0",
     "ngx-spinner": "^13.1.1",
     "ngx-tinymce": "^12.0.0",
