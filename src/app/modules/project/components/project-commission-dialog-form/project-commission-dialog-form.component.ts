@@ -16,7 +16,8 @@ export class ProjectCommissionDialogFormComponent implements OnInit {
     public dialogRef: MatDialogRef<ProjectCommissionDialogFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       project: Project,
-      projectCommission: ProjectCommission
+      projectCommission: ProjectCommission,
+      preselectedNewspaper: number
     },
     private projectService: ProjectService,
     private matDialog: MatDialog
@@ -24,6 +25,7 @@ export class ProjectCommissionDialogFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.data)
   }
 
   onSaveCommission($event: SaveProjectCommissionDto) {

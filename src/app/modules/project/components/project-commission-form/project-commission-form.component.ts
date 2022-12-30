@@ -29,6 +29,7 @@ export class ProjectCommissionFormComponent implements OnInit {
   isUserPublisher$!: Observable<boolean>;
   @Select(AuthenticationState.isUserInRole("CHIEF_EDITOR"))
   isUserChiefEditor$!: Observable<boolean>;
+  @Input() preselectedNewspaper!: number
 
   constructor(private newspaperService: NewspaperService, private store: Store) {
   }
@@ -65,6 +66,16 @@ export class ProjectCommissionFormComponent implements OnInit {
         title: this.projectCommission.title
       })
       this.newspaperInput.setValue(this.projectCommission.newspaper)
+    }
+
+    if (this.preselectedNewspaper) {
+      console.log("Carico newspaper di default", this.preselectedNewspaper)
+      this.newspaperService
+        .findById(this.preselectedNewspaper)
+        .subscribe(newspaper => {
+          this.projectCommissionForm.controls.newspaper.setValue(newspaper)
+          this.newspaperInput.setValue(newspaper)
+        })
     }
 
     this.newspaperInput.valueChanges

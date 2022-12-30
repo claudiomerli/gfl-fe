@@ -85,6 +85,8 @@ export class ProjectDetailsComponent implements OnInit {
   periodFormControl = new FormControl('');
   yearFormControl = new FormControl<number | null>(null);
 
+  changeStatusFormControl = new FormControl<string | null>(null);
+
   ngOnInit(): void {
     this.loadProject();
     this.projectFormGroup.controls.customer.valueChanges
@@ -154,6 +156,10 @@ export class ProjectDetailsComponent implements OnInit {
               this.nextStateBulkAction.push('SENT_TO_NEWSPAPER', 'SENT_TO_ADMINISTRATION')
             }
             break
+          case 'SENT_TO_ADMINISTRATION':
+            if (['ADMIN'].includes(user.role!)) {
+              this.nextStateBulkAction.push('STANDBY_PUBLICATION', 'SENT_TO_NEWSPAPER')
+            }
         }
       }
     })
@@ -177,6 +183,9 @@ export class ProjectDetailsComponent implements OnInit {
       (periodValue === '' || commissionForm.period === periodValue) &&
       (yearValue === null || commissionForm.year === yearValue)
     )
+
+    this.changeStatusFormControl.setValue(null)
+    this.selection.clear();
   }
 
   loadProject() {
@@ -215,10 +224,6 @@ export class ProjectDetailsComponent implements OnInit {
   projectStatuses = projectStatuses;
   periods = periods;
   nextStateBulkAction: string[] = [];
-
-  get lastStatusChange() {
-    return this.projectToEdit.projectStatusChanges.length - 1
-  };
 
 
   patchForm(project: Project) {
@@ -267,10 +272,12 @@ export class ProjectDetailsComponent implements OnInit {
     this.displayedColumns.push("lastModifiedDate");
   }
 
-  createCommission() {
+  createCommission(preselectedNewspaper?: number) {
+    console.log("Creo nuova commissione", preselectedNewspaper)
     this.matDialog.open(ProjectCommissionDialogFormComponent, {
       data: {
-        project: this.projectToEdit
+        project: this.projectToEdit,
+        preselectedNewspaper: preselectedNewspaper
       }
     }).afterClosed()
       .subscribe(isEdited => {
@@ -342,6 +349,7 @@ export class ProjectDetailsComponent implements OnInit {
     this.projectService.updateCommissionStatusBulk(this.projectToEdit.id, ids, $event.value)
       .subscribe(() => {
         this.nextStateBulkAction = []
+        this.changeStatusFormControl.setValue(null)
         this.selection.clear();
         this.update();
       })
@@ -363,8 +371,13 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   openToolNewspaperDialog() {
-    this.matDialog.open(ProjectNewspaperToolDialogComponent,{
-      data : this.activatedRoute.snapshot.paramMap.get("id")
-    })
+    this.matDialog.open(ProjectNewspaperToolDialogComponent, {
+      data: this.activatedRoute.snapshot.paramMap.get("id")
+    }).afterClosed()
+      .subscribe((idNewspaper) => {
+        if (idNewspaper) {
+          this.createCommission(idNewspaper);
+        }
+      })
   }
 }

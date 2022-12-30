@@ -8,6 +8,7 @@ import {Newspaper} from "../../../shared/model/newspaper";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {Sort} from "@angular/material/sort";
 import {PageEvent} from "@angular/material/paginator";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-project-newspaper-tool-dialog',
@@ -65,5 +66,27 @@ export class ProjectNewspaperToolDialogComponent implements OnInit {
     this.actualPagination.page = $event.pageIndex
     this.actualPagination.pageSize = $event.pageSize
     this.search()
+  }
+
+  onCreateProjectCommission(idNewspaper: number) {
+    this.dialogRef.close(idNewspaper)
+  }
+
+  onExportExcel() {
+    this.newspaperService.exportExcel(this.searchNewspaperDto).subscribe(data => {
+      const contentType = 'application/vnd.ms.excel';
+      const blob = new Blob([data], {type: contentType});
+      const file = new File([blob], `testate non presenti in progetto ${this.projectId}.xlsx`, {type: contentType});
+      saveAs(file);
+    });
+  }
+
+  onExportPdf() {
+    this.newspaperService.exportPDF(this.searchNewspaperDto).subscribe(data => {
+      const contentType = 'application/pdf';
+      const blob = new Blob([data], {type: contentType});
+      const file = new File([blob], `testate non presenti in progetto ${this.projectId}.pdf`, {type: contentType});
+      saveAs(file);
+    });
   }
 }

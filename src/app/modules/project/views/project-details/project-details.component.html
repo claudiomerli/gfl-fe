@@ -118,7 +118,8 @@
             <div class="col-2" *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR']">
               <mat-form-field appearance="fill" class="w-100">
                 <mat-label>Passa in stato</mat-label>
-                <mat-select [disabled]="nextStateBulkAction.length === 0" (selectionChange)="onBulkAction($event)">
+                <mat-select [formControl]="changeStatusFormControl" [disabled]="nextStateBulkAction.length === 0"
+                            (selectionChange)="onBulkAction($event)">
                   <mat-option [value]="null">Seleziona</mat-option>
                   <mat-option *ngFor="let nextState of nextStateBulkAction" [value]="nextState">
                     {{projectCommissionStatus | extractLabelByCode:nextState}}
@@ -148,7 +149,7 @@
                 </mat-checkbox>
               </th>
               <td mat-cell *matCellDef="let row">
-                <mat-checkbox *ngIf="row.status !== 'SENT_TO_ADMINISTRATION'" [disabled]="getDisabledSelectionCheckBox(row)"
+                <mat-checkbox [disabled]="getDisabledSelectionCheckBox(row)"
                               (click)="$event.stopPropagation()"
                               (change)="$event ? selection.toggle(row) : null"
                               [checked]="selection.isSelected(row)">
@@ -158,7 +159,8 @@
 
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef> Stato</th>
-              <td mat-cell *matCellDef="let element"> {{projectCommissionStatus | extractLabelByCode:element.status}} </td>
+              <td mat-cell
+                  *matCellDef="let element"> {{projectCommissionStatus | extractLabelByCode:element.status}} </td>
             </ng-container>
             <ng-container matColumnDef="newspaper">
               <th mat-header-cell *matHeaderCellDef> Testata</th>
@@ -192,7 +194,8 @@
             <ng-container matColumnDef="publicationUrl">
               <th mat-header-cell *matHeaderCellDef> Url di pubblicazione</th>
               <td mat-cell *matCellDef="let element"><a target="_blank" [href]="element.publicationUrl"
-                                                        *ngIf="element.publicationUrl">{{element.publicationUrl}}</a></td>
+                                                        *ngIf="element.publicationUrl">{{element.publicationUrl}}</a>
+              </td>
             </ng-container>
             <ng-container matColumnDef="lastModifiedDate">
               <th mat-header-cell *matHeaderCellDef> Ultima modifica</th>
@@ -221,19 +224,26 @@
       </ng-container>
     </div>
     <div class="col-3 mat-typography" *ngIf="projectToEdit">
-      <button (click)="openToolNewspaperDialog()" mat-raised-button color="primary" class="my-3 w-100"><mat-icon>newspaper</mat-icon> Tool testate</button>
-      <button [routerLink]="['statistics']" mat-raised-button color="primary" class="mb-3 w-100"><mat-icon>trending_up</mat-icon> Statistiche</button>
+      <button *isAuthenticated="['ADMIN','CHIEF_EDITOR','CUSTOMER']" (click)="openToolNewspaperDialog()"
+              mat-raised-button color="primary" class="my-3 w-100">
+        <mat-icon>newspaper</mat-icon>
+        Tool testate
+      </button>
+      <button [routerLink]="['statistics']" mat-raised-button color="primary" class="mb-3 w-100">
+        <mat-icon>trending_up</mat-icon>
+        Statistiche
+      </button>
       <div class="fs-4">
         Storico progetto
       </div>
-      <mat-vertical-stepper [selectedIndex]="lastStatusChange" [linear]="true" class="py-3">
+      <mat-vertical-stepper [selectedIndex]="projectToEdit.projectStatusChanges.length -1" [linear]="true" class="py-3">
         <mat-step
           [optional]="false"
           [completed]="true"
           [editable]="false"
           *ngFor="let statusChanges of projectToEdit.projectStatusChanges">
           <ng-template matStepLabel>
-            <span class="text-dark">{{statusChanges.createdDate | date:"yyyy-MM-dd"}}</span> -
+            <span class="text-dark">{{statusChanges.createdDate | date:"dd/MM/yyyy"}}</span> -
             <span>{{projectStatuses | extractLabelByCode:statusChanges.projectStatus}}</span>
           </ng-template>
         </mat-step>

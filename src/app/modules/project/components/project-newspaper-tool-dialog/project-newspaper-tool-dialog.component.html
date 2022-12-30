@@ -7,8 +7,12 @@
       [actualPagination]="actualPagination"
       (sortChange)="onSortChange($event)"
       (pageChange)="onPageChange($event)"
+      (createProjectCommission)="onCreateProjectCommission($event)"
+      (exportExcel)="onExportExcel()"
+      (exportPDF)="onExportPdf()"
       [showActionColumn]="false"
-      [showExport]="false"
+      [showProjectActionColumn]="true"
+      [showExport]="true"
     ></app-newspaper-table>
   </ng-container>
 </div>

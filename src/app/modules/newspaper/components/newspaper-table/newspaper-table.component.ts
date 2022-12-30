@@ -19,6 +19,7 @@ export class NewspaperTableComponent implements OnInit {
   @Input() actualPagination!: PaginationDto;
 
   @Input() showActionColumn: boolean = true;
+  @Input() showProjectActionColumn: boolean = false;
   @Input() showExport: boolean = true;
 
   @Output() sortChange = new EventEmitter<Sort>();
@@ -27,6 +28,7 @@ export class NewspaperTableComponent implements OnInit {
   @Output() pageChange = new EventEmitter<PageEvent>();
   @Output() exportExcel = new EventEmitter<void>();
   @Output() exportPDF = new EventEmitter<void>();
+  @Output() createProjectCommission = new EventEmitter<number>();
   regionalGeolocalization = regionalGeolocalizzation;
   displayedColumns: string[] = [];
 
@@ -65,6 +67,11 @@ export class NewspaperTableComponent implements OnInit {
 
     if (this.showActionColumn)
       this.displayedColumns.push("actions");
+
+    if(this.showProjectActionColumn){
+      this.displayedColumns.push("project_actions");
+    }
+
   }
 
   onSortChange($event: Sort) {
@@ -89,5 +96,9 @@ export class NewspaperTableComponent implements OnInit {
 
   onExportPDF() {
     this.exportPDF.emit()
+  }
+
+  onCreateProjectCommissionCommission(newspaper : Newspaper) {
+    this.createProjectCommission.emit(newspaper.id)
   }
 }

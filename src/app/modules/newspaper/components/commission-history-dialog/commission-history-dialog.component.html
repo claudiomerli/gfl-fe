@@ -7,7 +7,7 @@
       [editable]="false"
       *ngFor="let statusChanges of data.projectStatusChanges">
       <ng-template matStepLabel>
-        <span class="text-dark">{{statusChanges.createdDate | date:"yyyy-MM-dd"}}</span> -
+        <span class="text-dark">{{statusChanges.createdDate | date:"dd/MM/yyyy"}}</span> -
         <span>{{projectCommissionStatus | extractLabelByCode:statusChanges.projectCommissionStatus}}</span>
       </ng-template>
     </mat-step>

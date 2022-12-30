@@ -43,7 +43,7 @@
                          (click)="openRequestQuoteEditDialog(requestQuote)">
             <mat-icon mat-list-icon>request_quote</mat-icon>
             <div mat-line>{{requestQuote.total| currency:"EUR"}}</div>
-            <div mat-line> {{requestQuote.createdDate | date:"YYYY-MM-dd"}} </div>
+            <div mat-line> {{requestQuote.createdDate | date:"dd/MM/yyyy"}} </div>
           </mat-list-item>
           <button type="button" (click)="onCreateRequestQuote()" mat-raised-button color="primary" class="w-100 mt-3"
                   *isAuthenticated="['CUSTOMER']">

@@ -1,6 +1,7 @@
 <h1 mat-dialog-title>{{data.projectCommission ? 'Modifica' : 'Crea'}} commissione</h1>
 <div mat-dialog-content>
   <app-project-commission-form [projectCommission]="data.projectCommission"
+                               [preselectedNewspaper]="data.preselectedNewspaper"
                                (save)="onSaveCommission($event)"
                                (delete)="onDeleteCommission()"
                                (cancel)="dialogRef.close()"

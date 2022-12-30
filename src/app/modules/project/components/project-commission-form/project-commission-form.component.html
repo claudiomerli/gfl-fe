@@ -148,6 +148,20 @@
             Invia in amministrazione
           </button>
         </ng-container>
+        <ng-container *isAuthenticated="['ADMIN']">
+          <button mat-raised-button color="primary" class="me-1"
+                  *ngIf="['SENT_TO_ADMINISTRATION'].includes(projectCommission.status)"
+                  (click)="onChangeStatus('SENT_TO_NEWSPAPER')">
+            <mat-icon>outgoing_mail</mat-icon>
+            Inviato alla testata
+          </button>
+          <button mat-raised-button color="primary" class="me-1"
+                  *ngIf="['SENT_TO_ADMINISTRATION'].includes(projectCommission.status)"
+                  (click)="onChangeStatus('STANDBY_PUBLICATION')">
+            <mat-icon>front_hand</mat-icon>
+            Stand By
+          </button>
+        </ng-container>
       </div>
     </div>
   </div>
