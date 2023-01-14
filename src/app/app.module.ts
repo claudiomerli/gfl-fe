@@ -7,7 +7,6 @@ import {SharedModule} from "./modules/shared/shared.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {SecurityInterceptor} from "./modules/shared/interceptors/security.interceptor";
 import {NgxPaginationModule} from "ngx-pagination";
-import {ToastComponent} from "./modules/toast/toast.component";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {NgxsModule, Store} from "@ngxs/store";
@@ -23,8 +22,7 @@ import {TINYMCE_SCRIPT_SRC} from "@tinymce/tinymce-angular";
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ToastComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

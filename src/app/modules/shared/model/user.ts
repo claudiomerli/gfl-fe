@@ -1,4 +1,3 @@
-import {Customer} from "./customer";
 
 export class User {
 
@@ -11,6 +10,5 @@ export class User {
   level : string | undefined;
   remuneration : string | undefined;
   role : string | undefined;
-  customer: Customer | undefined;
 
 }

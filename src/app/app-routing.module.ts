@@ -29,33 +29,6 @@ const routes: Routes = [
     data: {availableRoles: ['ADMIN', 'CUSTOMER']}
   },
   {
-    path: 'customers',
-    loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule),
-    canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN']}
-  },
-  {
-    path: 'contents',
-    loadChildren: () => import('./modules/content/content.module').then(m => m.ContentModule),
-    canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN', 'EDITOR', 'CHIEF_EDITOR']}
-  },
-  {
-    path: 'suggests',
-    loadChildren: () => import('./modules/suggest/suggest.module').then(m => m.SuggestModule),
-    canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN']}
-  },
-  {
-    path: 'reserved',
-    loadChildren: () => import('./modules/reserved/reserved.module').then(m => m.ReservedModule)
-  },
-  {
-    path: "customer",
-    loadChildren: () => import("./modules/customer/customer.module").then(m => m.CustomerModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: "orders",
     loadChildren: () => import("./modules/order/order.module").then(m => m.OrderModule),
     canActivate: [AuthGuard],

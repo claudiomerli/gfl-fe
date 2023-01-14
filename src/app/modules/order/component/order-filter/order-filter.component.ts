@@ -5,7 +5,6 @@ import {UserService} from "../../../shared/services/user.service";
 import {EMPTY, fromEvent} from "rxjs";
 import {debounceTime, filter, switchMap} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
-import {Customer} from "../../../shared/model/customer";
 import {User} from "../../../shared/model/user";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {orderStatus} from "../../../shared/utils/utils";

@@ -5,7 +5,6 @@ import {User} from "../../../shared/model/user";
 import {PageResponseDto} from "../../../shared/messages/page-response.dto";
 import {PaginationDto} from "../../../shared/messages/pagination.dto";
 import {debounceTime} from "rxjs/operators";
-import {SortEvent} from "../../../shared/directives/sortable.directive";
 import {userRoles} from "../../../shared/utils/utils";
 import {PageEvent} from "@angular/material/paginator";
 import {Sort} from "@angular/material/sort";

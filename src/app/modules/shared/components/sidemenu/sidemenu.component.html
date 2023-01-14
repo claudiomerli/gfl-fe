@@ -1,7 +1,7 @@
 <div>
   <div class="p-3 pb-0 mat-typography fs-5">
     <div class="fw-bold">{{(user$| async)!?.fullname}}</div>
-    <small>Ruolo: {{(user$| async)!?.role | roleDescription}}</small>
+    <small>Ruolo: {{userRoles | extractLabelByCode:(user$| async)!.role}}</small>
   </div>
   <mat-divider class="my-3"></mat-divider>
   <!--  <a class="d-flex align-items-center justify-content-start" mat-button-->
@@ -26,14 +26,15 @@
   <app-sidemenu-item [icon]="'newspaper'" [title]="'Testate'" *isAuthenticated="['ADMIN','CUSTOMER']"
                      routerLinkActive="active" routerLink="/newspapers"></app-sidemenu-item>
   <app-sidemenu-item [icon]="'attach_money'" [title]="'Ordini'" *isAuthenticated="['ADMIN','CUSTOMER']"
-                     routerLinkActive="active" routerLink="/orders" [routerLinkActiveOptions]="{exact: true}"></app-sidemenu-item>
+                     routerLinkActive="active" routerLink="/orders"
+                     [routerLinkActiveOptions]="{exact: true}"></app-sidemenu-item>
   <app-sidemenu-item [icon]="'feed'" [title]="'Pacchetti comunicati stampa'" *isAuthenticated="['ADMIN','CUSTOMER']"
                      routerLinkActive="active" routerLink="/orders/pack" [indent]="true"></app-sidemenu-item>
 
   <app-sidemenu-item [icon]="'assessment'" [title]="'Gestione progetti'"
                      routerLinkActive="active" routerLink="/projects"></app-sidemenu-item>
-<!--  <app-sidemenu-item [icon]="'trending_up'" [title]="'Statistiche'"-->
-<!--                     routerLinkActive="active" routerLink="/statistics"></app-sidemenu-item>-->
+  <!--  <app-sidemenu-item [icon]="'trending_up'" [title]="'Statistiche'"-->
+  <!--                     routerLinkActive="active" routerLink="/statistics"></app-sidemenu-item>-->
 
   <ng-container *isAuthenticated="['ADMIN']">
     <mat-divider class="my-3"></mat-divider>

@@ -1,6 +1,4 @@
-import {Customer} from "./customer";
 import {Newspaper} from "./newspaper";
-import {Validators} from "@angular/forms";
 import {User} from "./user";
 
 export interface Project {

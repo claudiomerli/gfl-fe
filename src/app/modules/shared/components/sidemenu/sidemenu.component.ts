@@ -3,6 +3,7 @@ import {Select, Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {Observable} from "rxjs";
 import {User} from "../../model/user";
+import {userRoles} from "../../utils/utils";
 
 @Component({
   selector: 'app-sidemenu',
@@ -14,6 +15,7 @@ export class SidemenuComponent implements OnInit {
   @Select(AuthenticationState.user) user$!: Observable<User>
 
   @Output() logout: EventEmitter<void> = new EventEmitter<void>();
+  userRoles = userRoles;
 
   ngOnInit(): void {
 
