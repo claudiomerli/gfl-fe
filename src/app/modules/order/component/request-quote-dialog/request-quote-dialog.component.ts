@@ -125,8 +125,8 @@ export class RequestQuoteDialogComponent implements OnInit {
 
   generateRequestQuote(format: string) {
     this.orderService.generateRequestQuote(this.requestQuoteToEdit!.order.id, this.requestQuoteToEdit!.id, format)
-      .subscribe((response: HttpResponse<Blob>) => {
-        saveAs(response.body!, (this.order?.name || this.requestQuoteToEdit?.order.name) + "_preventivo." + format)
+      .subscribe((response: Blob) => {
+        saveAs(response, (this.order?.name || this.requestQuoteToEdit?.order.name) + "_preventivo." + format)
         if (!this.isEdit) {
           this.dialogRef.close()
         }

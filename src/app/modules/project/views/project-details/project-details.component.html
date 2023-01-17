@@ -214,6 +214,10 @@
                     <mat-icon>history</mat-icon>
                     Storico
                   </button>
+                  <button mat-menu-item (click)="openContent(element)">
+                    <mat-icon>newspaper</mat-icon>
+                    Vai a contenuto
+                  </button>
                 </mat-menu>
               </td>
             </ng-container>
@@ -232,6 +236,11 @@
       <button [routerLink]="['statistics']" mat-raised-button color="primary" class="mb-3 w-100">
         <mat-icon>trending_up</mat-icon>
         Statistiche
+      </button>
+      <button *isAuthenticated="['ADMIN','CHIEF_EDITOR','PUBLISHER']" (click)="exportProject()" mat-raised-button
+              color="primary" class="mb-3 w-100">
+        <mat-icon>download</mat-icon>
+        Esporta progetto
       </button>
       <div class="fs-4">
         Storico progetto

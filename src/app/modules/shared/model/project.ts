@@ -33,6 +33,9 @@ export interface ProjectCommission {
   createdDate: string
   lastModifiedDate: string
   projectStatusChanges: ProjectStatusChange[]
+  projectId: number;
+  contentId: number;
+  project: Project
 }
 
 export interface ProjectStatusChange {

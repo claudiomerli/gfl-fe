@@ -80,13 +80,12 @@ export class OrderService {
     return this.httpClient.put<RequestQuote>(environment.apiBaseurl + `/order/${orderId}/request-quote/${requestQuoteId}`, saveRequestQuoteDto)
   }
 
-  generateRequestQuote(orderId: number, requestQuoteId: number, format: string): Observable<HttpResponse<any>> {
-    return this.httpClient.get<HttpResponse<any>>(environment.apiBaseurl + `/order/${orderId}/request-quote/${requestQuoteId}/generate`, {
+  generateRequestQuote(orderId: number, requestQuoteId: number, format: string): Observable<Blob> {
+    return this.httpClient.get(environment.apiBaseurl + `/order/${orderId}/request-quote/${requestQuoteId}/generate`, {
       params: {
         format
       },
-      observe: "response",
-      responseType: "blob" as "json"
+      responseType: "blob"
     })
   }
 

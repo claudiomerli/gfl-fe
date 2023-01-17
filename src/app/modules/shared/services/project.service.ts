@@ -96,4 +96,10 @@ export class ProjectService {
       ids
     })
   }
+
+  export(id: number) : Observable<Blob> {
+    return this.httpClient.get(environment.apiBaseurl + `/project/${id}/export`,{
+      responseType: "blob"
+    })
+  }
 }

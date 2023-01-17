@@ -29,6 +29,7 @@ export const userRoles = [
   {code: 'ADMIN', label: 'Amministratore'},
   {code: 'CUSTOMER', label: 'Cliente'},
   {code: 'CHIEF_EDITOR', label: 'Capo redattore'},
+  {code: 'EDITOR', label: 'Redattore'},
   {code: 'PUBLISHER', label: 'Pubblicatore'},
   {code: 'ADMINISTRATION', label: 'Amministrazione fatturazione'},
 ]
@@ -86,6 +87,12 @@ export const orderStatus = [
   {label: 'Respinto', code: 'CANCELED'}
 ]
 
+export const contentStatus = [
+  {label: 'In lavorazione', code: 'WORKING'},
+  {label: 'Inviato al capo redattore', code: 'DELIVERED'},
+  {label: 'Inviato al cliente', code: 'SENT_TO_CUSTOMER'},
+  {label: 'Approvato', code: 'APPROVED'}
+]
 
 export const projectCommissionStatus = [
   {label: 'Creato', code: 'CREATED', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR']},

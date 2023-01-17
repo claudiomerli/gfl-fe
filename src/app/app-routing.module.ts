@@ -14,7 +14,14 @@ const routes: Routes = [
   {
     path: "projects",
     loadChildren: () => import("./modules/project/project.module").then(m => m.ProjectModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN', 'CHIEF_EDITOR', 'CUSTOMER', 'PUBLISHER', 'ADMINISTRATION']}
+  },
+  {
+    path: "content",
+    loadChildren: () => import("./modules/content/content.module").then(m => m.ContentModule),
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN', 'CHIEF_EDITOR', 'CUSTOMER', 'PUBLISHER', 'ADMINISTRATION', 'EDITOR']}
   },
   {
     path: "users",

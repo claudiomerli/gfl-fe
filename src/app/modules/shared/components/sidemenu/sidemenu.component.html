@@ -1,25 +1,9 @@
 <div>
-  <div class="p-3 pb-0 mat-typography fs-5">
+  <div class="p-3 pb-0 mat-typography fs-5" *isAuthenticated="'ALL'">
     <div class="fw-bold">{{(user$| async)!?.fullname}}</div>
     <small>Ruolo: {{userRoles | extractLabelByCode:(user$| async)!.role}}</small>
   </div>
   <mat-divider class="my-3"></mat-divider>
-  <!--  <a class="d-flex align-items-center justify-content-start" mat-button-->
-  <!--     *isAuthenticated="['ADMIN', 'CUSTOMER']" routerLinkActive="active" routerLink="/projects/home">-->
-  <!--    <mat-icon>engineering</mat-icon>-->
-  <!--    <span class="mx-3">Progetti</span>-->
-  <!--  </a>-->
-
-  <!--  <a class="d-flex align-items-center justify-content-start" mat-button-->
-  <!--     *isAuthenticated="['ADMIN', 'CUSTOMER']" routerLinkActive="active" routerLink="/price-quotation">-->
-  <!--    <mat-icon>payments</mat-icon>-->
-  <!--    <span class="mx-3">Preventivi</span>-->
-  <!--  </a>-->
-
-  <!--  <a class="d-flex align-items-center justify-content-start" mat-button-->
-  <!--     *isAuthenticated="['ADMIN', 'EDITOR','CHIEF_EDITOR']" routerLinkActive="active" routerLink="/contents">-->
-  <!--    <mat-icon>history_edu</mat-icon>-->
-  <!--    <span class="mx-3">Contenuti</span>-->
   <!--  </a>-->
   <app-sidemenu-item [icon]="'campaign'" [title]="'News'" *isAuthenticated="['ADMIN','CUSTOMER']"
                      routerLinkActive="active" routerLink="/news"></app-sidemenu-item>
@@ -31,10 +15,10 @@
   <app-sidemenu-item [icon]="'feed'" [title]="'Pacchetti comunicati stampa'" *isAuthenticated="['ADMIN','CUSTOMER']"
                      routerLinkActive="active" routerLink="/orders/pack" [indent]="true"></app-sidemenu-item>
 
-  <app-sidemenu-item [icon]="'assessment'" [title]="'Gestione progetti'"
+  <app-sidemenu-item [icon]="'assessment'" [title]="'Gestione progetti'" *isNotInRole="['EDITOR']"
                      routerLinkActive="active" routerLink="/projects"></app-sidemenu-item>
-  <!--  <app-sidemenu-item [icon]="'trending_up'" [title]="'Statistiche'"-->
-  <!--                     routerLinkActive="active" routerLink="/statistics"></app-sidemenu-item>-->
+  <app-sidemenu-item [icon]="'edit_square'" [title]="'Gestione contenuti'"
+                     routerLinkActive="active" routerLink="/content"></app-sidemenu-item>
 
   <ng-container *isAuthenticated="['ADMIN']">
     <mat-divider class="my-3"></mat-divider>

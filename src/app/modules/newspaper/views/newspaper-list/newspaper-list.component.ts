@@ -15,7 +15,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {ChooseOrderDialogComponent} from "../../components/choose-order-dialog/choose-order-dialog.component";
 import {OrderService} from "../../../shared/services/order.service";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
-import {regionalGeolocalizzation} from "../../../shared/utils/utils";
 
 @Component({
   selector: 'app-newspaper-list',

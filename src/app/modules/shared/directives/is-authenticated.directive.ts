@@ -17,8 +17,8 @@ export class IsAuthenticatedDirective implements OnInit, OnDestroy {
               private viewContainer: ViewContainerRef, private store: Store) {
   }
 
-  @Input() set isAuthenticated(roles: string[] | '') {
-    this.requiredRoles = roles == '' ? [] : roles
+  @Input() set isAuthenticated(roles: string[] | '' | 'ALL') {
+    this.requiredRoles = roles === '' || roles === "ALL" ? [] : roles
   }
 
   ngOnInit(): void {

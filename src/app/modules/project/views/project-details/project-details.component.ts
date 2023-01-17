@@ -35,6 +35,7 @@ import {MatSelectChange} from "@angular/material/select";
 import {
   ProjectNewspaperToolDialogComponent
 } from "../../components/project-newspaper-tool-dialog/project-newspaper-tool-dialog.component";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-project-details',
@@ -378,6 +379,17 @@ export class ProjectDetailsComponent implements OnInit {
         if (idNewspaper) {
           this.createCommission(idNewspaper);
         }
+      })
+  }
+
+  openContent(element: ProjectCommission) {
+    this.router.navigate(['/content', element.contentId])
+  }
+
+  exportProject() {
+    this.projectService.export(this.projectToEdit.id)
+      .subscribe(value => {
+        saveAs(value, this.projectToEdit.name + ".xlsx")
       })
   }
 }
