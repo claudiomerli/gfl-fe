@@ -18,7 +18,7 @@ const routes: Routes = [
     data: {availableRoles: ['ADMIN', 'CHIEF_EDITOR', 'CUSTOMER', 'PUBLISHER', 'ADMINISTRATION']}
   },
   {
-    path: "content",
+    path: "contents",
     loadChildren: () => import("./modules/content/content.module").then(m => m.ContentModule),
     canActivate: [AuthGuard],
     data: {availableRoles: ['ADMIN', 'CHIEF_EDITOR', 'CUSTOMER', 'PUBLISHER', 'ADMINISTRATION', 'EDITOR']}

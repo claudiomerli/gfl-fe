@@ -18,7 +18,7 @@
   <app-sidemenu-item [icon]="'assessment'" [title]="'Gestione progetti'" *isNotInRole="['EDITOR']"
                      routerLinkActive="active" routerLink="/projects"></app-sidemenu-item>
   <app-sidemenu-item [icon]="'edit_square'" [title]="'Gestione contenuti'"
-                     routerLinkActive="active" routerLink="/content"></app-sidemenu-item>
+                     routerLinkActive="active" routerLink="/contents"></app-sidemenu-item>
 
   <ng-container *isAuthenticated="['ADMIN']">
     <mat-divider class="my-3"></mat-divider>

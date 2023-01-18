@@ -31,6 +31,9 @@ export class RedirectGuard implements CanActivate {
         case "CHIEF_EDITOR":
           this.router.navigate(['/projects'])
           break;
+        case "EDITOR":
+          this.router.navigate(['/contents'])
+          break;
       }
     }
 

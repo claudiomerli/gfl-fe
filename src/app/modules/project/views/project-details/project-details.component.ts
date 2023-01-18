@@ -383,7 +383,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   openContent(element: ProjectCommission) {
-    this.router.navigate(['/content', element.contentId])
+    this.router.navigate(['/contents', element.contentId])
   }
 
   exportProject() {
