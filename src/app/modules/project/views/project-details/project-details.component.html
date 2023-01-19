@@ -214,10 +214,10 @@
                     <mat-icon>history</mat-icon>
                     Storico
                   </button>
-                  <button mat-menu-item (click)="openContent(element)">
+                  <a mat-menu-item [href]="'/contents/'+element.contentId" target="_blank">
                     <mat-icon>newspaper</mat-icon>
                     Vai a contenuto
-                  </button>
+                  </a>
                 </mat-menu>
               </td>
             </ng-container>

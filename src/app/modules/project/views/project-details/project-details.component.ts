@@ -381,11 +381,6 @@ export class ProjectDetailsComponent implements OnInit {
         }
       })
   }
-
-  openContent(element: ProjectCommission) {
-    this.router.navigate(['/contents', element.contentId])
-  }
-
   exportProject() {
     this.projectService.export(this.projectToEdit.id)
       .subscribe(value => {

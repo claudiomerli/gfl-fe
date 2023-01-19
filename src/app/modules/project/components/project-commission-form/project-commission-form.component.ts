@@ -62,7 +62,7 @@ export class ProjectCommissionFormComponent implements OnInit {
         year: this.projectCommission.year,
         url: this.projectCommission.url,
         publicationUrl: this.projectCommission.publicationUrl,
-        publicationDate: moment(this.projectCommission.publicationDate, momentDatePatternIso),
+        publicationDate: this.projectCommission.publicationDate ? moment(this.projectCommission.publicationDate, momentDatePatternIso) : null,
         title: this.projectCommission.title
       })
       this.newspaperInput.setValue(this.projectCommission.newspaper)
