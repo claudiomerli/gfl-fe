@@ -51,6 +51,24 @@
             </mat-autocomplete>
           </mat-form-field>
         </div>
+        <div class="col" *isNotInRole="['EDITOR']">
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Redattore</mat-label>
+            <input type="text"
+                   placeholder="Cerca redattore..."
+                   matInput
+                   formControlName="editor"
+                   [matAutocomplete]="autoEditor"
+            >
+            <mat-autocomplete #autoEditor="matAutocomplete"
+                              [displayWith]="displayFullnameEditor"
+            >
+              <mat-option *ngFor="let option of editors" [value]="option">
+                {{option.fullname}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
       </div>
 
     </form>
@@ -76,6 +94,10 @@
       <ng-container matColumnDef="newspaper">
         <th mat-header-cell *matHeaderCellDef mat-sort-header="projectCommission.newspaper.name"> Testata</th>
         <td mat-cell *matCellDef="let element"> {{element.projectCommission.newspaper?.name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="editor">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="editor.fullname"> Redattore</th>
+        <td mat-cell *matCellDef="let element"> {{element.editor?.fullname}} </td>
       </ng-container>
 
       <ng-container matColumnDef="status">
