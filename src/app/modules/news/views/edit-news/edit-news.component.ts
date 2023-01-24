@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SaveNewsDto} from "../../../shared/messages/news/save-news.dto";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NewsService} from "../../../shared/services/news.service";
-import {News} from "../../../shared/model/news";
+import {News} from "../../../shared/messages/news/news";
 
 @Component({
   selector: 'app-edit-news',

@@ -3,7 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {NgxPrintElementService} from "ngx-print-element";
 import {ProjectService} from "../../../shared/services/project.service";
-import {Project} from "../../../shared/model/project";
+import {Project} from "../../../shared/messages/project/project";
 
 @Component({
   selector: 'app-project-statistics',

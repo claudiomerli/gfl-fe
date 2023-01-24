@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Order} from "../../../../../shared/model/order";
+import {Order} from "../../../../../shared/messages/order/order";
 import {NewspaperService} from "../../../../../shared/services/newspaper.service";
 import {FormArray, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
-import {Newspaper} from "../../../../../shared/model/newspaper";
+import {Newspaper} from "../../../../../shared/messages/newspaper/newspaper";
 import {debounceTime, switchMap} from "rxjs/operators";
 import {EMPTY} from "rxjs";
-import {OrderPack} from "../../../../../shared/model/order-pack";
+import {OrderPack} from "../../../../../shared/messages/order/order-pack";
 import {SaveOrderPackDto} from "../../../../../shared/messages/order/save-order-pack.dto";
 
 @Component({

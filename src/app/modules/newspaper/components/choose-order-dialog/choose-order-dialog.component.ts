@@ -2,10 +2,10 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {OrderService} from "../../../shared/services/order.service";
-import {PaginationDto} from "../../../shared/messages/pagination.dto";
-import {Order} from "../../../shared/model/order";
+import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
+import {Order} from "../../../shared/messages/order/order";
 import {SaveOrderElementDto} from "../../../shared/messages/order/save-order.dto";
-import {Newspaper} from "../../../shared/model/newspaper";
+import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 
 @Component({
   selector: 'app-choose-order-dialog',

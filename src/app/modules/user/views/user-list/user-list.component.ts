@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UserService} from "../../../shared/services/user.service";
 import {BehaviorSubject, fromEvent} from "rxjs";
-import {User} from "../../../shared/model/user";
-import {PageResponseDto} from "../../../shared/messages/page-response.dto";
-import {PaginationDto} from "../../../shared/messages/pagination.dto";
+import {User} from "../../../shared/messages/auth/user";
+import {PageResponseDto} from "../../../shared/messages/common/page-response.dto";
+import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {debounceTime} from "rxjs/operators";
 import {userRoles} from "../../../shared/utils/utils";
 import {PageEvent} from "@angular/material/paginator";

@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {Observable} from "rxjs";
-import {PaginationDto} from "../messages/pagination.dto";
-import {PageResponseDto} from "../messages/page-response.dto";
-import {User} from "../model/user";
+import {PaginationDto} from "../messages/common/pagination.dto";
+import {PageResponseDto} from "../messages/common/page-response.dto";
+import {User} from "../messages/auth/user";
 import {EditUserDto} from "../messages/users/edit-user.dto";
 import {SaveUserDto} from "../messages/users/save-user.dto";
 

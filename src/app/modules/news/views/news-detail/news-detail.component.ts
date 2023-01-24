@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NewsService} from "../../../shared/services/news.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {News} from "../../../shared/model/news";
+import {News} from "../../../shared/messages/news/news";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 

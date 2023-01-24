@@ -4,4 +4,5 @@ export interface SaveProjectDto {
   billingAmount?: number
   billingDescription?: string
   expiration?: string
+  hintBody?: string
 }

@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {PaginationDto} from "../../../shared/messages/pagination.dto";
+import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {OrderService} from "../../../shared/services/order.service";
 import {FindOrderDto} from "../../../shared/messages/order/find-order.dto";
-import {Order} from "../../../shared/model/order";
-import {PageResponseDto} from "../../../shared/messages/page-response.dto";
+import {Order} from "../../../shared/messages/order/order";
+import {PageResponseDto} from "../../../shared/messages/common/page-response.dto";
 import {Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
-import {User} from "../../../shared/model/user";
+import {User} from "../../../shared/messages/auth/user";
 import {orderStatus} from "../../../shared/utils/utils";
 import {PageEvent} from "@angular/material/paginator";
 import {Sort} from "@angular/material/sort";

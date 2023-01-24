@@ -1,6 +1,6 @@
 import {Action, createSelector, Selector, State, StateContext} from "@ngxs/store";
 import {Injectable} from "@angular/core";
-import {User} from "../../shared/model/user";
+import {User} from "../../shared/messages/auth/user";
 import {AuthService} from "../../shared/services/auth.service";
 import {catchError, map, switchMap, tap} from "rxjs/operators";
 import {Router} from "@angular/router";

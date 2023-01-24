@@ -1,4 +1,4 @@
-import {Order} from "../../model/order";
+import {Order} from "./order";
 
 export interface SaveRequestQuoteDto {
   header: string

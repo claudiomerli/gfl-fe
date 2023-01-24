@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {OrderService} from "../../../shared/services/order.service";
 import {SaveOrderDto} from "../../../shared/messages/order/save-order.dto";
-import {Order} from "../../../shared/model/order";
+import {Order} from "../../../shared/messages/order/order";
 import {switchMap} from "rxjs/operators";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 import {RequestQuoteDialogComponent} from "../../component/request-quote-dialog/request-quote-dialog.component";
-import {RequestQuote} from "../../../shared/model/request-quote";
+import {RequestQuote} from "../../../shared/messages/order/request-quote";
 
 @Component({
   selector: 'app-order-update',

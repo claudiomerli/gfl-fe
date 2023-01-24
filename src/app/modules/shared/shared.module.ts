@@ -4,7 +4,7 @@ import {RouterModule} from "@angular/router";
 
 import {IsAuthenticatedDirective} from './directives/is-authenticated.directive';
 
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SpinnerComponent} from "./components/spinner/spinner.component";
 import {ErrorsComponent} from "./components/errors/errors.component";
 import {IsNotInRoleDirective} from "./directives/is-not-in-role.directive";
@@ -18,6 +18,9 @@ import { SidemenuItemComponent } from './components/sidemenu-item/sidemenu-item.
 import { ImageUploaderComponent } from './components/image-uploader/image-uploader.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { ContentHintFormComponent } from './components/content-hint-form/content-hint-form.component';
+import {EditorComponent} from "@tinymce/tinymce-angular";
+import {NgxDropzoneModule} from "ngx-dropzone";
 
 @NgModule({
   declarations: [
@@ -29,17 +32,19 @@ import {MatDialogModule} from "@angular/material/dialog";
     ExtractLabelByCodePipe,
     SidemenuItemComponent,
     ImageUploaderComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ContentHintFormComponent
   ],
-    exports: [
-        IsAuthenticatedDirective,
-        IsNotInRoleDirective,
-        SpinnerComponent,
-        ErrorsComponent,
-        SidemenuComponent,
-        ExtractLabelByCodePipe,
-        ImageUploaderComponent
-    ],
+  exports: [
+    IsAuthenticatedDirective,
+    IsNotInRoleDirective,
+    SpinnerComponent,
+    ErrorsComponent,
+    SidemenuComponent,
+    ExtractLabelByCodePipe,
+    ImageUploaderComponent,
+    ContentHintFormComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,
@@ -48,7 +53,10 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatIconModule,
     MatMenuModule,
     MatDividerModule,
-    MatDialogModule
+    MatDialogModule,
+    EditorComponent,
+    NgxDropzoneModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule {

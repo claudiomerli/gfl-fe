@@ -4,9 +4,9 @@ import {ActivatedRoute} from "@angular/router";
 import {Content} from "../../../shared/messages/content/content";
 import {UserService} from "../../../shared/services/user.service";
 import {FormControl, FormGroup} from "@angular/forms";
-import {User} from "../../../shared/model/user";
+import {User} from "../../../shared/messages/auth/user";
 import {debounceTime} from "rxjs/operators";
-import {PaginationDto} from "../../../shared/messages/pagination.dto";
+import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatDrawer} from "@angular/material/sidenav";
 import * as moment from "moment";
@@ -14,6 +14,10 @@ import {contentStatus} from "../../../shared/utils/utils";
 import {Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {saveAs} from "file-saver";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  ContentHintDialogFormComponent
+} from "../../components/content-hint-dialog-form/content-hint-dialog-form.component";
 
 @Component({
   selector: 'app-content-detail',
@@ -23,7 +27,7 @@ import {saveAs} from "file-saver";
 export class ContentDetailComponent implements OnInit {
 
 
-  constructor(private contentService: ContentService, private activatedRoute: ActivatedRoute, private userService: UserService, private store: Store) {
+  constructor(private contentService: ContentService, private activatedRoute: ActivatedRoute, private userService: UserService, private store: Store, private matDialog: MatDialog) {
   }
 
   @ViewChild("drawer") drawer!: MatDrawer
@@ -114,7 +118,15 @@ export class ContentDetailComponent implements OnInit {
   exportDocx() {
     this.contentService.exportDocx(this.contentToEdit.id)
       .subscribe(value => {
-        saveAs(value,`project-${this.contentToEdit.projectCommission.projectId}-commission-${this.contentToEdit.projectCommission.id}-content.docx`)
+        saveAs(value, `project-${this.contentToEdit.projectCommission.projectId}-commission-${this.contentToEdit.projectCommission.id}-content.docx`)
       })
+  }
+
+  openDialogContentHint() {
+    this.matDialog.open(ContentHintDialogFormComponent,{
+      data: this.contentToEdit.id
+    })
+      .afterClosed()
+      .subscribe(() => this.refresh())
   }
 }

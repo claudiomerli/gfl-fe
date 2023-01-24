@@ -1,10 +1,10 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
-import {Newspaper} from "../../../shared/model/newspaper";
-import {PaginationDto} from "../../../shared/messages/pagination.dto";
+import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
+import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
-import {PageResponseDto} from "../../../shared/messages/page-response.dto";
-import {Finance} from "../../../shared/model/finance";
+import {PageResponseDto} from "../../../shared/messages/common/page-response.dto";
+import {Finance} from "../../../shared/messages/newspaper/finance";
 import {SearchNewspaperDto} from "../../../shared/messages/newspaper/search-newspaper.dto";
 import {Sort} from "@angular/material/sort";
 import {Store} from "@ngxs/store";

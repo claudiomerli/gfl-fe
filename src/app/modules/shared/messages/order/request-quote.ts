@@ -1,4 +1,4 @@
-import {Newspaper} from "./newspaper";
+import {Newspaper} from "../newspaper/newspaper";
 import {Order} from "./order";
 
 export interface RequestQuote {

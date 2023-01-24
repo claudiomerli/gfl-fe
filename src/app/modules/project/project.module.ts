@@ -35,6 +35,8 @@ import {MatListModule} from "@angular/material/list";
 import { ProjectNewspaperToolDialogComponent } from './components/project-newspaper-tool-dialog/project-newspaper-tool-dialog.component';
 import {NewspaperModule} from "../newspaper/newspaper.module";
 import {NgxPrintElementModule} from "ngx-print-element";
+import {NgxDropzoneModule} from "ngx-dropzone";
+import {EditorComponent} from "@tinymce/tinymce-angular";
 
 
 @NgModule({
@@ -47,36 +49,38 @@ import {NgxPrintElementModule} from "ngx-print-element";
     ProjectStatisticsComponent,
     ProjectNewspaperToolDialogComponent
   ],
-    imports: [
-        CommonModule,
-        ProjectRoutingModule,
-        ReactiveFormsModule,
-        NgxPaginationModule,
-        NgxAutocompleteModule,
-        FormsModule,
-        SharedModule,
-        MatToolbarModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatSelectModule,
-        MatDialogModule,
-        MatAutocompleteModule,
-        MatCardModule,
-        MatDatepickerModule,
-        MatMomentDateModule,
-        MatExpansionModule,
-        MatStepperModule,
-        MatMenuModule,
-        MatCheckboxModule,
-        MatListModule,
-        NewspaperModule,
-        NgxPrintElementModule
-    ],
+  imports: [
+    CommonModule,
+    ProjectRoutingModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
+    NgxAutocompleteModule,
+    FormsModule,
+    SharedModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatAutocompleteModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatExpansionModule,
+    MatStepperModule,
+    MatMenuModule,
+    MatCheckboxModule,
+    MatListModule,
+    NewspaperModule,
+    NgxPrintElementModule,
+    NgxDropzoneModule,
+    EditorComponent
+  ],
   providers: [
     {
       provide: MAT_DATE_FORMATS,

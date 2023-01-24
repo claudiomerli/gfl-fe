@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {SearchNewspaperDto} from "../../../shared/messages/newspaper/search-newspaper.dto";
 import {TopicService} from "../../../shared/services/topic.service";
-import {Topic} from "../../../shared/model/topic";
+import {Topic} from "../../../shared/messages/newspaper/topic";
 import {ChangeContext, Options} from "@angular-slider/ngx-slider";
 import {
   getPointerColor,
@@ -12,7 +12,7 @@ import {
 } from "../../../shared/utils/utils";
 import {debounceTime} from "rxjs/operators";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
-import {MaxMinRangeNewspaperAttributes} from "../../../shared/model/max-min-range-newspaper-attributes";
+import {MaxMinRangeNewspaperAttributes} from "../../../shared/messages/newspaper/max-min-range-newspaper-attributes";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({

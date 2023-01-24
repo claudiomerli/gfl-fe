@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {ProjectCommission} from "../../../shared/model/project";
+import {ProjectCommission} from "../../../shared/messages/project/project";
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
-import {Newspaper} from "../../../shared/model/newspaper";
+import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 import {debounceTime} from "rxjs/operators";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {PaginationDto} from "../../../shared/messages/pagination.dto";
+import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {SaveProjectCommissionDto} from "../../../shared/messages/project/save-project-commission.dto";
 import {getYearList, momentDatePatternIso, periods, validateObject} from "../../../shared/utils/utils";
@@ -13,6 +13,8 @@ import {AuthenticationState} from "../../../store/state/authentication-state";
 import {Observable} from "rxjs";
 import {Moment} from "moment/moment";
 import * as moment from "moment";
+import {SaveAttachmentDto} from "../../../shared/messages/attachment/save-attachment.dto";
+import {Attachment} from "../../../shared/messages/common/attachment";
 
 @Component({
   selector: 'app-project-commission-form',
@@ -47,6 +49,7 @@ export class ProjectCommissionFormComponent implements OnInit {
       notes: new FormControl(''),
       publicationUrl: new FormControl(''),
       publicationDate: new FormControl<Moment | null>(null),
+      hintBody: new FormControl<string | null>(null)
     })
   }
 
@@ -192,4 +195,5 @@ export class ProjectCommissionFormComponent implements OnInit {
   isRoleAllowedToSave() {
     return this.isRoleAllowedToChangeCommonField() || this.isRoleAllowedToChangePublicationUrl() || this.isRoleAllowedToChangePublicationDate()
   }
+
 }

@@ -3,16 +3,13 @@ import {HttpClient} from "@angular/common/http";
 
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
-import {User} from "../model/user";
-import {Newspaper} from "../model/newspaper";
+import {Newspaper} from "../messages/newspaper/newspaper";
 import {SaveNewspaperDto} from "../messages/newspaper/save-newspaper.dto";
-import {PageResponseDto} from "../messages/page-response.dto";
-import {PaginationDto} from "../messages/pagination.dto";
-import {Finance} from "../model/finance";
-import {clean} from "../utils/utils";
-import {SelectDto} from "../messages/select.dto";
+import {PageResponseDto} from "../messages/common/page-response.dto";
+import {PaginationDto} from "../messages/common/pagination.dto";
+import {Finance} from "../messages/newspaper/finance";
 import {SearchNewspaperDto} from "../messages/newspaper/search-newspaper.dto";
-import {MaxMinRangeNewspaperAttributes} from "../model/max-min-range-newspaper-attributes";
+import {MaxMinRangeNewspaperAttributes} from "../messages/newspaper/max-min-range-newspaper-attributes";
 
 @Injectable({
   providedIn: 'root'

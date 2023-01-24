@@ -1,5 +1,5 @@
-import {User} from "./user";
-import {Newspaper} from "./newspaper";
+import {User} from "../auth/user";
+import {Newspaper} from "../newspaper/newspaper";
 
 export interface OrderPack {
   id: number;

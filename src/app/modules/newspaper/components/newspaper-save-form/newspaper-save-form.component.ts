@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 import {SaveNewspaperDto} from "../../../shared/messages/newspaper/save-newspaper.dto";
-import {Newspaper} from "../../../shared/model/newspaper";
-import {Topic} from "../../../shared/model/topic";
+import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
+import {Topic} from "../../../shared/messages/newspaper/topic";
 import {TopicService} from "../../../shared/services/topic.service";
 import {Options} from "@angular-slider/ngx-slider";
 import {

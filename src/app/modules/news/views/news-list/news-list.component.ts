@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NewsService} from "../../../shared/services/news.service";
-import {PaginationDto} from "../../../shared/messages/pagination.dto";
-import {PageResponseDto} from "../../../shared/messages/page-response.dto";
-import {News} from "../../../shared/model/news";
+import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
+import {PageResponseDto} from "../../../shared/messages/common/page-response.dto";
+import {News} from "../../../shared/messages/news/news";
 import {Router} from "@angular/router";
 import {PageEvent} from "@angular/material/paginator";
 

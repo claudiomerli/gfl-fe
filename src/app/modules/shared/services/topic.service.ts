@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
-import {PaginationDto} from "../messages/pagination.dto";
-import {PageResponseDto} from "../messages/page-response.dto";
-import {Newspaper} from "../model/newspaper";
+import {PaginationDto} from "../messages/common/pagination.dto";
+import {PageResponseDto} from "../messages/common/page-response.dto";
+import {Newspaper} from "../messages/newspaper/newspaper";
 import {SaveTopicDto} from "../messages/topic/save-topic.dto";
-import {Topic} from "../model/topic";
+import {Topic} from "../messages/newspaper/topic";
 
 @Injectable({
   providedIn: 'root'

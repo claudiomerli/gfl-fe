@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Indicazioni del contenuto</h1>
+<div mat-dialog-content>
+  <div *isAuthenticated="['EDITOR']" class="m-3">
+    <div class="w-100 mat-typography" [innerHTML]="content.hint.body"></div>
+    <mat-divider class="m-3"></mat-divider>
+    <p class="mat-typography">Allegati</p>
+    <button class="mx-1" mat-raised-button *ngFor="let attachment of content.hint.attachments" (click)="download(attachment)"><mat-icon>download</mat-icon> {{attachment.filename}}</button>
+  </div>
+  <div *isAuthenticated="['CHIEF_EDITOR','ADMIN']">
+    <app-content-hint-form *ngIf="content" [bodyFormControl]="hintBody"
+                           [hint]="content.hint"
+                           (addedFiles)="onUploadProjectHintAttachments($event)"
+                           (removedFile)="onRemovedAttachment($event)"></app-content-hint-form>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()">Chiudi</button>
+  <button mat-button (click)="save()" *isAuthenticated="['CHIEF_EDITOR','ADMIN']">Salva</button>
+</div>

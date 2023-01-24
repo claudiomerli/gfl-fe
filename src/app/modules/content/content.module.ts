@@ -20,32 +20,38 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSelectModule} from "@angular/material/select";
+import { ContentHintDialogFormComponent } from './components/content-hint-dialog-form/content-hint-dialog-form.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 
 @NgModule({
   declarations: [
     ContentDetailComponent,
-    ContentListComponent
+    ContentListComponent,
+    ContentHintDialogFormComponent
   ],
-    imports: [
-        CommonModule,
-        ContentRoutingModule,
-        MatToolbarModule,
-        ReactiveFormsModule,
-        MatOptionModule,
-        MatAutocompleteModule,
-        MatInputModule,
-        MatSidenavModule,
-        EditorComponent,
-        MatButtonModule,
-        MatListModule,
-        MatChipsModule,
-        MatIconModule,
-        SharedModule,
-        MatTableModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatSelectModule
-    ]
+  imports: [
+    CommonModule,
+    ContentRoutingModule,
+    MatToolbarModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatSidenavModule,
+    EditorComponent,
+    MatButtonModule,
+    MatListModule,
+    MatChipsModule,
+    MatIconModule,
+    SharedModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatExpansionModule
+  ]
 })
 export class ContentModule { }

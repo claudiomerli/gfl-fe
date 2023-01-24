@@ -1,5 +1,6 @@
-import {Newspaper} from "./newspaper";
-import {User} from "./user";
+import {Newspaper} from "../newspaper/newspaper";
+import {User} from "../auth/user";
+import {ContentHint} from "../content/content-hint";
 
 export interface Project {
   id: number;
@@ -13,6 +14,7 @@ export interface Project {
   lastModifiedDate: string
   projectCommissions: ProjectCommission[]
   projectStatusChanges: ProjectStatusChange[]
+  hint: ContentHint
 
 }
 
@@ -35,7 +37,7 @@ export interface ProjectCommission {
   projectStatusChanges: ProjectStatusChange[]
   projectId: number;
   contentId: number;
-  project: Project
+  project: Project,
 }
 
 export interface ProjectStatusChange {

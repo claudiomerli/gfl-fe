@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../../shared/services/auth.service";
-import {SigninDto} from "../../../shared/messages/signin.dto";
+import {SigninDto} from "../../../shared/messages/auth/signin.dto";
 import {Router} from "@angular/router";
 import {Store} from "@ngxs/store";
 import {LoadUserAction} from "../../../store/state/authentication-state";

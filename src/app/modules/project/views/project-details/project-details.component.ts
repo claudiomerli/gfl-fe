@@ -1,13 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProjectService} from "../../../shared/services/project.service";
-import {Project, ProjectCommission} from "../../../shared/model/project";
+import {Project, ProjectCommission} from "../../../shared/messages/project/project";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../shared/services/user.service";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {User} from "../../../shared/model/user";
-import {debounceTime} from "rxjs/operators";
-import {PaginationDto} from "../../../shared/messages/pagination.dto";
+import {User} from "../../../shared/messages/auth/user";
+import {debounceTime, switchMap} from "rxjs/operators";
+import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {
   getYearList,
   momentDatePatternIso, periods,
@@ -26,7 +26,7 @@ import {
 } from "../../components/project-commission-dialog-form/project-commission-dialog-form.component";
 import {Select, Store} from "@ngxs/store";
 import {AuthenticationState, AuthenticationStateModel} from "../../../store/state/authentication-state";
-import {Observable} from "rxjs";
+import {Observable, of, zip} from "rxjs";
 import {
   CommissionHistoryDialogComponent
 } from "../../../newspaper/components/commission-history-dialog/commission-history-dialog.component";
@@ -36,6 +36,9 @@ import {
   ProjectNewspaperToolDialogComponent
 } from "../../components/project-newspaper-tool-dialog/project-newspaper-tool-dialog.component";
 import {saveAs} from "file-saver";
+import {Attachment} from "../../../shared/messages/common/attachment";
+import {read} from "xlsx";
+import {SaveAttachmentDto} from "../../../shared/messages/attachment/save-attachment.dto";
 
 @Component({
   selector: 'app-project-details',
@@ -77,6 +80,7 @@ export class ProjectDetailsComponent implements OnInit {
       billingAmount: new FormControl<number | null>(null),
       expiration: new FormControl<Moment | null>(null, [Validators.required]),
       customer: new FormControl<User | null>(null, [Validators.required, validateObject]),
+      hintBody: new FormControl<string | null>(null)
     })
   }
 
@@ -87,6 +91,18 @@ export class ProjectDetailsComponent implements OnInit {
   yearFormControl = new FormControl<number | null>(null);
 
   changeStatusFormControl = new FormControl<string | null>(null);
+
+  files: File[] = [];
+
+  onSelect(event: any) {
+    console.log(event);
+    this.files.push(...event.addedFiles);
+  }
+
+  onRemove(event: any) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
 
   ngOnInit(): void {
     this.loadProject();
@@ -233,7 +249,8 @@ export class ProjectDetailsComponent implements OnInit {
       billingAmount: project.billingAmount,
       customer: project.customer,
       billingDescription: project.billingDescription,
-      expiration: moment(project.expiration, momentDatePatternIso)
+      expiration: moment(project.expiration, momentDatePatternIso),
+      hintBody: project.hint.body
     })
   }
 
@@ -245,7 +262,8 @@ export class ProjectDetailsComponent implements OnInit {
         billingAmount: value.billingAmount!,
         customerId: value.customer?.id!,
         billingDescription: value.billingDescription!,
-        expiration: value.expiration ? value.expiration.format(momentDatePatternIso) : undefined
+        expiration: value.expiration ? value.expiration.format(momentDatePatternIso) : undefined,
+        hintBody: value.hintBody!
       }).subscribe((result) => {
         this.loadProject()
       })
@@ -381,10 +399,25 @@ export class ProjectDetailsComponent implements OnInit {
         }
       })
   }
+
   exportProject() {
     this.projectService.export(this.projectToEdit.id)
       .subscribe(value => {
         saveAs(value, this.projectToEdit.name + ".xlsx")
       })
+  }
+
+  onUploadProjectHintAttachments(base64s: SaveAttachmentDto[]) {
+    zip(...base64s.map(file =>
+      this.projectService.uploadProjectHintAttachment(this.projectToEdit.id, file)
+    )).subscribe(() => {
+      this.loadProject();
+    })
+  }
+
+  onRemovedAttachment(attachment: Attachment) {
+    this.projectService.deleteProjectHintAttachment(this.projectToEdit.id, attachment.id).subscribe(() => {
+      this.loadProject();
+    })
   }
 }

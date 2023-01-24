@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {PaginationDto} from "../messages/pagination.dto";
+import {PaginationDto} from "../messages/common/pagination.dto";
 import {environment} from "../../../../environments/environment";
-import {PageResponseDto} from "../messages/page-response.dto";
-import {News} from "../model/news";
+import {PageResponseDto} from "../messages/common/page-response.dto";
+import {News} from "../messages/news/news";
 import {Observable} from "rxjs";
 import {SaveNewsDto} from "../messages/news/save-news.dto";
 

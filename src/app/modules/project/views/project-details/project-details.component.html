@@ -57,6 +57,24 @@
             </mat-form-field>
           </div>
         </div>
+        <div class="mb-3" *isAuthenticated="['ADMIN','CHIEF_EDITOR']">
+          <mat-accordion *ngIf="projectToEdit">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Modifica indicazioni progetto
+                </mat-panel-title>
+                <mat-panel-description>
+                  Aggiungi le indicazioni globali del progetto per i redattori
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <app-content-hint-form [bodyFormControl]="projectFormGroup.controls.hintBody!"
+                                     [hint]="projectToEdit.hint"
+                                     (addedFiles)="onUploadProjectHintAttachments($event)"
+                                     (removedFile)="onRemovedAttachment($event)"></app-content-hint-form>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
         <div class="col-12 text-end">
           <ng-container *ngIf="projectToEdit?.status === 'SENT_TO_ADMINISTRATION'">
             <button *isAuthenticated="['ADMIN','ADMINISTRATION']" mat-raised-button color="primary" type="button"
@@ -170,7 +188,7 @@
             <!-- Name Column -->
             <ng-container matColumnDef="period">
               <th mat-header-cell *matHeaderCellDef> Periodo</th>
-              <td mat-cell *matCellDef="let element"> {{element.period}} </td>
+              <td mat-cell *matCellDef="let element"> {{periods | extractLabelByCode:element.period}} </td>
             </ng-container>
 
             <ng-container matColumnDef="year">

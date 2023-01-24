@@ -7,7 +7,7 @@ import {
   ValidatorFn,
   Validators
 } from "@angular/forms";
-import {User} from "../../../shared/model/user";
+import {User} from "../../../shared/messages/auth/user";
 import {EditUserDto} from "../../../shared/messages/users/edit-user.dto";
 import {userRoles} from "../../../shared/utils/utils";
 import {MatSlideToggle, MatSlideToggleChange} from "@angular/material/slide-toggle";

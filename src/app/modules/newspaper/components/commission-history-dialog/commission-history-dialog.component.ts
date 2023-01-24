@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ProjectCommission} from "../../../shared/model/project";
+import {ProjectCommission} from "../../../shared/messages/project/project";
 import {projectCommissionStatus} from "../../../shared/utils/utils";
 
 @Component({

@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {FindOrderDto} from "../messages/order/find-order.dto";
-import {PaginationDto} from "../messages/pagination.dto";
+import {PaginationDto} from "../messages/common/pagination.dto";
 import {environment} from "../../../../environments/environment";
 import {Observable} from "rxjs";
-import {Order, OrderElement} from "../model/order";
-import {PageResponseDto} from "../messages/page-response.dto";
+import {Order, OrderElement} from "../messages/order/order";
+import {PageResponseDto} from "../messages/common/page-response.dto";
 import {SaveOrderDto, SaveOrderElementDto} from "../messages/order/save-order.dto";
 import {SaveDraftOrderDto} from "../messages/order/save-draft-order.dto";
 import {FindOrderPackDto} from "../messages/order/find-order-pack.dto";
 import {SaveOrderPackDto, SaveOrderPackElementDto} from "../messages/order/save-order-pack.dto";
-import {OrderPack} from "../model/order-pack";
+import {OrderPack} from "../messages/order/order-pack";
 
 @Injectable({
   providedIn: 'root'

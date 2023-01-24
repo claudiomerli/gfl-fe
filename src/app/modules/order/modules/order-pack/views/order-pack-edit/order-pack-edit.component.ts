@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {OrderPackService} from "../../../../../shared/services/order-pack.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {OrderPack} from "../../../../../shared/model/order-pack";
+import {OrderPack} from "../../../../../shared/messages/order/order-pack";
 import {ConfirmDialogComponent} from "../../../../../shared/components/confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {SaveOrderPackDto} from "../../../../../shared/messages/order/save-order-pack.dto";

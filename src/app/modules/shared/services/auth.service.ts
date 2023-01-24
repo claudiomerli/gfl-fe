@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {User} from "../model/user";
+import {User} from "../messages/auth/user";
 import {HttpClient} from "@angular/common/http";
-import {SigninDto} from "../messages/signin.dto";
+import {SigninDto} from "../messages/auth/signin.dto";
 import {environment} from "../../../../environments/environment";
 import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {AccessTokenDto} from "../messages/access-token.dto";
+import {AccessTokenDto} from "../messages/auth/access-token.dto";
 import {tap} from "rxjs/operators";
 
 @Injectable({

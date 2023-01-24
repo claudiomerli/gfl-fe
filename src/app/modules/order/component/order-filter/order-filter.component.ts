@@ -4,12 +4,12 @@ import {Form, FormArray, FormControl, FormGroup, Validators} from "@angular/form
 import {UserService} from "../../../shared/services/user.service";
 import {EMPTY, fromEvent} from "rxjs";
 import {debounceTime, filter, switchMap} from "rxjs/operators";
-import {PaginationDto} from "../../../shared/messages/pagination.dto";
-import {User} from "../../../shared/model/user";
+import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
+import {User} from "../../../shared/messages/auth/user";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {orderStatus} from "../../../shared/utils/utils";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
-import {Newspaper} from "../../../shared/model/newspaper";
+import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 
 @Component({
   selector: 'app-order-filter',

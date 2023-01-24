@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Newspaper} from "../../../shared/model/newspaper";
+import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SaveNewspaperDto} from "../../../shared/messages/newspaper/save-newspaper.dto";

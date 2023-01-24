@@ -1,11 +1,13 @@
-import {User} from "../../model/user";
-import {ProjectCommission} from "../../model/project";
+import {User} from "../auth/user";
+import {ProjectCommission} from "../project/project";
+import {ContentHint} from "./content-hint";
 
-export interface Content{
+export interface Content {
   id: number
   body: string
   editor: User
-  projectCommission : ProjectCommission
+  projectCommission: ProjectCommission
   contentStatus: string
   lastModifiedDate: string;
+  hint: ContentHint
 }

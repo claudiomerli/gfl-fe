@@ -1,0 +1,15 @@
+<div class="my-3">
+  <p class="mat-typography">
+    Aggiungi qui le informazioni per i redattori
+  </p>
+  <editor [formControl]="bodyFormControl"></editor>
+</div>
+<p class="mat-typography">
+  Allega eventuali file
+</p>
+<ngx-dropzone (change)="onSelect($event)">
+  <ngx-dropzone-label>Rilascia qui i file</ngx-dropzone-label>
+  <ngx-dropzone-preview *ngFor="let f of hint.attachments" [removable]="true" (removed)="onRemove(f)">
+    <ngx-dropzone-label>{{ f.filename }}</ngx-dropzone-label>
+  </ngx-dropzone-preview>
+</ngx-dropzone>

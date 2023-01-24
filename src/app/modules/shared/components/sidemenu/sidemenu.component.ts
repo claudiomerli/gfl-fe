@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Select, Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {Observable} from "rxjs";
-import {User} from "../../model/user";
+import {User} from "../../messages/auth/user";
 import {userRoles} from "../../utils/utils";
 
 @Component({

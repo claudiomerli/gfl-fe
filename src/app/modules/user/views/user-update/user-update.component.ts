@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../../shared/services/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {User} from "../../../shared/model/user";
+import {User} from "../../../shared/messages/auth/user";
 import {EditUserDto} from "../../../shared/messages/users/edit-user.dto";
 
 @Component({

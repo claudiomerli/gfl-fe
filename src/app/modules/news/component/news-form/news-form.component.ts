@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {SaveNewsDto} from "../../../shared/messages/news/save-news.dto";
-import {News} from "../../../shared/model/news";
+import {News} from "../../../shared/messages/news/news";
 
 @Component({
   selector: 'app-news-form',

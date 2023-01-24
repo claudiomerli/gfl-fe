@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Project, ProjectCommission} from "../../../shared/model/project";
+import {Project, ProjectCommission} from "../../../shared/messages/project/project";
 import {ProjectService} from "../../../shared/services/project.service";
 import {SaveProjectCommissionDto} from "../../../shared/messages/project/save-project-commission.dto";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";

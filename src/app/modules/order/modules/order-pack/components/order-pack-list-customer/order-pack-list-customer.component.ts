@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {OrderPackService} from "../../../../../shared/services/order-pack.service";
-import {PaginationDto} from "../../../../../shared/messages/pagination.dto";
-import {PageResponseDto} from "../../../../../shared/messages/page-response.dto";
-import {OrderPack} from "../../../../../shared/model/order-pack";
+import {PaginationDto} from "../../../../../shared/messages/common/pagination.dto";
+import {PageResponseDto} from "../../../../../shared/messages/common/page-response.dto";
+import {OrderPack} from "../../../../../shared/messages/order/order-pack";
 import {OrderService} from "../../../../../shared/services/order.service";
 import {Router} from "@angular/router";
 

@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {PageResponseDto} from "../../../shared/messages/page-response.dto";
-import {Newspaper} from "../../../shared/model/newspaper";
+import {PageResponseDto} from "../../../shared/messages/common/page-response.dto";
+import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 import {Sort} from "@angular/material/sort";
 import {regionalGeolocalizzation} from "../../../shared/utils/utils";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {Store} from "@ngxs/store";
 import {PageEvent} from "@angular/material/paginator";
-import {PaginationDto} from "../../../shared/messages/pagination.dto";
+import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 
 @Component({
   selector: 'app-newspaper-table',

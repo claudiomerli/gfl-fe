@@ -1,12 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Order} from "../../../shared/model/order";
+import {Order} from "../../../shared/messages/order/order";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpResponse} from "@angular/common/http";
 import {OrderService} from "../../../shared/services/order.service";
 import {saveAs} from "file-saver";
-import {RequestQuote} from "../../../shared/model/request-quote";
-import {Newspaper} from "../../../shared/model/newspaper";
+import {RequestQuote} from "../../../shared/messages/order/request-quote";
+import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 
 @Component({

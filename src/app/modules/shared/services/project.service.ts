@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {PaginationDto} from "../messages/pagination.dto";
+import {PaginationDto} from "../messages/common/pagination.dto";
 import {environment} from "../../../../environments/environment";
-import {PageResponseDto} from "../messages/page-response.dto";
-import {Project} from "../model/project";
+import {PageResponseDto} from "../messages/common/page-response.dto";
+import {Project} from "../messages/project/project";
 import {Observable} from "rxjs";
 import {SaveProjectDto} from "../messages/project/save-project.dto";
 import {SaveProjectCommissionDto} from "../messages/project/save-project-commission.dto";
 import {Store} from "@ngxs/store";
 import {tap} from "rxjs/operators";
 import {AuthenticationState} from "../../store/state/authentication-state";
+import {SaveAttachmentDto} from "../messages/attachment/save-attachment.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -52,9 +53,6 @@ export class ProjectService {
           if (user?.role === "PUBLISHER") {
             project.projectCommissions = project.projectCommissions.filter(pc => ["TO_PUBLISH", "SENT_TO_NEWSPAPER", "STANDBY_PUBLICATION", "SENT_TO_ADMINISTRATION"].includes(pc.status))
           }
-        }),
-        tap((project) => {
-          project.projectCommissions = project.projectCommissions.sort((a, b) => b.id - a.id)
         })
       )
   }
@@ -97,9 +95,29 @@ export class ProjectService {
     })
   }
 
-  export(id: number) : Observable<Blob> {
-    return this.httpClient.get(environment.apiBaseurl + `/project/${id}/export`,{
+  export(id: number): Observable<Blob> {
+    return this.httpClient.get(environment.apiBaseurl + `/project/${id}/export`, {
       responseType: "blob"
     })
+  }
+
+  uploadProjectHintAttachment(id: number, saveAttachmentDto: SaveAttachmentDto){
+    return this.httpClient.post(environment.apiBaseurl + `/project/${id}/hint/attachment`, saveAttachmentDto)
+  }
+
+  deleteProjectHintAttachment(id: number, attachmentId: number) {
+    return this.httpClient.delete(environment.apiBaseurl + `/project/${id}/hint/attachment/${attachmentId}`)
+  }
+
+  uploadProjectCommissionHintAttachment(projectId: number, commissionId: number, saveAttachmentDto: SaveAttachmentDto) {
+    return this.httpClient.post(environment.apiBaseurl + `/project/${projectId}/commission/${commissionId}/hint/attachment`, saveAttachmentDto)
+  }
+
+  deleteProjectCommissionHintAttachment(projectId: number, commissionId: number, attachmentId: number) {
+    return this.httpClient.delete(environment.apiBaseurl + `/project/${projectId}/commission/${commissionId}/hint/attachment/${attachmentId}`)
+  }
+
+  updateProjectCommissionHint(projectId: number, commissionId: number, body: { body: string | null }) {
+    return this.httpClient.put<void>(environment.apiBaseurl + `/project/${projectId}/commission/${commissionId}/hint`, body)
   }
 }

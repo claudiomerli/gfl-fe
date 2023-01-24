@@ -66,18 +66,18 @@ export const regionalGeolocalizzation = [
 ]
 
 export const periods = [
-  {label: 'GENNAIO', code: 'GENNAIO'},
-  {label: 'FEBBRAIO', code: 'FEBBRAIO'},
-  {label: 'MARZO', code: 'MARZO'},
-  {label: 'APRILE', code: 'APRILE'},
-  {label: 'MAGGIO', code: 'MAGGIO'},
-  {label: 'GIUGNO', code: 'GIUGNO'},
-  {label: 'LUGLIO', code: 'LUGLIO'},
-  {label: 'AGOSTO', code: 'AGOSTO'},
-  {label: 'SETTEMBRE', code: 'SETTEMBRE'},
-  {label: 'OTTOBRE', code: 'OTTOBRE'},
-  {label: 'NOVEMBRE', code: 'NOVEMBRE'},
-  {label: 'DICEMBRE', code: 'DICEMBRE'}
+  {label: 'GENNAIO', code: 'JANUARY'},
+  {label: 'FEBBRAIO', code: 'FEBRUARY'},
+  {label: 'MARZO', code: 'MARCH'},
+  {label: 'APRILE', code: 'APRIL'},
+  {label: 'MAGGIO', code: 'MAY'},
+  {label: 'GIUGNO', code: 'JUNE'},
+  {label: 'LUGLIO', code: 'JULY'},
+  {label: 'AGOSTO', code: 'AUGUST'},
+  {label: 'SETTEMBRE', code: 'SEPTEMBER'},
+  {label: 'OTTOBRE', code: 'OCTOBER'},
+  {label: 'NOVEMBRE', code: 'NOVEMBER'},
+  {label: 'DICEMBRE', code: 'DECEMBER'}
 ]
 
 export const orderStatus = [
