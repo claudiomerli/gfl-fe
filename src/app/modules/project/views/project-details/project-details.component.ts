@@ -39,6 +39,7 @@ import {saveAs} from "file-saver";
 import {Attachment} from "../../../shared/messages/common/attachment";
 import {read} from "xlsx";
 import {SaveAttachmentDto} from "../../../shared/messages/attachment/save-attachment.dto";
+import {Sort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-project-details',
@@ -62,6 +63,13 @@ export class ProjectDetailsComponent implements OnInit {
   getYearList = getYearList
 
   selection = new SelectionModel<ProjectCommission>(true, []);
+
+  projectCommissionPagination: PaginationDto = {
+    page: 0,
+    pageSize: 0,
+    sortBy: "year",
+    sortDirection: "desc"
+  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -200,22 +208,35 @@ export class ProjectDetailsComponent implements OnInit {
     let isUserChiefEditor = this.store.selectSnapshot(AuthenticationState.isUserInRole("CHIEF_EDITOR"));
     let isUserAdministration = this.store.selectSnapshot(AuthenticationState.isUserInRole("ADMINISTRATION"));
 
-    this.projectService
-      .findById(id)
-      .subscribe(value => {
-        //User not allowed yet to see this project
-        if (
-          (value.projectCommissions.length === 0 && !isUserAdmin && !isUserChiefEditor)
-          ||
-          (value.status !== "SENT_TO_ADMINISTRATION" && isUserAdministration)
-        ) {
-          this.router.navigate(['/projects'])
-        }
+    this.projectService.findById(id)
+      .subscribe(project => {
+        this.projectService.getCommissions(id, this.projectCommissionPagination)
+          .subscribe(commissions => {
+            project.projectCommissions = commissions;
 
-        this.projectToEdit = value;
+            //User not allowed yet to see this project
+            if (
+              (project.projectCommissions.length === 0 && !isUserAdmin && !isUserChiefEditor)
+              ||
+              (project.status !== "SENT_TO_ADMINISTRATION" && isUserAdministration)
+            ) {
+              this.router.navigate(['/projects'])
+            }
+
+            this.projectToEdit = project;
+            this.originalCommissionForm = undefined
+            this.applyFilterSearch()
+            this.patchForm(project)
+          })
+      })
+  }
+
+  updateProjectCommissionList(projectId: number) {
+    this.projectService.getCommissions(projectId, this.projectCommissionPagination)
+      .subscribe(commissions => {
+        this.projectToEdit.projectCommissions = commissions
         this.originalCommissionForm = undefined
-        this.applyFilterSearch()
-        this.patchForm(value)
+        this.applyFilterSearch();
       })
   }
 
@@ -415,5 +436,20 @@ export class ProjectDetailsComponent implements OnInit {
       .subscribe(() => {
         this.loadProject();
       })
+  }
+
+
+  onSortChange($event: Sort) {
+    if ($event.active) {
+      if($event.active === "year" || $event.active === "period"){
+        $event.active = "year,period"
+      }
+      this.projectCommissionPagination.sortBy = $event.active;
+      this.projectCommissionPagination.sortDirection = $event.direction.toUpperCase();
+    } else {
+      this.projectCommissionPagination.sortBy = "year";
+      this.projectCommissionPagination.sortDirection = "DESC";
+    }
+    this.updateProjectCommissionList(this.projectToEdit.id)
   }
 }

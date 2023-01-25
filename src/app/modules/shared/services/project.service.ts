@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {PaginationDto} from "../messages/common/pagination.dto";
 import {environment} from "../../../../environments/environment";
 import {PageResponseDto} from "../messages/common/page-response.dto";
-import {Project} from "../messages/project/project";
+import {Project, ProjectCommission} from "../messages/project/project";
 import {Observable} from "rxjs";
 import {SaveProjectDto} from "../messages/project/save-project.dto";
 import {SaveProjectCommissionDto} from "../messages/project/save-project-commission.dto";
@@ -101,7 +101,15 @@ export class ProjectService {
     })
   }
 
-  uploadProjectHintAttachment(id: number, saveAttachmentDto: SaveAttachmentDto){
+  getCommissions(projectId: number, paginationDto: PaginationDto): Observable<ProjectCommission[]> {
+    return this.httpClient.get<ProjectCommission[]>(environment.apiBaseurl + `/project/${projectId}/commissions`, {
+      params: {
+        ...paginationDto
+      }
+    });
+  }
+
+  uploadProjectHintAttachment(id: number, saveAttachmentDto: SaveAttachmentDto) {
     return this.httpClient.post(environment.apiBaseurl + `/project/${id}/hint/attachment`, saveAttachmentDto)
   }
 
