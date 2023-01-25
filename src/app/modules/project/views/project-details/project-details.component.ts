@@ -92,17 +92,6 @@ export class ProjectDetailsComponent implements OnInit {
 
   changeStatusFormControl = new FormControl<string | null>(null);
 
-  files: File[] = [];
-
-  onSelect(event: any) {
-    console.log(event);
-    this.files.push(...event.addedFiles);
-  }
-
-  onRemove(event: any) {
-    console.log(event);
-    this.files.splice(this.files.indexOf(event), 1);
-  }
 
   ngOnInit(): void {
     this.loadProject();
@@ -254,17 +243,21 @@ export class ProjectDetailsComponent implements OnInit {
     })
   }
 
+  updateObservable() {
+    let value = this.projectFormGroup.value;
+    return this.projectService.update(this.projectToEdit.id, {
+      name: value.name!,
+      billingAmount: value.billingAmount!,
+      customerId: value.customer?.id!,
+      billingDescription: value.billingDescription!,
+      expiration: value.expiration ? value.expiration.format(momentDatePatternIso) : undefined,
+      hintBody: value.hintBody!
+    })
+  }
+
   update() {
     if (this.projectFormGroup.valid) {
-      let value = this.projectFormGroup.value;
-      this.projectService.update(this.projectToEdit.id, {
-        name: value.name!,
-        billingAmount: value.billingAmount!,
-        customerId: value.customer?.id!,
-        billingDescription: value.billingDescription!,
-        expiration: value.expiration ? value.expiration.format(momentDatePatternIso) : undefined,
-        hintBody: value.hintBody!
-      }).subscribe((result) => {
+      this.updateObservable().subscribe(() => {
         this.loadProject()
       })
     }
@@ -410,14 +403,17 @@ export class ProjectDetailsComponent implements OnInit {
   onUploadProjectHintAttachments(base64s: SaveAttachmentDto[]) {
     zip(...base64s.map(file =>
       this.projectService.uploadProjectHintAttachment(this.projectToEdit.id, file)
-    )).subscribe(() => {
-      this.loadProject();
-    })
+    )).pipe(switchMap(() => this.updateObservable()))
+      .subscribe(() => {
+        this.loadProject();
+      })
   }
 
   onRemovedAttachment(attachment: Attachment) {
-    this.projectService.deleteProjectHintAttachment(this.projectToEdit.id, attachment.id).subscribe(() => {
-      this.loadProject();
-    })
+    this.projectService.deleteProjectHintAttachment(this.projectToEdit.id, attachment.id)
+      .pipe(switchMap(() => this.updateObservable()))
+      .subscribe(() => {
+        this.loadProject();
+      })
   }
 }

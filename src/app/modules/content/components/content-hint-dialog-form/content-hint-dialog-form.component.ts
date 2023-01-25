@@ -10,6 +10,7 @@ import {ContentService} from "../../../shared/services/content.service";
 import {switchMap, tap} from "rxjs/operators";
 import {AttachmentService} from "../../../shared/services/attachment.service";
 import {saveAs} from "file-saver";
+import {Project} from "../../../shared/messages/project/project";
 
 @Component({
   selector: 'app-content-hint-dialog-form',
@@ -20,6 +21,7 @@ export class ContentHintDialogFormComponent implements OnInit {
 
   hintBody = new FormControl<string | null>(null);
   content!: Content;
+  project!: Project
 
   constructor(
     public dialogRef: MatDialogRef<ContentHintDialogFormComponent>,
@@ -39,6 +41,10 @@ export class ContentHintDialogFormComponent implements OnInit {
       .subscribe(content => {
         this.content = content;
         this.hintBody.setValue(this.content.hint.body)
+        this.projectService.findById(content.projectCommission.projectId)
+          .subscribe(project => {
+            this.project = project;
+          })
       })
   }
 
