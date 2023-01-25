@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 import {SaveProjectDto} from "../messages/project/save-project.dto";
 import {SaveProjectCommissionDto} from "../messages/project/save-project-commission.dto";
 import {Store} from "@ngxs/store";
-import {tap} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {AuthenticationState} from "../../store/state/authentication-state";
 import {SaveAttachmentDto} from "../messages/attachment/save-attachment.dto";
 
@@ -44,17 +44,6 @@ export class ProjectService {
 
   public findById(id: number): Observable<Project> {
     return this.httpClient.get<Project>(environment.apiBaseurl + "/project/" + id)
-      .pipe(
-        tap((project) => {
-          let user = this.store.selectSnapshot(AuthenticationState.user);
-          if (user?.role === "CHIEF_EDITOR") {
-            project.projectCommissions = project.projectCommissions.filter(pc => ["CREATED", "STARTED", "ASSIGNED", "STANDBY_EDITORIAL", "TO_PUBLISH", "SENT_TO_NEWSPAPER", "STANDBY_PUBLICATION", "SENT_TO_ADMINISTRATION",].includes(pc.status))
-          }
-          if (user?.role === "PUBLISHER") {
-            project.projectCommissions = project.projectCommissions.filter(pc => ["TO_PUBLISH", "SENT_TO_NEWSPAPER", "STANDBY_PUBLICATION", "SENT_TO_ADMINISTRATION"].includes(pc.status))
-          }
-        })
-      )
   }
 
   public deleteById(id: number): Observable<void> {
@@ -106,7 +95,18 @@ export class ProjectService {
       params: {
         ...paginationDto
       }
-    });
+    }).pipe(
+      map((projectCommissions) => {
+        let user = this.store.selectSnapshot(AuthenticationState.user);
+        if (user?.role === "CHIEF_EDITOR") {
+          return  projectCommissions.filter(pc => ["CREATED", "STARTED", "ASSIGNED", "STANDBY_EDITORIAL", "TO_PUBLISH", "SENT_TO_NEWSPAPER", "STANDBY_PUBLICATION", "SENT_TO_ADMINISTRATION",].includes(pc.status))
+        }
+        if (user?.role === "PUBLISHER") {
+          return projectCommissions.filter(pc => ["TO_PUBLISH", "SENT_TO_NEWSPAPER", "STANDBY_PUBLICATION", "SENT_TO_ADMINISTRATION"].includes(pc.status))
+        }
+        return []
+      })
+    );
   }
 
   uploadProjectHintAttachment(id: number, saveAttachmentDto: SaveAttachmentDto) {
