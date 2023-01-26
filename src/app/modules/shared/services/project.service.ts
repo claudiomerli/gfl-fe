@@ -104,7 +104,7 @@ export class ProjectService {
         if (user?.role === "PUBLISHER") {
           return projectCommissions.filter(pc => ["TO_PUBLISH", "SENT_TO_NEWSPAPER", "STANDBY_PUBLICATION", "SENT_TO_ADMINISTRATION"].includes(pc.status))
         }
-        return []
+        return projectCommissions
       })
     );
   }
