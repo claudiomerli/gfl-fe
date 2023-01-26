@@ -40,4 +40,6 @@
   <!--  </a>-->
   <mat-divider class="my-3"></mat-divider>
   <app-sidemenu-item [icon]="'logout'" [title]="'Logout'" (click)="onLogout()"></app-sidemenu-item>
+  <mat-divider></mat-divider>
+  <small class="mat-typography p-3">Versione applicativo: {{environment.version}}</small>
 </div>

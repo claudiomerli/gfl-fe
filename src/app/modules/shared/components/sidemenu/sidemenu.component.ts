@@ -4,6 +4,7 @@ import {AuthenticationState} from "../../../store/state/authentication-state";
 import {Observable} from "rxjs";
 import {User} from "../../messages/auth/user";
 import {userRoles} from "../../utils/utils";
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sidemenu',
@@ -16,6 +17,7 @@ export class SidemenuComponent implements OnInit {
 
   @Output() logout: EventEmitter<void> = new EventEmitter<void>();
   userRoles = userRoles;
+  environment = environment;
 
   ngOnInit(): void {
 
