@@ -1,10 +1,9 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {AuthService} from "./modules/shared/services/auth.service";
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from "@ngxs/store";
 import {ApplicationState, SetStateAction} from "./modules/store/state/application-state";
 import {Observable} from "rxjs";
 import {MatDrawer} from "@angular/material/sidenav";
-import {AuthenticationState, SignoutAction} from "./modules/store/state/authentication-state";
+import {SignoutAction} from "./modules/store/state/authentication-state";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 
 @Component({
