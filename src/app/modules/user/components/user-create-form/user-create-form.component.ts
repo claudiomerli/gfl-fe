@@ -32,7 +32,10 @@ export class UserCreateFormComponent implements OnInit {
       remuneration: new UntypedFormControl(''),
       role: new UntypedFormControl(null, [Validators.required]),
       password: new UntypedFormControl('', [Validators.required, Validators.minLength(8)]),
-      repeatPassword: new UntypedFormControl('', [Validators.required, this.passwordMatchesValidatorFunction()])
+      repeatPassword: new UntypedFormControl('', [Validators.required, this.passwordMatchesValidatorFunction()]),
+      editorInfo: new UntypedFormControl(''),
+      editorInfoRemuneration: new UntypedFormControl(''),
+      editorInfoNotes: new UntypedFormControl(''),
     });
   }
 

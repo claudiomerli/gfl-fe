@@ -1,0 +1,7 @@
+<mat-toolbar class="d-flex align-items-center">
+  <mat-icon>ads_click</mat-icon>
+  <span>Modifica dominio</span>
+</mat-toolbar>
+<div class="p-3" *ngIf="domainToEdit">
+  <app-domain-form [domainToEdit]="domainToEdit" (formSubmit)="onFormSubmit($event)"></app-domain-form>
+</div>

@@ -9,5 +9,9 @@ export interface Content {
   projectCommission: ProjectCommission
   contentStatus: string
   lastModifiedDate: string;
-  hint: ContentHint
+  hint: ContentHint;
+  isDomainContent: boolean,
+  wordpressId: string,
+  wordpressUrl: string,
+  wordpressPublicationDate: string
 }

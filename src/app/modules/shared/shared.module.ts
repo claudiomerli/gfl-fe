@@ -21,6 +21,8 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { ContentHintFormComponent } from './components/content-hint-form/content-hint-form.component';
 import {EditorComponent} from "@tinymce/tinymce-angular";
 import {NgxDropzoneModule} from "ngx-dropzone";
+import { PasswordShowletComponent } from './components/password-showlet/password-showlet.component';
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import {NgxDropzoneModule} from "ngx-dropzone";
     SidemenuItemComponent,
     ImageUploaderComponent,
     ConfirmDialogComponent,
-    ContentHintFormComponent
+    ContentHintFormComponent,
+    PasswordShowletComponent
   ],
   exports: [
     IsAuthenticatedDirective,
@@ -43,21 +46,23 @@ import {NgxDropzoneModule} from "ngx-dropzone";
     SidemenuComponent,
     ExtractLabelByCodePipe,
     ImageUploaderComponent,
-    ContentHintFormComponent
+    ContentHintFormComponent,
+    PasswordShowletComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatDividerModule,
-    MatDialogModule,
-    EditorComponent,
-    NgxDropzoneModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatDividerModule,
+        MatDialogModule,
+        EditorComponent,
+        NgxDropzoneModule,
+        ReactiveFormsModule,
+        MatInputModule
+    ]
 })
 export class SharedModule {
 }

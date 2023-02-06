@@ -43,5 +43,4 @@ export class NewsService {
     return this.httpClient.delete<void>(environment.apiBaseurl + `/news/${id}`);
   }
 
-
 }

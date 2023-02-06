@@ -15,6 +15,7 @@ export interface Project {
   projectCommissions: ProjectCommission[]
   projectStatusChanges: ProjectStatusChange[]
   hint: ContentHint
+  isDomainProject: string
 
 }
 

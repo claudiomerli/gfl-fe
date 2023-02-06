@@ -7,10 +7,11 @@
       <div class="p-3 mat-typography">
         <div class="text-start mb-3">
           <h3>Commissione per {{contentToEdit.projectCommission.newspaper.name}}</h3>
-          <button mat-raised-button [routerLink]="['/projects',contentToEdit.projectCommission.projectId]">
-            Vai al progetto
+          <a mat-raised-button target="_blank"
+             [href]="'/projects/' + contentToEdit.projectCommission.projectId + '?commissionId='+contentToEdit.projectCommission.id">
+            Vai alla commissione
             <mat-icon>open_in_new</mat-icon>
-          </button>
+          </a>
         </div>
         <mat-divider></mat-divider>
         <mat-form-field class="w-100 mt-3" appearance="fill">
@@ -23,6 +24,7 @@
           >
           <mat-autocomplete #auto="matAutocomplete"
                             [displayWith]="displayFullnameEditor"
+                            (optionSelected)="assignEditor($event)"
           >
             <mat-option *ngFor="let option of editors" [value]="option">
               {{option.fullname}}
@@ -66,26 +68,68 @@
                   class="m-1 w-100" (click)="updateStatus('WORKING')">Invia al redattore
             <mat-icon>send</mat-icon>
           </button>
-          <button *ngIf="contentToEdit.contentStatus === 'DELIVERED'" mat-raised-button color="primary"
+          <button *ngIf="!contentToEdit.isDomainContent && contentToEdit.contentStatus === 'DELIVERED'"
+                  mat-raised-button color="primary"
                   class="m-1 w-100"
                   (click)="updateStatus('SENT_TO_CUSTOMER')">Invia al cliente
             <mat-icon>send</mat-icon>
           </button>
+          <button
+            *ngIf="contentToEdit.contentStatus != 'APPROVED' && contentToEdit.contentStatus != 'PUBLISHED_WORDPRESS'"
+            mat-raised-button color="primary" class=" m-1 w-100"
+            (click)="updateStatus('APPROVED')">Approvato
+            <mat-icon>check</mat-icon>
+          </button>
         </ng-container>
-        <ng-container *isAuthenticated="['ADMIN','CUSTOMER','CHIEF_EDITOR']">
-          <button *ngIf="contentToEdit.contentStatus === 'SENT_TO_CUSTOMER'" mat-raised-button color="primary"
+        <ng-container *isAuthenticated="['CUSTOMER']">
+          <button *ngIf="!contentToEdit.isDomainContent && contentToEdit.contentStatus === 'SENT_TO_CUSTOMER'"
+                  mat-raised-button color="primary"
                   class=" m-1 w-100" (click)="updateStatus('APPROVED')">Approvato
             <mat-icon>check</mat-icon>
           </button>
         </ng-container>
-        <button *isAuthenticated="['ADMIN','CHIEF_EDITOR']"  mat-raised-button color="primary" class="m-1 w-100" (click)="openDialogContentHint()">
-          Modifica indicazioni contenuto <mat-icon>tips_and_updates</mat-icon>
+        <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR','PUBLISHER','INTERNAL_NETWORK']">
+          <ng-container
+            *ngIf="contentToEdit.isDomainContent && contentToEdit.contentStatus === 'APPROVED' || contentToEdit.contentStatus === 'PUBLISHED_WORDPRESS'">
+            <button mat-raised-button color="primary"
+                    class=" m-1 w-100" (click)="publishOnWordpress()">Pubblica su Wordpress
+              <mat-icon>check</mat-icon>
+            </button>
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Data di pubblicazione</mat-label>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="publicationDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </ng-container>
+        </ng-container>
+        <ng-container *isNotInRole="['CUSTOMER']">
+          <div *ngIf="contentToEdit.wordpressId">
+            <mat-card>
+              <mat-card-content>
+                <div>Il contenuto è già stato pubblicato. La sua pubblicazione è schedulata per il
+                  giorno {{contentToEdit.wordpressPublicationDate | date:"dd/MM/yyyy"}}</div>
+                <mat-divider class="my-1"></mat-divider>
+                <div>Puoi vedere il contenuto <a target="_blank"
+                                                 [href]="contentToEdit.wordpressUrl">cliccando qui</a></div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-container>
+        <button *isAuthenticated="['ADMIN','CHIEF_EDITOR','INTERNAL_NETWORK']" mat-raised-button color="primary"
+                class="m-1 w-100"
+                (click)="openDialogContentHint()">
+          Modifica indicazioni contenuto
+          <mat-icon>tips_and_updates</mat-icon>
         </button>
-        <button *isAuthenticated="['EDITOR']"  mat-raised-button color="primary" class="m-1 w-100" (click)="openDialogContentHint()">
-          Indicazioni contenuto <mat-icon>tips_and_updates</mat-icon>
+        <button *isAuthenticated="['EDITOR']" mat-raised-button color="primary" class="m-1 w-100"
+                (click)="openDialogContentHint()">
+          Indicazioni contenuto
+          <mat-icon>tips_and_updates</mat-icon>
         </button>
-        <button  mat-raised-button color="primary" class="m-1 w-100" (click)="exportDocx()">
-          Esporta docx <mat-icon>description</mat-icon>
+        <button mat-raised-button color="primary" class="m-1 w-100" (click)="exportDocx()">
+          Esporta docx
+          <mat-icon>description</mat-icon>
         </button>
       </div>
     </mat-drawer>

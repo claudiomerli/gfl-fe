@@ -1,0 +1,107 @@
+<mat-toolbar class="d-flex align-items-center">
+  <mat-icon>ads_click</mat-icon>
+  <span>Domini</span>
+</mat-toolbar>
+<div class="p-3" *ngIf="page">
+  <form [formGroup]="searchForm">
+    <div class="row align-items-center">
+      <div class="col-2">
+        <mat-form-field class="w-100">
+          <mat-label>Ricerca...</mat-label>
+          <input matInput formControlName="globalSearch">
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Scadenza da</mat-label>
+          <input matInput [matDatepicker]="pickerFrom" formControlName="expirationFrom">
+          <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFrom></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Scadenza a</mat-label>
+          <input matInput [matDatepicker]="pickerTo" formControlName="expirationTo">
+          <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+          <mat-datepicker #pickerTo></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Hosting</mat-label>
+          <input type="text"
+                 placeholder="Cerca hosting..."
+                 matInput
+                 formControlName="hosting"
+                 [matAutocomplete]="auto"
+          >
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayNameHosting">
+            <mat-option *ngFor="let option of hosting" [value]="option">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <button class="w-100" mat-raised-button color="primary" routerLink="new">
+          <mat-icon>add</mat-icon>
+          Aggiungi
+        </button>
+      </div>
+    </div>
+  </form>
+  <table mat-table [dataSource]="page.content" class="w-100" matSort (matSortChange)="onSortChange($event)">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="name"> Nome</th>
+      <td mat-cell *matCellDef="let element"><a [href]="'https://'+element.name" target="_blank">{{element.name}}</a></td>
+    </ng-container>
+
+    <ng-container matColumnDef="ip">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="ip"> IP</th>
+      <td mat-cell *matCellDef="let element"> {{element.ip}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expiration">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="expiration"> Scadenza</th>
+      <td mat-cell *matCellDef="let element"> {{element.expiration | date:"dd/MM/yyyy"}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="project">
+      <th mat-header-cell *matHeaderCellDef> Progetto</th>
+      <td mat-cell *matCellDef="let element"><a
+        [routerLink]="['/projects',element.projectId]">Vedi progetto</a></td>
+    </ng-container>
+
+    <ng-container matColumnDef="hosting">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="hosting.name"> Hosting</th>
+      <td mat-cell *matCellDef="let element"><a
+        [routerLink]="['/hosting',element.hosting.id]">{{element.hosting.name}}</a></td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Azioni</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button [routerLink]="['/domain',element.id]">
+          <mat-icon>search</mat-icon>
+          Dettaglio
+        </button>
+
+        <button class="ms-3" mat-raised-button (click)="delete(element.id)">
+          <mat-icon>delete</mat-icon>
+          Elimina
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[10,50,100]"
+                 showFirstLastButtons
+                 [length]="page.totalElements"
+                 [pageSize]="pagination.pageSize"
+                 (page)="onPageChange($event)">
+  </mat-paginator>
+</div>

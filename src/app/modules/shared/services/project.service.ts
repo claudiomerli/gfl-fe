@@ -11,6 +11,7 @@ import {Store} from "@ngxs/store";
 import {map, tap} from "rxjs/operators";
 import {AuthenticationState} from "../../store/state/authentication-state";
 import {SaveAttachmentDto} from "../messages/attachment/save-attachment.dto";
+import {ProjectCommissionStatus, projectCommissionStatus} from "../utils/utils";
 
 @Injectable({
   providedIn: 'root'
@@ -90,21 +91,15 @@ export class ProjectService {
     })
   }
 
-  getCommissions(projectId: number, paginationDto: PaginationDto): Observable<ProjectCommission[]> {
-    return this.httpClient.get<ProjectCommission[]>(environment.apiBaseurl + `/project/${projectId}/commissions`, {
+  getCommissions(project: Project, paginationDto: PaginationDto): Observable<ProjectCommission[]> {
+    return this.httpClient.get<ProjectCommission[]>(environment.apiBaseurl + `/project/${project.id}/commissions`, {
       params: {
         ...paginationDto
       }
     }).pipe(
       map((projectCommissions) => {
-        let user = this.store.selectSnapshot(AuthenticationState.user);
-        if (user?.role === "CHIEF_EDITOR") {
-          return  projectCommissions.filter(pc => ["CREATED", "STARTED", "ASSIGNED", "STANDBY_EDITORIAL", "TO_PUBLISH", "SENT_TO_NEWSPAPER", "STANDBY_PUBLICATION", "SENT_TO_ADMINISTRATION",].includes(pc.status))
-        }
-        if (user?.role === "PUBLISHER") {
-          return projectCommissions.filter(pc => ["TO_PUBLISH", "SENT_TO_NEWSPAPER", "STANDBY_PUBLICATION", "SENT_TO_ADMINISTRATION"].includes(pc.status))
-        }
-        return projectCommissions
+        let user = this.store.selectSnapshot(AuthenticationState.user)!;
+        return projectCommissions.filter(projectCommission => projectCommissionStatus.find(e => e.code === projectCommission.status)!.roleCanView.includes(user.role!))
       })
     );
   }
@@ -127,5 +122,25 @@ export class ProjectService {
 
   updateProjectCommissionHint(projectId: number, commissionId: number, body: { body: string | null }) {
     return this.httpClient.put<void>(environment.apiBaseurl + `/project/${projectId}/commission/${commissionId}/hint`, body)
+  }
+
+  getNextCommissionStepCodesByActualStatusCode(code: string, projectType: 'REGULAR' | 'DOMAIN'): string[] {
+    let user = this.store.selectSnapshot(AuthenticationState.user)!;
+    let actualStatus = projectCommissionStatus.find(e => e.code === code)!
+    if (actualStatus.roleCanEdit.includes(user.role!)) {
+      return actualStatus
+        .nextStatuses
+        .filter(nextStatus => {
+          let nextCommissionStatus = projectCommissionStatus.find(e => e.code === nextStatus)!;
+          return nextCommissionStatus!.projectType.includes(projectType) && !nextCommissionStatus.notButton
+        })
+    } else {
+      return [];
+    }
+  }
+
+  getNextCommissionStepByActualStatusCode(code: string, projectType: 'REGULAR' | 'DOMAIN'): ProjectCommissionStatus[] {
+    return this.getNextCommissionStepCodesByActualStatusCode(code, projectType)
+      .map(nextStatus => projectCommissionStatus.find(e => e.code === nextStatus)!)
   }
 }

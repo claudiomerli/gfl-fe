@@ -48,8 +48,12 @@
         <mat-label>Ancora</mat-label>
         <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="type" formControlName="anchor">
         <div matSuffix>
-          <mat-checkbox class="d-block" *ngIf="isRoleAllowedToChangeCommonField()"  formControlName="isAnchorBold">Grassetto</mat-checkbox>
-          <mat-checkbox class="d-block" *ngIf="isRoleAllowedToChangeCommonField()" formControlName="isAnchorItalic">Corsivo</mat-checkbox>
+          <mat-checkbox class="d-block" *ngIf="isRoleAllowedToChangeCommonField()" formControlName="isAnchorBold">
+            Grassetto
+          </mat-checkbox>
+          <mat-checkbox class="d-block" *ngIf="isRoleAllowedToChangeCommonField()" formControlName="isAnchorItalic">
+            Corsivo
+          </mat-checkbox>
         </div>
       </mat-form-field>
     </div>
@@ -62,16 +66,16 @@
     <div class="col-6">
       <mat-form-field class="w-100">
         <mat-label>Url di pubblicazione</mat-label>
-        <input [readonly]="!isRoleAllowedToChangePublicationUrl()" matInput type="type"
+        <input [readonly]="!isRoleAllowedToChangePublicationFields()" matInput type="type"
                formControlName="publicationUrl">
       </mat-form-field>
     </div>
     <div class="col-6">
       <mat-form-field appearance="fill" class="w-100">
         <mat-label>Data di pubblicazione</mat-label>
-        <input [readonly]="!isRoleAllowedToChangePublicationDate()" matInput [matDatepicker]="picker"
+        <input [readonly]="!isRoleAllowedToChangePublicationFields()" matInput [matDatepicker]="picker"
                formControlName="publicationDate">
-        <mat-datepicker-toggle *ngIf="isRoleAllowedToChangePublicationDate()" matSuffix
+        <mat-datepicker-toggle *ngIf="isRoleAllowedToChangePublicationFields()" matSuffix
                                [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -86,12 +90,12 @@
     </div>
     <div class="col-12 d-flex justify-content-between">
       <div>
-        <ng-container *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR']">
+        <ng-container *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR','INTERNAL_NETWORK']">
           <button mat-raised-button class="me-1" (click)="onSave()" type="button" *ngIf="isRoleAllowedToSave()">
             <mat-icon>save</mat-icon>
             {{projectCommission ? "Aggiorna" : "Salva"}}</button>
         </ng-container>
-        <ng-container *isAuthenticated="['ADMIN']">
+        <ng-container *isAuthenticated="['ADMIN','INTERNAL_NETWORK']">
           <button mat-raised-button class="me-1" (click)="onDelete()" *ngIf="projectCommission" type="button">
             <mat-icon>delete</mat-icon>
             Elimina
@@ -101,67 +105,17 @@
           <mat-icon>cancel</mat-icon>
           Annulla
         </button>
+        <a mat-raised-button color="primary" class="ms-3" [href]="'/contents/'+projectCommission.contentId" target="_blank">
+          <mat-icon>newspaper</mat-icon>
+          Vai a contenuto
+        </a>
       </div>
       <div *ngIf="projectCommission">
-        <ng-container *isAuthenticated="['CHIEF_EDITOR','ADMIN']">
-          <button mat-raised-button color="primary" class="me-1"
-                  (click)="onChangeStatus('STARTED')" *ngIf="projectCommission.status === 'CREATED'">
-            <mat-icon>send</mat-icon>
-            Invia a redazione
-          </button>
-          <button mat-raised-button color="primary" class="me-1"
-                  *ngIf="['STARTED','STANDBY_EDITORIAL'].includes(projectCommission.status)"
-                  (click)="onChangeStatus('ASSIGNED')">
-            <mat-icon>assignment_turned_in</mat-icon>
-            Assegnato
-          </button>
-          <button mat-raised-button color="primary" class="me-1"
-                  *ngIf="['STARTED','ASSIGNED'].includes(projectCommission.status)"
-                  (click)="onChangeStatus('STANDBY_EDITORIAL')">
-            <mat-icon>front_hand</mat-icon>
-            Stand By
-          </button>
-          <button mat-raised-button color="primary" class="me-1"
-                  *ngIf="['STARTED','ASSIGNED','STANDBY_EDITORIAL'].includes(projectCommission.status)"
-                  (click)="onChangeStatus('TO_PUBLISH')">
-            <mat-icon>send</mat-icon>
-            Invia a pubblicazione
-          </button>
-        </ng-container>
-        <ng-container *isAuthenticated="['PUBLISHER','ADMIN']">
-          <button mat-raised-button color="primary" class="me-1"
-                  *ngIf="['STANDBY_PUBLICATION','TO_PUBLISH'].includes(projectCommission.status)"
-                  (click)="onChangeStatus('SENT_TO_NEWSPAPER')">
-            <mat-icon>outgoing_mail</mat-icon>
-            Inviato alla testata
-          </button>
-          <button mat-raised-button color="primary" class="me-1"
-                  *ngIf="['SENT_TO_NEWSPAPER','TO_PUBLISH'].includes(projectCommission.status)"
-                  (click)="onChangeStatus('STANDBY_PUBLICATION')">
-            <mat-icon>front_hand</mat-icon>
-            Stand By
-          </button>
-          <button mat-raised-button color="primary" class="me-1"
-                  *ngIf="['SENT_TO_NEWSPAPER','STANDBY_PUBLICATION','TO_PUBLISH'].includes(projectCommission.status)"
-                  (click)="onChangeStatus('SENT_TO_ADMINISTRATION')">
-            <mat-icon>public</mat-icon>
-            Invia in amministrazione
-          </button>
-        </ng-container>
-        <ng-container *isAuthenticated="['ADMIN']">
-          <button mat-raised-button color="primary" class="me-1"
-                  *ngIf="['SENT_TO_ADMINISTRATION'].includes(projectCommission.status)"
-                  (click)="onChangeStatus('SENT_TO_NEWSPAPER')">
-            <mat-icon>outgoing_mail</mat-icon>
-            Inviato alla testata
-          </button>
-          <button mat-raised-button color="primary" class="me-1"
-                  *ngIf="['SENT_TO_ADMINISTRATION'].includes(projectCommission.status)"
-                  (click)="onChangeStatus('STANDBY_PUBLICATION')">
-            <mat-icon>front_hand</mat-icon>
-            Stand By
-          </button>
-        </ng-container>
+        <button *ngFor="let nextStep of nextSteps" mat-raised-button color="primary" class="me-1"
+                (click)="onChangeStatus(nextStep.code)">
+          <mat-icon>{{nextStep.icon}}</mat-icon>
+          Passa a stato : {{nextStep.label}}
+        </button>
       </div>
     </div>
   </div>

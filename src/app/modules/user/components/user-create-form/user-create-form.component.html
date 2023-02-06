@@ -34,6 +34,26 @@
           </mat-form-field>
         </mat-card-content>
       </mat-card>
+      <mat-card class="mt-3" *ngIf="userForm.controls['role'].value === 'EDITOR'">
+        <mat-card-title>
+          <mat-icon>draw</mat-icon>
+          Dati redattore
+        </mat-card-title>
+        <mat-card-content>
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Info</mat-label>
+            <textarea matInput formControlName="editorInfo"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Compenso</mat-label>
+            <input type="number" matInput formControlName="editorInfoRemuneration">
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Note</mat-label>
+            <textarea matInput formControlName="editorInfoNotes"></textarea>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
     </div>
     <div class="col-6">
       <mat-card>

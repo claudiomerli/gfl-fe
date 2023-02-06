@@ -57,4 +57,8 @@ export class ContentService {
       responseType: "blob"
     })
   }
+
+  publishOnWordpress(id: number, publicationdateDTO: { publishDate: string }) {
+    return this.httpClient.post(environment.apiBaseurl + `/content/${id}/publishOnWordpress`, publicationdateDTO)
+  }
 }

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {ProjectCommission} from "../../../shared/messages/project/project";
+import {Project, ProjectCommission} from "../../../shared/messages/project/project";
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 import {debounceTime} from "rxjs/operators";
@@ -7,14 +7,19 @@ import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {SaveProjectCommissionDto} from "../../../shared/messages/project/save-project-commission.dto";
-import {getYearList, momentDatePatternIso, periods, validateObject} from "../../../shared/utils/utils";
+import {
+  getYearList,
+  momentDatePatternIso,
+  periods,
+  ProjectCommissionStatus,
+  validateObject
+} from "../../../shared/utils/utils";
 import {Select, Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {Observable} from "rxjs";
 import {Moment} from "moment/moment";
 import * as moment from "moment";
-import {SaveAttachmentDto} from "../../../shared/messages/attachment/save-attachment.dto";
-import {Attachment} from "../../../shared/messages/common/attachment";
+import {ProjectService} from "../../../shared/services/project.service";
 
 @Component({
   selector: 'app-project-commission-form',
@@ -25,15 +30,20 @@ export class ProjectCommissionFormComponent implements OnInit {
 
   projectCommissionForm = this.createFormGroup();
 
-  @Select(AuthenticationState.isUserInRole("ADMIN"))
-  isUserAdmin$!: Observable<boolean>;
-  @Select(AuthenticationState.isUserInRole("PUBLISHER"))
-  isUserPublisher$!: Observable<boolean>;
-  @Select(AuthenticationState.isUserInRole("CHIEF_EDITOR"))
-  isUserChiefEditor$!: Observable<boolean>;
-  @Input() preselectedNewspaper!: number
+  @Select(AuthenticationState.isUserInRole("ADMIN")) isUserAdmin$!: Observable<boolean>;
+  @Select(AuthenticationState.isUserInRole("PUBLISHER")) isUserPublisher$!: Observable<boolean>;
+  @Select(AuthenticationState.isUserInRole("CHIEF_EDITOR")) isUserChiefEditor$!: Observable<boolean>;
 
-  constructor(private newspaperService: NewspaperService, private store: Store) {
+  @Input() preselectedNewspaper!: number
+  @Input() projectCommission!: ProjectCommission;
+  @Input() project!: Project;
+
+  @Output() save = new EventEmitter<SaveProjectCommissionDto>()
+  @Output() delete = new EventEmitter<void>()
+  @Output() cancel = new EventEmitter<void>()
+  @Output() changeStatus = new EventEmitter<string>()
+
+  constructor(private newspaperService: NewspaperService, private projectService: ProjectService, private store: Store) {
   }
 
   createFormGroup() {
@@ -69,10 +79,10 @@ export class ProjectCommissionFormComponent implements OnInit {
         title: this.projectCommission.title
       })
       this.newspaperInput.setValue(this.projectCommission.newspaper)
+      this.nextSteps = this.projectService.getNextCommissionStepByActualStatusCode(this.projectCommission.status, this.project.isDomainProject ? "DOMAIN" : "REGULAR")
     }
 
     if (this.preselectedNewspaper) {
-      console.log("Carico newspaper di default", this.preselectedNewspaper)
       this.newspaperService
         .findById(this.preselectedNewspaper)
         .subscribe(newspaper => {
@@ -97,12 +107,6 @@ export class ProjectCommissionFormComponent implements OnInit {
         }
       })
   }
-
-  @Input() projectCommission!: ProjectCommission;
-  @Output() save = new EventEmitter<SaveProjectCommissionDto>()
-  @Output() delete = new EventEmitter<void>()
-  @Output() cancel = new EventEmitter<void>()
-  @Output() changeStatus = new EventEmitter<string>()
 
 
   newspaper: Newspaper[] = [];
@@ -149,6 +153,7 @@ export class ProjectCommissionFormComponent implements OnInit {
   formGroupDirective!: NgForm;
   periods = periods;
   years = getYearList();
+  nextSteps : ProjectCommissionStatus[] = [];
 
   onChangeStatus(status: string) {
     this.changeStatus.emit(status)
@@ -156,44 +161,23 @@ export class ProjectCommissionFormComponent implements OnInit {
 
   isRoleAllowedToChangeCommonField() {
     let user = this.store.selectSnapshot(AuthenticationState.user);
-    if (user?.role === "ADMIN") {
+    if (user?.role === "ADMIN" || user?.role === "INTERNAL_NETWORK") {
       return true
     }
-    if (user?.role === "CHIEF_EDITOR" && (!this.projectCommission || ['CREATED', 'STARTED', 'ASSIGNED', 'STANDBY_EDITORIAL'].includes(this.projectCommission.status))) {
+    if (user?.role === "CHIEF_EDITOR" && (!this.projectCommission || ['CREATED', 'STARTED', 'ASSIGNED', 'STANDBY_EDITORIAL', 'TO_PUBLISH', 'SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION', 'PUBLISHED_INTERNAL_NETWORK'].includes(this.projectCommission.status))) {
       return true
     }
 
     return false;
   }
 
-  isRoleAllowedToChangePublicationUrl() {
+  isRoleAllowedToChangePublicationFields() {
     let user = this.store.selectSnapshot(AuthenticationState.user);
-    if (this.isRoleAllowedToChangeCommonField()) {
-      return true
-    }
-
-    if (user?.role === "PUBLISHER" && ['TO_PUBLISH', 'SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION'].includes(this.projectCommission.status)) {
-      return true
-    }
-
-    return false
-  }
-
-  isRoleAllowedToChangePublicationDate() {
-    let user = this.store.selectSnapshot(AuthenticationState.user);
-    if (this.isRoleAllowedToChangeCommonField()) {
-      return true
-    }
-
-    if ((user?.role === "PUBLISHER" || user?.role === "CHIEF_EDITOR") && ['TO_PUBLISH', 'SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION'].includes(this.projectCommission.status)) {
-      return true
-    }
-
-    return false
+    return this.isRoleAllowedToChangeCommonField() || (user?.role === "PUBLISHER" && ['TO_PUBLISH', 'SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION'].includes(this.projectCommission.status));
   }
 
   isRoleAllowedToSave() {
-    return this.isRoleAllowedToChangeCommonField() || this.isRoleAllowedToChangePublicationUrl() || this.isRoleAllowedToChangePublicationDate()
+    return this.isRoleAllowedToChangeCommonField() || this.isRoleAllowedToChangePublicationFields()
   }
 
 }

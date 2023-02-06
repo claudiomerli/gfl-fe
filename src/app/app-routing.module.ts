@@ -15,13 +15,13 @@ const routes: Routes = [
     path: "projects",
     loadChildren: () => import("./modules/project/project.module").then(m => m.ProjectModule),
     canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN', 'CHIEF_EDITOR', 'CUSTOMER', 'PUBLISHER', 'ADMINISTRATION']}
+    data: {availableRoles: ['ADMIN', 'CHIEF_EDITOR', 'CUSTOMER', 'PUBLISHER', 'ADMINISTRATION','INTERNAL_NETWORK']}
   },
   {
     path: "contents",
     loadChildren: () => import("./modules/content/content.module").then(m => m.ContentModule),
     canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN', 'CHIEF_EDITOR', 'CUSTOMER', 'PUBLISHER', 'ADMINISTRATION', 'EDITOR']}
+    data: {availableRoles: ['ADMIN', 'CHIEF_EDITOR', 'CUSTOMER', 'PUBLISHER', 'ADMINISTRATION', 'EDITOR','INTERNAL_NETWORK']}
   },
   {
     path: "users",
@@ -52,6 +52,18 @@ const routes: Routes = [
     loadChildren: () => import("./modules/statistics/statistics.module").then(m => m.StatisticsModule),
     canActivate: [AuthGuard],
     data: {availableRoles: ['ADMIN', 'CUSTOMER']}
+  },
+  {
+    path: "hosting",
+    loadChildren: () => import("./modules/hosting/hosting.module").then(m => m.HostingModule),
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN', 'INTERNAL_NETWORK']}
+  },
+  {
+    path: "domain",
+    loadChildren: () => import("./modules/domain/domain.module").then(m => m.DomainModule),
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN', 'INTERNAL_NETWORK']}
   }
 ];
 

@@ -32,6 +32,7 @@ export const userRoles = [
   {code: 'EDITOR', label: 'Redattore'},
   {code: 'PUBLISHER', label: 'Pubblicatore'},
   {code: 'ADMINISTRATION', label: 'Amministrazione fatturazione'},
+  {code: 'INTERNAL_NETWORK', label: 'Network interno'},
 ]
 
 export const regionalGeolocalizzation = [
@@ -91,34 +92,96 @@ export const contentStatus = [
   {label: 'In lavorazione', code: 'WORKING'},
   {label: 'Inviato al capo redattore', code: 'DELIVERED'},
   {label: 'Inviato al cliente', code: 'SENT_TO_CUSTOMER'},
-  {label: 'Approvato', code: 'APPROVED'}
+  {label: 'Approvato', code: 'APPROVED'},
+  {label: 'Pubblicato su wordpress', code: 'PUBLISHED_WORDPRESS'}
 ]
 
-export const projectCommissionStatus = [
-  {label: 'Creato', code: 'CREATED', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR']},
-  {label: 'Avviato', code: 'STARTED', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR']},
-
-  {label: 'Assegnato', code: 'ASSIGNED', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR']},
-  {label: 'Stand By - Redazione', code: 'STANDBY_EDITORIAL', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR']},
-  {label: 'Da pubblicare', code: 'TO_PUBLISH', roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'PUBLISHER']},
-
+export type ProjectCommissionStatus = {
+  icon?: string, notButton?: boolean, label: string, code: string, roleCanView: string[], roleCanEdit: string[], nextStatuses: string[], projectType: ('REGULAR'|'DOMAIN')[]
+}
+export const projectCommissionStatus: ProjectCommissionStatus[] = [
   {
-    label: 'Inviato alla testata',
-    code: 'SENT_TO_NEWSPAPER',
-    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'PUBLISHER']
+    notButton: true,
+    label: 'Creato',
+    code: 'CREATED',
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
+    roleCanEdit: ['ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
+    nextStatuses: ['STARTED'],
+    projectType: ['REGULAR', 'DOMAIN']
   },
   {
+    icon: 'send',
+    label: 'Avviato',
+    code: 'STARTED',
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
+    roleCanEdit: ['ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
+    nextStatuses: ['ASSIGNED', 'STANDBY_EDITORIAL'],
+    projectType: ['REGULAR', 'DOMAIN']
+  },
+  {
+    notButton: true,
+    label: 'Assegnato',
+    code: 'ASSIGNED',
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
+    roleCanEdit: ['ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
+    nextStatuses: ['TO_PUBLISH', 'STANDBY_EDITORIAL'],
+    projectType: ['REGULAR', 'DOMAIN']
+  },
+  {
+    icon: 'front_hand',
+    label: 'Stand By - Redazione',
+    code: 'STANDBY_EDITORIAL',
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
+    roleCanEdit: ['ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
+    nextStatuses: ['ASSIGNED', 'TO_PUBLISH'],
+    projectType: ['REGULAR', 'DOMAIN']
+  },
+  {
+    icon: 'send',
+    label: 'Da pubblicare',
+    code: 'TO_PUBLISH',
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'PUBLISHER', 'INTERNAL_NETWORK'],
+    roleCanEdit: ['ADMIN', 'INTERNAL_NETWORK', 'PUBLISHER'],
+    nextStatuses: ['SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION', 'PUBLISHED_INTERNAL_NETWORK'],
+    projectType: ['REGULAR', 'DOMAIN']
+  },
+  {
+    icon: 'front_hand',
     label: 'Stand By - Pubblicazione',
     code: 'STANDBY_PUBLICATION',
-    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'PUBLISHER']
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'PUBLISHER', 'INTERNAL_NETWORK'],
+    roleCanEdit: ['ADMIN', 'INTERNAL_NETWORK', 'PUBLISHER'],
+    nextStatuses: ['SENT_TO_ADMINISTRATION', 'SENT_TO_NEWSPAPER'],
+    projectType: ['REGULAR', 'DOMAIN']
   },
   {
+    notButton: true,
+    label: 'Pubblicato su network interno',
+    code: 'PUBLISHED_INTERNAL_NETWORK',
+    roleCanView: ['INTERNAL_NETWORK', 'ADMIN', 'PUBLISHER'],
+    nextStatuses: [],
+    roleCanEdit: [],
+    projectType: ['DOMAIN']
+  },
+  {
+    icon: 'outgoing_mail',
+    label: 'Inviato alla testata',
+    code: 'SENT_TO_NEWSPAPER',
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'PUBLISHER'],
+    roleCanEdit: ['ADMIN', 'INTERNAL_NETWORK', 'PUBLISHER'],
+    nextStatuses: ['SENT_TO_ADMINISTRATION', 'STANDBY_PUBLICATION'],
+    projectType: ['REGULAR']
+  },
+  {
+    icon: 'public',
     label: 'Inviato in amministrazione',
     code: 'SENT_TO_ADMINISTRATION',
-    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'PUBLISHER']
-  },
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'PUBLISHER'],
+    roleCanEdit: ['ADMIN'],
+    nextStatuses: ['STANDBY_PUBLICATION', 'SENT_TO_NEWSPAPER'],
+    projectType: ['REGULAR']
+  }
 ]
-
 
 export const getYearList = (): number[] => {
   let years = [];

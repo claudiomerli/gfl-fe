@@ -14,50 +14,52 @@
                      formControlName="name">
             </mat-form-field>
           </div>
-          <div class="col-6" *isNotInRole="['CUSTOMER','CHIEF_EDITOR','PUBLISHER']">
-            <mat-form-field class="w-100">
-              <mat-label>Descrizione fatturazione</mat-label>
-              <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="text"
-                     formControlName="billingDescription">
-            </mat-form-field>
-          </div>
-          <div class="col-6" *isNotInRole="['CUSTOMER','CHIEF_EDITOR','PUBLISHER']">
-            <mat-form-field class="w-100">
-              <mat-label>Importo fatturazione</mat-label>
-              <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="number"
-                     formControlName="billingAmount">
-            </mat-form-field>
-          </div>
-          <div class="col-6" *isNotInRole="['CUSTOMER']">
-            <mat-form-field appearance="fill" class="w-100">
-              <mat-label>Scadenza</mat-label>
-              <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput
-                     [matDatepicker]="picker" formControlName="expiration">
-              <mat-datepicker-toggle *ngIf="(isUserAdmin$ | async) || (isUserChiefEditor$ | async)" matSuffix
-                                     [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div class="col-6" *isNotInRole="['CUSTOMER']">
-            <mat-form-field class="w-100" appearance="fill">
-              <mat-label>Cliente</mat-label>
-              <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" type="text"
-                     placeholder="Cerca cliente..."
-                     matInput
-                     formControlName="customer"
-                     [matAutocomplete]="auto"
-              >
-              <mat-autocomplete #auto="matAutocomplete"
-                                [displayWith]="displayFullnameCustomer"
-              >
-                <mat-option *ngFor="let option of customers" [value]="option">
-                  {{option.fullname}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
+          <ng-container *ngIf="projectToEdit && !projectToEdit.isDomainProject">
+            <div class="col-6" *isNotInRole="['CUSTOMER','CHIEF_EDITOR','PUBLISHER']">
+              <mat-form-field class="w-100">
+                <mat-label>Descrizione fatturazione</mat-label>
+                <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="text"
+                       formControlName="billingDescription">
+              </mat-form-field>
+            </div>
+            <div class="col-6" *isNotInRole="['CUSTOMER','CHIEF_EDITOR','PUBLISHER']">
+              <mat-form-field class="w-100">
+                <mat-label>Importo fatturazione</mat-label>
+                <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="number"
+                       formControlName="billingAmount">
+              </mat-form-field>
+            </div>
+            <div class="col-6" *isNotInRole="['CUSTOMER']">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Scadenza</mat-label>
+                <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput
+                       [matDatepicker]="picker" formControlName="expiration">
+                <mat-datepicker-toggle *ngIf="(isUserAdmin$ | async) || (isUserChiefEditor$ | async)" matSuffix
+                                       [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-6" *isNotInRole="['CUSTOMER']">
+              <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Cliente</mat-label>
+                <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" type="text"
+                       placeholder="Cerca cliente..."
+                       matInput
+                       formControlName="customer"
+                       [matAutocomplete]="auto"
+                >
+                <mat-autocomplete #auto="matAutocomplete"
+                                  [displayWith]="displayFullnameCustomer"
+                >
+                  <mat-option *ngFor="let option of customers" [value]="option">
+                    {{option.fullname}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </ng-container>
         </div>
-        <div class="mb-3" *isAuthenticated="['ADMIN','CHIEF_EDITOR']">
+        <div class="mb-3" *isAuthenticated="['ADMIN','CHIEF_EDITOR','INTERNAL_NETWORK']">
           <mat-accordion *ngIf="projectToEdit">
             <mat-expansion-panel>
               <mat-expansion-panel-header>
@@ -75,7 +77,7 @@
             </mat-expansion-panel>
           </mat-accordion>
         </div>
-        <div class="col-12 text-end">
+        <div class="col-12 text-end" *ngIf="projectToEdit && !projectToEdit.isDomainProject">
           <ng-container *ngIf="projectToEdit?.status === 'SENT_TO_ADMINISTRATION'">
             <button *isAuthenticated="['ADMIN','ADMINISTRATION']" mat-raised-button color="primary" type="button"
                     class="me-1" (click)="onCloseProject()">
@@ -84,14 +86,14 @@
             </button>
           </ng-container>
 
-          <button mat-raised-button color="primary" type="submit" *isAuthenticated="['ADMIN','CHIEF_EDITOR']">
+          <button mat-raised-button color="primary" type="submit" *isAuthenticated="['ADMIN','CHIEF_EDITOR','INTERNAL_NETWORK']">
             <mat-icon>save</mat-icon>
             Salva
           </button>
         </div>
       </form>
       <mat-divider class="my-3"></mat-divider>
-      <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR','PUBLISHER','CUSTOMER']">
+      <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR','PUBLISHER','CUSTOMER','INTERNAL_NETWORK']">
         <div class="p-3" *ngIf="projectFormGroup.valid">
           <div class="row align-items-center">
             <div class="col-2">
@@ -133,7 +135,7 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="col-2" *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR']">
+            <div class="col-2" *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR','INTERNAL_NETWORK']">
               <mat-form-field appearance="fill" class="w-100">
                 <mat-label>Passa in stato</mat-label>
                 <mat-select [formControl]="changeStatusFormControl" [disabled]="nextStateBulkAction.length === 0"
@@ -145,7 +147,7 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="col-2" *isAuthenticated="['ADMIN','CHIEF_EDITOR']">
+            <div class="col-2" *isAuthenticated="['ADMIN','CHIEF_EDITOR','INTERNAL_NETWORK']">
               <div class="text-center">
                 <button mat-raised-button (click)="createCommission()">
                   <mat-icon>add</mat-icon>
@@ -154,8 +156,11 @@
               </div>
             </div>
           </div>
+          <mat-card class="w-100" *ngIf="projectToEdit && !(projectToEdit.projectCommissions && projectToEdit.projectCommissions.length > 0)">
+            <mat-card-content>Questo progetto non ha commissioni o non hai il ruolo adatto per gestirle</mat-card-content>
+          </mat-card>
           <table mat-table
-                 *ngIf="projectToEdit && projectToEdit.projectCommissions"
+                 *ngIf="projectToEdit && projectToEdit.projectCommissions && projectToEdit.projectCommissions.length > 0"
                  [dataSource]="projectToEdit.projectCommissions"
                  class="mat-elevation-z8 w-100 mt-3 fixed-width" matSort (matSortChange)="onSortChange($event)">
             <!-- Position Column -->

@@ -4,6 +4,7 @@ import {Project, ProjectCommission} from "../../../shared/messages/project/proje
 import {ProjectService} from "../../../shared/services/project.service";
 import {SaveProjectCommissionDto} from "../../../shared/messages/project/save-project-commission.dto";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
+import {projectCommissionStatus} from "../../../shared/utils/utils";
 
 @Component({
   selector: 'app-project-commission-dialog-form',
@@ -24,8 +25,8 @@ export class ProjectCommissionDialogFormComponent implements OnInit {
   ) {
   }
 
+  projectCommissionStatus = projectCommissionStatus;
   ngOnInit(): void {
-    console.log(this.data)
   }
 
   onSaveCommission($event: SaveProjectCommissionDto) {

@@ -1,10 +1,19 @@
-<h1 mat-dialog-title>{{data.projectCommission ? 'Modifica' : 'Crea'}} commissione</h1>
+<div class="d-flex align-items-center">
+  <h1 class="m-0" mat-dialog-title>{{data.projectCommission ? 'Modifica' : 'Crea'}} commissione
+  </h1>
+  <span class="mx-1">-</span>
+  <mat-chip-list>
+    <mat-chip class="mat-typography" color="primary">{{projectCommissionStatus|extractLabelByCode:data.projectCommission.status}}</mat-chip>
+  </mat-chip-list>
+</div>
 <div mat-dialog-content>
-  <app-project-commission-form [projectCommission]="data.projectCommission"
-                               [preselectedNewspaper]="data.preselectedNewspaper"
-                               (save)="onSaveCommission($event)"
-                               (delete)="onDeleteCommission()"
-                               (cancel)="dialogRef.close()"
-                               (changeStatus)="onChangeStatus($event)"
+  <app-project-commission-form
+    [project]="data.project"
+    [projectCommission]="data.projectCommission"
+    [preselectedNewspaper]="data.preselectedNewspaper"
+    (save)="onSaveCommission($event)"
+    (delete)="onDeleteCommission()"
+    (cancel)="dialogRef.close()"
+    (changeStatus)="onChangeStatus($event)"
   ></app-project-commission-form>
 </div>

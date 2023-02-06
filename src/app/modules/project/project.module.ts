@@ -37,6 +37,7 @@ import {NewspaperModule} from "../newspaper/newspaper.module";
 import {NgxPrintElementModule} from "ngx-print-element";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import {EditorComponent} from "@tinymce/tinymce-angular";
+import {MatChipsModule} from "@angular/material/chips";
 
 
 @NgModule({
@@ -49,38 +50,39 @@ import {EditorComponent} from "@tinymce/tinymce-angular";
     ProjectStatisticsComponent,
     ProjectNewspaperToolDialogComponent
   ],
-  imports: [
-    CommonModule,
-    ProjectRoutingModule,
-    ReactiveFormsModule,
-    NgxPaginationModule,
-    NgxAutocompleteModule,
-    FormsModule,
-    SharedModule,
-    MatToolbarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatAutocompleteModule,
-    MatCardModule,
-    MatDatepickerModule,
-    MatMomentDateModule,
-    MatExpansionModule,
-    MatStepperModule,
-    MatMenuModule,
-    MatCheckboxModule,
-    MatListModule,
-    NewspaperModule,
-    NgxPrintElementModule,
-    NgxDropzoneModule,
-    EditorComponent
-  ],
+    imports: [
+        CommonModule,
+        ProjectRoutingModule,
+        ReactiveFormsModule,
+        NgxPaginationModule,
+        NgxAutocompleteModule,
+        FormsModule,
+        SharedModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatSelectModule,
+        MatDialogModule,
+        MatAutocompleteModule,
+        MatCardModule,
+        MatDatepickerModule,
+        MatMomentDateModule,
+        MatExpansionModule,
+        MatStepperModule,
+        MatMenuModule,
+        MatCheckboxModule,
+        MatListModule,
+        NewspaperModule,
+        NgxPrintElementModule,
+        NgxDropzoneModule,
+        EditorComponent,
+        MatChipsModule
+    ],
   providers: [
     {
       provide: MAT_DATE_FORMATS,

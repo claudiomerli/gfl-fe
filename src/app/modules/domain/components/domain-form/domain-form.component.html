@@ -1,0 +1,58 @@
+<form [formGroup]="domainForm" (submit)="onSubmit()">
+  <mat-form-field class="w-100">
+    <mat-label>Nome</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+  <mat-form-field class="w-100">
+    <mat-label>IP</mat-label>
+    <input matInput formControlName="ip">
+  </mat-form-field>
+  <div class="row">
+    <div class="col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Wordpress username</mat-label>
+        <input matInput formControlName="wordpressUsername">
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Wordpress password</mat-label>
+        <input matInput [type]="wordpressPasswordHide ? 'password' : 'text'" formControlName="wordpressPassword">
+        <button type="button" mat-icon-button matSuffix (click)="wordpressPasswordHide = !wordpressPasswordHide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="wordpressPasswordHide">
+          <mat-icon>{{wordpressPasswordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Scadenza</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="expiration">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field class="w-100" appearance="fill">
+    <mat-label>Hosting</mat-label>
+    <input type="text"
+           placeholder="Cerca hosting..."
+           matInput
+           [formControl]="domainForm.controls.hosting"
+           [matAutocomplete]="auto"
+    >
+    <mat-autocomplete #auto="matAutocomplete"
+                      [displayWith]="displayNameHosting"
+    >
+      <mat-option *ngFor="let option of hosting" [value]="option">
+        {{option.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <div class="row">
+    <div class="col-12 text-end">
+      <button mat-raised-button color="primary" type="submit">
+        <mat-icon>save</mat-icon>
+        Salva
+      </button>
+    </div>
+  </div>
+</form>

@@ -30,7 +30,17 @@ export class UserUpdateFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.editUserForm.patchValue(this.userToEdit)
+    this.editUserForm.patchValue({
+      id: this.userToEdit.id,
+      username: this.userToEdit.username,
+      fullname: this.userToEdit.fullname,
+      email: this.userToEdit.email,
+      mobilePhone: this.userToEdit.mobilePhone,
+      role: this.userToEdit.role,
+      editorInfo: this.userToEdit.editorInfo?.info,
+      editorInfoRemuneration: this.userToEdit.editorInfo?.remuneration,
+      editorInfoNotes: this.userToEdit.editorInfo?.notes,
+    })
 
     if (this.userToEdit.role == "CUSTOMER") {
       this.editUserForm.controls.role.disable();
@@ -56,7 +66,11 @@ export class UserUpdateFormComponent implements OnInit {
     role: new UntypedFormControl(null, [Validators.required]),
 
     password: new UntypedFormControl(''),
-    repeatPassword: new UntypedFormControl('')
+    repeatPassword: new UntypedFormControl(''),
+
+    editorInfo: new UntypedFormControl(''),
+    editorInfoRemuneration: new UntypedFormControl(''),
+    editorInfoNotes: new UntypedFormControl(''),
   });
   formSubmitted: boolean = false;
   userRoles = userRoles;

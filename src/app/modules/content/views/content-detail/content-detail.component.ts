@@ -10,7 +10,7 @@ import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MatDrawer} from "@angular/material/sidenav";
 import * as moment from "moment";
-import {contentStatus} from "../../../shared/utils/utils";
+import {contentStatus, momentDatePatternIso} from "../../../shared/utils/utils";
 import {Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {saveAs} from "file-saver";
@@ -18,6 +18,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {
   ContentHintDialogFormComponent
 } from "../../components/content-hint-dialog-form/content-hint-dialog-form.component";
+import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-content-detail',
@@ -42,18 +43,41 @@ export class ContentDetailComponent implements OnInit {
 
   displayFullnameEditor = (editor: User) => editor?.fullname || ""
   contentStatus = contentStatus;
+  publicationDate = moment()
 
 
   ngOnInit(): void {
+    this.contentForm.controls.editor.valueChanges
+      .pipe(debounceTime(200))
+      .subscribe((search) => {
+        if (search != null && typeof search === "string" && search !== "") {
+          this.userService.findForAutocomplete(search, "EDITOR",
+            new PaginationDto(0, 50, "ASC", "fullname")
+          ).subscribe(value => {
+            this.editors = value.content
+          })
+        } else if (search === "") {
+          this.contentForm.controls.editor.setValue(null)
+          this.editors = []
+        }
+      })
+
+    this.contentForm.controls.body.valueChanges.pipe(debounceTime(2000)).subscribe(value => {
+      this.contentService.updateWithNoSpinner(this.contentToEdit.id, {body: value!})
+        .subscribe(() => {
+          this.lastSaved = moment()
+        })
+    })
     this.refresh()
   }
 
   public userCanEdit = () => {
     let user = this.store.selectSnapshot(AuthenticationState.user);
     switch (user?.role) {
+      case "INTERNAL_NETWORK":
       case "CHIEF_EDITOR":
       case "ADMIN":
-        return this.contentToEdit.contentStatus != "APPROVED";
+        return true;
       case "EDITOR":
         return ["WORKING", "DELIVERED"].includes(this.contentToEdit.contentStatus)
       case "CUSTOMER":
@@ -73,35 +97,12 @@ export class ContentDetailComponent implements OnInit {
       .subscribe((content) => {
         this.contentToEdit = content
         this.patchForm(content);
-
-        this.contentForm.controls.editor.valueChanges
-          .pipe(debounceTime(200))
-          .subscribe((search) => {
-            if (search != null && typeof search === "string" && search !== "") {
-              this.userService.findForAutocomplete(search, "EDITOR",
-                new PaginationDto(0, 50, "ASC", "fullname")
-              ).subscribe(value => {
-                this.editors = value.content
-              })
-            } else if (search != null && typeof search === "object") {
-              this.contentService.assignToEditor(this.contentToEdit.id, search.id!).subscribe()
-            } else {
-              this.contentForm.controls.editor.setValue(null)
-              this.editors = []
-            }
-          })
-
-        this.contentForm.controls.body.valueChanges.pipe(debounceTime(2000)).subscribe(value => {
-          this.contentService.updateWithNoSpinner(this.contentToEdit.id, {body: value!})
-            .subscribe(() => {
-              this.lastSaved = moment()
-            })
-        })
       })
   }
 
 
   private patchForm(content: Content) {
+    this.publicationDate = content.wordpressPublicationDate ? moment(content.wordpressPublicationDate) : moment()
     this.contentForm.controls.editor.setValue(content.editor)
     this.contentForm.controls.body.setValue(content.body)
     this.lastSaved = moment(content.lastModifiedDate)
@@ -123,10 +124,28 @@ export class ContentDetailComponent implements OnInit {
   }
 
   openDialogContentHint() {
-    this.matDialog.open(ContentHintDialogFormComponent,{
+    this.matDialog.open(ContentHintDialogFormComponent, {
       data: this.contentToEdit.id
     })
       .afterClosed()
       .subscribe(() => this.refresh())
+  }
+
+  publishOnWordpress() {
+    this.matDialog.open(ConfirmDialogComponent, {
+      data: "Sei sicuro di voler pubblicare il contenuto su Wordpress? Le modifiche fatte su questa piattaforma sovrascriveranno quelle di Wordpress!"
+    }).afterClosed().subscribe(answer => {
+      if (answer) {
+        this.contentService
+          .publishOnWordpress(this.contentToEdit.id, {publishDate: this.publicationDate.format(momentDatePatternIso)})
+          .subscribe(() => {
+            this.refresh()
+          })
+      }
+    })
+  }
+
+  assignEditor($event: MatAutocompleteSelectedEvent) {
+    this.contentService.assignToEditor(this.contentToEdit.id, $event.option.value.id!).subscribe()
   }
 }

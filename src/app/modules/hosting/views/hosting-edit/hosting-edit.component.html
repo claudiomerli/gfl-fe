@@ -1,0 +1,7 @@
+<mat-toolbar class="d-flex align-items-center">
+  <mat-icon>dns</mat-icon>
+  <span>Modifica hosting</span>
+</mat-toolbar>
+<div class="p-3" *ngIf="hostingToEdit">
+  <app-hosting-form [hostingToEdit]="hostingToEdit" (formSubmit)="onFormSubmit($event)"></app-hosting-form>
+</div>

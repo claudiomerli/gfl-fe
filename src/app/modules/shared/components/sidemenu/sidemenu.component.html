@@ -20,6 +20,11 @@
   <app-sidemenu-item [icon]="'edit_square'" [title]="'Gestione contenuti'"
                      routerLinkActive="active" routerLink="/contents"></app-sidemenu-item>
 
+  <app-sidemenu-item [icon]="'dns'" [title]="'Hosting'"
+                     routerLinkActive="active" routerLink="/hosting" *isAuthenticated="['ADMIN','INTERNAL_NETWORK']"></app-sidemenu-item>
+  <app-sidemenu-item [icon]="'ads_click'" [title]="'Domini'"
+                     routerLinkActive="active" routerLink="/domain" *isAuthenticated="['ADMIN','INTERNAL_NETWORK']"></app-sidemenu-item>
+
   <ng-container *isAuthenticated="['ADMIN']">
     <mat-divider class="my-3"></mat-divider>
     <app-sidemenu-item [icon]="'group'" [title]="'Utenti'" routerLinkActive="active"

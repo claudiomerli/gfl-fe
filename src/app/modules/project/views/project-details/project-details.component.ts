@@ -25,7 +25,7 @@ import {
   ProjectCommissionDialogFormComponent
 } from "../../components/project-commission-dialog-form/project-commission-dialog-form.component";
 import {Select, Store} from "@ngxs/store";
-import {AuthenticationState, AuthenticationStateModel} from "../../../store/state/authentication-state";
+import {AuthenticationState} from "../../../store/state/authentication-state";
 import {Observable, of, zip} from "rxjs";
 import {
   CommissionHistoryDialogComponent
@@ -37,7 +37,6 @@ import {
 } from "../../components/project-newspaper-tool-dialog/project-newspaper-tool-dialog.component";
 import {saveAs} from "file-saver";
 import {Attachment} from "../../../shared/messages/common/attachment";
-import {read} from "xlsx";
 import {SaveAttachmentDto} from "../../../shared/messages/attachment/save-attachment.dto";
 import {Sort} from "@angular/material/sort";
 
@@ -77,7 +76,6 @@ export class ProjectDetailsComponent implements OnInit {
     private userService: UserService,
     private matDialog: MatDialog,
     private store: Store,
-    private router: Router
   ) {
   }
 
@@ -86,8 +84,8 @@ export class ProjectDetailsComponent implements OnInit {
       name: new FormControl('', [Validators.required]),
       billingDescription: new FormControl(''),
       billingAmount: new FormControl<number | null>(null),
-      expiration: new FormControl<Moment | null>(null, [Validators.required]),
-      customer: new FormControl<User | null>(null, [Validators.required, validateObject]),
+      expiration: new FormControl<Moment | null>(null),
+      customer: new FormControl<User | null>(null, [validateObject]),
       hintBody: new FormControl<string | null>(null)
     })
   }
@@ -127,54 +125,13 @@ export class ProjectDetailsComponent implements OnInit {
 
     this.showColumns()
 
-    this.selection.changed.subscribe((value) => {
+    this.selection.changed.subscribe(() => {
       this.nextStateBulkAction = []
       let selected = this.selection.selected;
-      let user = this.store.selectSnapshot(AuthenticationState.user)!;
 
       if (selected.length > 0) {
         let status = selected[0].status;
-        switch (status) {
-          case 'CREATED':
-            if (['ADMIN', 'CHIEF_EDITOR'].includes(user.role!)) {
-              this.nextStateBulkAction.push('STARTED')
-            }
-            break;
-          case 'STARTED':
-            if (['ADMIN', 'CHIEF_EDITOR'].includes(user.role!)) {
-              this.nextStateBulkAction.push('ASSIGNED')
-            }
-            break
-          case 'ASSIGNED':
-            if (['ADMIN', 'CHIEF_EDITOR'].includes(user.role!)) {
-              this.nextStateBulkAction.push('STANDBY_EDITORIAL', 'TO_PUBLISH')
-            }
-            break
-          case 'STANDBY_EDITORIAL':
-            if (['ADMIN', 'CHIEF_EDITOR'].includes(user.role!)) {
-              this.nextStateBulkAction.push('ASSIGNED', 'TO_PUBLISH')
-            }
-            break
-          case 'TO_PUBLISH':
-            if (['ADMIN', 'PUBLISHER'].includes(user.role!)) {
-              this.nextStateBulkAction.push('SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION')
-            }
-            break
-          case 'SENT_TO_NEWSPAPER':
-            if (['ADMIN', 'PUBLISHER'].includes(user.role!)) {
-              this.nextStateBulkAction.push('STANDBY_PUBLICATION', 'SENT_TO_ADMINISTRATION')
-            }
-            break
-          case 'STANDBY_PUBLICATION':
-            if (['ADMIN', 'PUBLISHER'].includes(user.role!)) {
-              this.nextStateBulkAction.push('SENT_TO_NEWSPAPER', 'SENT_TO_ADMINISTRATION')
-            }
-            break
-          case 'SENT_TO_ADMINISTRATION':
-            if (['ADMIN'].includes(user.role!)) {
-              this.nextStateBulkAction.push('STANDBY_PUBLICATION', 'SENT_TO_NEWSPAPER')
-            }
-        }
+        this.nextStateBulkAction.push(...this.projectService.getNextCommissionStepCodesByActualStatusCode(status, this.projectToEdit.isDomainProject ? "DOMAIN" : "REGULAR"))
       }
     })
   }
@@ -204,35 +161,28 @@ export class ProjectDetailsComponent implements OnInit {
 
   loadProject() {
     let id = this.activatedRoute.snapshot.params.id;
-    let isUserAdmin = this.store.selectSnapshot(AuthenticationState.isUserInRole("ADMIN"));
-    let isUserChiefEditor = this.store.selectSnapshot(AuthenticationState.isUserInRole("CHIEF_EDITOR"));
-    let isUserAdministration = this.store.selectSnapshot(AuthenticationState.isUserInRole("ADMINISTRATION"));
-
-    this.projectService.findById(id)
+    this.projectService
+      .findById(id)
       .subscribe(project => {
-        this.projectService.getCommissions(id, this.projectCommissionPagination)
+        this.projectService.getCommissions(project, this.projectCommissionPagination)
           .subscribe(commissions => {
-            project.projectCommissions = commissions;
+            this.projectToEdit = project;
+            this.projectToEdit.projectCommissions = commissions;
 
-            //User not allowed yet to see this project
-            if (
-              (project.projectCommissions.length === 0 && !isUserAdmin && !isUserChiefEditor)
-              ||
-              (project.status !== "SENT_TO_ADMINISTRATION" && isUserAdministration)
-            ) {
-              this.router.navigate(['/projects'])
+            let commissionIdToOpen = this.activatedRoute.snapshot.queryParams.commissionId;
+            if (commissionIdToOpen) {
+              this.updateCommission(this.projectToEdit.projectCommissions.find(pc => pc.id === parseInt(commissionIdToOpen))!);
             }
 
-            this.projectToEdit = project;
             this.originalCommissionForm = undefined
             this.applyFilterSearch()
-            this.patchForm(project)
+            this.patchForm(this.projectToEdit)
           })
       })
   }
 
-  updateProjectCommissionList(projectId: number) {
-    this.projectService.getCommissions(projectId, this.projectCommissionPagination)
+  updateProjectCommissionList() {
+    this.projectService.getCommissions(this.projectToEdit, this.projectCommissionPagination)
       .subscribe(commissions => {
         this.projectToEdit.projectCommissions = commissions
         this.originalCommissionForm = undefined
@@ -259,7 +209,7 @@ export class ProjectDetailsComponent implements OnInit {
       billingAmount: project.billingAmount,
       customer: project.customer,
       billingDescription: project.billingDescription,
-      expiration: moment(project.expiration, momentDatePatternIso),
+      expiration: project.expiration ? moment(project.expiration, momentDatePatternIso) : null,
       hintBody: project.hint.body
     })
   }
@@ -306,7 +256,6 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   createCommission(preselectedNewspaper?: number) {
-    console.log("Creo nuova commissione", preselectedNewspaper)
     this.matDialog.open(ProjectCommissionDialogFormComponent, {
       data: {
         project: this.projectToEdit,
@@ -441,7 +390,7 @@ export class ProjectDetailsComponent implements OnInit {
 
   onSortChange($event: Sort) {
     if ($event.active) {
-      if($event.active === "year" || $event.active === "period"){
+      if ($event.active === "year" || $event.active === "period") {
         $event.active = "year,period"
       }
       this.projectCommissionPagination.sortBy = $event.active;
@@ -450,6 +399,6 @@ export class ProjectDetailsComponent implements OnInit {
       this.projectCommissionPagination.sortBy = "year";
       this.projectCommissionPagination.sortDirection = "DESC";
     }
-    this.updateProjectCommissionList(this.projectToEdit.id)
+    this.updateProjectCommissionList()
   }
 }
