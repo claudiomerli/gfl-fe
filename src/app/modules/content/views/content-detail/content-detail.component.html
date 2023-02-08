@@ -57,13 +57,13 @@
           </mat-list-item>
         </mat-list>
         <mat-divider class="mb-3"></mat-divider>
-        <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR','EDITOR']">
+        <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR','EDITOR','INTERNAL_NETWORK']">
           <button *ngIf="contentToEdit.contentStatus === 'WORKING'" mat-raised-button color="primary" class="m-1 w-100"
                   (click)="updateStatus('DELIVERED')">Invia al capo redattore
             <mat-icon>send</mat-icon>
           </button>
         </ng-container>
-        <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR']">
+        <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR','INTERNAL_NETWORK']">
           <button *ngIf="contentToEdit.contentStatus === 'DELIVERED'" mat-raised-button color="primary"
                   class="m-1 w-100" (click)="updateStatus('WORKING')">Invia al redattore
             <mat-icon>send</mat-icon>
@@ -91,30 +91,35 @@
         <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR','PUBLISHER','INTERNAL_NETWORK']">
           <ng-container
             *ngIf="contentToEdit.isDomainContent && contentToEdit.contentStatus === 'APPROVED' || contentToEdit.contentStatus === 'PUBLISHED_WORDPRESS'">
-            <button mat-raised-button color="primary"
-                    class=" m-1 w-100" (click)="publishOnWordpress()">Pubblica su Wordpress
-              <mat-icon>check</mat-icon>
-            </button>
-            <mat-form-field appearance="fill" class="w-100">
-              <mat-label>Data di pubblicazione</mat-label>
-              <input matInput [matDatepicker]="picker" [(ngModel)]="publicationDate">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-          </ng-container>
-        </ng-container>
-        <ng-container *isNotInRole="['CUSTOMER']">
-          <div *ngIf="contentToEdit.wordpressId">
             <mat-card>
               <mat-card-content>
-                <div>Il contenuto è già stato pubblicato. La sua pubblicazione è schedulata per il
-                  giorno {{contentToEdit.wordpressPublicationDate | date:"dd/MM/yyyy"}}</div>
-                <mat-divider class="my-1"></mat-divider>
-                <div>Puoi vedere il contenuto <a target="_blank"
-                                                 [href]="contentToEdit.wordpressUrl">cliccando qui</a></div>
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Data di pubblicazione</mat-label>
+                  <input matInput [matDatepicker]="picker" [(ngModel)]="publicationDate">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Categorie Wordpress</mat-label>
+                  <mat-select [(ngModel)]="categories" multiple>
+                    <mat-option *ngFor="let wpCategory of wpCategories" [value]="wpCategory.id">{{wpCategory.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <ng-container *ngIf="contentToEdit.wordpressId">
+                  <div>Il contenuto è già stato pubblicato. La sua pubblicazione è schedulata per il
+                    giorno {{contentToEdit.wordpressPublicationDate | date:"dd/MM/yyyy"}}</div>
+                  <mat-divider class="my-1"></mat-divider>
+                  <div>Puoi vedere il contenuto <a target="_blank"
+                                                   [href]="contentToEdit.wordpressUrl">cliccando qui</a></div>
+                  <mat-divider class="my-1"></mat-divider>
+                </ng-container>
+                <button mat-raised-button color="primary"
+                        class=" m-1 w-100" (click)="publishOnWordpress()">Pubblica su Wordpress
+                  <mat-icon>check</mat-icon>
+                </button>
               </mat-card-content>
             </mat-card>
-          </div>
+          </ng-container>
         </ng-container>
         <button *isAuthenticated="['ADMIN','CHIEF_EDITOR','INTERNAL_NETWORK']" mat-raised-button color="primary"
                 class="m-1 w-100"

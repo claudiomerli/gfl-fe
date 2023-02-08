@@ -19,6 +19,7 @@ import {
   ContentHintDialogFormComponent
 } from "../../components/content-hint-dialog-form/content-hint-dialog-form.component";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
+import {WordpressCategory} from "../../../shared/messages/content/wordpress-category";
 
 @Component({
   selector: 'app-content-detail',
@@ -44,6 +45,9 @@ export class ContentDetailComponent implements OnInit {
   displayFullnameEditor = (editor: User) => editor?.fullname || ""
   contentStatus = contentStatus;
   publicationDate = moment()
+  categories: number[] = []
+
+  wpCategories: WordpressCategory[] = [];
 
 
   ngOnInit(): void {
@@ -68,6 +72,7 @@ export class ContentDetailComponent implements OnInit {
           this.lastSaved = moment()
         })
     })
+
     this.refresh()
   }
 
@@ -96,12 +101,20 @@ export class ContentDetailComponent implements OnInit {
       .findById(contentId)
       .subscribe((content) => {
         this.contentToEdit = content
+        if (this.contentToEdit.isDomainContent) {
+          this.contentService.getWordpressCategory(this.contentToEdit.id)
+            .subscribe(value => {
+              this.wpCategories = value;
+            })
+        }
+
         this.patchForm(content);
       })
   }
 
 
   private patchForm(content: Content) {
+    this.categories = content.wordpressCategories.map(value => value.categoryId);
     this.publicationDate = content.wordpressPublicationDate ? moment(content.wordpressPublicationDate) : moment()
     this.contentForm.controls.editor.setValue(content.editor)
     this.contentForm.controls.body.setValue(content.body)
@@ -137,7 +150,10 @@ export class ContentDetailComponent implements OnInit {
     }).afterClosed().subscribe(answer => {
       if (answer) {
         this.contentService
-          .publishOnWordpress(this.contentToEdit.id, {publishDate: this.publicationDate.format(momentDatePatternIso)})
+          .publishOnWordpress(this.contentToEdit.id, {
+            publishDate: this.publicationDate.format(momentDatePatternIso),
+            categories: this.categories
+          })
           .subscribe(() => {
             this.refresh()
           })

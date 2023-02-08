@@ -10,6 +10,7 @@ import {AuthService} from "../services/auth.service";
 import {catchError, tap} from "rxjs/operators";
 import {Router} from "@angular/router";
 import {NgxSpinner, NgxSpinnerService} from "ngx-spinner";
+import {ToastService} from "../services/toast.service";
 
 @Injectable()
 export class SecurityInterceptor implements HttpInterceptor {
@@ -17,7 +18,8 @@ export class SecurityInterceptor implements HttpInterceptor {
   constructor(
     private authenticationService: AuthService,
     private router: Router,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private toastService: ToastService) {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -50,6 +52,8 @@ export class SecurityInterceptor implements HttpInterceptor {
             if (err.status === 401) {
               this.authenticationService.clearLocalStorage();
               this.router.navigate(["/auth/login"]);
+            } else {
+              this.toastService.showGenericError()
             }
           }
           return throwError(err)

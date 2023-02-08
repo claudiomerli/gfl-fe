@@ -9,6 +9,8 @@ import {PageResponseDto} from "../messages/common/page-response.dto";
 import {ProjectService} from "./project.service";
 import {FindContentFilterDto} from "../messages/content/find-content-filter.dto";
 import {saveAs} from "file-saver";
+import {WordpressCategory} from "../messages/content/wordpress-category";
+import {WordpressPublishDto} from "../messages/content/wordpress-publish.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +60,11 @@ export class ContentService {
     })
   }
 
-  publishOnWordpress(id: number, publicationdateDTO: { publishDate: string }) {
+  publishOnWordpress(id: number, publicationdateDTO: WordpressPublishDto) {
     return this.httpClient.post(environment.apiBaseurl + `/content/${id}/publishOnWordpress`, publicationdateDTO)
+  }
+
+  getWordpressCategory(id: number) : Observable<WordpressCategory[]> {
+    return this.httpClient.get<WordpressCategory[]>(environment.apiBaseurl + `/content/${id}/wordpressCategory`)
   }
 }

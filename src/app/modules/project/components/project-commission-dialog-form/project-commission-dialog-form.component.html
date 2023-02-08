@@ -1,10 +1,13 @@
 <div class="d-flex align-items-center">
   <h1 class="m-0" mat-dialog-title>{{data.projectCommission ? 'Modifica' : 'Crea'}} commissione
   </h1>
-  <span class="mx-1">-</span>
-  <mat-chip-list>
-    <mat-chip class="mat-typography" color="primary">{{projectCommissionStatus|extractLabelByCode:data.projectCommission.status}}</mat-chip>
-  </mat-chip-list>
+  <ng-container *ngIf="data.projectCommission">
+    <span class="mx-1">-</span>
+    <mat-chip-list>
+      <mat-chip class="mat-typography"
+                color="primary">{{projectCommissionStatus|extractLabelByCode:data.projectCommission.status}}</mat-chip>
+    </mat-chip-list>
+  </ng-container>
 </div>
 <div mat-dialog-content>
   <app-project-commission-form
