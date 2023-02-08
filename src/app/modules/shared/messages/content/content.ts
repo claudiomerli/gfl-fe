@@ -14,5 +14,7 @@ export interface Content {
   wordpressId: string,
   wordpressUrl: string,
   wordpressPublicationDate: string
+  wordpressFeaturedMediaUrl: string
+  wordpressFeaturedMediaId: number
   wordpressCategories: { categoryId: number }[]
 }

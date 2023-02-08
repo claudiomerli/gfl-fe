@@ -26,6 +26,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MatCardModule} from "@angular/material/card";
+import {NgxDropzoneModule} from "ngx-dropzone";
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import {MatCardModule} from "@angular/material/card";
         MatDatepickerModule,
         MatMomentDateModule,
         FormsModule,
-        MatCardModule
+        MatCardModule,
+        NgxDropzoneModule
     ],
   providers: [
     {

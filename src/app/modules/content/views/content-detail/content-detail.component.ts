@@ -20,6 +20,7 @@ import {
 } from "../../components/content-hint-dialog-form/content-hint-dialog-form.component";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 import {WordpressCategory} from "../../../shared/messages/content/wordpress-category";
+import {NgxDropzoneChangeEvent} from "ngx-dropzone";
 
 @Component({
   selector: 'app-content-detail',
@@ -44,8 +45,11 @@ export class ContentDetailComponent implements OnInit {
 
   displayFullnameEditor = (editor: User) => editor?.fullname || ""
   contentStatus = contentStatus;
+
   publicationDate = moment()
   categories: number[] = []
+  featuredMediaBase64: string | null | undefined;
+  removeFeaturedMedia = false;
 
   wpCategories: WordpressCategory[] = [];
 
@@ -101,6 +105,7 @@ export class ContentDetailComponent implements OnInit {
       .findById(contentId)
       .subscribe((content) => {
         this.contentToEdit = content
+        this.featuredMediaBase64 = null
         if (this.contentToEdit.isDomainContent) {
           this.contentService.getWordpressCategory(this.contentToEdit.id)
             .subscribe(value => {
@@ -152,7 +157,9 @@ export class ContentDetailComponent implements OnInit {
         this.contentService
           .publishOnWordpress(this.contentToEdit.id, {
             publishDate: this.publicationDate.format(momentDatePatternIso),
-            categories: this.categories
+            categories: this.categories,
+            featuredMediaBase64: this.featuredMediaBase64 || null,
+            removeFeaturedMedia: this.removeFeaturedMedia
           })
           .subscribe(() => {
             this.refresh()
@@ -163,5 +170,21 @@ export class ContentDetailComponent implements OnInit {
 
   assignEditor($event: MatAutocompleteSelectedEvent) {
     this.contentService.assignToEditor(this.contentToEdit.id, $event.option.value.id!).subscribe()
+  }
+
+  onFeaturedMediaChange($event: NgxDropzoneChangeEvent) {
+    // @ts-ignore
+    let file = $event.addedFiles[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.featuredMediaBase64 = reader.result as string;
+      this.removeFeaturedMedia = false;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  removeFeaturedImage() {
+    this.featuredMediaBase64 = null;
+    this.removeFeaturedMedia = true
   }
 }
