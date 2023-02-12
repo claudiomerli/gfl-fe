@@ -109,15 +109,17 @@
                 <mat-card
                   *ngIf="!removeFeaturedMedia && (contentToEdit.wordpressFeaturedMediaUrl || featuredMediaBase64)">
                   <mat-card-content>
-                    <img mat-card-image *ngIf="contentToEdit.wordpressFeaturedMediaUrl" [src]="contentToEdit.wordpressFeaturedMediaUrl">
+                    <img mat-card-image *ngIf="!featuredMediaBase64 && contentToEdit.wordpressFeaturedMediaUrl"
+                         [src]="contentToEdit.wordpressFeaturedMediaUrl">
                     <img mat-card-image *ngIf="featuredMediaBase64" [src]="featuredMediaBase64">
                   </mat-card-content>
                   <mat-action-list>
                     <button class="w-100" mat-raised-button (click)="removeFeaturedImage()">Rimuovi immagine</button>
                   </mat-action-list>
                 </mat-card>
-                <ngx-dropzone *ngIf="removeFeaturedMedia || (!contentToEdit.wordpressFeaturedMediaUrl && !featuredMediaBase64)"
-                              (change)="onFeaturedMediaChange($event)">
+                <ngx-dropzone
+                  *ngIf="removeFeaturedMedia || (!contentToEdit.wordpressFeaturedMediaUrl && !featuredMediaBase64)"
+                  (change)="onFeaturedMediaChange($event)">
                   <ngx-dropzone-label>Carica immagine</ngx-dropzone-label>
                 </ngx-dropzone>
                 <ng-container *ngIf="contentToEdit.wordpressId">
