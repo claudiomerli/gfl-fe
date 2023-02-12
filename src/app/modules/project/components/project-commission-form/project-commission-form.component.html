@@ -5,7 +5,7 @@
         <mat-label>Testata</mat-label>
         <input type="text" placeholder="Cerca testate..."
                matInput
-               [readonly]="!isRoleAllowedToChangeCommonField()"
+               [readonly]="!!readonlyNewspaper || !isRoleAllowedToChangeCommonField()"
                [formControl]="newspaperInput"
                [matAutocomplete]="auto"
         >

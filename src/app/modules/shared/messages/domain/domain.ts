@@ -1,4 +1,5 @@
 import {Hosting} from "../hosting/hosting";
+import {Newspaper} from "../newspaper/newspaper";
 
 export interface Domain {
 
@@ -9,5 +10,6 @@ export interface Domain {
   ip: string;
   expiration: string;
   hosting: Hosting;
+  newspaper: Newspaper;
 
 }

@@ -12,6 +12,7 @@ import {map, tap} from "rxjs/operators";
 import {AuthenticationState} from "../../store/state/authentication-state";
 import {SaveAttachmentDto} from "../messages/attachment/save-attachment.dto";
 import {ProjectCommissionStatus, projectCommissionStatus} from "../utils/utils";
+import {Newspaper} from "../messages/newspaper/newspaper";
 
 @Injectable({
   providedIn: 'root'
@@ -142,5 +143,9 @@ export class ProjectService {
   getNextCommissionStepByActualStatusCode(code: string, projectType: 'REGULAR' | 'DOMAIN'): ProjectCommissionStatus[] {
     return this.getNextCommissionStepCodesByActualStatusCode(code, projectType)
       .map(nextStatus => projectCommissionStatus.find(e => e.code === nextStatus)!)
+  }
+
+  getNewspaperForDomainProject(id: number): Observable<Newspaper> {
+    return this.httpClient.get<Newspaper>(environment.apiBaseurl + `/project/${id}/newspaper`)
   }
 }

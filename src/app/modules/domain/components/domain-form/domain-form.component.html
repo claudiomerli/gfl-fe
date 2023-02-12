@@ -8,13 +8,31 @@
     <input matInput formControlName="ip">
   </mat-form-field>
   <div class="row">
-    <div class="col-6">
+    <div class="col-4">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Testata</mat-label>
+        <input type="text"
+               placeholder="Cerca hosting..."
+               matInput
+               [formControl]="domainForm.controls.newspaper"
+               [matAutocomplete]="auto"
+        >
+        <mat-autocomplete #auto="matAutocomplete"
+                          [displayWith]="displayNameNewspaper"
+        >
+          <mat-option *ngFor="let option of newspapers" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>Wordpress username</mat-label>
         <input matInput formControlName="wordpressUsername">
       </mat-form-field>
     </div>
-    <div class="col-6">
+    <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>Wordpress password</mat-label>
         <input matInput [type]="wordpressPasswordHide ? 'password' : 'text'" formControlName="wordpressPassword">

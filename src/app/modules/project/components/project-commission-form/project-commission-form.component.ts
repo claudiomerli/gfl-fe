@@ -35,6 +35,7 @@ export class ProjectCommissionFormComponent implements OnInit {
   @Select(AuthenticationState.isUserInRole("CHIEF_EDITOR")) isUserChiefEditor$!: Observable<boolean>;
 
   @Input() preselectedNewspaper!: number
+  @Input() readonlyNewspaper!: number
   @Input() projectCommission!: ProjectCommission;
   @Input() project!: Project;
 
@@ -82,7 +83,14 @@ export class ProjectCommissionFormComponent implements OnInit {
       this.nextSteps = this.projectService.getNextCommissionStepByActualStatusCode(this.projectCommission.status, this.project.isDomainProject ? "DOMAIN" : "REGULAR")
     }
 
-    if (this.preselectedNewspaper) {
+    if (this.readonlyNewspaper) {
+      this.newspaperService
+        .findById(this.readonlyNewspaper)
+        .subscribe(newspaper => {
+          this.projectCommissionForm.controls.newspaper.setValue(newspaper)
+          this.newspaperInput.setValue(newspaper)
+        })
+    } else if (this.preselectedNewspaper) {
       this.newspaperService
         .findById(this.preselectedNewspaper)
         .subscribe(newspaper => {
@@ -153,7 +161,7 @@ export class ProjectCommissionFormComponent implements OnInit {
   formGroupDirective!: NgForm;
   periods = periods;
   years = getYearList();
-  nextSteps : ProjectCommissionStatus[] = [];
+  nextSteps: ProjectCommissionStatus[] = [];
 
   onChangeStatus(status: string) {
     this.changeStatus.emit(status)

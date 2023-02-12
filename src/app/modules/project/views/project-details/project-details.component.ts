@@ -6,7 +6,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../shared/services/user.service";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {User} from "../../../shared/messages/auth/user";
-import {debounceTime, switchMap} from "rxjs/operators";
+import {debounceTime, switchMap, tap} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {
   getYearList,
@@ -26,7 +26,7 @@ import {
 } from "../../components/project-commission-dialog-form/project-commission-dialog-form.component";
 import {Select, Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
-import {Observable, of, zip} from "rxjs";
+import {EMPTY, Observable, of, zip} from "rxjs";
 import {
   CommissionHistoryDialogComponent
 } from "../../../newspaper/components/commission-history-dialog/commission-history-dialog.component";
@@ -39,6 +39,7 @@ import {saveAs} from "file-saver";
 import {Attachment} from "../../../shared/messages/common/attachment";
 import {SaveAttachmentDto} from "../../../shared/messages/attachment/save-attachment.dto";
 import {Sort} from "@angular/material/sort";
+import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 
 @Component({
   selector: 'app-project-details',
@@ -62,6 +63,16 @@ export class ProjectDetailsComponent implements OnInit {
   getYearList = getYearList
 
   selection = new SelectionModel<ProjectCommission>(true, []);
+
+  domainProjectNewspaper?: Newspaper;
+  globalSearchFormControl = new FormControl('');
+  originalCommissionForm: ProjectCommission[] | undefined
+  statusFormControl = new FormControl('');
+  periodFormControl = new FormControl('');
+  yearFormControl = new FormControl<number | null>(null);
+
+  changeStatusFormControl = new FormControl<string | null>(null);
+
 
   projectCommissionPagination: PaginationDto = {
     page: 0,
@@ -89,14 +100,6 @@ export class ProjectDetailsComponent implements OnInit {
       hintBody: new FormControl<string | null>(null)
     })
   }
-
-  globalSearchFormControl = new FormControl('');
-  originalCommissionForm: ProjectCommission[] | undefined
-  statusFormControl = new FormControl('');
-  periodFormControl = new FormControl('');
-  yearFormControl = new FormControl<number | null>(null);
-
-  changeStatusFormControl = new FormControl<string | null>(null);
 
 
   ngOnInit(): void {
@@ -163,21 +166,31 @@ export class ProjectDetailsComponent implements OnInit {
     let id = this.activatedRoute.snapshot.params.id;
     this.projectService
       .findById(id)
-      .subscribe(project => {
-        this.projectService.getCommissions(project, this.projectCommissionPagination)
-          .subscribe(commissions => {
-            this.projectToEdit = project;
-            this.projectToEdit.projectCommissions = commissions;
+      .pipe(
+        switchMap(project => {
+          this.projectToEdit = project;
+          if (project.isDomainProject) {
+            return this.projectService.getNewspaperForDomainProject(id)
+          } else {
+            return of(undefined)
+          }
+        }),
+        switchMap(newspaperDomain => {
+          this.domainProjectNewspaper = newspaperDomain;
+          return this.projectService.getCommissions(this.projectToEdit, this.projectCommissionPagination)
+        })
+      )
+      .subscribe(commissions => {
+        this.projectToEdit.projectCommissions = commissions;
 
-            let commissionIdToOpen = this.activatedRoute.snapshot.queryParams.commissionId;
-            if (commissionIdToOpen) {
-              this.updateCommission(this.projectToEdit.projectCommissions.find(pc => pc.id === parseInt(commissionIdToOpen))!);
-            }
+        let commissionIdToOpen = this.activatedRoute.snapshot.queryParams.commissionId;
+        if (commissionIdToOpen) {
+          this.updateCommission(this.projectToEdit.projectCommissions.find(pc => pc.id === parseInt(commissionIdToOpen))!);
+        }
 
-            this.originalCommissionForm = undefined
-            this.applyFilterSearch()
-            this.patchForm(this.projectToEdit)
-          })
+        this.originalCommissionForm = undefined
+        this.applyFilterSearch()
+        this.patchForm(this.projectToEdit)
       })
   }
 
@@ -259,7 +272,8 @@ export class ProjectDetailsComponent implements OnInit {
     this.matDialog.open(ProjectCommissionDialogFormComponent, {
       data: {
         project: this.projectToEdit,
-        preselectedNewspaper: preselectedNewspaper
+        preselectedNewspaper: preselectedNewspaper,
+        readonlyNewspaper: this.domainProjectNewspaper?.id
       }
     }).afterClosed()
       .subscribe(isEdited => {
@@ -273,7 +287,8 @@ export class ProjectDetailsComponent implements OnInit {
     this.matDialog.open(ProjectCommissionDialogFormComponent, {
       data: {
         project: this.projectToEdit,
-        projectCommission: commission
+        projectCommission: commission,
+        readonlyNewspaper: this.domainProjectNewspaper?.id
       }
     }).afterClosed()
       .subscribe(isEdited => {

@@ -8,6 +8,8 @@ import {Hosting} from "../../../shared/messages/hosting/hosting";
 import {debounceTime} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {HostingService} from "../../../shared/services/hosting.service";
+import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
+import {NewspaperService} from "../../../shared/services/newspaper.service";
 
 @Component({
   selector: 'app-domain-form',
@@ -16,7 +18,7 @@ import {HostingService} from "../../../shared/services/hosting.service";
 })
 export class DomainFormComponent implements OnInit, OnChanges {
 
-  constructor(private hostingService: HostingService) {
+  constructor(private hostingService: HostingService, private newspaperService: NewspaperService) {
   }
 
   @Output() formSubmit = new EventEmitter<SaveDomainDto>();
@@ -29,27 +31,45 @@ export class DomainFormComponent implements OnInit, OnChanges {
     wordpressPassword: new FormControl(""),
     expiration: new FormControl<moment.Moment | null>(null),
     hosting: new FormControl<Hosting | null | string>(null, [Validators.required, validateObject]),
+    newspaper: new FormControl<Newspaper | null | string>(null, validateObject)
   })
 
   displayNameHosting = (editor: Hosting) => editor?.name || ""
   hosting: Hosting[] = [];
+
+  displayNameNewspaper = (editor: Newspaper) => editor?.name || ""
+  newspapers: Newspaper[] = [];
+
   wordpressPasswordHide = true
 
   ngOnInit(): void {
     this.domainForm.controls.hosting.valueChanges
       .pipe(debounceTime(200))
       .subscribe((search) => {
-          if (search != null && typeof search === "string" && search !== "") {
-            this.hostingService.findForAutocomplete(search, new PaginationDto(0, 50, "ASC", "name")
-            ).subscribe(value => {
-              this.hosting = value.content
-            })
-          } else if (search === "") {
-            this.domainForm.controls.hosting.setValue(null)
-            this.hosting = []
-          }
+        if (search != null && typeof search === "string" && search !== "") {
+          this.hostingService.findForAutocomplete(search, new PaginationDto(0, 50, "ASC", "name")
+          ).subscribe(value => {
+            this.hosting = value.content
+          })
+        } else if (search === "") {
+          this.domainForm.controls.hosting.setValue(null)
+          this.hosting = []
         }
-      )
+      })
+
+    this.domainForm.controls.newspaper.valueChanges
+      .pipe(debounceTime(200))
+      .subscribe((search) => {
+        if (search != null && typeof search === "string" && search !== "") {
+          this.newspaperService.findForAutocomplete({name: search}, new PaginationDto(0, 50, "ASC", "name")
+          ).subscribe(value => {
+            this.newspapers = value.content
+          })
+        } else if (search === "") {
+          this.domainForm.controls.newspaper.setValue(null)
+          this.hosting = []
+        }
+      })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -60,7 +80,8 @@ export class DomainFormComponent implements OnInit, OnChanges {
         wordpressUsername: this.domainToEdit.wordpressUsername!,
         wordpressPassword: this.domainToEdit.wordpressPassword!,
         expiration: this.domainToEdit.expiration ? moment(this.domainToEdit.expiration!) : null,
-        hosting: this.domainToEdit.hosting
+        hosting: this.domainToEdit.hosting,
+        newspaper: this.domainToEdit.newspaper
       })
     }
   }
@@ -73,7 +94,8 @@ export class DomainFormComponent implements OnInit, OnChanges {
         wordpressUsername: this.domainForm.value.wordpressUsername!,
         wordpressPassword: this.domainForm.value.wordpressPassword!,
         expiration: this.domainForm.value.expiration?.format(momentDatePatternIso)!,
-        hostingId: (this.domainForm.value.hosting as Hosting).id
+        hostingId: (this.domainForm.value.hosting as Hosting).id,
+        newspaperId: (this.domainForm.value.newspaper as Newspaper).id
       })
     }
   }

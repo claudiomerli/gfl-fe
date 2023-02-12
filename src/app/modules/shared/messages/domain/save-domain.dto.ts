@@ -5,4 +5,5 @@ export interface SaveDomainDto {
   ip : string;
   expiration : string;
   hostingId : number;
+  newspaperId : number;
 }

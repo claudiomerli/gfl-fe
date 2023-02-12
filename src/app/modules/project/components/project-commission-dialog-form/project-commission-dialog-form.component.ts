@@ -18,7 +18,8 @@ export class ProjectCommissionDialogFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {
       project: Project,
       projectCommission: ProjectCommission,
-      preselectedNewspaper: number
+      preselectedNewspaper: number,
+      readonlyNewspaper : number
     },
     private projectService: ProjectService,
     private matDialog: MatDialog

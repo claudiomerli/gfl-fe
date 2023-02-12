@@ -251,11 +251,13 @@
       </ng-container>
     </div>
     <div class="col-3 mat-typography" *ngIf="projectToEdit">
-      <button *isAuthenticated="['ADMIN','CHIEF_EDITOR','CUSTOMER']" (click)="openToolNewspaperDialog()"
-              mat-raised-button color="primary" class="my-3 w-100">
-        <mat-icon>newspaper</mat-icon>
-        Tool testate
-      </button>
+      <ng-container *ngIf="!domainProjectNewspaper">
+        <button *isAuthenticated="['ADMIN','CHIEF_EDITOR','CUSTOMER']" (click)="openToolNewspaperDialog()"
+                mat-raised-button color="primary" class="my-3 w-100">
+          <mat-icon>newspaper</mat-icon>
+          Tool testate
+        </button>
+      </ng-container>
       <button [routerLink]="['statistics']" mat-raised-button color="primary" class="mb-3 w-100">
         <mat-icon>trending_up</mat-icon>
         Statistiche
