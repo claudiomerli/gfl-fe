@@ -1,0 +1,111 @@
+<mat-toolbar>
+  Titoli
+</mat-toolbar>
+<div class="p-3">
+  <form [formGroup]="titleSearchFormGroup">
+    <div class="row">
+      <div class="col-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Titolo</mat-label>
+          <input matInput formControlName="title">
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Progetto</mat-label>
+          <input type="text"
+                 placeholder="Cerca Progetto..."
+                 matInput
+                 formControlName="project"
+                 [matAutocomplete]="autoProject"
+          >
+          <mat-autocomplete #autoProject="matAutocomplete"
+                            [displayWith]="displayFullnameProject"
+          >
+            <mat-option *ngFor="let project of projects" [value]="project">
+              {{project.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Anno</mat-label>
+          <mat-select formControlName="year">
+            <mat-option [value]="null">Seleziona</mat-option>
+            <mat-option *ngFor="let year of years" [value]="year">
+              {{year}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Periodo</mat-label>
+          <mat-select formControlName="period">
+            <mat-option [value]="null">Seleziona</mat-option>
+            <mat-option *ngFor="let period of periods" [value]="period.code">
+              {{period.label}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Editor</mat-label>
+          <input type="text"
+                 placeholder="Cerca Editor..."
+                 matInput
+                 formControlName="editor"
+                 [matAutocomplete]="autoEditor"
+          >
+          <mat-autocomplete #autoEditor="matAutocomplete"
+                            [displayWith]="displayNameEditor"
+          >
+            <mat-option *ngFor="let editor of editors" [value]="editor">
+              {{editor.fullname}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+  <div class="p-3" *ngIf="page">
+    <table mat-table [dataSource]="page.content" class="w-100" matSort (matSortChange)="onSortChange($event)">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="projectCommission.title"> Titolo</th>
+        <td mat-cell *matCellDef="let element">{{element.title}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="project">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="projectCommission.project.name"> Progetto</th>
+        <td mat-cell *matCellDef="let element"><a [href]="'/projects'+element.project.id"
+                                                  target="_blank">{{element.project.name}}</a></td>
+      </ng-container>
+
+      <ng-container matColumnDef="period">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="projectCommission.year,projectCommission.period"> Periodo
+        </th>
+        <td mat-cell
+            *matCellDef="let element"> {{periods | extractLabelByCode:element.period}} {{element.year}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="editor">
+        <th mat-header-cell *matHeaderCellDef> Editor</th>
+        <td mat-cell *matCellDef="let element">{{element.editor?.fullname}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['title','project','period','editor']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['title','project','period','editor'];"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10,50,100]"
+                   showFirstLastButtons
+                   [length]="page.totalElements"
+                   [pageSize]="pagination.pageSize"
+                   (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
+
+
+</div>
+

@@ -11,6 +11,8 @@ import {FindContentFilterDto} from "../messages/content/find-content-filter.dto"
 import {saveAs} from "file-saver";
 import {WordpressCategory} from "../messages/content/wordpress-category";
 import {WordpressPublishDto} from "../messages/content/wordpress-publish.dto";
+import {SearchTitleRequestDto} from "../messages/content/search-title-request.dto";
+import {TitleResponseDto} from "../messages/content/title-response.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +68,14 @@ export class ContentService {
 
   getWordpressCategory(id: number) : Observable<WordpressCategory[]> {
     return this.httpClient.get<WordpressCategory[]>(environment.apiBaseurl + `/content/${id}/wordpressCategory`)
+  }
+
+  searchTitle(searchTitleRequest : SearchTitleRequestDto, pagination: PaginationDto) {
+    return this.httpClient.get<PageResponseDto<TitleResponseDto>>(environment.apiBaseurl + `/content/titles`,{
+      params: {
+        ...searchTitleRequest,
+        ...pagination
+      }
+    })
   }
 }

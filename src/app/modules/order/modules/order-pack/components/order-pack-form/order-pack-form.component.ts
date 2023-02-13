@@ -73,7 +73,7 @@ export class OrderPackFormComponent implements OnInit {
               if (change != "") {
                 return this.newspaperService.findForAutocomplete({name: change}, {
                   page: 0,
-                  pageSize: 50,
+                  pageSize: 10,
                   sortBy: "name",
                   sortDirection: "ASC"
                 })

@@ -23,6 +23,7 @@ export class ProjectService {
   }
 
   public find(globalSearch: string, status: string, pagination: PaginationDto): Observable<PageResponseDto<Project>> {
+    let user = this.store.selectSnapshot(AuthenticationState.user)!;
     return this.httpClient.get<PageResponseDto<Project>>(environment.apiBaseurl + "/project", {
       params: {
         globalSearch: globalSearch || "",
@@ -33,12 +34,31 @@ export class ProjectService {
       tap((page) => {
         let user = this.store.selectSnapshot(AuthenticationState.user);
         page.content.forEach(project => {
-          if (user?.role === "CHIEF_EDITOR") {
-            project.projectCommissions = project.projectCommissions.filter(pc => pc.status === "STARTED")
-          }
-          if (user?.role === "PUBLISHER") {
-            project.projectCommissions = project.projectCommissions.filter(pc => pc.status === "TO_PUBLISH")
-          }
+          project.projectCommissions = project.projectCommissions.filter(pc => {
+            let commissionStatus = projectCommissionStatus.find(value => value.code == pc.status)!;
+            return commissionStatus.roleCanView.includes(user?.role!)
+          })
+        })
+      })
+    )
+  }
+
+  public findForAutocomplete(globalSearch: string, status: string, pagination: PaginationDto): Observable<PageResponseDto<Project>> {
+    return this.httpClient.get<PageResponseDto<Project>>(environment.apiBaseurl + "/project", {
+      headers: {disableSpinner: "true"},
+      params: {
+        globalSearch: globalSearch || "",
+        status: status || "",
+        ...pagination
+      }
+    }).pipe(
+      tap((page) => {
+        let user = this.store.selectSnapshot(AuthenticationState.user);
+        page.content.forEach(project => {
+          project.projectCommissions = project.projectCommissions.filter(pc => {
+            let commissionStatus = projectCommissionStatus.find(value => value.code == pc.status)!;
+            return commissionStatus.roleCanView.includes(user?.role!)
+          })
         })
       })
     )

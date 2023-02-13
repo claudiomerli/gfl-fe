@@ -24,6 +24,12 @@ const routes: Routes = [
     data: {availableRoles: ['ADMIN', 'CHIEF_EDITOR', 'CUSTOMER', 'PUBLISHER', 'ADMINISTRATION', 'EDITOR','INTERNAL_NETWORK','FINAL_CUSTOMER']}
   },
   {
+    path: "titles",
+    loadChildren: () => import("./modules/titles/titles.module").then(m => m.TitlesModule),
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN', 'CHIEF_EDITOR']}
+  },
+  {
     path: "users",
     loadChildren: () => import("./modules/user/user.module").then(m => m.UserModule),
     canActivate: [AuthGuard],
