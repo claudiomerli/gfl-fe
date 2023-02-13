@@ -148,4 +148,8 @@ export class ProjectService {
   getNewspaperForDomainProject(id: number): Observable<Newspaper> {
     return this.httpClient.get<Newspaper>(environment.apiBaseurl + `/project/${id}/newspaper`)
   }
+
+  assignFinalCustomers(id: number, userIds: number[]) {
+    return this.httpClient.put(environment.apiBaseurl + `/project/${id}/assignFinalCustomers`, userIds)
+  }
 }

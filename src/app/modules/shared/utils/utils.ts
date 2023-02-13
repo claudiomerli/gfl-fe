@@ -28,6 +28,7 @@ export const projectStatuses = [
 export const userRoles = [
   {code: 'ADMIN', label: 'Amministratore'},
   {code: 'CUSTOMER', label: 'Cliente'},
+  {code: 'FINAL_CUSTOMER', label: 'Cliente finale'},
   {code: 'CHIEF_EDITOR', label: 'Capo redattore'},
   {code: 'EDITOR', label: 'Redattore'},
   {code: 'PUBLISHER', label: 'Pubblicatore'},
@@ -97,7 +98,7 @@ export const contentStatus = [
 ]
 
 export type ProjectCommissionStatus = {
-  icon?: string, notButton?: boolean, label: string, code: string, roleCanView: string[], roleCanEdit: string[], nextStatuses: string[], projectType: ('REGULAR'|'DOMAIN')[]
+  icon?: string, notButton?: boolean, label: string, code: string, roleCanView: string[], roleCanEdit: string[], nextStatuses: string[], projectType: ('REGULAR' | 'DOMAIN')[]
 }
 export const projectCommissionStatus: ProjectCommissionStatus[] = [
   {
@@ -124,7 +125,7 @@ export const projectCommissionStatus: ProjectCommissionStatus[] = [
     code: 'ASSIGNED',
     roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
     roleCanEdit: ['ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
-    nextStatuses: ['TO_PUBLISH', 'STANDBY_EDITORIAL'],
+    nextStatuses: ['TO_PUBLISH', 'STANDBY_EDITORIAL', 'WORKED'],
     projectType: ['REGULAR', 'DOMAIN']
   },
   {
@@ -132,8 +133,17 @@ export const projectCommissionStatus: ProjectCommissionStatus[] = [
     label: 'Stand By - Redazione',
     code: 'STANDBY_EDITORIAL',
     roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
-    roleCanEdit: ['ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
-    nextStatuses: ['ASSIGNED', 'TO_PUBLISH'],
+    roleCanEdit: ['ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK', 'WORKED'],
+    nextStatuses: ['ASSIGNED', 'TO_PUBLISH', 'WORKED'],
+    projectType: ['REGULAR', 'DOMAIN']
+  },
+  {
+    icon: 'done',
+    label: 'Lavorato',
+    code: 'WORKED',
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
+    roleCanEdit: ['ADMIN', 'INTERNAL_NETWORK', 'PUBLISHER'],
+    nextStatuses: ['TO_PUBLISH'],
     projectType: ['REGULAR', 'DOMAIN']
   },
   {

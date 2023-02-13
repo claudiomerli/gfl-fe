@@ -6,7 +6,7 @@ import {Content} from "../../../shared/messages/content/content";
 import {Sort} from "@angular/material/sort";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {ContentService} from "../../../shared/services/content.service";
-import {contentStatus, validateObject} from "../../../shared/utils/utils";
+import {contentStatus, periods, validateObject} from "../../../shared/utils/utils";
 import {PageEvent} from "@angular/material/paginator";
 import {FormControl, FormGroup} from "@angular/forms";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
@@ -29,7 +29,7 @@ export class ContentListComponent implements OnInit {
   pagination: PaginationDto = {
     page: 0,
     pageSize: 10,
-    sortBy: "createdDate",
+    sortBy: "assignDate",
     sortDirection: "DESC"
   }
   contentStatuses = contentStatus;
@@ -48,6 +48,7 @@ export class ContentListComponent implements OnInit {
   newspapers: Newspaper[] = [];
   editors: User[] = [];
 
+  periods = periods
 
   search() {
     if (this.contentFilter.valid) {
@@ -69,7 +70,7 @@ export class ContentListComponent implements OnInit {
     private projectService: ProjectService,
     private newspaperService: NewspaperService,
     private userService: UserService,
-    private store : Store
+    private store: Store
   ) {
   }
 
@@ -77,12 +78,13 @@ export class ContentListComponent implements OnInit {
     let actualUser = this.store.selectSnapshot(AuthenticationState.user)!;
     this.search()
 
-    this.columnsToShow.push("createdDate")
-    this.columnsToShow.push("lastModifiedDate")
+    this.columnsToShow.push("period")
     this.columnsToShow.push("project")
     this.columnsToShow.push("newspaper")
+    this.columnsToShow.push("title")
     this.columnsToShow.push("status")
-    if(["ADMIN","CHIEF_EDITOR"].includes(actualUser.role!)){
+    if (["ADMIN", "CHIEF_EDITOR"].includes(actualUser.role!)) {
+      this.columnsToShow.push("assignDate")
       this.columnsToShow.push("editor")
     }
     this.columnsToShow.push("actions")

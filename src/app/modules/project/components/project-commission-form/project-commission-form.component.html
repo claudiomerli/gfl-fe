@@ -105,17 +105,20 @@
           <mat-icon>cancel</mat-icon>
           Annulla
         </button>
-        <a mat-raised-button *ngIf="projectCommission" color="primary" class="ms-3" [href]="'/contents/'+projectCommission.contentId" target="_blank">
-          <mat-icon>newspaper</mat-icon>
-          Vai a contenuto
-        </a>
       </div>
       <div *ngIf="projectCommission">
-        <button *ngFor="let nextStep of nextSteps" mat-raised-button color="primary" class="me-1"
-                (click)="onChangeStatus(nextStep.code)">
-          <mat-icon>{{nextStep.icon}}</mat-icon>
-          Passa a stato : {{nextStep.label}}
-        </button>
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="actions">Azioni</button>
+        <mat-menu #actions="matMenu">
+          <button *ngFor="let nextStep of nextSteps" mat-menu-item
+                  (click)="onChangeStatus(nextStep.code)">
+            <mat-icon>{{nextStep.icon}}</mat-icon>
+            Passa a stato : {{nextStep.label}}
+          </button>
+          <a mat-menu-item *ngIf="projectCommission" [href]="'/contents/'+projectCommission.contentId" target="_blank">
+            <mat-icon>newspaper</mat-icon>
+            Vai al contenuto
+          </a>
+        </mat-menu>
       </div>
     </div>
   </div>

@@ -31,7 +31,7 @@ export class DomainFormComponent implements OnInit, OnChanges {
     wordpressPassword: new FormControl(""),
     expiration: new FormControl<moment.Moment | null>(null),
     hosting: new FormControl<Hosting | null | string>(null, [Validators.required, validateObject]),
-    newspaper: new FormControl<Newspaper | null | string>(null, validateObject)
+    newspaper: new FormControl<Newspaper | null | string>(null, [Validators.required, validateObject])
   })
 
   displayNameHosting = (editor: Hosting) => editor?.name || ""
@@ -47,10 +47,11 @@ export class DomainFormComponent implements OnInit, OnChanges {
       .pipe(debounceTime(200))
       .subscribe((search) => {
         if (search != null && typeof search === "string" && search !== "") {
-          this.hostingService.findForAutocomplete(search, new PaginationDto(0, 50, "ASC", "name")
-          ).subscribe(value => {
-            this.hosting = value.content
-          })
+          this.hostingService
+            .findForAutocomplete(search, new PaginationDto(0, 50, "ASC", "name"))
+            .subscribe(value => {
+              this.hosting = value.content
+            })
         } else if (search === "") {
           this.domainForm.controls.hosting.setValue(null)
           this.hosting = []
@@ -67,7 +68,7 @@ export class DomainFormComponent implements OnInit, OnChanges {
           })
         } else if (search === "") {
           this.domainForm.controls.newspaper.setValue(null)
-          this.hosting = []
+          this.newspapers = []
         }
       })
   }

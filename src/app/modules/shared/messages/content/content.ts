@@ -11,6 +11,7 @@ export interface Content {
   lastModifiedDate: string;
   hint: ContentHint;
   isDomainContent: boolean,
+  assignDate: string,
   wordpressId: string,
   wordpressUrl: string,
   wordpressPublicationDate: string

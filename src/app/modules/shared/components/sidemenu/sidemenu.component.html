@@ -17,7 +17,7 @@
 
   <app-sidemenu-item [icon]="'assessment'" [title]="'Gestione progetti'" *isNotInRole="['EDITOR']"
                      routerLinkActive="active" routerLink="/projects"></app-sidemenu-item>
-  <app-sidemenu-item [icon]="'edit_square'" [title]="'Gestione contenuti'"
+  <app-sidemenu-item [icon]="'edit_square'" [title]="'Gestione contenuti'" *isNotInRole="['FINAL_CUSTOMER']"
                      routerLinkActive="active" routerLink="/contents"></app-sidemenu-item>
 
   <app-sidemenu-item [icon]="'dns'" [title]="'Hosting'"

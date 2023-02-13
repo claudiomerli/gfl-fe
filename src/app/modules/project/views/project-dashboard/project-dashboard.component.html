@@ -43,13 +43,13 @@
       <!-- Name Column -->
       <ng-container matColumnDef="customer">
         <th mat-header-cell *matHeaderCellDef mat-sort-header="customer.fullname"> Cliente</th>
-        <td mat-cell *matCellDef="let element"> {{element.customer?.fullname}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.customer?.fullname || "Nessun cliente"}} </td>
       </ng-container>
 
       <!-- Weight Column -->
       <ng-container matColumnDef="expiration">
         <th mat-header-cell *matHeaderCellDef mat-sort-header="expiration"> Scadenza</th>
-        <td mat-cell *matCellDef="let element"> {{element.expiration | date:"dd/MM/yyyy"}} </td>
+        <td mat-cell *matCellDef="let element"> {{(element.expiration | date:"dd/MM/yyyy") || "Nessuna scadenza"}} </td>
       </ng-container>
 
       <!-- Symbol Column -->

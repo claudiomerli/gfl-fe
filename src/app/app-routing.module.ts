@@ -21,7 +21,7 @@ const routes: Routes = [
     path: "contents",
     loadChildren: () => import("./modules/content/content.module").then(m => m.ContentModule),
     canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN', 'CHIEF_EDITOR', 'CUSTOMER', 'PUBLISHER', 'ADMINISTRATION', 'EDITOR','INTERNAL_NETWORK']}
+    data: {availableRoles: ['ADMIN', 'CHIEF_EDITOR', 'CUSTOMER', 'PUBLISHER', 'ADMINISTRATION', 'EDITOR','INTERNAL_NETWORK','FINAL_CUSTOMER']}
   },
   {
     path: "users",

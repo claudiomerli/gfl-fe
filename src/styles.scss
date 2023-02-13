@@ -108,16 +108,7 @@ app-sidemenu-item.active .menu-item {
 }
 
 table.fixed-width {
-  width: 100%;
   table-layout: fixed;
-}
-
-.fixed-width th,
-.fixed-width td {
-  overflow: hidden;
-  width: auto;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 
@@ -129,4 +120,9 @@ table.fixed-width {
   .print-display-none {
     display: none;
   }
+}
+
+.text-ellipsis{
+  text-overflow: ellipsis;
+  overflow: hidden;
 }

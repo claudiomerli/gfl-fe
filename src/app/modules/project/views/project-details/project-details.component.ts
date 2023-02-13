@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProjectService} from "../../../shared/services/project.service";
 import {Project, ProjectCommission} from "../../../shared/messages/project/project";
@@ -40,6 +40,7 @@ import {Attachment} from "../../../shared/messages/common/attachment";
 import {SaveAttachmentDto} from "../../../shared/messages/attachment/save-attachment.dto";
 import {Sort} from "@angular/material/sort";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
+import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
   selector: 'app-project-details',
@@ -59,6 +60,12 @@ export class ProjectDetailsComponent implements OnInit {
 
   @Select(AuthenticationState.isUserInRole("CHIEF_EDITOR"))
   isUserChiefEditor$!: Observable<boolean>;
+
+  @Select(AuthenticationState.isUserInRole("INTERNAL_NETWORK"))
+  isUserInternalNetwork$!: Observable<boolean>;
+
+  @Select(AuthenticationState.isUserInRole("CUSTOMER"))
+  isUserCustomer$!: Observable<boolean>;
 
   getYearList = getYearList
 
@@ -97,13 +104,31 @@ export class ProjectDetailsComponent implements OnInit {
       billingAmount: new FormControl<number | null>(null),
       expiration: new FormControl<Moment | null>(null),
       customer: new FormControl<User | null>(null, [validateObject]),
-      hintBody: new FormControl<string | null>(null)
+      hintBody: new FormControl<string | null>(null),
+      finalCustomers: new FormControl<User[]>([])
     })
   }
 
 
   ngOnInit(): void {
     this.loadProject();
+    this.showColumns()
+
+    this.globalSearchFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
+    this.statusFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
+    this.periodFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
+    this.yearFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
+
+    this.selection.changed.subscribe(() => {
+      this.nextStateBulkAction = []
+      let selected = this.selection.selected;
+
+      if (selected.length > 0) {
+        let status = selected[0].status;
+        this.nextStateBulkAction.push(...this.projectService.getNextCommissionStepCodesByActualStatusCode(status, this.projectToEdit.isDomainProject ? "DOMAIN" : "REGULAR"))
+      }
+    })
+
     this.projectFormGroup.controls.customer.valueChanges
       .pipe(debounceTime(200))
       .subscribe((search) => {
@@ -121,22 +146,25 @@ export class ProjectDetailsComponent implements OnInit {
         }
       })
 
-    this.globalSearchFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
-    this.statusFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
-    this.periodFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
-    this.yearFormControl.valueChanges.subscribe(() => this.applyFilterSearch())
+    this.finalCustomerAutocompleteControl.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe(value => {
+        if (value != "") {
+          this.userService
+            .findForAutocomplete(value!, "FINAL_CUSTOMER", new PaginationDto(0, 50, "ASC", "fullname"))
+            .subscribe(result => {
+              this.finalCustomerSearchResult = result.content
+                .filter(user => !this.projectFormGroup.controls.finalCustomers.value!
+                  .map(selectedFinalCustomers => selectedFinalCustomers.id)
+                  .includes(user.id)
+                )
+            })
+        } else {
+          this.finalCustomerSearchResult = []
+        }
+      })
 
-    this.showColumns()
 
-    this.selection.changed.subscribe(() => {
-      this.nextStateBulkAction = []
-      let selected = this.selection.selected;
-
-      if (selected.length > 0) {
-        let status = selected[0].status;
-        this.nextStateBulkAction.push(...this.projectService.getNextCommissionStepCodesByActualStatusCode(status, this.projectToEdit.isDomainProject ? "DOMAIN" : "REGULAR"))
-      }
-    })
   }
 
   applyFilterSearch() {
@@ -223,7 +251,8 @@ export class ProjectDetailsComponent implements OnInit {
       customer: project.customer,
       billingDescription: project.billingDescription,
       expiration: project.expiration ? moment(project.expiration, momentDatePatternIso) : null,
-      hintBody: project.hint.body
+      hintBody: project.hint.body,
+      finalCustomers: project.finalCustomers
     })
   }
 
@@ -250,22 +279,27 @@ export class ProjectDetailsComponent implements OnInit {
 
   private showColumns() {
     let user = this.store.selectSnapshot(AuthenticationState.user);
-    if (user?.role !== "CUSTOMER") {
+    if (user?.role === "INTERNAL_NETWORK") {
       this.displayedColumns.push("select");
-    }
+      this.displayedColumns.push("status");
+      this.displayedColumns.push("publicationDate");
+      this.displayedColumns.push("title");
+      this.displayedColumns.push("actions");
+      this.displayedColumns.push("lastModifiedDate");
+    } else {
+      if (user?.role !== "CUSTOMER") {
+        this.displayedColumns.push("select");
+      }
 
-    this.displayedColumns.push("status");
-    this.displayedColumns.push("newspaper");
-    this.displayedColumns.push("publicationUrl");
-    this.displayedColumns.push("publicationDate");
-
-    if (user?.role !== "CUSTOMER") {
+      this.displayedColumns.push("status");
+      this.displayedColumns.push("publicationDate");
+      this.displayedColumns.push("publicationUrl");
+      this.displayedColumns.push("newspaper");
       this.displayedColumns.push("title");
       this.displayedColumns.push("period");
-      this.displayedColumns.push("year");
+      this.displayedColumns.push("actions");
+      this.displayedColumns.push("lastModifiedDate");
     }
-    this.displayedColumns.push("actions");
-    this.displayedColumns.push("lastModifiedDate");
   }
 
   createCommission(preselectedNewspaper?: number) {
@@ -405,9 +439,6 @@ export class ProjectDetailsComponent implements OnInit {
 
   onSortChange($event: Sort) {
     if ($event.active) {
-      if ($event.active === "year" || $event.active === "period") {
-        $event.active = "year,period"
-      }
       this.projectCommissionPagination.sortBy = $event.active;
       this.projectCommissionPagination.sortDirection = $event.direction.toUpperCase();
     } else {
@@ -416,4 +447,33 @@ export class ProjectDetailsComponent implements OnInit {
     }
     this.updateProjectCommissionList()
   }
+
+  //Final Customer chips autocomplete
+  removeFinalCustomer(finalCustomer: User) {
+    this.projectFormGroup.controls.finalCustomers.setValue(this.projectFormGroup.controls.finalCustomers.value?.filter(fc => fc.id !== finalCustomer.id) || [])
+    this.updateFinalCustomers();
+  }
+
+  finalCustomerAutocompleteControl = new FormControl<string | null>("");
+  finalCustomerSearchResult: User[] = [];
+  @ViewChild('finalCustomerInputAutocompleteElement') finalCustomerInputAutocompleteElement!: ElementRef<HTMLInputElement>;
+
+  addFinalCustomer($event: MatAutocompleteSelectedEvent) {
+    this.projectFormGroup.controls.finalCustomers.setValue([...this.projectFormGroup.controls.finalCustomers.value!, $event.option.value])
+    this.finalCustomerAutocompleteControl.setValue("")
+    this.finalCustomerInputAutocompleteElement.nativeElement.value = "";
+    this.finalCustomerSearchResult = []
+    this.updateFinalCustomers();
+  }
+
+  updateFinalCustomers() {
+    this.projectService.assignFinalCustomers(this.projectToEdit.id, this.projectFormGroup.controls.finalCustomers.value!.map(u => u.id!))
+      .subscribe(() => {
+        this.loadProject()
+      })
+  }
+
+  /////////////
+
+
 }

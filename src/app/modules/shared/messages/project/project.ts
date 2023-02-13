@@ -16,7 +16,7 @@ export interface Project {
   projectStatusChanges: ProjectStatusChange[]
   hint: ContentHint
   isDomainProject: string
-
+  finalCustomers : User[]
 }
 
 export interface ProjectCommission {

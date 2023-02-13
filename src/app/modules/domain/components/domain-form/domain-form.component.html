@@ -12,12 +12,12 @@
       <mat-form-field class="w-100" appearance="fill">
         <mat-label>Testata</mat-label>
         <input type="text"
-               placeholder="Cerca hosting..."
+               placeholder="Cerca testata..."
                matInput
                [formControl]="domainForm.controls.newspaper"
-               [matAutocomplete]="auto"
+               [matAutocomplete]="autoNewspaper"
         >
-        <mat-autocomplete #auto="matAutocomplete"
+        <mat-autocomplete #autoNewspaper="matAutocomplete"
                           [displayWith]="displayNameNewspaper"
         >
           <mat-option *ngFor="let option of newspapers" [value]="option">
@@ -55,9 +55,9 @@
            placeholder="Cerca hosting..."
            matInput
            [formControl]="domainForm.controls.hosting"
-           [matAutocomplete]="auto"
+           [matAutocomplete]="autoHosting"
     >
-    <mat-autocomplete #auto="matAutocomplete"
+    <mat-autocomplete #autoHosting="matAutocomplete"
                       [displayWith]="displayNameHosting"
     >
       <mat-option *ngFor="let option of hosting" [value]="option">

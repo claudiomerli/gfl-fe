@@ -7,30 +7,33 @@
       <div class="p-3 mat-typography">
         <div class="text-start mb-3">
           <h3>Commissione per {{contentToEdit.projectCommission.newspaper.name}}</h3>
-          <a mat-raised-button target="_blank"
+          <a mat-raised-button target="_blank" *isNotInRole="['FINAL_CUSTOMER']"
              [href]="'/projects/' + contentToEdit.projectCommission.projectId + '?commissionId='+contentToEdit.projectCommission.id">
             Vai alla commissione
             <mat-icon>open_in_new</mat-icon>
           </a>
         </div>
-        <mat-divider></mat-divider>
-        <mat-form-field class="w-100 mt-3" appearance="fill">
-          <mat-label>Assegna a redattore</mat-label>
-          <input type="text"
-                 placeholder="Cerca redattore..."
-                 matInput
-                 [formControl]="contentForm.controls.editor"
-                 [matAutocomplete]="auto"
-          >
-          <mat-autocomplete #auto="matAutocomplete"
-                            [displayWith]="displayFullnameEditor"
-                            (optionSelected)="assignEditor($event)"
-          >
-            <mat-option *ngFor="let option of editors" [value]="option">
-              {{option.fullname}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+        <ng-container *isNotInRole="['CUSTOMER','EDITOR','FINAL_CUSTOMER']">
+          <mat-divider></mat-divider>
+          <mat-form-field class="w-100 mt-3" appearance="fill">
+            <mat-label>Assegna a redattore</mat-label>
+            <input type="text"
+                   placeholder="Cerca redattore..."
+                   matInput
+                   [formControl]="contentForm.controls.editor"
+                   [matAutocomplete]="auto"
+            >
+            <mat-autocomplete #auto="matAutocomplete"
+                              [displayWith]="displayFullnameEditor"
+                              (optionSelected)="assignEditor($event)"
+            >
+              <mat-option *ngFor="let option of editors" [value]="option">
+                {{option.fullname}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </ng-container>
+
         <mat-divider></mat-divider>
         <div class="my-3 d-flex align-items-center">
           <span class="fw-bold">STATO:</span>
@@ -39,23 +42,23 @@
           </mat-chip-list>
         </div>
         <mat-divider></mat-divider>
-        <mat-list>
-          <mat-list-item><span class="fw-bold me-3">Titolo:</span> {{contentToEdit.projectCommission.title}}
-          </mat-list-item>
-          <mat-list-item><span class="fw-bold me-3">Ancora:</span> {{contentToEdit.projectCommission.anchor}}
-            <mat-chip-list class="ms-3">
-              <mat-chip *ngIf="contentToEdit.projectCommission.isAnchorItalic">
-                <mat-icon>format_italic</mat-icon>
-              </mat-chip>
-              <mat-chip *ngIf="contentToEdit.projectCommission.isAnchorBold">
-                <mat-icon>format_bold</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
-          </mat-list-item>
-          <mat-list-item>
-            <span class="fw-bold me-3">Url:</span> {{contentToEdit.projectCommission.url}}
-          </mat-list-item>
-        </mat-list>
+        <div class="mb-3">
+          <span class="fw-bold me-3">Titolo:</span> {{contentToEdit.projectCommission.title}}
+        </div>
+        <div class="mb-3">
+          <span class="fw-bold me-3">Ancora:</span> {{contentToEdit.projectCommission.anchor}}
+          <mat-chip-list class="ms-3">
+            <mat-chip *ngIf="contentToEdit.projectCommission.isAnchorItalic">
+              <mat-icon>format_italic</mat-icon>
+            </mat-chip>
+            <mat-chip *ngIf="contentToEdit.projectCommission.isAnchorBold">
+              <mat-icon>format_bold</mat-icon>
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+        <div>
+          <span class="fw-bold me-3">Url:</span> {{contentToEdit.projectCommission.url}}
+        </div>
         <mat-divider class="mb-3"></mat-divider>
         <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR','EDITOR','INTERNAL_NETWORK']">
           <button *ngIf="contentToEdit.contentStatus === 'WORKING'" mat-raised-button color="primary" class="m-1 w-100"
@@ -81,7 +84,7 @@
             <mat-icon>check</mat-icon>
           </button>
         </ng-container>
-        <ng-container *isAuthenticated="['CUSTOMER']">
+        <ng-container *isAuthenticated="['CUSTOMER','FINAL_CUSTOMER']">
           <button *ngIf="!contentToEdit.isDomainContent && contentToEdit.contentStatus === 'SENT_TO_CUSTOMER'"
                   mat-raised-button color="primary"
                   class=" m-1 w-100" (click)="updateStatus('APPROVED')">Approvato
