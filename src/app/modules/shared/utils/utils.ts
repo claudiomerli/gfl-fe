@@ -120,12 +120,21 @@ export const projectCommissionStatus: ProjectCommissionStatus[] = [
     projectType: ['REGULAR', 'DOMAIN']
   },
   {
-    notButton: true,
+    icon: 'assignment_turned_in',
     label: 'Assegnato',
     code: 'ASSIGNED',
     roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
     roleCanEdit: ['ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
-    nextStatuses: ['TO_PUBLISH', 'STANDBY_EDITORIAL', 'WORKED'],
+    nextStatuses: ['STANDBY_EDITORIAL', 'WORKED'],
+    projectType: ['REGULAR', 'DOMAIN']
+  },
+  {
+    icon: 'done',
+    label: 'Lavorato',
+    code: 'WORKED',
+    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
+    roleCanEdit: ['ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
+    nextStatuses: ['TO_PUBLISH', 'STANDBY_EDITORIAL'],
     projectType: ['REGULAR', 'DOMAIN']
   },
   {
@@ -135,15 +144,6 @@ export const projectCommissionStatus: ProjectCommissionStatus[] = [
     roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
     roleCanEdit: ['ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK', 'WORKED'],
     nextStatuses: ['ASSIGNED', 'TO_PUBLISH', 'WORKED'],
-    projectType: ['REGULAR', 'DOMAIN']
-  },
-  {
-    icon: 'done',
-    label: 'Lavorato',
-    code: 'WORKED',
-    roleCanView: ['CUSTOMER', 'ADMIN', 'CHIEF_EDITOR', 'INTERNAL_NETWORK'],
-    roleCanEdit: ['ADMIN', 'INTERNAL_NETWORK', 'PUBLISHER'],
-    nextStatuses: ['TO_PUBLISH'],
     projectType: ['REGULAR', 'DOMAIN']
   },
   {
@@ -168,7 +168,7 @@ export const projectCommissionStatus: ProjectCommissionStatus[] = [
     notButton: true,
     label: 'Pubblicato su network interno',
     code: 'PUBLISHED_INTERNAL_NETWORK',
-    roleCanView: ['INTERNAL_NETWORK', 'ADMIN', 'PUBLISHER'],
+    roleCanView: ['INTERNAL_NETWORK', 'ADMIN', 'PUBLISHER', 'CHIEF_EDITOR'],
     nextStatuses: [],
     roleCanEdit: [],
     projectType: ['DOMAIN']

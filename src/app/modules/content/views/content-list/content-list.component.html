@@ -5,7 +5,7 @@
   <div class="p-3">
     <form [formGroup]="contentFilter">
       <div class="row">
-        <div class="col">
+        <div class="col-2">
           <mat-form-field class="w-100">
             <mat-label>Stato contenuto</mat-label>
             <mat-select formControlName="contentStatus">
@@ -15,7 +15,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col">
+        <div class="col-2">
           <mat-form-field class="w-100" appearance="fill">
             <mat-label>Progetto</mat-label>
             <input type="text"
@@ -33,7 +33,7 @@
             </mat-autocomplete>
           </mat-form-field>
         </div>
-        <div class="col" *isNotInRole="['CUSTOMER','FINAL_CUSTOMER']">
+        <div class="col-2" *isNotInRole="['CUSTOMER','FINAL_CUSTOMER']">
           <mat-form-field class="w-100" appearance="fill">
             <mat-label>Testata</mat-label>
             <input type="text"
@@ -51,7 +51,7 @@
             </mat-autocomplete>
           </mat-form-field>
         </div>
-        <div class="col" *isNotInRole="['EDITOR','CUSTOMER','FINAL_CUSTOMER']">
+        <div class="col-2" *isNotInRole="['EDITOR','CUSTOMER','FINAL_CUSTOMER']">
           <mat-form-field class="w-100" appearance="fill">
             <mat-label>Redattore</mat-label>
             <input type="text"
@@ -69,8 +69,25 @@
             </mat-autocomplete>
           </mat-form-field>
         </div>
+        <div class="col-2">
+          <mat-form-field class="w-100">
+            <mat-label>Anno</mat-label>
+            <mat-select formControlName="year">
+              <mat-option [value]="null">Seleziona</mat-option>
+              <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-2">
+          <mat-form-field class="w-100">
+            <mat-label>Periodo</mat-label>
+            <mat-select formControlName="period" >
+              <mat-option [value]="null">Seleziona</mat-option>
+              <mat-option *ngFor="let period of periods" [value]="period.code">{{period.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
-
     </form>
   </div>
   <div *ngIf="actualPage | async; let actualPageValue" class="w-100 mat-elevation-z8">
@@ -100,8 +117,13 @@
         <td mat-cell *matCellDef="let element"> {{element.editor?.fullname}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="commissionStatus">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="projectCommission.status"> Stato commissione</th>
+        <td mat-cell *matCellDef="let element"> {{projectCommissionStatus  | extractLabelByCode:element.projectCommission.status}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="contentStatus"> Stato</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="contentStatus"> Stato contenuto</th>
         <td mat-cell *matCellDef="let element"> {{contentStatuses  | extractLabelByCode:element.contentStatus}} </td>
       </ng-container>
 

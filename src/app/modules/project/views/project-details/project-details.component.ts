@@ -87,6 +87,7 @@ export class ProjectDetailsComponent implements OnInit {
     sortBy: "year",
     sortDirection: "desc"
   }
+  private commissionIdAlreadyOpened = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -212,7 +213,8 @@ export class ProjectDetailsComponent implements OnInit {
         this.projectToEdit.projectCommissions = commissions;
 
         let commissionIdToOpen = this.activatedRoute.snapshot.queryParams.commissionId;
-        if (commissionIdToOpen) {
+        if (commissionIdToOpen && !this.commissionIdAlreadyOpened) {
+          this.commissionIdAlreadyOpened = true
           this.updateCommission(this.projectToEdit.projectCommissions.find(pc => pc.id === parseInt(commissionIdToOpen))!);
         }
 

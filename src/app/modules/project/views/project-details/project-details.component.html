@@ -7,21 +7,21 @@
     <div class="col-9">
       <form [formGroup]="projectFormGroup" (ngSubmit)="update()">
         <div class="row">
-          <div class="col">
+          <div class="col-6">
             <mat-form-field class="w-100">
               <mat-label>Nome progetto</mat-label>
               <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="text"
                      formControlName="name">
             </mat-form-field>
           </div>
-          <div class="col-4" *isAuthenticated="['CUSTOMER']">
-            <mat-chip-list>
+          <div class="col-6" *isAuthenticated="['CUSTOMER']">
+            <mat-chip-list class="w-100">
               <mat-chip *ngFor="let finalCustomer of projectFormGroup.controls.finalCustomers.value">
                 {{finalCustomer.fullname}}
               </mat-chip>
             </mat-chip-list>
           </div>
-          <div class="col-4" *isAuthenticated="['ADMIN','INTERNAL_NETWORK','CHIEF_EDITOR']">
+          <div class="col-6" *isAuthenticated="['ADMIN','INTERNAL_NETWORK','CHIEF_EDITOR']">
             <mat-form-field appearance="fill" class="w-100">
               <mat-label>Clienti finali</mat-label>
               <mat-chip-list #chipList>

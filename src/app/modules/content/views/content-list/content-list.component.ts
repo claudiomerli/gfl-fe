@@ -6,7 +6,13 @@ import {Content} from "../../../shared/messages/content/content";
 import {Sort} from "@angular/material/sort";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {ContentService} from "../../../shared/services/content.service";
-import {contentStatus, periods, validateObject} from "../../../shared/utils/utils";
+import {
+  contentStatus,
+  getYearList,
+  periods,
+  projectCommissionStatus,
+  validateObject
+} from "../../../shared/utils/utils";
 import {PageEvent} from "@angular/material/paginator";
 import {FormControl, FormGroup} from "@angular/forms";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
@@ -33,12 +39,15 @@ export class ContentListComponent implements OnInit {
     sortDirection: "DESC"
   }
   contentStatuses = contentStatus;
+  projectCommissionStatus = projectCommissionStatus
   columnsToShow: string[] = [];
   contentFilter = new FormGroup({
     contentStatus: new FormControl<string | null>(null),
     project: new FormControl<Project | null | string>(null, [validateObject]),
     newspaper: new FormControl<Newspaper | null | string>(null, [validateObject]),
     editor: new FormControl<User | null | string>(null, [validateObject]),
+    year: new FormControl<number | null>(null),
+    period: new FormControl<string | null>(null)
   });
   displayFullnameProject = (project: Project) => project?.name;
   displayFullnameNewspaper = (newspaper: Newspaper) => newspaper?.name;
@@ -49,6 +58,7 @@ export class ContentListComponent implements OnInit {
   editors: User[] = [];
 
   periods = periods
+  years = getYearList();
 
   search() {
     if (this.contentFilter.valid) {
@@ -57,7 +67,9 @@ export class ContentListComponent implements OnInit {
           contentStatus: this.contentFilter.value.contentStatus || "",
           newspaperId: (this.contentFilter.value.newspaper as Newspaper)?.id || "",
           projectId: (this.contentFilter.value.project as Project)?.id || "",
-          editorId: (this.contentFilter.value.editor as User)?.id || ""
+          editorId: (this.contentFilter.value.editor as User)?.id || "",
+          year: (this.contentFilter.value.year) || "",
+          period: (this.contentFilter.value.period) || "",
         }, this.pagination)
         .subscribe((result) => {
           this.actualPage.next(result);
@@ -82,6 +94,7 @@ export class ContentListComponent implements OnInit {
     this.columnsToShow.push("project")
     this.columnsToShow.push("newspaper")
     this.columnsToShow.push("title")
+    this.columnsToShow.push("commissionStatus")
     this.columnsToShow.push("status")
     if (["ADMIN", "CHIEF_EDITOR"].includes(actualUser.role!)) {
       this.columnsToShow.push("assignDate")
@@ -98,11 +111,7 @@ export class ContentListComponent implements OnInit {
             .subscribe(value => {
               this.projects = value.content
             })
-        } else if (value != null && typeof value === "object") {
-          this.search()
-          this.projects = []
         } else {
-          this.contentFilter.controls.project.setValue(null)
           this.projects = []
         }
       })
@@ -116,11 +125,7 @@ export class ContentListComponent implements OnInit {
             .subscribe(value => {
               this.newspapers = value.content
             })
-        } else if (value != null && typeof value === "object") {
-          this.search()
-          this.newspapers = []
-        } else {
-          this.contentFilter.controls.newspaper.setValue(null)
+        }  else {
           this.newspapers = []
         }
       })
@@ -134,16 +139,12 @@ export class ContentListComponent implements OnInit {
             .subscribe(value => {
               this.editors = value.content
             })
-        } else if (value != null && typeof value === "object") {
-          this.search()
-          this.editors = []
         } else {
-          this.contentFilter.controls.editor.setValue(null)
           this.editors = []
         }
       })
 
-    this.contentFilter.controls.contentStatus.valueChanges
+    this.contentFilter.valueChanges
       .pipe(debounceTime(1000))
       .subscribe(() => {
         this.search()
