@@ -46,7 +46,7 @@ export class DomainDashboardComponent implements OnInit {
       .pipe(debounceTime(200))
       .subscribe((search) => {
           if (search != null && typeof search === "string" && search !== "") {
-            this.hostingService.findForAutocomplete(search, new PaginationDto(0, 50, "ASC", "name")
+            this.hostingService.findForAutocomplete(search, new PaginationDto(0, 10, "ASC", "name")
             ).subscribe(value => {
               this.hosting = value.content
             })

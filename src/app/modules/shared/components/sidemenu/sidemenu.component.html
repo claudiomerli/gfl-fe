@@ -8,7 +8,11 @@
   <app-sidemenu-item [icon]="'campaign'" [title]="'News'" *isAuthenticated="['ADMIN','CUSTOMER']"
                      routerLinkActive="active" routerLink="/news"></app-sidemenu-item>
   <app-sidemenu-item [icon]="'newspaper'" [title]="'Testate'" *isAuthenticated="['ADMIN','CUSTOMER']"
-                     routerLinkActive="active" routerLink="/newspapers"></app-sidemenu-item>
+                     routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/newspapers"></app-sidemenu-item>
+
+  <app-sidemenu-item [icon]="'shopping_cart_checkout'" [title]="'Acquisti contenuti'" *isAuthenticated="['ADMIN']"
+                     routerLinkActive="active" routerLink="/newspapers/content-purchase" [indent]="true"></app-sidemenu-item>
+
   <app-sidemenu-item [icon]="'attach_money'" [title]="'Ordini'" *isAuthenticated="['ADMIN','CUSTOMER']"
                      routerLinkActive="active" routerLink="/orders"
                      [routerLinkActiveOptions]="{exact: true}"></app-sidemenu-item>

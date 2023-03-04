@@ -67,7 +67,7 @@ export class OrderFilterComponent implements OnInit, AfterViewInit {
       .subscribe((search) => {
         if (search !== "") {
           this.userService.findForAutocomplete(search, "CUSTOMER",
-            new PaginationDto(0, 50, "ASC", "fullname")
+            new PaginationDto(0, 10, "ASC", "fullname")
           ).subscribe(value => {
             this.customers = value.content
           })
@@ -87,7 +87,7 @@ export class OrderFilterComponent implements OnInit, AfterViewInit {
           } else {
             return this.newspaperService.findForAutocomplete(
               {name: search},
-              new PaginationDto(0, 50, "ASC", "name"))
+              new PaginationDto(0, 10, "ASC", "name"))
           }
         })
       ).subscribe(result => {

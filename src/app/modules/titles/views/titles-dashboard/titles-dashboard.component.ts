@@ -55,7 +55,7 @@ export class TitlesDashboardComponent implements OnInit {
       .subscribe((search) => {
         if (typeof search === "string") {
           if (search !== "") {
-            this.projectService.findForAutocomplete(search, "", new PaginationDto(0, 50, "ASC", "name"))
+            this.projectService.findForAutocomplete(search, "", new PaginationDto(0, 10, "ASC", "name"))
               .subscribe(value => {
                 this.projects = value.content
               })
@@ -71,7 +71,7 @@ export class TitlesDashboardComponent implements OnInit {
       .subscribe((search) => {
         if (typeof search === "string") {
           if (search !== "") {
-            this.userService.findForAutocomplete(search, "EDITOR", new PaginationDto(0, 50, "ASC", "fullname"))
+            this.userService.findForAutocomplete(search, "EDITOR", new PaginationDto(0, 10, "ASC", "fullname"))
               .subscribe(value => {
                 this.editors = value.content
               })

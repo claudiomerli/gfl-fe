@@ -1,0 +1,62 @@
+<form [formGroup]="purchaseContentForm" (submit)="formSubmit()">
+  <div class="row">
+    <div class="col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Importo</mat-label>
+        <input type="number" matInput formControlName="amount">
+        <span matSuffix>€</span>
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Numero contentuti</mat-label>
+        <input type="number" matInput formControlName="contentNumber">
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Testate</mat-label>
+        <mat-chip-list #chipListNewspaper>
+          <mat-chip *ngFor="let newspaper of purchaseContentForm.controls.newspapers.value"
+                    (removed)="removeNewspaper(newspaper.id)">
+            {{newspaper.name}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+            placeholder="Cerca testata..."
+            [formControl]="newspaperInput"
+            #newspaperInputElement
+            [matAutocomplete]="autoNewspaper"
+            [matChipInputFor]="chipListNewspaper"
+          >
+        </mat-chip-list>
+        <mat-autocomplete #autoNewspaper="matAutocomplete"
+                          (optionSelected)="newspaperSelected($event,newspaperInputElement)">
+          <mat-option *ngFor="let newspaper of newspapers" [value]="newspaper">
+            {{newspaper.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Note</mat-label>
+        <textarea matInput formControlName="note">
+        </textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="text-end">
+    <button *ngIf="purchaseContentToEdit" mat-raised-button color="warn" class="me-3" type="button" (click)="onDelete()">
+      <mat-icon>delete</mat-icon>
+      Elimina
+    </button>
+    <button mat-raised-button color="primary" type="submit">
+      <mat-icon>save</mat-icon>
+      Salva
+    </button>
+  </div>
+
+</form>

@@ -96,8 +96,8 @@ export class ProjectService {
     return this.httpClient.delete<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/" + idProjectCommission)
   }
 
-  public updateCommissionStatus(idProject: number, idProjectCommission: number, status: string): Observable<Project> {
-    return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/" + idProjectCommission + "/" + status, {})
+  public updateCommissionStatus(idProject: number, idProjectCommission: number, status: string, metadata : any= {}): Observable<Project> {
+    return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/" + idProjectCommission + "/" + status, metadata)
   }
 
   updateCommissionStatusBulk(idProject: number, ids: number[], status: any) {
@@ -145,7 +145,7 @@ export class ProjectService {
     return this.httpClient.put<void>(environment.apiBaseurl + `/project/${projectId}/commission/${commissionId}/hint`, body)
   }
 
-  getNextCommissionStepCodesByActualStatusCode(code: string, projectType: 'REGULAR' | 'DOMAIN'): string[] {
+  getNextCommissionStepCodesByActualStatusCode(code: string, projectType: 'REGULAR' | 'DOMAIN', includeNotButton = false): string[] {
     let user = this.store.selectSnapshot(AuthenticationState.user)!;
     let actualStatus = projectCommissionStatus.find(e => e.code === code)!
     if (actualStatus.roleCanEdit.includes(user.role!)) {
@@ -153,7 +153,7 @@ export class ProjectService {
         .nextStatuses
         .filter(nextStatus => {
           let nextCommissionStatus = projectCommissionStatus.find(e => e.code === nextStatus)!;
-          return nextCommissionStatus!.projectType.includes(projectType) && !nextCommissionStatus.notButton
+          return nextCommissionStatus!.projectType.includes(projectType) && (!nextCommissionStatus.notButton || includeNotButton)
         })
     } else {
       return [];

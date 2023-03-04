@@ -183,6 +183,7 @@ export const projectCommissionStatus: ProjectCommissionStatus[] = [
     projectType: ['REGULAR']
   },
   {
+    notButton: true,
     icon: 'public',
     label: 'Inviato in amministrazione',
     code: 'SENT_TO_ADMINISTRATION',

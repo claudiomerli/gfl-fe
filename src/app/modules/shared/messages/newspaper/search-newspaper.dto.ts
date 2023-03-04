@@ -5,8 +5,6 @@ export class SearchNewspaperDto {
   id?: string;
   zaFrom?: string;
   zaTo?: string;
-  purchasedContentFrom?: string;
-  purchasedContentTo?: string;
   leftContentFrom?: string;
   leftContentTo?: string;
   costEachFrom?: string;

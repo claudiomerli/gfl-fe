@@ -12,11 +12,6 @@
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="purchasedContent">
-      <th mat-sort-header="purchasedContent" mat-header-cell *matHeaderCellDef> Redazionali Acquistati</th>
-      <td mat-cell *matCellDef="let element"> {{element.purchasedContent}} </td>
-    </ng-container>
-
     <ng-container matColumnDef="leftContent">
       <th mat-sort-header="leftContent" mat-header-cell *matHeaderCellDef> Redazionali Rimanenti</th>
       <td mat-cell *matCellDef="let element"> {{element.leftContent}} </td>

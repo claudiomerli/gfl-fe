@@ -107,7 +107,7 @@ export class ContentListComponent implements OnInit {
       .subscribe((value) => {
         if (value != null && typeof value === "string" && value !== "") {
           this.projectService
-            .find(value, "", new PaginationDto(0, 50, "ASC", "name"))
+            .find(value, "", new PaginationDto(0, 10, "ASC", "name"))
             .subscribe(value => {
               this.projects = value.content
             })
@@ -121,7 +121,7 @@ export class ContentListComponent implements OnInit {
       .subscribe((value) => {
         if (value != null && typeof value === "string" && value !== "") {
           this.newspaperService
-            .find({name: value}, new PaginationDto(0, 50, "ASC", "name"))
+            .find({name: value}, new PaginationDto(0, 10, "ASC", "name"))
             .subscribe(value => {
               this.newspapers = value.content
             })
@@ -135,7 +135,7 @@ export class ContentListComponent implements OnInit {
       .subscribe((value) => {
         if (value != null && typeof value === "string" && value !== "") {
           this.userService
-            .find(value, "EDITOR", new PaginationDto(0, 50, "ASC", "fullname"))
+            .find(value, "EDITOR", new PaginationDto(0, 10, "ASC", "fullname"))
             .subscribe(value => {
               this.editors = value.content
             })

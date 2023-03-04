@@ -1,0 +1,23 @@
+<div class="d-flex align-items-center">
+  <h1 class="m-0" mat-dialog-title>Seleziona pacchetto contenuti da utilizzare</h1>
+</div>
+<div mat-dialog-content *ngIf="page" class="p-3">
+  <div *ngIf="page.content.length == 0" class="mat-typography">
+    Attenzione. Non è possibile inviare in amministrazione il contenuto, dal momento che non sono disponibili pacchetti contenuto per questa testata.
+  </div>
+  <div *ngIf="page.content.length > 0">
+    <mat-radio-group
+      [(ngModel)]="selectedPurchaseContent">
+      <mat-radio-button class="d-flex align-items-center" *ngFor="let element of page.content" [value]="element">
+        <mat-chip-list class="ms-3">
+          <mat-chip>Disponibilità: {{element.contentRemaining}}</mat-chip>
+          <mat-chip>Testate: {{getJoinedNewspaperNames(element)}}</mat-chip>
+        </mat-chip-list>
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div class="text-end mt-3">
+    <button mat-raised-button (click)="dialogRef.close()" class="me-3">Annulla</button>
+    <button mat-raised-button color="primary" (click)="confirm()">Conferma</button>
+  </div>
+</div>

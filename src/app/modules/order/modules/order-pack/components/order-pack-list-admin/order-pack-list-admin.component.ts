@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {Newspaper} from "../../../../../shared/messages/newspaper/newspaper";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
@@ -7,7 +7,6 @@ import {EMPTY} from "rxjs";
 import {PaginationDto} from "../../../../../shared/messages/common/pagination.dto";
 import {NewspaperService} from "../../../../../shared/services/newspaper.service";
 import {PageResponseDto} from "../../../../../shared/messages/common/page-response.dto";
-import {Order} from "../../../../../shared/messages/order/order";
 import {OrderPack} from "../../../../../shared/messages/order/order-pack";
 import {Sort} from "@angular/material/sort";
 import {PageEvent} from "@angular/material/paginator";
@@ -35,7 +34,7 @@ export class OrderPackListAdminComponent implements OnInit {
           } else {
             return this.newspaperService.findForAutocomplete(
               {name: search},
-              new PaginationDto(0, 50, "ASC", "name"))
+              new PaginationDto(0, 10, "ASC", "name"))
           }
         })
       ).subscribe(result => {

@@ -46,8 +46,6 @@ export class NewspaperTableComponent implements OnInit {
     this.displayedColumns.push("name")
 
     if (user?.role === "ADMIN")
-      this.displayedColumns.push("purchasedContent");
-    if (user?.role === "ADMIN")
       this.displayedColumns.push("leftContent");
     if (user?.role === "ADMIN")
       this.displayedColumns.push("costEach");

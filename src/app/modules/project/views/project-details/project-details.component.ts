@@ -41,6 +41,10 @@ import {SaveAttachmentDto} from "../../../shared/messages/attachment/save-attach
 import {Sort} from "@angular/material/sort";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 import {MatChipInputEvent} from "@angular/material/chips";
+import {
+  SelectContentPurchaseDialogComponent
+} from "../../components/select-content-purchase-dialog/select-content-purchase-dialog.component";
+import {PurchaseContent} from "../../../shared/messages/purchase-content/purchase-content";
 
 @Component({
   selector: 'app-project-details',
@@ -136,7 +140,7 @@ export class ProjectDetailsComponent implements OnInit {
         if (typeof search === "string") {
           if (search !== "") {
             this.userService.findForAutocomplete(search, "CUSTOMER",
-              new PaginationDto(0, 50, "ASC", "fullname")
+              new PaginationDto(0, 10, "ASC", "fullname")
             ).subscribe(value => {
               this.customers = value.content
             })
@@ -152,7 +156,7 @@ export class ProjectDetailsComponent implements OnInit {
       .subscribe(value => {
         if (value != "") {
           this.userService
-            .findForAutocomplete(value!, "FINAL_CUSTOMER", new PaginationDto(0, 50, "ASC", "fullname"))
+            .findForAutocomplete(value!, "FINAL_CUSTOMER", new PaginationDto(0, 10, "ASC", "fullname"))
             .subscribe(result => {
               this.finalCustomerSearchResult = result.content
                 .filter(user => !this.projectFormGroup.controls.finalCustomers.value!
@@ -478,4 +482,23 @@ export class ProjectDetailsComponent implements OnInit {
   /////////////
 
 
+  canShowSentToAdministration(element: ProjectCommission) {
+    return this.projectService.getNextCommissionStepCodesByActualStatusCode(element.status, this.projectToEdit.isDomainProject ? "DOMAIN" : "REGULAR", true).includes("SENT_TO_ADMINISTRATION");
+  }
+
+  openSelectPurchaseContentDialog(element: ProjectCommission) {
+    this.matDialog.open(SelectContentPurchaseDialogComponent, {
+      data: element.newspaper.id
+    })
+      .afterClosed()
+      .subscribe((value: PurchaseContent | null) => {
+        if (value) {
+          this.projectService.updateCommissionStatus(this.projectToEdit.id, element.id, "SENT_TO_ADMINISTRATION", {
+            contentPurchasedId: value.id
+          }).subscribe(() =>{
+            this.loadProject()
+          })
+        }
+      })
+  }
 }

@@ -48,13 +48,6 @@
                     [options]="zaSliderOptions"></ngx-slider>
       </div>
       <div class="mat-typography" *isAuthenticated="['ADMIN']">
-        <label>Redazionali acquistati</label>
-        <ngx-slider (userChangeEnd)="onPurchasedContentChange($event)"
-                    [value]="maxMinRangeNewspaperAttributes.minPurchasedContent"
-                    [highValue]="maxMinRangeNewspaperAttributes.maxPurchasedContent"
-                    [options]="purchasedContentSliderOptions"></ngx-slider>
-      </div>
-      <div class="mat-typography" *isAuthenticated="['ADMIN']">
         <label>Redazionali rimanenti</label>
         <ngx-slider (userChangeEnd)="onLeftContentChange($event)"
                     [value]="maxMinRangeNewspaperAttributes.minLeftContent"

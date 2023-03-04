@@ -4,7 +4,6 @@ export interface Newspaper {
 
   id: number
   name: string
-  purchasedContent: number
   leftContent: number
   costEach: number
   costSell: number

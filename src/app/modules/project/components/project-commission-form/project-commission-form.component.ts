@@ -20,6 +20,11 @@ import {Observable} from "rxjs";
 import {Moment} from "moment/moment";
 import * as moment from "moment";
 import {ProjectService} from "../../../shared/services/project.service";
+import {
+  SelectContentPurchaseDialogComponent
+} from "../select-content-purchase-dialog/select-content-purchase-dialog.component";
+import {PurchaseContent} from "../../../shared/messages/purchase-content/purchase-content";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-project-commission-form',
@@ -44,7 +49,7 @@ export class ProjectCommissionFormComponent implements OnInit {
   @Output() cancel = new EventEmitter<void>()
   @Output() changeStatus = new EventEmitter<string>()
 
-  constructor(private newspaperService: NewspaperService, private projectService: ProjectService, private store: Store) {
+  constructor(private newspaperService: NewspaperService, private projectService: ProjectService, private store: Store, private matDialog: MatDialog) {
   }
 
   createFormGroup() {
@@ -105,7 +110,7 @@ export class ProjectCommissionFormComponent implements OnInit {
         if (search !== "") {
           this.newspaperService.findForAutocomplete({
               name: search
-            }, new PaginationDto(0, 50, "ASC", "name")
+            }, new PaginationDto(0, 10, "ASC", "name")
           ).subscribe(value => {
             this.newspaper = value.content
           })
@@ -186,6 +191,26 @@ export class ProjectCommissionFormComponent implements OnInit {
 
   isRoleAllowedToSave() {
     return this.isRoleAllowedToChangeCommonField() || this.isRoleAllowedToChangePublicationFields()
+  }
+
+  canShowSentToAdministration() {
+    return this.projectService.getNextCommissionStepCodesByActualStatusCode(this.projectCommission.status, this.project.isDomainProject ? "DOMAIN" : "REGULAR", true).includes("SENT_TO_ADMINISTRATION");
+  }
+
+  openSelectPurchaseContentDialog() {
+    this.matDialog.open(SelectContentPurchaseDialogComponent, {
+      data: this.projectCommission.newspaper.id
+    })
+      .afterClosed()
+      .subscribe((value: PurchaseContent | null) => {
+        if (value) {
+          this.projectService.updateCommissionStatus(this.project.id, this.projectCommission.id, "SENT_TO_ADMINISTRATION", {
+            contentPurchasedId: value.id
+          }).subscribe(() =>{
+            this.onSave()
+          })
+        }
+      })
   }
 
 }

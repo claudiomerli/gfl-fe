@@ -48,7 +48,7 @@ export class DomainFormComponent implements OnInit, OnChanges {
       .subscribe((search) => {
         if (search != null && typeof search === "string" && search !== "") {
           this.hostingService
-            .findForAutocomplete(search, new PaginationDto(0, 50, "ASC", "name"))
+            .findForAutocomplete(search, new PaginationDto(0, 10, "ASC", "name"))
             .subscribe(value => {
               this.hosting = value.content
             })
@@ -62,7 +62,7 @@ export class DomainFormComponent implements OnInit, OnChanges {
       .pipe(debounceTime(200))
       .subscribe((search) => {
         if (search != null && typeof search === "string" && search !== "") {
-          this.newspaperService.findForAutocomplete({name: search}, new PaginationDto(0, 50, "ASC", "name")
+          this.newspaperService.findForAutocomplete({name: search}, new PaginationDto(0, 10, "ASC", "name")
           ).subscribe(value => {
             this.newspapers = value.content
           })

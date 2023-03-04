@@ -38,6 +38,8 @@ import {NgxPrintElementModule} from "ngx-print-element";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import {EditorComponent} from "@tinymce/tinymce-angular";
 import {MatChipsModule} from "@angular/material/chips";
+import { SelectContentPurchaseDialogComponent } from './components/select-content-purchase-dialog/select-content-purchase-dialog.component';
+import {MatRadioModule} from "@angular/material/radio";
 
 
 @NgModule({
@@ -48,7 +50,8 @@ import {MatChipsModule} from "@angular/material/chips";
     ProjectCommissionFormComponent,
     ProjectCommissionDialogFormComponent,
     ProjectStatisticsComponent,
-    ProjectNewspaperToolDialogComponent
+    ProjectNewspaperToolDialogComponent,
+    SelectContentPurchaseDialogComponent
   ],
     imports: [
         CommonModule,
@@ -81,7 +84,8 @@ import {MatChipsModule} from "@angular/material/chips";
         NgxPrintElementModule,
         NgxDropzoneModule,
         EditorComponent,
-        MatChipsModule
+        MatChipsModule,
+        MatRadioModule
     ],
   providers: [
     {

@@ -263,6 +263,10 @@
                     <mat-icon>search</mat-icon>
                     Dettaglio
                   </button>
+                  <button mat-menu-item *ngIf="canShowSentToAdministration(element)" (click)="openSelectPurchaseContentDialog(element)" >
+                    <mat-icon>send</mat-icon>
+                    Invia in amministrazione
+                  </button>
                   <button mat-menu-item (click)="openHistory(element)">
                     <mat-icon>history</mat-icon>
                     Storico

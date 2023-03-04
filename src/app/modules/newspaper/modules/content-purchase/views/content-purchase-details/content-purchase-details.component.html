@@ -1,0 +1,6 @@
+<mat-toolbar class="d-flex align-items-center justify-content-between">
+  <span>Modifica acqisto</span>
+</mat-toolbar>
+<div class="p-3" *ngIf="contentPurchase">
+  <app-content-purchase-form [purchaseContentToEdit]="contentPurchase" (delete)="onDelete()"  (save)="onSave($event)"></app-content-purchase-form>
+</div>

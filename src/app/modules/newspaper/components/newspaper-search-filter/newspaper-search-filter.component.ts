@@ -37,8 +37,6 @@ export class NewspaperSearchFilterComponent implements OnInit {
     name: new FormControl(''),
     zaFrom: new FormControl(),
     zaTo: new FormControl(),
-    purchasedContentFrom: new FormControl(),
-    purchasedContentTo: new FormControl(),
     leftContentFrom: new FormControl(),
     leftContentTo: new FormControl(),
     costEachFrom: new FormControl(),
@@ -53,13 +51,6 @@ export class NewspaperSearchFilterComponent implements OnInit {
 
 
   zaSliderOptions: Options = {
-    ceil: 0,
-    floor: 0,
-    getSelectionBarColor: getSelectionBarColor,
-    getPointerColor: getPointerColor
-  }
-
-  purchasedContentSliderOptions: Options = {
     ceil: 0,
     floor: 0,
     getSelectionBarColor: getSelectionBarColor,
@@ -106,8 +97,6 @@ export class NewspaperSearchFilterComponent implements OnInit {
         id: this.activatedRoute.snapshot.queryParamMap.get("id") || '',
         zaFrom: result.minZA,
         zaTo: result.maxZA,
-        purchasedContentFrom: result.minPurchasedContent,
-        purchasedContentTo: result.maxPurchasedContent,
         leftContentFrom: result.minLeftContent,
         leftContentTo: result.maxLeftContent,
         costEachFrom: result.minCostEach,
@@ -122,11 +111,6 @@ export class NewspaperSearchFilterComponent implements OnInit {
         ceil: result.maxZA
       }
 
-      this.purchasedContentSliderOptions = {
-        ...this.purchasedContentSliderOptions,
-        floor: result.minPurchasedContent,
-        ceil: result.maxPurchasedContent
-      }
 
       this.leftContentSliderOptions = {
         ...this.leftContentSliderOptions,
@@ -152,11 +136,6 @@ export class NewspaperSearchFilterComponent implements OnInit {
     this.searchForm.controls.zaFrom.setValue($event.value)
     this.searchForm.controls.zaTo.setValue($event.highValue)
 
-  }
-
-  onPurchasedContentChange($event: ChangeContext) {
-    this.searchForm.controls.purchasedContentFrom.setValue($event.value)
-    this.searchForm.controls.purchasedContentTo.setValue($event.highValue)
   }
 
   onLeftContentChange($event: ChangeContext) {

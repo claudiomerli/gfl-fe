@@ -60,7 +60,7 @@ export class ContentDetailComponent implements OnInit {
       .subscribe((search) => {
         if (search != null && typeof search === "string" && search !== "") {
           this.userService.findForAutocomplete(search, "EDITOR",
-            new PaginationDto(0, 50, "ASC", "fullname")
+            new PaginationDto(0, 10, "ASC", "fullname")
           ).subscribe(value => {
             this.editors = value.content
           })
