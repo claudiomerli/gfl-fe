@@ -10,11 +10,12 @@ import {PageResponseDto} from "../../../shared/messages/common/page-response.dto
 import {Project} from "../../../shared/messages/project/project";
 import {Sort} from "@angular/material/sort";
 import {PageEvent} from "@angular/material/paginator";
-import {projectStatuses} from "../../../shared/utils/utils";
+import {getYearList, periods, projectCommissionStatus, projectStatuses} from "../../../shared/utils/utils";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 import {Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {debounceTime} from "rxjs/operators";
+import {SearchProjectDto} from "../../../shared/messages/project/search-project.dto";
 
 @Component({
   selector: 'app-project-dashboard',
@@ -23,7 +24,10 @@ import {debounceTime} from "rxjs/operators";
 })
 export class ProjectDashboardComponent implements OnInit {
   searchProjectFormControl = new FormControl<string>('');
-  searchProjectStatusFormControl = new FormControl<string>('');
+  searchProjectStatusFormControl = new FormControl<string | null>(null);
+  searchProjectCommissionStatusFormControl = new FormControl<string[]>([]);
+  searchProjectYear = new FormControl<number | null>(null);
+  searchProjectPeriod = new FormControl<string | null>(null);
 
   constructor(private matDialog: MatDialog, private projectService: ProjectService, private router: Router, private store: Store) {
   }
@@ -38,21 +42,21 @@ export class ProjectDashboardComponent implements OnInit {
   actualPage = new BehaviorSubject<PageResponseDto<Project> | null>(null);
   projectStatuses = projectStatuses;
   columnsToShow: string[] = [];
+  years = getYearList();
+  periods = periods;
+  projectCommissionStatuses = projectCommissionStatus;
 
   ngOnInit(): void {
     this.search()
-    this.searchProjectFormControl.valueChanges
-      .pipe(
-        debounceTime(500)
-      )
-      .subscribe(() => {
-        this.pagination.page = 0;
-        this.search()
-      })
-    this.searchProjectStatusFormControl.valueChanges.subscribe(() => {
+    const refreshLambda = () => {
       this.pagination.page = 0;
       this.search()
-    })
+    }
+
+    this.searchProjectFormControl.valueChanges.pipe(debounceTime(500)).subscribe(refreshLambda)
+    this.searchProjectCommissionStatusFormControl.valueChanges.subscribe(refreshLambda)
+    this.searchProjectYear.valueChanges.subscribe(refreshLambda)
+    this.searchProjectPeriod.valueChanges.subscribe(refreshLambda)
 
     this.setupColumns();
   }
@@ -64,15 +68,24 @@ export class ProjectDashboardComponent implements OnInit {
     if (!isCustomer) {
       this.columnsToShow.push('customer');
       this.columnsToShow.push('expiration');
+      this.columnsToShow.push("hasStartedCommission")
+      this.columnsToShow.push("hasAssignedCommission")
+      this.columnsToShow.push("hasWorkedCommission")
     }
     this.columnsToShow.push('action');
   }
 
   search() {
-    let globalSearch = this.searchProjectFormControl.value;
-    let status = this.searchProjectStatusFormControl.value;
+    let searchProjectDto: SearchProjectDto = {
+      globalSearch: this.searchProjectFormControl.value,
+      status: this.searchProjectStatusFormControl.value,
+      projectCommissionStatus: this.searchProjectCommissionStatusFormControl.value,
+      commissionPeriod: this.searchProjectPeriod.value,
+      commissionYear: this.searchProjectYear.value,
+    }
+
     this.projectService
-      .find(globalSearch!, status!, this.pagination)
+      .find(searchProjectDto, this.pagination)
       .subscribe((result) => {
         this.actualPage.next(result);
       })
@@ -110,10 +123,6 @@ export class ProjectDashboardComponent implements OnInit {
     this.pagination.page = $event.pageIndex;
     this.pagination.pageSize = $event.pageSize;
     this.search();
-  }
-
-  openDetail(id: any) {
-    this.router.navigate(['/projects', id])
   }
 
   onDelete(id: any) {

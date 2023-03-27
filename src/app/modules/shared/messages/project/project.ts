@@ -16,7 +16,11 @@ export interface Project {
   projectStatusChanges: ProjectStatusChange[]
   hint: ContentHint
   isDomainProject: string
-  finalCustomers : User[]
+  finalCustomers: User[],
+
+  hasStartedCommission: boolean,
+  hasAssignedCommission: boolean,
+  hasWorkedCommission: boolean
 }
 
 export interface ProjectCommission {

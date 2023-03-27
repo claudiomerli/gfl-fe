@@ -107,7 +107,7 @@ export class ContentListComponent implements OnInit {
       .subscribe((value) => {
         if (value != null && typeof value === "string" && value !== "") {
           this.projectService
-            .find(value, "", new PaginationDto(0, 10, "ASC", "name"))
+            .find({globalSearch: value}, new PaginationDto(0, 10, "ASC", "name"))
             .subscribe(value => {
               this.projects = value.content
             })
@@ -125,7 +125,7 @@ export class ContentListComponent implements OnInit {
             .subscribe(value => {
               this.newspapers = value.content
             })
-        }  else {
+        } else {
           this.newspapers = []
         }
       })

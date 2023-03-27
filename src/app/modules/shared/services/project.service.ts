@@ -13,6 +13,7 @@ import {AuthenticationState} from "../../store/state/authentication-state";
 import {SaveAttachmentDto} from "../messages/attachment/save-attachment.dto";
 import {ProjectCommissionStatus, projectCommissionStatus} from "../utils/utils";
 import {Newspaper} from "../messages/newspaper/newspaper";
+import {SearchProjectDto} from "../messages/project/search-project.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +23,14 @@ export class ProjectService {
   constructor(private httpClient: HttpClient, private store: Store) {
   }
 
-  public find(globalSearch: string, status: string, pagination: PaginationDto): Observable<PageResponseDto<Project>> {
-    let user = this.store.selectSnapshot(AuthenticationState.user)!;
+  public find(searchProjectDTO: SearchProjectDto, pagination: PaginationDto): Observable<PageResponseDto<Project>> {
     return this.httpClient.get<PageResponseDto<Project>>(environment.apiBaseurl + "/project", {
       params: {
-        globalSearch: globalSearch || "",
-        status: status || "",
+        globalSearch: searchProjectDTO.globalSearch || "",
+        status: searchProjectDTO.status || "",
+        projectCommissionStatus: searchProjectDTO.projectCommissionStatus || [],
+        commissionYear: searchProjectDTO.commissionYear || "",
+        commissionPeriod: searchProjectDTO.commissionPeriod || "",
         ...pagination
       }
     }).pipe(
@@ -96,7 +99,7 @@ export class ProjectService {
     return this.httpClient.delete<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/" + idProjectCommission)
   }
 
-  public updateCommissionStatus(idProject: number, idProjectCommission: number, status: string, metadata : any= {}): Observable<Project> {
+  public updateCommissionStatus(idProject: number, idProjectCommission: number, status: string, metadata: any = {}): Observable<Project> {
     return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/" + idProjectCommission + "/" + status, metadata)
   }
 
