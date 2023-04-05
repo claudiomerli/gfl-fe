@@ -144,8 +144,10 @@ export class ProjectService {
     return this.httpClient.delete(environment.apiBaseurl + `/project/${projectId}/commission/${commissionId}/hint/attachment/${attachmentId}`)
   }
 
-  updateProjectCommissionHint(projectId: number, commissionId: number, body: { body: string | null }) {
-    return this.httpClient.put<void>(environment.apiBaseurl + `/project/${projectId}/commission/${commissionId}/hint`, body)
+  updateProjectCommissionHint(projectId: number, commissionId: number, body: { body: string | null }, withoutSpinner? :boolean) {
+    return this.httpClient.put<void>(environment.apiBaseurl + `/project/${projectId}/commission/${commissionId}/hint`, body,{
+      headers: {disableSpinner: withoutSpinner ? "true" : "false"}
+    })
   }
 
   getNextCommissionStepCodesByActualStatusCode(code: string, projectType: 'REGULAR' | 'DOMAIN', includeNotButton = false): string[] {

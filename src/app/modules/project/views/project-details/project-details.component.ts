@@ -290,8 +290,8 @@ export class ProjectDetailsComponent implements OnInit {
       this.displayedColumns.push("status");
       this.displayedColumns.push("publicationDate");
       this.displayedColumns.push("title");
+      this.displayedColumns.push("anchor");
       this.displayedColumns.push("actions");
-      this.displayedColumns.push("lastModifiedDate");
     } else {
       if (user?.role !== "CUSTOMER") {
         this.displayedColumns.push("select");
@@ -302,9 +302,9 @@ export class ProjectDetailsComponent implements OnInit {
       this.displayedColumns.push("publicationUrl");
       this.displayedColumns.push("newspaper");
       this.displayedColumns.push("title");
+      this.displayedColumns.push("anchor");
       this.displayedColumns.push("period");
       this.displayedColumns.push("actions");
-      this.displayedColumns.push("lastModifiedDate");
     }
   }
 

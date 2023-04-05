@@ -27,13 +27,15 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MatCardModule} from "@angular/material/card";
 import {NgxDropzoneModule} from "ngx-dropzone";
+import { ContentHintTemplateDialogFormComponent } from './components/content-hint-template-dialog-form/content-hint-template-dialog-form.component';
 
 
 @NgModule({
   declarations: [
     ContentDetailComponent,
     ContentListComponent,
-    ContentHintDialogFormComponent
+    ContentHintDialogFormComponent,
+    ContentHintTemplateDialogFormComponent
   ],
     imports: [
         CommonModule,

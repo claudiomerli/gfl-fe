@@ -35,7 +35,7 @@ export class SecurityInterceptor implements HttpInterceptor {
       responseObserver = next.handle(request)
     }
 
-    if (!disableSpinner) {
+    if (!disableSpinner || disableSpinner != "true") {
       this.spinner.show()
     }
 
