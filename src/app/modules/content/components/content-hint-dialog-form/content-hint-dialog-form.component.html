@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Indicazioni del contenuto
-<button mat-raised-button class="ms-3" (click)="openContentHintTemplateDialog()" >Apri template</button>
+<button *isAuthenticated="['CHIEF_EDITOR','ADMIN']" mat-raised-button class="ms-3" (click)="openContentHintTemplateDialog()" >Apri template</button>
 </h1>
 <div mat-dialog-content>
   <div *isAuthenticated="['EDITOR']" class="m-3">

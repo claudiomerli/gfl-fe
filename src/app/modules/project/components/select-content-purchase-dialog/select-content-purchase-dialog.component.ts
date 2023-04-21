@@ -27,7 +27,9 @@ export class SelectContentPurchaseDialogComponent implements OnInit {
   ngOnInit(): void {
     this.contentPurchaseService.findAll({
       newspaperId: this.newspaperId,
-      globalSearch: ""
+      globalSearch: "",
+      expirationFrom: "",
+      expirationTo: ""
     }, new PaginationDto(0, 10000000, "DESC", "contentRemaining"))
       .subscribe(value => {
         value.content = value.content.filter(element => element.contentRemaining > 0)

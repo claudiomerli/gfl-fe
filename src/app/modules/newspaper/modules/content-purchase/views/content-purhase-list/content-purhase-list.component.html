@@ -4,13 +4,13 @@
 <div class="p-3">
   <form [formGroup]="searchForm">
     <div class="row">
-      <div class="col-5">
+      <div class="col-4">
         <mat-form-field class="w-100">
           <mat-label>Ricerca globale</mat-label>
           <input matInput formControlName="globalSearch">
         </mat-form-field>
       </div>
-      <div class="col-5">
+      <div class="col-2">
         <mat-form-field class="w-100" appearance="fill">
           <mat-label>Testata</mat-label>
           <input type="text"
@@ -26,6 +26,22 @@
               {{option.name}}
             </mat-option>
           </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Data scadenza da</mat-label>
+          <input matInput [matDatepicker]="expirationDateFrom" formControlName="expirationDateFrom">
+          <mat-datepicker-toggle matSuffix [for]="expirationDateFrom"></mat-datepicker-toggle>
+          <mat-datepicker #expirationDateFrom></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Data scadenza a</mat-label>
+          <input matInput [matDatepicker]="expirationDateTo" formControlName="expirationDateTo">
+          <mat-datepicker-toggle matSuffix [for]="expirationDateTo"></mat-datepicker-toggle>
+          <mat-datepicker #expirationDateTo></mat-datepicker>
         </mat-form-field>
       </div>
       <div class="col-2">
@@ -51,6 +67,11 @@
       <ng-container matColumnDef="contentNumber">
         <th mat-header-cell *matHeaderCellDef mat-sort-header="contentNumber"> Numero redazionali acquistati</th>
         <td mat-cell *matCellDef="let element"> {{element.contentNumber}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expiration">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="expiration"> Scadenza</th>
+        <td mat-cell *matCellDef="let element"> {{element.expiration | date:"dd/MM/yyyy"}} </td>
       </ng-container>
 
       <ng-container matColumnDef="contentUsed">
@@ -84,9 +105,9 @@
 
 
       <tr mat-header-row
-          *matHeaderRowDef="['createdDate','amount','contentNumber','contentUsed','contentRemaining','newspapers','actions']"></tr>
+          *matHeaderRowDef="['createdDate','amount','contentNumber','contentUsed','contentRemaining','newspapers', 'expiration','actions']"></tr>
       <tr mat-row
-          *matRowDef="let row; columns: ['createdDate','amount','contentNumber','contentUsed','contentRemaining','newspapers','actions'];"></tr>
+          *matRowDef="let row; columns: ['createdDate','amount','contentNumber','contentUsed','contentRemaining','newspapers', 'expiration','actions'];"></tr>
     </table>
     <mat-paginator [pageSizeOptions]="[10,50,100]"
                    showFirstLastButtons

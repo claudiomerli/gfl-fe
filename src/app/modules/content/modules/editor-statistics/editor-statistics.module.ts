@@ -8,20 +8,24 @@ import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({
   declarations: [
     EditorStatisticsDashboardComponent
   ],
-    imports: [
-        CommonModule,
-        EditorStatisticsRoutingModule,
-        MatToolbarModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        MatSelectModule
-    ]
+  imports: [
+    CommonModule,
+    EditorStatisticsRoutingModule,
+    MatToolbarModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatListModule
+  ]
 })
 export class EditorStatisticsModule { }

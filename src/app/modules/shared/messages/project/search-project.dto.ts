@@ -4,4 +4,5 @@ export interface SearchProjectDto {
   projectCommissionStatus?: string[] | null;
   commissionYear?: number | null;
   commissionPeriod?: string | null;
+  newspapers?: number[] | null
 }

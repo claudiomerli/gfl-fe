@@ -22,7 +22,34 @@
   </div>
   <div class="row align-items-center">
     <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR']">
-      <div class="col-6">
+      <div class="col-3">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Testate</mat-label>
+          <mat-chip-list #chipListNewspaper>
+            <mat-chip *ngFor="let newspaper of searchProjectNewspapers.value"
+                      (removed)="removeNewspaper(newspaper.id)">
+              {{newspaper.name}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input
+              placeholder="Cerca testata..."
+              [formControl]="newspaperInput"
+              #newspaperInputElement
+              [matAutocomplete]="autoNewspaper"
+              [matChipInputFor]="chipListNewspaper"
+            >
+          </mat-chip-list>
+          <mat-autocomplete #autoNewspaper="matAutocomplete"
+                            (optionSelected)="newspaperSelected($event,newspaperInputElement)">
+            <mat-option *ngFor="let newspaper of newspapers" [value]="newspaper">
+              {{newspaper.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-3">
         <mat-form-field appearance="fill" class="w-100">
           <mat-label>Stato commissioni</mat-label>
           <mat-select [formControl]="searchProjectCommissionStatusFormControl" multiple>

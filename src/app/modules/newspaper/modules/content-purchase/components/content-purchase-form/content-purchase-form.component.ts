@@ -8,6 +8,7 @@ import {PaginationDto} from "../../../../../shared/messages/common/pagination.dt
 import {NewspaperService} from "../../../../../shared/services/newspaper.service";
 import {SavePurchaseContentDto} from "../../../../../shared/messages/purchase-content/save-purchase-content.dto";
 import {PurchaseContent} from "../../../../../shared/messages/purchase-content/purchase-content";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-content-purchase-form',
@@ -20,7 +21,8 @@ export class ContentPurchaseFormComponent implements OnInit {
     amount: new FormControl<number | null>(null, [Validators.required]),
     contentNumber: new FormControl<number | null>(null, [Validators.required]),
     newspapers: new FormControl<Newspaper[]>([]),
-    note: new FormControl<string>("")
+    note: new FormControl<string>(""),
+    expiration: new FormControl<moment.Moment | null>(null)
   })
 
   @Output() save = new EventEmitter<SavePurchaseContentDto>();
@@ -54,7 +56,8 @@ export class ContentPurchaseFormComponent implements OnInit {
         amount: this.purchaseContentToEdit.amount,
         contentNumber: this.purchaseContentToEdit.contentNumber,
         newspapers: this.purchaseContentToEdit.newspapers,
-        note: this.purchaseContentToEdit.note
+        note: this.purchaseContentToEdit.note,
+        expiration: this.purchaseContentToEdit.expiration ? moment(this.purchaseContentToEdit.expiration) : null
       })
     }
   }
@@ -78,7 +81,8 @@ export class ContentPurchaseFormComponent implements OnInit {
         amount: this.purchaseContentForm.value.amount!,
         contentNumber: this.purchaseContentForm.value.contentNumber!,
         newspapers: this.purchaseContentForm.value.newspapers?.map(value => value.id) || [],
-        note: this.purchaseContentForm.value.note || ""
+        note: this.purchaseContentForm.value.note || "",
+        expiration: this.purchaseContentForm.value.expiration?.format("YYYY-MM-DD")!
       })
     }
 

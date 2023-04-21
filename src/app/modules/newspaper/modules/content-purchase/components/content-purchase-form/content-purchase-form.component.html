@@ -1,16 +1,24 @@
 <form [formGroup]="purchaseContentForm" (submit)="formSubmit()">
   <div class="row">
-    <div class="col-6">
+    <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>Importo</mat-label>
         <input type="number" matInput formControlName="amount">
         <span matSuffix>€</span>
       </mat-form-field>
     </div>
-    <div class="col-6">
+    <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>Numero contentuti</mat-label>
         <input type="number" matInput formControlName="contentNumber">
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Data scadenza</mat-label>
+        <input matInput [matDatepicker]="expirationDate" formControlName="expiration">
+        <mat-datepicker-toggle matSuffix [for]="expirationDate"></mat-datepicker-toggle>
+        <mat-datepicker #expirationDate></mat-datepicker>
       </mat-form-field>
     </div>
     <div class="col-6">

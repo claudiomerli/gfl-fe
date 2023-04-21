@@ -7,7 +7,7 @@
       <div class="p-3 mat-typography">
         <div class="text-start mb-3">
           <h3>Commissione per {{contentToEdit.projectCommission.newspaper.name}}</h3>
-          <a mat-raised-button target="_blank" *isNotInRole="['FINAL_CUSTOMER']"
+          <a mat-raised-button target="_blank" *isNotInRole="['FINAL_CUSTOMER','EDITOR']"
              [href]="'/projects/' + contentToEdit.projectCommission.projectId + '?commissionId='+contentToEdit.projectCommission.id">
             Vai alla commissione
             <mat-icon>open_in_new</mat-icon>

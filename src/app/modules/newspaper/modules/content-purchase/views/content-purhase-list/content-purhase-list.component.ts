@@ -12,6 +12,7 @@ import {BehaviorSubject} from "rxjs";
 import {Sort} from "@angular/material/sort";
 import {PageEvent} from "@angular/material/paginator";
 import {validateObject} from "../../../../../shared/utils/utils";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-content-purhase-list',
@@ -26,7 +27,9 @@ export class ContentPurhaseListComponent implements OnInit {
 
   searchForm = new FormGroup({
     globalSearch: new FormControl<string>(""),
-    newspaper: new FormControl<Newspaper | null | string>(null,[validateObject])
+    newspaper: new FormControl<Newspaper | null | string>(null, [validateObject]),
+    expirationDateFrom: new FormControl<moment.Moment|null>(null),
+    expirationDateTo: new FormControl<moment.Moment|null>(null),
   })
 
   pagination: PaginationDto = {
@@ -66,7 +69,9 @@ export class ContentPurhaseListComponent implements OnInit {
     if (this.searchForm.valid) {
       this.purchaseContentService.findAll({
         globalSearch: this.searchForm.value.globalSearch || "",
-        newspaperId: (this.searchForm.value.newspaper as Newspaper)?.id || ""
+        newspaperId: (this.searchForm.value.newspaper as Newspaper)?.id || "",
+        expirationFrom: this.searchForm.value.expirationDateFrom ? this.searchForm.value.expirationDateFrom.format("YYYY-MM-DD") : "",
+        expirationTo: this.searchForm.value.expirationDateTo ? this.searchForm.value.expirationDateTo.format("YYYY-MM-DD") : "",
       }, this.pagination).subscribe(value => {
         this.actualPage.next(value);
       })

@@ -5,7 +5,7 @@ import {CreateProjectComponent} from "../../components/create-project/create-pro
 import {ProjectService} from "../../../shared/services/project.service";
 import {Router} from "@angular/router";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, EMPTY} from "rxjs";
 import {PageResponseDto} from "../../../shared/messages/common/page-response.dto";
 import {Project} from "../../../shared/messages/project/project";
 import {Sort} from "@angular/material/sort";
@@ -14,8 +14,11 @@ import {getYearList, periods, projectCommissionStatus, projectStatuses} from "..
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 import {Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
-import {debounceTime} from "rxjs/operators";
+import {debounceTime, switchMap} from "rxjs/operators";
 import {SearchProjectDto} from "../../../shared/messages/project/search-project.dto";
+import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {NewspaperService} from "../../../shared/services/newspaper.service";
 
 @Component({
   selector: 'app-project-dashboard',
@@ -28,8 +31,9 @@ export class ProjectDashboardComponent implements OnInit {
   searchProjectCommissionStatusFormControl = new FormControl<string[]>([]);
   searchProjectYear = new FormControl<number | null>(null);
   searchProjectPeriod = new FormControl<string | null>(null);
+  searchProjectNewspapers = new FormControl<Newspaper[]>([])
 
-  constructor(private matDialog: MatDialog, private projectService: ProjectService, private router: Router, private store: Store) {
+  constructor(private matDialog: MatDialog, private projectService: ProjectService, private newspaperService: NewspaperService, private router: Router, private store: Store) {
   }
 
   pagination: PaginationDto = {
@@ -45,6 +49,8 @@ export class ProjectDashboardComponent implements OnInit {
   years = getYearList();
   periods = periods;
   projectCommissionStatuses = projectCommissionStatus;
+  newspapers: Newspaper[] = [];
+  newspaperInput = new FormControl<string>("")
 
   ngOnInit(): void {
     this.search()
@@ -57,6 +63,22 @@ export class ProjectDashboardComponent implements OnInit {
     this.searchProjectCommissionStatusFormControl.valueChanges.subscribe(refreshLambda)
     this.searchProjectYear.valueChanges.subscribe(refreshLambda)
     this.searchProjectPeriod.valueChanges.subscribe(refreshLambda)
+    this.searchProjectNewspapers.valueChanges.subscribe(refreshLambda)
+
+    this.newspaperInput.valueChanges
+      .pipe(
+        debounceTime(200),
+        switchMap(search => {
+          if (search === "") {
+            this.newspapers = []
+            return EMPTY
+          } else {
+            return this.newspaperService.findForAutocomplete({name: search!}, new PaginationDto(0, 10, "ASC", "name"))
+          }
+        })
+      ).subscribe(result => {
+      this.newspapers = result.content.filter(e => !this.searchProjectNewspapers.value?.find(selected => e.id == selected.id))
+    })
 
     this.setupColumns();
   }
@@ -82,6 +104,7 @@ export class ProjectDashboardComponent implements OnInit {
       projectCommissionStatus: this.searchProjectCommissionStatusFormControl.value,
       commissionPeriod: this.searchProjectPeriod.value,
       commissionYear: this.searchProjectYear.value,
+      newspapers: this.searchProjectNewspapers.value?.map(value => value.id) || []
     }
 
     this.projectService
@@ -138,5 +161,16 @@ export class ProjectDashboardComponent implements OnInit {
         }
       })
 
+  }
+
+  newspaperSelected($event: MatAutocompleteSelectedEvent, input: HTMLInputElement) {
+    this.newspaperInput.setValue("")
+    input.value = ""
+
+    this.searchProjectNewspapers?.setValue([...(this.searchProjectNewspapers.value as Newspaper[]), $event.option.value])
+  }
+
+  removeNewspaper(id: number) {
+    this.searchProjectNewspapers.setValue(this.searchProjectNewspapers.value?.filter(element => element.id != id) || null);
   }
 }
