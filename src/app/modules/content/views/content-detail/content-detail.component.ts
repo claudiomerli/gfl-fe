@@ -30,7 +30,13 @@ import {NgxDropzoneChangeEvent} from "ngx-dropzone";
 export class ContentDetailComponent implements OnInit {
 
 
-  constructor(private contentService: ContentService, private activatedRoute: ActivatedRoute, private userService: UserService, private store: Store, private matDialog: MatDialog) {
+  constructor(
+    private contentService: ContentService,
+    private activatedRoute: ActivatedRoute,
+    private userService: UserService,
+    private store: Store,
+    private matDialog: MatDialog
+  ) {
   }
 
   @ViewChild("drawer") drawer!: MatDrawer
@@ -127,10 +133,14 @@ export class ContentDetailComponent implements OnInit {
   }
 
   updateStatus(status: string) {
-    this.contentService
-      .updateStatus(this.contentToEdit.id, status)
+    this.contentService.updateWithNoSpinner(this.contentToEdit.id, {body: this.contentForm.controls.body.value!})
       .subscribe(() => {
-        this.refresh()
+        this.lastSaved = moment()
+        this.contentService
+          .updateStatus(this.contentToEdit.id, status)
+          .subscribe(() => {
+            this.refresh()
+          })
       })
   }
 
