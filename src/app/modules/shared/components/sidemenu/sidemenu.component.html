@@ -13,10 +13,10 @@
   <app-sidemenu-item [icon]="'shopping_cart_checkout'" [title]="'Acquisti contenuti'" *isAuthenticated="['ADMIN']"
                      routerLinkActive="active" routerLink="/newspapers/content-purchase" [indent]="true"></app-sidemenu-item>
 
-  <app-sidemenu-item [icon]="'attach_money'" [title]="'Ordini'" *isAuthenticated="['ADMIN','CUSTOMER']"
+  <app-sidemenu-item [icon]="'attach_money'" [title]="'Ordini'" *isAuthenticated="['ADMIN']"
                      routerLinkActive="active" routerLink="/orders"
                      [routerLinkActiveOptions]="{exact: true}"></app-sidemenu-item>
-  <app-sidemenu-item [icon]="'feed'" [title]="'Pacchetti comunicati stampa'" *isAuthenticated="['ADMIN','CUSTOMER']"
+  <app-sidemenu-item [icon]="'feed'" [title]="'Pacchetti comunicati stampa'" *isAuthenticated="['ADMIN']"
                      routerLinkActive="active" routerLink="/orders/pack" [indent]="true"></app-sidemenu-item>
 
   <app-sidemenu-item [icon]="'assessment'" [title]="'Gestione progetti'" *isNotInRole="['EDITOR']"

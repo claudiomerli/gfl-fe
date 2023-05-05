@@ -45,7 +45,7 @@ const routes: Routes = [
     path: "orders",
     loadChildren: () => import("./modules/order/order.module").then(m => m.OrderModule),
     canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN', 'CUSTOMER']}
+    data: {availableRoles: ['ADMIN']}
   },
   {
     path: "news",
