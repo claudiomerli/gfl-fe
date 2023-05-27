@@ -34,7 +34,8 @@ export class NewspaperSaveFormComponent implements OnInit {
     note: new FormControl<string | null>(null),
     topics: new FormControl<number[]>([]),
     hidden: new FormControl(false),
-    sensitiveTopics: new FormControl<boolean | null>(null)
+    sensitiveTopics: new FormControl<boolean | null>(null),
+    warning: new FormControl<boolean | null>(null)
   })
 
   zaSliderOptions: Options = {
@@ -67,7 +68,8 @@ export class NewspaperSaveFormComponent implements OnInit {
         regionalGeolocalization: this.newspaperToEdit.regionalGeolocalization,
         topics: this.newspaperToEdit.topics.map(value => value.id),
         hidden: this.newspaperToEdit.hidden,
-        sensitiveTopics: this.newspaperToEdit.sensitiveTopics
+        sensitiveTopics: this.newspaperToEdit.sensitiveTopics,
+        warning: this.newspaperToEdit.warning
       });
     }
   }

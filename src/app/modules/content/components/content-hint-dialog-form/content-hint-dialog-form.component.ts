@@ -5,9 +5,9 @@ import {FormControl} from "@angular/forms";
 import {SaveAttachmentDto} from "../../../shared/messages/attachment/save-attachment.dto";
 import {Attachment} from "../../../shared/messages/common/attachment";
 import {ProjectService} from "../../../shared/services/project.service";
-import {zip} from "rxjs";
+import {Subscription, zip} from "rxjs";
 import {ContentService} from "../../../shared/services/content.service";
-import {switchMap, tap} from "rxjs/operators";
+import {debounceTime, switchMap, tap} from "rxjs/operators";
 import {AttachmentService} from "../../../shared/services/attachment.service";
 import {saveAs} from "file-saver";
 import {Project} from "../../../shared/messages/project/project";
@@ -22,13 +22,13 @@ import {AuthenticationState} from "../../../store/state/authentication-state";
   templateUrl: './content-hint-dialog-form.component.html',
   styleUrls: ['./content-hint-dialog-form.component.scss']
 })
-export class ContentHintDialogFormComponent implements OnInit, OnDestroy {
+export class ContentHintDialogFormComponent implements OnInit {
 
 
   hintBody = new FormControl<string | null>(null);
   content!: Content;
   project!: Project
-  intervalId: any;
+  bodyChangeSubscription!: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<ContentHintDialogFormComponent>,
@@ -48,6 +48,10 @@ export class ContentHintDialogFormComponent implements OnInit, OnDestroy {
   loadContent() {
     this.contentService.findById(this.contentId)
       .subscribe(content => {
+        if(this.bodyChangeSubscription){
+          this.bodyChangeSubscription.unsubscribe()
+        }
+
         this.content = content;
         this.hintBody.setValue(this.content.hint.body)
         this.projectService.findById(content.projectCommission.projectId)
@@ -57,9 +61,11 @@ export class ContentHintDialogFormComponent implements OnInit, OnDestroy {
 
         let user = this.store.selectSnapshot(AuthenticationState.user);
         if (["ADMIN", "CHIEF_EDITOR"].includes(user?.role!)) {
-          this.intervalId = setInterval(() => {
+          this.bodyChangeSubscription = this.hintBody.valueChanges.pipe(
+            debounceTime(500)
+          ).subscribe(() => {
             this.saveContentHintObservable(true).subscribe()
-          }, 5000);
+          });
         }
       })
   }
@@ -109,10 +115,5 @@ export class ContentHintDialogFormComponent implements OnInit, OnDestroy {
           this.hintBody.setValue(response)
         }
       })
-  }
-
-  ngOnDestroy(): void {
-    if (this.intervalId)
-      clearInterval(this.intervalId)
   }
 }

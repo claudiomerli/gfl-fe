@@ -96,7 +96,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr [ngClass]="{'bg-warning' : row.warning}" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <div class="row">
     <div class="col d-flex align-items-center">

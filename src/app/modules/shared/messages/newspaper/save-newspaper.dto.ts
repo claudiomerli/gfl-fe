@@ -10,5 +10,6 @@ export class SaveNewspaperDto {
   topics: string[] | undefined
   hidden: boolean | undefined
   sensitiveTopics: boolean | undefined
+  warning: boolean | undefined
 
 }
