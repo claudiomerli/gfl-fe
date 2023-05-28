@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 
-@import "~ngx-spinner/animations/cube-transition.css";
-@import "~bootstrap/dist/css/bootstrap-grid.min.css";
-@import "~bootstrap/dist/css/bootstrap-utilities.css";
+@import "node_modules/ngx-spinner/animations/cube-transition.css";
+@import "node_modules/bootstrap/dist/css/bootstrap-grid.min.css";
+@import "node_modules/bootstrap/dist/css/bootstrap-utilities.css";
 
 
 .full-body {

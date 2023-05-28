@@ -68,7 +68,7 @@
     </table>
     <mat-paginator [pageSizeOptions]="[10, 20, 50]"
                    showFirstLastButtons
-                   [length]="orders?.totalElements"
+                   [length]="orders.totalElements"
                    [pageSize]="actualPagination.pageSize"
                    (page)="onPageChange($event)">
     </mat-paginator>
