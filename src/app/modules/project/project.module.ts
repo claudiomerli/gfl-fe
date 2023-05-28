@@ -16,7 +16,6 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatCardModule} from "@angular/material/card";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../shared/shared.module";
-import {NgxAutocompleteModule} from "ngx-angular-autocomplete";
 import {NgxPaginationModule} from "ngx-pagination";
 import { ProjectDashboardComponent } from './views/project-dashboard/project-dashboard.component';
 import { CreateProjectComponent } from './components/create-project/create-project.component';
@@ -58,7 +57,6 @@ import {MatRadioModule} from "@angular/material/radio";
         ProjectRoutingModule,
         ReactiveFormsModule,
         NgxPaginationModule,
-        NgxAutocompleteModule,
         FormsModule,
         SharedModule,
         MatToolbarModule,
