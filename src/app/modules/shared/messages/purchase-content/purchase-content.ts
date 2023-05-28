@@ -5,6 +5,7 @@ export interface PurchaseContent {
   contentNumber: number;
   contentUsed: number;
   contentRemaining: number;
+  eachCost: number;
   amount: number;
   newspapers: Newspaper[]
   expiration: string

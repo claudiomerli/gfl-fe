@@ -28,6 +28,7 @@ import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MatCardModule} from "@angular/material/card";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import { ContentHintTemplateDialogFormComponent } from './components/content-hint-template-dialog-form/content-hint-template-dialog-form.component';
+import { ContentAssistantDialogComponent } from './components/content-assistant-dialog/content-assistant-dialog.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { ContentHintTemplateDialogFormComponent } from './components/content-hin
     ContentDetailComponent,
     ContentListComponent,
     ContentHintDialogFormComponent,
-    ContentHintTemplateDialogFormComponent
+    ContentHintTemplateDialogFormComponent,
+    ContentAssistantDialogComponent
   ],
     imports: [
         CommonModule,

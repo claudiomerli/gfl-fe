@@ -159,7 +159,12 @@
         </button>
       </div>
     </mat-drawer>
-    <mat-drawer-content class="d-flex justify-content-center">
+    <mat-drawer-content class="d-flex justify-content-center position-relative">
+      <div class="position-absolute" style="right: 1rem; top: 1rem">
+        <button mat-fab color="primary">
+          <mat-icon>smart_toy</mat-icon>
+        </button>
+      </div>
       <div class="w-75">
         <small class="fst-italic" *ngIf="lastSaved">Ultimo
           salvataggio: {{lastSaved.toDate()|date:"dd/MM/YYYY HH:mm:ss"}}</small>
