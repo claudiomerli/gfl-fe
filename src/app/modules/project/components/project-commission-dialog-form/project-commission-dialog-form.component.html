@@ -3,10 +3,10 @@
   </h1>
   <ng-container *ngIf="data.projectCommission">
     <span class="mx-1">-</span>
-    <mat-chip-list>
-      <mat-chip class="mat-typography"
-                color="primary">{{projectCommissionStatus|extractLabelByCode:data.projectCommission.status}}</mat-chip>
-    </mat-chip-list>
+    <mat-chip-listbox>
+      <mat-chip-option class="mat-typography"
+                color="primary">{{projectCommissionStatus|extractLabelByCode:data.projectCommission.status}}</mat-chip-option>
+    </mat-chip-listbox>
   </ng-container>
 </div>
 <div mat-dialog-content>

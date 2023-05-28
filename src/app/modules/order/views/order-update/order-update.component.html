@@ -1,7 +1,7 @@
 <mat-toolbar>
   <span>Dettaglio ordine {{orderToEdit?.id}}</span>
-  <span *ngIf="orderToEdit?.orderPack" class="mx-3"><mat-chip-list><mat-chip
-    color="primary">Pacchetto: {{orderToEdit?.orderPack?.name}}</mat-chip></mat-chip-list></span>
+  <span *ngIf="orderToEdit?.orderPack" class="mx-3"><mat-chip-listbox><mat-chip-option
+    color="primary">Pacchetto: {{orderToEdit?.orderPack?.name}}</mat-chip-option></mat-chip-listbox></span>
   <mat-divider class="w-100 mx-3"></mat-divider>
   <span class="text-success" *ngIf="orderToEdit?.status === 'DRAFT'">Bozza</span>
   <span class="text-warning" *ngIf="orderToEdit?.status === 'REQUESTED'">Inviato</span>
@@ -19,7 +19,7 @@
                     (sendOrderPack)="onSendOrderPack()"
     ></app-order-form>
   </div>
-  <mat-card *isAuthenticated="['CUSTOMER']"
+  <mat-card appearance="outlined" *isAuthenticated="['CUSTOMER']"
             [ngClass]="{'d-flex justify-content-center align-items-center card-hoverable' : !showRequestQuote}"
             (click)="showRequestQuote = true">
     <mat-card-content>

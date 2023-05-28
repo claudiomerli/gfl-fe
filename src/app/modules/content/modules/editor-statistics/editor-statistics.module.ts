@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import { EditorStatisticsRoutingModule } from './editor-statistics-routing.module';
 import { EditorStatisticsDashboardComponent } from './views/editor-statistics-dashboard/editor-statistics-dashboard.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatLegacyInputModule as MatInputModule} from "@angular/material/legacy-input";
+import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
-import {MatLegacyAutocompleteModule as MatAutocompleteModule} from "@angular/material/legacy-autocomplete";
-import {MatLegacySelectModule as MatSelectModule} from "@angular/material/legacy-select";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatLegacyListModule as MatListModule} from "@angular/material/legacy-list";
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({

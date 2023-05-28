@@ -8,10 +8,10 @@ import {Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {User} from "../../../shared/messages/auth/user";
 import {orderStatus} from "../../../shared/utils/utils";
-import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
+import {PageEvent} from "@angular/material/paginator";
 import {Sort} from "@angular/material/sort";
 import {Route, Router} from "@angular/router";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {OrderDraftDialogComponent} from "../../component/order-draft-dialog/order-draft-dialog.component";
 
 @Component({

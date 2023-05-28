@@ -9,10 +9,10 @@
     <mat-radio-group
       [(ngModel)]="selectedPurchaseContent">
       <mat-radio-button class="d-flex align-items-center" *ngFor="let element of page.content" [value]="element">
-        <mat-chip-list class="ms-3">
-          <mat-chip>Disponibilità: {{element.contentRemaining}}</mat-chip>
-          <mat-chip>Testate: {{getJoinedNewspaperNames(element)}}</mat-chip>
-        </mat-chip-list>
+        <mat-chip-listbox class="ms-3">
+          <mat-chip-option>Disponibilità: {{element.contentRemaining}}</mat-chip-option>
+          <mat-chip-option>Testate: {{getJoinedNewspaperNames(element)}}</mat-chip-option>
+        </mat-chip-listbox>
       </mat-radio-button>
     </mat-radio-group>
   </div>

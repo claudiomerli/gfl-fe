@@ -4,7 +4,7 @@ import {ProjectService} from "../../../shared/services/project.service";
 import {Project, ProjectCommission} from "../../../shared/messages/project/project";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../shared/services/user.service";
-import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {User} from "../../../shared/messages/auth/user";
 import {debounceTime, switchMap, tap} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
@@ -19,7 +19,7 @@ import * as moment from "moment";
 import {
   ProjectCommissionFormComponent
 } from "../../components/project-commission-form/project-commission-form.component";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 import {
   ProjectCommissionDialogFormComponent
@@ -31,7 +31,7 @@ import {
   CommissionHistoryDialogComponent
 } from "../../../newspaper/components/commission-history-dialog/commission-history-dialog.component";
 import {SelectionModel} from "@angular/cdk/collections";
-import {MatLegacySelectChange as MatSelectChange} from "@angular/material/legacy-select";
+import {MatSelectChange} from "@angular/material/select";
 import {
   ProjectNewspaperToolDialogComponent
 } from "../../components/project-newspaper-tool-dialog/project-newspaper-tool-dialog.component";
@@ -40,7 +40,7 @@ import {Attachment} from "../../../shared/messages/common/attachment";
 import {SaveAttachmentDto} from "../../../shared/messages/attachment/save-attachment.dto";
 import {Sort} from "@angular/material/sort";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
-import {MatLegacyChipInputEvent as MatChipInputEvent} from "@angular/material/legacy-chips";
+import {MatChipInputEvent} from "@angular/material/chips";
 import {
   SelectContentPurchaseDialogComponent
 } from "../../components/select-content-purchase-dialog/select-content-purchase-dialog.component";

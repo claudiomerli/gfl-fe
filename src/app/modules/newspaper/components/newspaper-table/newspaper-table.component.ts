@@ -5,7 +5,7 @@ import {Sort} from "@angular/material/sort";
 import {regionalGeolocalizzation} from "../../../shared/utils/utils";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {Store} from "@ngxs/store";
-import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
+import {PageEvent} from "@angular/material/paginator";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 
 @Component({

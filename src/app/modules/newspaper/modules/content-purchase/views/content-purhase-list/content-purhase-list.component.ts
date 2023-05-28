@@ -10,7 +10,7 @@ import {PageResponseDto} from "../../../../../shared/messages/common/page-respon
 import {PurchaseContent} from "../../../../../shared/messages/purchase-content/purchase-content";
 import {BehaviorSubject} from "rxjs";
 import {Sort} from "@angular/material/sort";
-import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
+import {PageEvent} from "@angular/material/paginator";
 import {validateObject} from "../../../../../shared/utils/utils";
 import * as moment from "moment";
 

@@ -3,7 +3,7 @@ import {OrderPackService} from "../../../../../shared/services/order-pack.servic
 import {ActivatedRoute, Router} from "@angular/router";
 import {OrderPack} from "../../../../../shared/messages/order/order-pack";
 import {ConfirmDialogComponent} from "../../../../../shared/components/confirm-dialog/confirm-dialog.component";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {SaveOrderPackDto} from "../../../../../shared/messages/order/save-order-pack.dto";
 
 @Component({

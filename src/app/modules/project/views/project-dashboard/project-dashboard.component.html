@@ -25,14 +25,14 @@
       <div class="col-3">
         <mat-form-field appearance="fill" class="w-100">
           <mat-label>Testate</mat-label>
-          <mat-chip-list #chipListNewspaper>
-            <mat-chip *ngFor="let newspaper of searchProjectNewspapers.value"
+          <mat-chip-grid #chipListNewspaper>
+            <mat-chip-row *ngFor="let newspaper of searchProjectNewspapers.value"
                       (removed)="removeNewspaper(newspaper.id)">
               {{newspaper.name}}
               <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
               </button>
-            </mat-chip>
+            </mat-chip-row>
             <input
               placeholder="Cerca testata..."
               [formControl]="newspaperInput"
@@ -40,7 +40,7 @@
               [matAutocomplete]="autoNewspaper"
               [matChipInputFor]="chipListNewspaper"
             >
-          </mat-chip-list>
+          </mat-chip-grid>
           <mat-autocomplete #autoNewspaper="matAutocomplete"
                             (optionSelected)="newspaperSelected($event,newspaperInputElement)">
             <mat-option *ngFor="let newspaper of newspapers" [value]="newspaper">

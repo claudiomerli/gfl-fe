@@ -1,6 +1,6 @@
 <div class="mx-5 row justify-content-center" *ngIf="orderPacks?.content">
   <div class="p-3 my-3 col-4" *ngFor="let orderPack of orderPacks.content">
-    <mat-card class="order-pack-card" style="min-height: 100%">
+    <mat-card appearance="outlined" class="order-pack-card" style="min-height: 100%">
       <mat-card-title>{{orderPack.name}}</mat-card-title>
       <mat-card-title class="fs-2">{{orderPack.price | currency:"EUR"}}</mat-card-title>
       <mat-card-subtitle>{{orderPack.description}}</mat-card-subtitle>

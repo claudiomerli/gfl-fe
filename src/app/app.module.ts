@@ -13,10 +13,10 @@ import {NgxsModule, Store} from "@ngxs/store";
 import {ApplicationState} from "./modules/store/state/application-state";
 import {environment} from "../environments/environment";
 import {MatIconModule} from "@angular/material/icon";
-import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
+import {MatButtonModule} from "@angular/material/button";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {AuthenticationState, LoadInitialAuthentication} from "./modules/store/state/authentication-state";
-import {MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS as MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/legacy-form-field";
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {TINYMCE_SCRIPT_SRC} from "@tinymce/tinymce-angular";
 

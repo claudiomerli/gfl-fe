@@ -13,7 +13,7 @@ import {
   projectCommissionStatus,
   validateObject
 } from "../../../shared/utils/utils";
-import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
+import {PageEvent} from "@angular/material/paginator";
 import {FormControl, FormGroup} from "@angular/forms";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 import {debounceTime} from "rxjs/operators";

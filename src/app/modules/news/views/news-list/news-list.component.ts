@@ -4,7 +4,7 @@ import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {PageResponseDto} from "../../../shared/messages/common/page-response.dto";
 import {News} from "../../../shared/messages/news/news";
 import {Router} from "@angular/router";
-import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-news-list',

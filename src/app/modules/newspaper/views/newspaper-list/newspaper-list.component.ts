@@ -9,9 +9,9 @@ import {SearchNewspaperDto} from "../../../shared/messages/newspaper/search-news
 import {Sort} from "@angular/material/sort";
 import {Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
-import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
+import {PageEvent} from "@angular/material/paginator";
 import {saveAs} from "file-saver";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {ChooseOrderDialogComponent} from "../../components/choose-order-dialog/choose-order-dialog.component";
 import {OrderService} from "../../../shared/services/order.service";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";

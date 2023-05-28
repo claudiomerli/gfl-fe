@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Newspaper} from "../../../../../shared/messages/newspaper/newspaper";
-import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {debounceTime, switchMap} from "rxjs/operators";
 import {EMPTY} from "rxjs";
 import {PaginationDto} from "../../../../../shared/messages/common/pagination.dto";

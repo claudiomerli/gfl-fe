@@ -6,9 +6,9 @@ import {PageResponseDto} from "../../../shared/messages/common/page-response.dto
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {debounceTime} from "rxjs/operators";
 import {userRoles} from "../../../shared/utils/utils";
-import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
+import {PageEvent} from "@angular/material/paginator";
 import {Sort} from "@angular/material/sort";
-import {MatLegacySelectChange as MatSelectChange} from "@angular/material/legacy-select";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'app-user-list',

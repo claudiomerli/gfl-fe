@@ -10,7 +10,7 @@ import {
 import {User} from "../../../shared/messages/auth/user";
 import {EditUserDto} from "../../../shared/messages/users/edit-user.dto";
 import {userRoles} from "../../../shared/utils/utils";
-import {MatLegacySlideToggle as MatSlideToggle, MatLegacySlideToggleChange as MatSlideToggleChange} from "@angular/material/legacy-slide-toggle";
+import {MatSlideToggle, MatSlideToggleChange} from "@angular/material/slide-toggle";
 
 @Component({
   selector: 'app-user-update-form',

@@ -15,30 +15,30 @@
             </mat-form-field>
           </div>
           <div class="col-6" *isAuthenticated="['CUSTOMER']">
-            <mat-chip-list class="w-100">
-              <mat-chip *ngFor="let finalCustomer of projectFormGroup.controls.finalCustomers.value">
+            <mat-chip-listbox class="w-100">
+              <mat-chip-option *ngFor="let finalCustomer of projectFormGroup.controls.finalCustomers.value">
                 {{finalCustomer.fullname}}
-              </mat-chip>
-            </mat-chip-list>
+              </mat-chip-option>
+            </mat-chip-listbox>
           </div>
           <div class="col-6" *isAuthenticated="['ADMIN','INTERNAL_NETWORK','CHIEF_EDITOR']">
             <mat-form-field appearance="fill" class="w-100">
               <mat-label>Clienti finali</mat-label>
-              <mat-chip-list #chipList>
-                <mat-chip
+              <mat-chip-grid #chipList>
+                <mat-chip-row
                   *ngFor="let finalCustomer of projectFormGroup.controls.finalCustomers.value"
                   (removed)="removeFinalCustomer(finalCustomer)">
                   {{finalCustomer.fullname}}
                   <button matChipRemove>
                     <mat-icon>cancel</mat-icon>
                   </button>
-                </mat-chip>
+                </mat-chip-row>
                 <input
                   #finalCustomerInputAutocompleteElement
                   [formControl]="finalCustomerAutocompleteControl"
                   [matAutocomplete]="autoFinalCustomer"
                   [matChipInputFor]="chipList">
-              </mat-chip-list>
+              </mat-chip-grid>
               <mat-autocomplete #autoFinalCustomer="matAutocomplete" (optionSelected)="addFinalCustomer($event)">
                 <mat-option *ngFor="let finalCustomer of finalCustomerSearchResult" [value]="finalCustomer">
                   {{finalCustomer.fullname}}
@@ -189,7 +189,7 @@
               </div>
             </div>
           </div>
-          <mat-card class="w-100"
+          <mat-card appearance="outlined" class="w-100"
                     *ngIf="projectToEdit && !(projectToEdit.projectCommissions && projectToEdit.projectCommissions.length > 0)">
             <mat-card-content>Questo progetto non ha commissioni o non hai il ruolo adatto per gestirle
             </mat-card-content>

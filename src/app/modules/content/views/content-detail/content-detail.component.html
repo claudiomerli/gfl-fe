@@ -37,9 +37,9 @@
         <mat-divider></mat-divider>
         <div class="my-3 d-flex align-items-center">
           <span class="fw-bold">STATO:</span>
-          <mat-chip-list class="ms-3">
-            <mat-chip color="primary">{{contentStatus | extractLabelByCode:contentToEdit.contentStatus}}</mat-chip>
-          </mat-chip-list>
+          <mat-chip-listbox class="ms-3">
+            <mat-chip-option color="primary">{{contentStatus | extractLabelByCode:contentToEdit.contentStatus}}</mat-chip-option>
+          </mat-chip-listbox>
         </div>
         <mat-divider></mat-divider>
         <div class="mb-3">
@@ -47,14 +47,14 @@
         </div>
         <div class="mb-3">
           <span class="fw-bold me-3">Ancora:</span> {{contentToEdit.projectCommission.anchor}}
-          <mat-chip-list class="ms-3">
-            <mat-chip *ngIf="contentToEdit.projectCommission.isAnchorItalic">
+          <mat-chip-listbox class="ms-3">
+            <mat-chip-option *ngIf="contentToEdit.projectCommission.isAnchorItalic">
               <mat-icon>format_italic</mat-icon>
-            </mat-chip>
-            <mat-chip *ngIf="contentToEdit.projectCommission.isAnchorBold">
+            </mat-chip-option>
+            <mat-chip-option *ngIf="contentToEdit.projectCommission.isAnchorBold">
               <mat-icon>format_bold</mat-icon>
-            </mat-chip>
-          </mat-chip-list>
+            </mat-chip-option>
+          </mat-chip-listbox>
         </div>
         <div>
           <span class="fw-bold me-3">Url:</span> {{contentToEdit.projectCommission.url}}
@@ -94,7 +94,7 @@
         <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR','PUBLISHER','INTERNAL_NETWORK']">
           <ng-container
             *ngIf="contentToEdit.isDomainContent && contentToEdit.contentStatus === 'APPROVED' || contentToEdit.contentStatus === 'PUBLISHED_WORDPRESS'">
-            <mat-card>
+            <mat-card appearance="outlined">
               <mat-card-content>
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Data di pubblicazione</mat-label>
@@ -110,6 +110,7 @@
                   </mat-select>
                 </mat-form-field>
                 <mat-card
+                  appearance="outlined"
                   *ngIf="!removeFeaturedMedia && (contentToEdit.wordpressFeaturedMediaUrl || featuredMediaBase64)">
                   <mat-card-content>
                     <img mat-card-image *ngIf="!featuredMediaBase64 && contentToEdit.wordpressFeaturedMediaUrl"

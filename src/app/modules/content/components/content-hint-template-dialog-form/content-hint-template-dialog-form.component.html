@@ -2,7 +2,7 @@
 <div mat-dialog-content class="py-3">
   <div class="mat-typography fst-italic mb-3" *ngIf="contentHintTemplates.length === 0">Non sono presenti template</div>
   <ng-container *ngIf="contentHintTemplates.length > 0">
-    <mat-card *ngFor="let contentHintTemplate of contentHintTemplates" class="my-3 card-hoverable"
+    <mat-card appearance="outlined" *ngFor="let contentHintTemplate of contentHintTemplates" class="my-3 card-hoverable"
               (click)="templateSelected(contentHintTemplate)">
       <mat-card-content>
         <div class="row">

@@ -9,20 +9,20 @@ import {SpinnerComponent} from "./components/spinner/spinner.component";
 import {ErrorsComponent} from "./components/errors/errors.component";
 import {IsNotInRoleDirective} from "./directives/is-not-in-role.directive";
 import {SidemenuComponent} from './components/sidemenu/sidemenu.component';
-import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
+import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
-import {MatLegacyMenuModule as MatMenuModule} from "@angular/material/legacy-menu";
+import {MatMenuModule} from "@angular/material/menu";
 import {MatDividerModule} from "@angular/material/divider";
 import { ExtractLabelByCodePipe } from './pipes/extract-label-by-code.pipe';
 import { SidemenuItemComponent } from './components/sidemenu-item/sidemenu-item.component';
 import { ImageUploaderComponent } from './components/image-uploader/image-uploader.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-import {MatLegacyDialogModule as MatDialogModule} from "@angular/material/legacy-dialog";
+import {MatDialogModule} from "@angular/material/dialog";
 import { ContentHintFormComponent } from './components/content-hint-form/content-hint-form.component';
 import {EditorComponent} from "@tinymce/tinymce-angular";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import { PasswordShowletComponent } from './components/password-showlet/password-showlet.component';
-import {MatLegacyInputModule as MatInputModule} from "@angular/material/legacy-input";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
