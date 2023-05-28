@@ -30,6 +30,8 @@ import {MatCardModule} from "@angular/material/card";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import { ContentHintTemplateDialogFormComponent } from './components/content-hint-template-dialog-form/content-hint-template-dialog-form.component';
 import { ContentAssistantDialogComponent } from './components/content-assistant-dialog/content-assistant-dialog.component';
+import {NgxSpinnerModule} from "ngx-spinner";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 @NgModule({
@@ -40,33 +42,35 @@ import { ContentAssistantDialogComponent } from './components/content-assistant-
     ContentHintTemplateDialogFormComponent,
     ContentAssistantDialogComponent
   ],
-    imports: [
-        CommonModule,
-        ContentRoutingModule,
-        MatToolbarModule,
-        ReactiveFormsModule,
-        MatOptionModule,
-        MatAutocompleteModule,
-        MatInputModule,
-        MatSidenavModule,
-        EditorComponent,
-        MatButtonModule,
-        MatListModule,
-        MatChipsModule,
-        MatIconModule,
-        SharedModule,
-        MatTableModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatSelectModule,
-        MatDialogModule,
-        MatExpansionModule,
-        MatDatepickerModule,
-        MatMomentDateModule,
-        FormsModule,
-        MatCardModule,
-        NgxDropzoneModule
-    ],
+  imports: [
+    CommonModule,
+    ContentRoutingModule,
+    MatToolbarModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatSidenavModule,
+    EditorComponent,
+    MatButtonModule,
+    MatListModule,
+    MatChipsModule,
+    MatIconModule,
+    SharedModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    FormsModule,
+    MatCardModule,
+    NgxDropzoneModule,
+    NgxSpinnerModule,
+    MatSnackBarModule
+  ],
   providers: [
     {
       provide: MAT_DATE_FORMATS,

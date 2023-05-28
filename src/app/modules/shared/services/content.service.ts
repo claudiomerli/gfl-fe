@@ -13,6 +13,7 @@ import {WordpressCategory} from "../messages/content/wordpress-category";
 import {WordpressPublishDto} from "../messages/content/wordpress-publish.dto";
 import {SearchTitleRequestDto} from "../messages/content/search-title-request.dto";
 import {TitleResponseDto} from "../messages/content/title-response.dto";
+import {AssistantRequest, AssistantResponse} from "../messages/content/assistant";
 
 @Injectable({
   providedIn: 'root'
@@ -66,16 +67,24 @@ export class ContentService {
     return this.httpClient.post(environment.apiBaseurl + `/content/${id}/publishOnWordpress`, publicationdateDTO)
   }
 
-  getWordpressCategory(id: number) : Observable<WordpressCategory[]> {
+  getWordpressCategory(id: number): Observable<WordpressCategory[]> {
     return this.httpClient.get<WordpressCategory[]>(environment.apiBaseurl + `/content/${id}/wordpressCategory`)
   }
 
-  searchTitle(searchTitleRequest : SearchTitleRequestDto, pagination: PaginationDto) {
-    return this.httpClient.get<PageResponseDto<TitleResponseDto>>(environment.apiBaseurl + `/content/titles`,{
+  searchTitle(searchTitleRequest: SearchTitleRequestDto, pagination: PaginationDto) {
+    return this.httpClient.get<PageResponseDto<TitleResponseDto>>(environment.apiBaseurl + `/content/titles`, {
       params: {
         ...searchTitleRequest,
         ...pagination
       }
     })
+  }
+
+  sendAssistantMessage(assistantRequest: AssistantRequest) {
+    return this.httpClient.post<AssistantResponse>(environment.apiBaseurl + '/content/assistant',assistantRequest,{
+      headers: {
+        disableSpinner: "true"
+      }
+    });
   }
 }

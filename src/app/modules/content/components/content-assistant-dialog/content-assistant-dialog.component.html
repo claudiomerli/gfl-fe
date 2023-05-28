@@ -1,6 +1,36 @@
-<h1 mat-dialog-title>Assistente per i contenuti!</h1>
-<div mat-dialog-content>
-  <div>
-
+<h1 mat-dialog-title>Assistente per i contenuti</h1>
+<div mat-dialog-content style="width: 30vw;">
+  <div class="p-3 position-relative" style="height: 50vh">
+    <div style="height: 85%; overflow-y: scroll;" #chatView>
+      <small *ngIf="messages.length == 0">Non ci sono messaggi al momento... Scrivi all'assistente! Ti risponderà usando
+        l'intelligenza
+        artificiale</small>
+      <mat-card *ngFor="let message of messages" class="mb-2 mx-1"
+                [ngClass]="{'ms-5 bg-lightgray' : message.role === 'user','me-5 card-hoverable' : message.role === 'assistant' }" (click)="copyContent(message)">
+        <mat-card-header>
+          <mat-card-subtitle *ngIf="message.role === 'user'">{{user!.fullname}}</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="message.role === 'assistant'">Assistente</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="mat-typography" style="white-space: pre-line;">
+          {{message.content}}
+        </mat-card-content>
+      </mat-card>
+      <mat-card *ngIf="isLoading" class="my-2 mx-1 me-5 bg-lightgray">
+        <mat-card-content>
+          <app-auto-spinner [id]="'chatLoading'" [bgColor]="'rgba(0,0,0,0)'" [color]="'white'" [size]="'small'" [type]="'cube-transition'"></app-auto-spinner>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div style="height: 15%" class="position-absolute bottom-0 start-0 end-0">
+      <form (ngSubmit)="send()">
+        <mat-form-field class="w-100">
+          <mat-label>Chiedi all'assistente</mat-label>
+          <input [formControl]="message" matInput type=" text">
+          <button mat-icon-button matIconSuffix type="submit">
+            <mat-icon>send</mat-icon>
+          </button>
+        </mat-form-field>
+      </form>
+    </div>
   </div>
 </div>

@@ -21,6 +21,9 @@ import {
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 import {WordpressCategory} from "../../../shared/messages/content/wordpress-category";
 import {NgxDropzoneChangeEvent} from "ngx-dropzone";
+import {
+  ContentAssistantDialogComponent
+} from "../../components/content-assistant-dialog/content-assistant-dialog.component";
 
 @Component({
   selector: 'app-content-detail',
@@ -196,5 +199,9 @@ export class ContentDetailComponent implements OnInit {
   removeFeaturedImage() {
     this.featuredMediaBase64 = null;
     this.removeFeaturedMedia = true
+  }
+
+  openAssistantDialog() {
+    this.matDialog.open(ContentAssistantDialogComponent)
   }
 }

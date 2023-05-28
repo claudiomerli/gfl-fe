@@ -23,6 +23,8 @@ import {EditorComponent} from "@tinymce/tinymce-angular";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import { PasswordShowletComponent } from './components/password-showlet/password-showlet.component';
 import {MatInputModule} from "@angular/material/input";
+import { AutoSpinnerComponent } from './components/auto-spinner/auto-spinner.component';
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import {MatInputModule} from "@angular/material/input";
     ImageUploaderComponent,
     ConfirmDialogComponent,
     ContentHintFormComponent,
-    PasswordShowletComponent
+    PasswordShowletComponent,
+    AutoSpinnerComponent
   ],
   exports: [
     IsAuthenticatedDirective,
@@ -47,7 +50,8 @@ import {MatInputModule} from "@angular/material/input";
     ExtractLabelByCodePipe,
     ImageUploaderComponent,
     ContentHintFormComponent,
-    PasswordShowletComponent
+    PasswordShowletComponent,
+    AutoSpinnerComponent
   ],
     imports: [
         CommonModule,
@@ -61,7 +65,8 @@ import {MatInputModule} from "@angular/material/input";
         EditorComponent,
         NgxDropzoneModule,
         ReactiveFormsModule,
-        MatInputModule
+        MatInputModule,
+        NgxSpinnerModule
     ]
 })
 export class SharedModule {
