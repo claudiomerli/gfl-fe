@@ -75,7 +75,7 @@
         <mat-label>Data di pubblicazione</mat-label>
         <input [readonly]="!isRoleAllowedToChangePublicationFields()" matInput [matDatepicker]="picker"
                formControlName="publicationDate">
-        <mat-datepicker-toggle *ngIf="isRoleAllowedToChangePublicationFields()" matSuffix
+        <mat-datepicker-toggle *ngIf="isRoleAllowedToChangePublicationFields()" matIconSuffix
                                [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>

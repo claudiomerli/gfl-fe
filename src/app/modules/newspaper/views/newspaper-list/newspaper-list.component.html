@@ -9,22 +9,26 @@
     <div class="row" *ngIf="(finance$ | async) as financeValue">
       <div class="col-6">
         <mat-card appearance="outlined">
-          <mat-card-title class="text-danger">
-            <mat-icon>south_east</mat-icon>
-            Acquisti
-          </mat-card-title>
-          <mat-card-content>
+          <mat-card-header>
+            <mat-card-title class="text-danger">
+              <mat-icon>south_east</mat-icon>
+              Acquisti
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="mat-typography">
             <div class="w-100 text-center fs-3">{{financeValue.purchasesValue | currency:"EUR"}}</div>
           </mat-card-content>
         </mat-card>
       </div>
       <div class="col-6">
-        <mat-card appearance="outlined">
-          <mat-card-title class="text-success">
-            <mat-icon>north_east</mat-icon>
-            Vendite
-          </mat-card-title>
-          <mat-card-content>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title class="text-success">
+              <mat-icon>north_east</mat-icon>
+              Vendite
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="mat-typography">
             <div class="w-100 text-center fs-3">{{financeValue.salesValue| currency:"EUR"}}</div>
           </mat-card-content>
         </mat-card>
@@ -32,12 +36,14 @@
     </div>
     <div class="row mt-3" *ngIf="(finance$ | async) as financeValue">
       <div class="col-6">
-        <mat-card appearance="outlined">
-          <mat-card-title class="text-warning">
-            <mat-icon>add_shopping_cart</mat-icon>
-            Acquisto non utilizzato
-          </mat-card-title>
-          <mat-card-content>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title class="text-warning">
+              <mat-icon>add_shopping_cart</mat-icon>
+              Acquisto non utilizzato
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="mat-typography">
             <div class="w-100 text-center fs-3">{{financeValue.amountRemaining | currency:"EUR"}}</div>
           </mat-card-content>
         </mat-card>

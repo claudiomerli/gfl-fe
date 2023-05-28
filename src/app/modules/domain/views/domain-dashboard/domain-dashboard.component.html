@@ -15,7 +15,7 @@
         <mat-form-field appearance="fill" class="w-100">
           <mat-label>Scadenza da</mat-label>
           <input matInput [matDatepicker]="pickerFrom" formControlName="expirationFrom">
-          <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+          <mat-datepicker-toggle matIconSuffix [for]="pickerFrom"></mat-datepicker-toggle>
           <mat-datepicker #pickerFrom></mat-datepicker>
         </mat-form-field>
       </div>
@@ -23,7 +23,7 @@
         <mat-form-field appearance="fill" class="w-100">
           <mat-label>Scadenza a</mat-label>
           <input matInput [matDatepicker]="pickerTo" formControlName="expirationTo">
-          <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+          <mat-datepicker-toggle matIconSuffix [for]="pickerTo"></mat-datepicker-toggle>
           <mat-datepicker #pickerTo></mat-datepicker>
         </mat-form-field>
       </div>

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 
 import { NewsRoutingModule } from './news-routing.module';
 import { NewsListComponent } from './views/news-list/news-list.component';
@@ -44,6 +44,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     MatIconModule,
     MatCardModule,
     MatPaginatorModule,
+    NgOptimizedImage,
   ]
 })
 export class NewsModule { }

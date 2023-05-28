@@ -1,10 +1,12 @@
 <div class="d-flex w-100 h-100 align-items-center justify-content-center">
   <mat-card appearance="outlined" class="w-25">
     <form [formGroup]="loginForm" (submit)="doSignin()">
-      <img mat-card-image src="assets/logo-tilinko.png">
-      <mat-card-title class="text-center">
-        Log In
-      </mat-card-title>
+      <img mat-card-image src="assets/logo-tilinko.png" class="w-100">
+      <mat-card-header>
+        <mat-card-title class="text-center">
+          Log In
+        </mat-card-title>
+      </mat-card-header>
       <mat-card-content>
         <mat-form-field class="d-block">
           <mat-label>Username</mat-label>

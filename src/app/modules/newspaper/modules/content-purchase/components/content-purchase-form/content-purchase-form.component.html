@@ -4,7 +4,7 @@
       <mat-form-field class="w-100">
         <mat-label>Importo</mat-label>
         <input type="number" matInput formControlName="amount">
-        <span matSuffix>€</span>
+        <span matTextSuffix>€</span>
       </mat-form-field>
     </div>
     <div class="col-4">
@@ -17,7 +17,7 @@
       <mat-form-field appearance="fill" class="w-100">
         <mat-label>Data scadenza</mat-label>
         <input matInput [matDatepicker]="expirationDate" formControlName="expiration">
-        <mat-datepicker-toggle matSuffix [for]="expirationDate"></mat-datepicker-toggle>
+        <mat-datepicker-toggle matIconSuffix [for]="expirationDate"></mat-datepicker-toggle>
         <mat-datepicker #expirationDate></mat-datepicker>
       </mat-form-field>
     </div>

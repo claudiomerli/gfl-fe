@@ -1,10 +1,12 @@
 <mat-card appearance="outlined" (mouseenter)="showOption = true" (mouseleave)="showOption = false" class="news-list-detail">
-  <mat-card-title-group>
-    <mat-card-title>{{newsElement.title}}</mat-card-title>
-    <mat-card-subtitle>{{newsElement.createdDate | date:"dd/MM/yyyy"}}</mat-card-subtitle>
-    <img mat-card-lg-image [src]="newsElement.image" alt="">
-  </mat-card-title-group>
-  <mat-card-content>
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title>{{newsElement.title}}</mat-card-title>
+      <mat-card-subtitle>{{newsElement.createdDate | date:"dd/MM/yyyy"}}</mat-card-subtitle>
+      <img mat-card-lg-image [src]="newsElement.image" alt="">
+    </mat-card-title-group>
+  </mat-card-header>
+  <mat-card-content class="mat-typography">
     {{newsPreview}}
   </mat-card-content>
 </mat-card>

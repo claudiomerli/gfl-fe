@@ -6,7 +6,7 @@
     <mat-form-field class="w-100">
       <mat-label>Ricerca globale</mat-label>
       <input matInput type="text" #globalSearchInput>
-      <button mat-icon-button matSuffix (click)="cancelSearch()" [disabled]="globalSearch === ''">
+      <button mat-icon-button matIconSuffix (click)="cancelSearch()" [disabled]="globalSearch === ''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>

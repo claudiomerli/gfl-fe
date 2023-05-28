@@ -32,7 +32,7 @@
         <mat-form-field appearance="fill" class="w-100">
           <mat-label>Data scadenza da</mat-label>
           <input matInput [matDatepicker]="expirationDateFrom" formControlName="expirationDateFrom">
-          <mat-datepicker-toggle matSuffix [for]="expirationDateFrom"></mat-datepicker-toggle>
+          <mat-datepicker-toggle matIconSuffix [for]="expirationDateFrom"></mat-datepicker-toggle>
           <mat-datepicker #expirationDateFrom></mat-datepicker>
         </mat-form-field>
       </div>
@@ -40,7 +40,7 @@
         <mat-form-field appearance="fill" class="w-100">
           <mat-label>Data scadenza a</mat-label>
           <input matInput [matDatepicker]="expirationDateTo" formControlName="expirationDateTo">
-          <mat-datepicker-toggle matSuffix [for]="expirationDateTo"></mat-datepicker-toggle>
+          <mat-datepicker-toggle matIconSuffix [for]="expirationDateTo"></mat-datepicker-toggle>
           <mat-datepicker #expirationDateTo></mat-datepicker>
         </mat-form-field>
       </div>
