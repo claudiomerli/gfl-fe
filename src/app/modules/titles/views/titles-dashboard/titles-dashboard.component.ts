@@ -11,7 +11,7 @@ import {ContentService} from "../../../shared/services/content.service";
 import {PageResponseDto} from "../../../shared/messages/common/page-response.dto";
 import {Domain} from "../../../shared/messages/domain/domain";
 import {TitleResponseDto} from "../../../shared/messages/content/title-response.dto";
-import {PageEvent} from "@angular/material/paginator";
+import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
 import {Sort} from "@angular/material/sort";
 
 @Component({

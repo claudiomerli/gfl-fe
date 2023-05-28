@@ -4,7 +4,7 @@ import {OrderService} from "../../../shared/services/order.service";
 import {SaveOrderDto} from "../../../shared/messages/order/save-order.dto";
 import {Order} from "../../../shared/messages/order/order";
 import {switchMap} from "rxjs/operators";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 import {RequestQuoteDialogComponent} from "../../component/request-quote-dialog/request-quote-dialog.component";
 import {RequestQuote} from "../../../shared/messages/order/request-quote";

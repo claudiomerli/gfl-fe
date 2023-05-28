@@ -7,14 +7,14 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {User} from "../../../shared/messages/auth/user";
 import {debounceTime} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
 import {MatDrawer} from "@angular/material/sidenav";
 import * as moment from "moment";
 import {contentStatus, momentDatePatternIso} from "../../../shared/utils/utils";
 import {Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {saveAs} from "file-saver";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {
   ContentHintDialogFormComponent
 } from "../../components/content-hint-dialog-form/content-hint-dialog-form.component";

@@ -11,16 +11,16 @@ import { UserUpdateFormComponent } from './components/user-update-form/user-upda
 import { UserUpdateComponent } from './views/user-update/user-update.component';
 import {SharedModule} from "../shared/shared.module";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatTableModule} from "@angular/material/table";
-import {MatButtonModule} from "@angular/material/button";
+import {MatLegacyFormFieldModule as MatFormFieldModule} from "@angular/material/legacy-form-field";
+import {MatLegacyInputModule as MatInputModule} from "@angular/material/legacy-input";
+import {MatLegacyTableModule as MatTableModule} from "@angular/material/legacy-table";
+import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
 import {MatIconModule} from "@angular/material/icon";
-import {MatSelectModule} from "@angular/material/select";
+import {MatLegacySelectModule as MatSelectModule} from "@angular/material/legacy-select";
 import {MatSortModule} from "@angular/material/sort";
-import {MatPaginatorModule} from "@angular/material/paginator";
-import {MatCardModule} from "@angular/material/card";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatLegacyPaginatorModule as MatPaginatorModule} from "@angular/material/legacy-paginator";
+import {MatLegacyCardModule as MatCardModule} from "@angular/material/legacy-card";
+import {MatLegacySlideToggleModule as MatSlideToggleModule} from "@angular/material/legacy-slide-toggle";
 
 
 @NgModule({

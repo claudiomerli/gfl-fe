@@ -5,23 +5,23 @@ import { OrderPackRoutingModule } from './order-pack-routing.module';
 import { OrderPackListComponent } from './views/order-pack-list/order-pack-list.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {ReactiveFormsModule} from "@angular/forms";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatChipsModule} from "@angular/material/chips";
-import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatLegacyFormFieldModule as MatFormFieldModule} from "@angular/material/legacy-form-field";
+import {MatLegacyInputModule as MatInputModule} from "@angular/material/legacy-input";
+import {MatLegacyChipsModule as MatChipsModule} from "@angular/material/legacy-chips";
+import {MatLegacyAutocompleteModule as MatAutocompleteModule} from "@angular/material/legacy-autocomplete";
 import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
+import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
 import { OrderPackListAdminComponent } from './components/order-pack-list-admin/order-pack-list-admin.component';
 import {SharedModule} from "../../../shared/shared.module";
-import {MatTableModule} from "@angular/material/table";
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatLegacyTableModule as MatTableModule} from "@angular/material/legacy-table";
+import {MatLegacyPaginatorModule as MatPaginatorModule} from "@angular/material/legacy-paginator";
 import {MatSortModule} from "@angular/material/sort";
 import { OrderPackCreateComponent } from './views/order-pack-create/order-pack-create.component';
 import { OrderPackFormComponent } from './components/order-pack-form/order-pack-form.component';
-import {MatCardModule} from "@angular/material/card";
+import {MatLegacyCardModule as MatCardModule} from "@angular/material/legacy-card";
 import { OrderPackEditComponent } from './views/order-pack-edit/order-pack-edit.component';
 import { OrderPackListCustomerComponent } from './components/order-pack-list-customer/order-pack-list-customer.component';
-import {MatListModule} from "@angular/material/list";
+import {MatLegacyListModule as MatListModule} from "@angular/material/legacy-list";
 
 
 @NgModule({

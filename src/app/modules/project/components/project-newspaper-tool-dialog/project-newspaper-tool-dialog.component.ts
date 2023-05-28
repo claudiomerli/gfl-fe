@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {SearchNewspaperDto} from "../../../shared/messages/newspaper/search-newspaper.dto";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {BehaviorSubject} from "rxjs";
@@ -7,7 +7,7 @@ import {PageResponseDto} from "../../../shared/messages/common/page-response.dto
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {Sort} from "@angular/material/sort";
-import {PageEvent} from "@angular/material/paginator";
+import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
 import {saveAs} from "file-saver";
 
 @Component({

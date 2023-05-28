@@ -3,7 +3,7 @@ import {Project, ProjectCommission} from "../../../shared/messages/project/proje
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 import {debounceTime} from "rxjs/operators";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {SaveProjectCommissionDto} from "../../../shared/messages/project/save-project-commission.dto";
@@ -24,7 +24,7 @@ import {
   SelectContentPurchaseDialogComponent
 } from "../select-content-purchase-dialog/select-content-purchase-dialog.component";
 import {PurchaseContent} from "../../../shared/messages/purchase-content/purchase-content";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 
 @Component({
   selector: 'app-project-commission-form',

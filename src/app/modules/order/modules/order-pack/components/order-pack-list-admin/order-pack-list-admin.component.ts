@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {Newspaper} from "../../../../../shared/messages/newspaper/newspaper";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
 import {debounceTime, switchMap} from "rxjs/operators";
 import {EMPTY} from "rxjs";
 import {PaginationDto} from "../../../../../shared/messages/common/pagination.dto";
@@ -9,7 +9,7 @@ import {NewspaperService} from "../../../../../shared/services/newspaper.service
 import {PageResponseDto} from "../../../../../shared/messages/common/page-response.dto";
 import {OrderPack} from "../../../../../shared/messages/order/order-pack";
 import {Sort} from "@angular/material/sort";
-import {PageEvent} from "@angular/material/paginator";
+import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
 import {OrderPackService} from "../../../../../shared/services/order-pack.service";
 import {Router} from "@angular/router";
 

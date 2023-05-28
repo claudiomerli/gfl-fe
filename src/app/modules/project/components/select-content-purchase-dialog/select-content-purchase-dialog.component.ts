@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {Project, ProjectCommission} from "../../../shared/messages/project/project";
 import {ContentPurchaseService} from "../../../shared/services/content-purchase.service";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";

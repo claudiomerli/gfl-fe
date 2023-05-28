@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {ProjectService} from "../../../shared/services/project.service";
 import {ContentHintTemplateService} from "../../../shared/services/content-hint-template.service";
 import {ContentHintTemplate} from "../../../shared/messages/project/content-hint-template";

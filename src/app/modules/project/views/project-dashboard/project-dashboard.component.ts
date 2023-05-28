@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {CreateProjectComponent} from "../../components/create-project/create-project.component";
 import {ProjectService} from "../../../shared/services/project.service";
 import {Router} from "@angular/router";
@@ -9,7 +9,7 @@ import {BehaviorSubject, EMPTY} from "rxjs";
 import {PageResponseDto} from "../../../shared/messages/common/page-response.dto";
 import {Project} from "../../../shared/messages/project/project";
 import {Sort} from "@angular/material/sort";
-import {PageEvent} from "@angular/material/paginator";
+import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
 import {getYearList, periods, projectCommissionStatus, projectStatuses} from "../../../shared/utils/utils";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 import {Store} from "@ngxs/store";
@@ -17,7 +17,7 @@ import {AuthenticationState} from "../../../store/state/authentication-state";
 import {debounceTime, switchMap} from "rxjs/operators";
 import {SearchProjectDto} from "../../../shared/messages/project/search-project.dto";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 
 @Component({
