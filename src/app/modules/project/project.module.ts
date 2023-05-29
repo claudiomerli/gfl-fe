@@ -16,7 +16,6 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatCardModule} from "@angular/material/card";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../shared/shared.module";
-import {NgxPaginationModule} from "ngx-pagination";
 import { ProjectDashboardComponent } from './views/project-dashboard/project-dashboard.component';
 import { CreateProjectComponent } from './components/create-project/create-project.component';
 import { ProjectDetailsComponent } from './views/project-details/project-details.component';
@@ -33,7 +32,6 @@ import { ProjectStatisticsComponent } from './views/project-statistics/project-s
 import {MatListModule} from "@angular/material/list";
 import { ProjectNewspaperToolDialogComponent } from './components/project-newspaper-tool-dialog/project-newspaper-tool-dialog.component';
 import {NewspaperModule} from "../newspaper/newspaper.module";
-import {NgxPrintElementModule} from "ngx-print-element";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import {EditorComponent} from "@tinymce/tinymce-angular";
 import {MatChipsModule} from "@angular/material/chips";
@@ -56,7 +54,6 @@ import {MatRadioModule} from "@angular/material/radio";
         CommonModule,
         ProjectRoutingModule,
         ReactiveFormsModule,
-        NgxPaginationModule,
         FormsModule,
         SharedModule,
         MatToolbarModule,
@@ -79,7 +76,6 @@ import {MatRadioModule} from "@angular/material/radio";
         MatCheckboxModule,
         MatListModule,
         NewspaperModule,
-        NgxPrintElementModule,
         NgxDropzoneModule,
         EditorComponent,
         MatChipsModule,

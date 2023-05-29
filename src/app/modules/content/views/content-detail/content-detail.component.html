@@ -38,7 +38,8 @@
         <div class="my-3 d-flex align-items-center">
           <span class="fw-bold">STATO:</span>
           <mat-chip-listbox class="ms-3">
-            <mat-chip-option color="primary">{{contentStatus | extractLabelByCode:contentToEdit.contentStatus}}</mat-chip-option>
+            <mat-chip-option
+              color="primary">{{contentStatus | extractLabelByCode:contentToEdit.contentStatus}}</mat-chip-option>
           </mat-chip-listbox>
         </div>
         <mat-divider></mat-divider>
@@ -161,7 +162,7 @@
       </div>
     </mat-drawer>
     <mat-drawer-content class="d-flex justify-content-center position-relative">
-      <div class="position-absolute" style="right: 1rem; top: 1rem">
+      <div class="position-absolute" style="right: 1rem; top: 1rem" *isAuthenticated="['ADMIN','CHIEF_EDITOR']">
         <button mat-fab color="primary" (click)="openAssistantDialog()">
           <mat-icon>smart_toy</mat-icon>
         </button>

@@ -6,7 +6,6 @@ import { UserListComponent } from './views/user-list/user-list.component';
 import { UserCreateComponent } from './views/user-create/user-create.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { UserCreateFormComponent } from './components/user-create-form/user-create-form.component';
-import {NgxPaginationModule} from "ngx-pagination";
 import { UserUpdateFormComponent } from './components/user-update-form/user-update-form.component';
 import { UserUpdateComponent } from './views/user-update/user-update.component';
 import {SharedModule} from "../shared/shared.module";
@@ -36,7 +35,6 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
         UserRoutingModule,
         FormsModule,
         ReactiveFormsModule,
-        NgxPaginationModule,
         SharedModule,
         MatToolbarModule,
         MatFormFieldModule,

@@ -7,7 +7,6 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { NewspaperListComponent } from './views/newspaper-list/newspaper-list.component';
 import { NewspaperCreateComponent } from './views/newspaper-create/newspaper-create.component';
 import { NewspaperUpdateComponent } from './views/newspaper-update/newspaper-update.component';
-import {NgxPaginationModule} from "ngx-pagination";
 import {SharedModule} from "../shared/shared.module";
 import { NewspaperSearchFilterComponent } from './components/newspaper-search-filter/newspaper-search-filter.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
@@ -51,7 +50,6 @@ import { NewspaperTableComponent } from './components/newspaper-table/newspaper-
         CommonModule,
         NewspaperRoutingModule,
         ReactiveFormsModule,
-        NgxPaginationModule,
         SharedModule,
         MatToolbarModule,
         MatCardModule,

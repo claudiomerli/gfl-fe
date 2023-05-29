@@ -48,7 +48,6 @@
               "node_modules/bootstrap/dist/js/bootstrap.js"
             ],
             "allowedCommonJsDependencies": [
-              "jspdf-autotable",
               "raf",
               "core-js/modules/es.array.index-of.js",
               "core-js/modules/es.array.iterator.js",

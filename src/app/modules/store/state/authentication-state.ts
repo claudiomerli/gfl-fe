@@ -2,10 +2,8 @@ import {Action, createSelector, Selector, State, StateContext} from "@ngxs/store
 import {Injectable} from "@angular/core";
 import {User} from "../../shared/messages/auth/user";
 import {AuthService} from "../../shared/services/auth.service";
-import {catchError, map, switchMap, tap} from "rxjs/operators";
-import {Router} from "@angular/router";
-import {EMPTY, Observable, of} from "rxjs";
-import {PaginatePipe} from "ngx-pagination";
+import {catchError, tap} from "rxjs/operators";
+import {EMPTY} from "rxjs";
 
 export interface AuthenticationStateModel {
   isAuthenticated: boolean

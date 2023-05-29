@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
-import {NgxPrintElementService} from "ngx-print-element";
 import {ProjectService} from "../../../shared/services/project.service";
 import {Project} from "../../../shared/messages/project/project";
 
