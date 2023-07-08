@@ -3,13 +3,13 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor, HttpHeaders, HttpResponse, HttpErrorResponse, HttpResponseBase
+  HttpInterceptor, HttpErrorResponse, HttpResponseBase
 } from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {AuthService} from "../services/auth.service";
 import {catchError, tap} from "rxjs/operators";
 import {Router} from "@angular/router";
-import {NgxSpinner, NgxSpinnerService} from "ngx-spinner";
+import {NgxSpinnerService} from "ngx-spinner";
 import {ToastService} from "../services/toast.service";
 
 @Injectable()
