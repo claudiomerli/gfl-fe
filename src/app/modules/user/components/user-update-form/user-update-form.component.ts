@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
-  AbstractControl,
+  AbstractControl, FormControl,
   UntypedFormControl,
   UntypedFormGroup,
   ValidationErrors,
@@ -9,7 +9,7 @@ import {
 } from "@angular/forms";
 import {User} from "../../../shared/messages/auth/user";
 import {EditUserDto} from "../../../shared/messages/users/edit-user.dto";
-import {userRoles} from "../../../shared/utils/utils";
+import {COMPANY_CATEGORY, COMPANY_DIMENSIONS, userRoles} from "../../../shared/utils/utils";
 import {MatSlideToggle, MatSlideToggleChange} from "@angular/material/slide-toggle";
 
 @Component({
@@ -26,6 +26,9 @@ export class UserUpdateFormComponent implements OnInit {
 
   showChangePassword = false;
 
+  protected readonly COMPANY_DIMENSIONS = COMPANY_DIMENSIONS;
+  protected readonly COMPANY_CATEGORY = COMPANY_CATEGORY;
+
   constructor() {
   }
 
@@ -40,6 +43,15 @@ export class UserUpdateFormComponent implements OnInit {
       editorInfo: this.userToEdit.editorInfo?.info,
       editorInfoRemuneration: this.userToEdit.editorInfo?.remuneration,
       editorInfoNotes: this.userToEdit.editorInfo?.notes,
+
+      companyName: this.userToEdit.customerInfo?.companyName,
+      url: this.userToEdit.customerInfo?.url,
+      companyDimension: this.userToEdit.customerInfo?.companyDimension,
+      businessArea: this.userToEdit.customerInfo?.businessArea,
+      address: this.userToEdit.customerInfo?.address,
+      competitor1: this.userToEdit.customerInfo?.competitor1,
+      competitor2: this.userToEdit.customerInfo?.competitor2,
+
     })
 
     if (this.userToEdit.role == "CUSTOMER") {
@@ -71,6 +83,14 @@ export class UserUpdateFormComponent implements OnInit {
     editorInfo: new UntypedFormControl(''),
     editorInfoRemuneration: new UntypedFormControl(''),
     editorInfoNotes: new UntypedFormControl(''),
+
+    companyName: new FormControl(''),
+    url: new FormControl(''),
+    companyDimension: new FormControl(''),
+    businessArea: new FormControl(''),
+    address: new FormControl(''),
+    competitor1: new FormControl(''),
+    competitor2: new FormControl('')
   });
   formSubmitted: boolean = false;
   userRoles = userRoles;
@@ -96,5 +116,6 @@ export class UserUpdateFormComponent implements OnInit {
       this.formSubmit.emit(this.editUserForm.getRawValue() as EditUserDto);
     }
   }
+
 
 }

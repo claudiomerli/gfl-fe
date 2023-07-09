@@ -11,4 +11,12 @@ export class EditUserDto {
   editorInfo: string | undefined;
   editorInfoRemuneration: string | undefined;
   editorInfoNotes: string | undefined;
+
+  companyName : string | undefined;
+  url : string | undefined;
+  companyDimension : string | undefined;
+  businessArea : string | undefined;
+  address : string | undefined;
+  competitor1 : string | undefined;
+  competitor2 : string | undefined;
 }

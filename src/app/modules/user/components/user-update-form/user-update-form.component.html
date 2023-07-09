@@ -58,6 +58,56 @@
           </mat-form-field>
         </mat-card-content>
       </mat-card>
+      <mat-card appearance="outlined" class="mt-3" *ngIf="editUserForm.controls['role'].value === 'CUSTOMER'">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>badge</mat-icon>
+            Dati cliente
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Nome Societa'</mat-label>
+            <input type="text" matInput formControlName="companyName">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Dominio</mat-label>
+            <input type="text" matInput formControlName="url">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Dimensione azienda</mat-label>
+            <mat-select formControlName="companyDimension">
+              <mat-option [value]="null">Seleziona</mat-option>
+              <mat-option *ngFor="let companyDimension of COMPANY_DIMENSIONS" [value]="companyDimension.key">{{companyDimension.value}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Area di business</mat-label>
+            <mat-select formControlName="businessArea">
+              <mat-option [value]="null">Seleziona</mat-option>
+              <mat-option *ngFor="let companyCategory of COMPANY_CATEGORY" [value]="companyCategory.key">{{companyCategory.value}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Indirizzo</mat-label>
+            <input type="text" matInput formControlName="address">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Competitor 1</mat-label>
+            <input type="text" matInput formControlName="competitor1">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Competitor 2</mat-label>
+            <input type="text" matInput formControlName="competitor2">
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
     </div>
     <div class="col-6">
       <mat-card appearance="outlined">

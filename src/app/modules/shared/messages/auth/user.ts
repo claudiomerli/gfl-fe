@@ -11,10 +11,18 @@ export class User {
   role: string | undefined;
   editorInfo: {
     info: string | undefined,
-
     remuneration: string | undefined;
-
     notes: string | undefined;
   } | undefined
+  customerInfo? : CustomerInfo
+}
 
+export interface CustomerInfo {
+  companyName: string;
+  url: string;
+  companyDimension: string;
+  businessArea: string;
+  address: string;
+  competitor1: string;
+  competitor2: string;
 }

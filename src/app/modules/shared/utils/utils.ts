@@ -194,6 +194,57 @@ export const projectCommissionStatus: ProjectCommissionStatus[] = [
   }
 ]
 
+export const COMPANY_DIMENSIONS = [
+  {key : "LESS_100", value : "Fino a 100k"},
+  {key : "100_500", value : "100K - 500k"},
+  {key : "500_1", value : "500k - 1M"},
+  {key : "1_5", value : "1M - 5M"},
+  {key : "GREATER_5", value : "Più di 5M"},
+]
+
+export const COMPANY_CATEGORY = [
+  {
+    "key": "FINANCE",
+    "value": "Finanza e contabilità"
+  },
+  {
+    "key": "HUMAN_RESOURCES",
+    "value": "Risorse umane"
+  },
+  {
+    "key": "MARKETING",
+    "value": "Marketing e pubblicità"
+  },
+  {
+    "key": "SALES",
+    "value": "Vendite e distribuzione"
+  },
+  {
+    "key": "PRODUCTION",
+    "value": "Produzione e operazioni"
+  },
+  {
+    "key": "IT",
+    "value": "Tecnologia dell'informazione"
+  },
+  {
+    "key": "PROFESSIONAL_SERVICES",
+    "value": "Servizi professionali"
+  },
+  {
+    "key": "REAL_ESTATE",
+    "value": "Settore immobiliare"
+  },
+  {
+    "key": "FOOD_AND_BEVERAGE",
+    "value": "Settore alimentare e delle bevande"
+  },
+  {
+    "key": "HEALTHCARE",
+    "value": "Settore sanitario"
+  }
+]
+
 export const getYearList = (): number[] => {
   let years = [];
   for (let i = 2020; i <= moment().add(1, 'year').year(); i++) {

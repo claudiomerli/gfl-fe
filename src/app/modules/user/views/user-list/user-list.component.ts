@@ -47,7 +47,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     if (this.globalSearchInput) {
       fromEvent(this.globalSearchInput.nativeElement, 'keyup')
-        .pipe(debounceTime(200))
+        .pipe(debounceTime(1000))
         .subscribe((res) => {
           this.globalSearch = (res as any).target.value
           this.actualPagination.page = 0;
