@@ -172,7 +172,7 @@
           salvataggio: {{lastSaved.toDate()|date:"dd/MM/YYYY HH:mm:ss"}}</small>
         <ng-container *ngIf="userCanEdit()">
           <editor class="w-100"
-                  [init]="{readonly: true,height: '100vh', plugins: 'lists link image table code help wordcount' }"
+                  [init]="{readonly: true,height: '100vh', browser_spellcheck: true, plugins: 'lists link image table code help wordcount' }"
                   [formControl]="contentForm.controls.body">
           </editor>
         </ng-container>

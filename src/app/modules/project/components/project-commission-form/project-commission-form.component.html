@@ -118,7 +118,7 @@
             <mat-icon>send</mat-icon>
             Invia in amministrazione
           </button>
-          <a mat-menu-item *ngIf="projectCommission" [href]="'/contents/'+projectCommission.contentId" target="_blank">
+          <a  mat-menu-item *ngIf="projectCommission?.newspaper" [href]="'/contents/'+projectCommission.contentId" target="_blank">
             <mat-icon>newspaper</mat-icon>
             Vai al contenuto
           </a>

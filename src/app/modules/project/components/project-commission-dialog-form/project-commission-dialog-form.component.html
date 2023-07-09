@@ -2,7 +2,6 @@
   <h1 class="m-0" mat-dialog-title>{{data.projectCommission ? 'Modifica' : 'Crea'}} commissione
   </h1>
   <ng-container *ngIf="data.projectCommission">
-    <span class="mx-1">-</span>
     <mat-chip-listbox>
       <mat-chip-option class="mat-typography"
                 color="primary">{{projectCommissionStatus|extractLabelByCode:data.projectCommission.status}}</mat-chip-option>
