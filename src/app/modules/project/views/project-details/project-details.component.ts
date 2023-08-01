@@ -40,7 +40,6 @@ import {Attachment} from "../../../shared/messages/common/attachment";
 import {SaveAttachmentDto} from "../../../shared/messages/attachment/save-attachment.dto";
 import {Sort} from "@angular/material/sort";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
-import {MatChipInputEvent} from "@angular/material/chips";
 import {
   SelectContentPurchaseDialogComponent
 } from "../../components/select-content-purchase-dialog/select-content-purchase-dialog.component";
