@@ -25,6 +25,7 @@ import { PasswordShowletComponent } from './components/password-showlet/password
 import {MatInputModule} from "@angular/material/input";
 import { AutoSpinnerComponent } from './components/auto-spinner/auto-spinner.component';
 import {NgxSpinnerModule} from "ngx-spinner";
+import { SanitizeUrlPipe } from './pipes/sanitize-url.pipe';
 
 @NgModule({
   declarations: [
@@ -39,20 +40,22 @@ import {NgxSpinnerModule} from "ngx-spinner";
     ConfirmDialogComponent,
     ContentHintFormComponent,
     PasswordShowletComponent,
-    AutoSpinnerComponent
+    AutoSpinnerComponent,
+    SanitizeUrlPipe
   ],
-  exports: [
-    IsAuthenticatedDirective,
-    IsNotInRoleDirective,
-    SpinnerComponent,
-    ErrorsComponent,
-    SidemenuComponent,
-    ExtractLabelByCodePipe,
-    ImageUploaderComponent,
-    ContentHintFormComponent,
-    PasswordShowletComponent,
-    AutoSpinnerComponent
-  ],
+    exports: [
+        IsAuthenticatedDirective,
+        IsNotInRoleDirective,
+        SpinnerComponent,
+        ErrorsComponent,
+        SidemenuComponent,
+        ExtractLabelByCodePipe,
+        ImageUploaderComponent,
+        ContentHintFormComponent,
+        PasswordShowletComponent,
+        AutoSpinnerComponent,
+        SanitizeUrlPipe
+    ],
     imports: [
         CommonModule,
         RouterModule,

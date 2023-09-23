@@ -64,6 +64,7 @@ export class ProjectDashboardComponent implements OnInit {
     this.searchProjectYear.valueChanges.subscribe(refreshLambda)
     this.searchProjectPeriod.valueChanges.subscribe(refreshLambda)
     this.searchProjectNewspapers.valueChanges.subscribe(refreshLambda)
+    this.searchProjectStatusFormControl.valueChanges.subscribe(refreshLambda)
 
     this.newspaperInput.valueChanges
       .pipe(

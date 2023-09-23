@@ -145,7 +145,9 @@ export class ProjectService {
     return this.httpClient.delete(environment.apiBaseurl + `/project/${projectId}/commission/${commissionId}/hint/attachment/${attachmentId}`)
   }
 
-  updateProjectCommissionHint(projectId: number, commissionId: number, body: { body: string | null }, withoutSpinner?: boolean) {
+  updateProjectCommissionHint(projectId: number, commissionId: number, body: {
+    body: string | null
+  }, withoutSpinner?: boolean) {
     return this.httpClient.put<void>(environment.apiBaseurl + `/project/${projectId}/commission/${commissionId}/hint`, body, {
       headers: {disableSpinner: withoutSpinner ? "true" : "false"}
     })
@@ -153,6 +155,15 @@ export class ProjectService {
 
   getNextCommissionStepCodesByActualStatusCode(code: string, projectType: 'REGULAR' | 'DOMAIN', includeNotButton = false): string[] {
     let user = this.store.selectSnapshot(AuthenticationState.user)!;
+
+    //L'amministratore vede sempre tutti i passi
+    if (user.role === "ADMIN") {
+      return projectCommissionStatus
+        .filter(value => value.projectType.includes(projectType))
+        .filter(value => value.code != code)
+        .map(value => value.code)
+    }
+
     let actualStatus = projectCommissionStatus.find(e => e.code === code)!
     if (actualStatus.roleCanEdit.includes(user.role!)) {
       return actualStatus

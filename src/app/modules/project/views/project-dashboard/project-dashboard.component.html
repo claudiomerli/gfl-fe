@@ -12,7 +12,7 @@
     <div class="col-2" *isAuthenticated="['ADMIN']">
       <mat-form-field class="w-100">
         <mat-label>Stato</mat-label>
-        <mat-select>
+        <mat-select [formControl]="searchProjectStatusFormControl">
           <mat-option *ngFor="let projectStatus of projectStatuses" [value]="projectStatus.code">
             {{projectStatus.label}}
           </mat-option>

@@ -1,0 +1,105 @@
+<mat-toolbar>
+  <span>Ordini</span>
+</mat-toolbar>
+<div class="p-3">
+  <div class="p-3">
+    <form [formGroup]="filterForm">
+      <div class="row">
+        <div class="col-3">
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Cliente</mat-label>
+            <input type="text"
+                   placeholder="Cerca cliente..."
+                   matInput
+                   formControlName="customer"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete"
+                              [displayWith]="displayFullnameCustomer">
+              <mat-option *ngFor="let option of customers" [value]="option">
+                {{option.fullname}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <mat-form-field class="w-100">
+            <mat-label>Tipo</mat-label>
+            <mat-select formControlName="orderType">
+              <mat-option [value]="null">Seleziona</mat-option>
+              <mat-option *ngFor="let type of orderTypes" [value]="type.code">
+                {{type.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <mat-form-field class="w-100">
+            <mat-label>Stato</mat-label>
+            <mat-select formControlName="orderStatus">
+              <mat-option [value]="null">Seleziona</mat-option>
+              <mat-option *ngFor="let status of orderStatus" [value]="status.code">
+                {{status.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <mat-form-field class="w-100">
+            <mat-label>Livello</mat-label>
+            <mat-select formControlName="orderLevel">
+              <mat-option [value]="null">Seleziona</mat-option>
+              <mat-option *ngFor="let level of orderLevel" [value]="level.code">
+                {{level.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="actualPage | async; let actualPageValue" class="w-100 mat-elevation-z8">
+    <table mat-table [dataSource]="actualPageValue.content" class="w-100" matSort (matSortChange)="sortChange($event)">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="id"> Identificativo</th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+      <ng-container matColumnDef="customer">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="customer.fullname">Cliente</th>
+        <td mat-cell
+            *matCellDef="let element"> {{element.customer.fullname}} </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="status">Stato</th>
+        <td mat-cell *matCellDef="let element"> {{orderStatus | extractLabelByCode:element.status}} </td>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="type"> Tipo di ordine</th>
+        <td mat-cell *matCellDef="let element"> {{orderTypes | extractLabelByCode:element.type}} </td>
+      </ng-container>
+      <ng-container matColumnDef="level">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="level"> Livello</th>
+        <td mat-cell *matCellDef="let element"> {{orderLevel | extractLabelByCode:element.level}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Azioni</th>
+        <td mat-cell *matCellDef="let element">
+          <button [routerLink]="['/generic-orders',element.id]" mat-icon-button >
+            <mat-icon>search</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="columnsToShow"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToShow;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10,50,100]"
+                   showFirstLastButtons
+                   [length]="actualPageValue.totalElements!"
+                   [pageSize]="pagination.pageSize"
+                   (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
+</div>

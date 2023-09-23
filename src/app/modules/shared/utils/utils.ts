@@ -11,6 +11,13 @@ export function clean(obj: any) {
   return obj
 }
 
+export const validateObjectNullable: ValidatorFn = control => {
+  if (control.value && !(typeof control.value === "object")) {
+    return {wrongType: "Option not selected"}
+  }
+  return null
+}
+
 export const validateObject: ValidatorFn = control => {
   if (!(typeof control.value === "object")) {
     return {wrongType: "Option not selected"}
@@ -89,6 +96,17 @@ export const orderStatus = [
   {label: 'Respinto', code: 'CANCELED'}
 ]
 
+export const orderTypes = [
+  {label: 'Secondo livello', code: 'SECOND_LEVEL'},
+  {label: 'Video', code: 'VIDEO'},
+]
+
+export const orderLevel = [
+  {label: 'Base', code: 'BASE'},
+  {label: 'Premium', code: 'PREMIUM'},
+  {label: 'Non specificato', code: 'NOT_SPECIFIED'},
+]
+
 export const contentStatus = [
   {label: 'In lavorazione', code: 'WORKING'},
   {label: 'Inviato al capo redattore', code: 'DELIVERED'},
@@ -97,11 +115,19 @@ export const contentStatus = [
   {label: 'Pubblicato su wordpress', code: 'PUBLISHED_WORDPRESS'}
 ]
 
+export const videoTemplateType = [
+  {"code":"TOURISM", "label" : "Turismo"},
+  {"code":"BRAND_AWARENESS", "label" : "Brand Awareness"},
+  {"code":"EVENTS", "label" : "Eventi/corsi di formazione e fiere"},
+  {"code":"ECOMMERCE", "label" : "E-Commerce"},
+]
+
 export type ProjectCommissionStatus = {
   icon?: string, notButton?: boolean, label: string, code: string, roleCanView: string[], roleCanEdit: string[], nextStatuses: string[], projectType: ('REGULAR' | 'DOMAIN')[]
 }
 export const projectCommissionStatus: ProjectCommissionStatus[] = [
   {
+    icon: 'add',
     notButton: true,
     label: 'Creato',
     code: 'CREATED',
@@ -165,6 +191,7 @@ export const projectCommissionStatus: ProjectCommissionStatus[] = [
     projectType: ['REGULAR', 'DOMAIN']
   },
   {
+    icon: 'cloud_upload',
     notButton: true,
     label: 'Pubblicato su network interno',
     code: 'PUBLISHED_INTERNAL_NETWORK',

@@ -1,0 +1,63 @@
+<mat-toolbar>
+  <span>Dettaglio ordine {{order?.id}}</span>
+</mat-toolbar>
+<div class="p-3">
+  <mat-card *ngIf="order">
+    <mat-card-content>
+      <div class="d-flex justify-content-between">
+        <div class="fs-5">
+          <div>
+            <mat-icon>person</mat-icon>
+            Cliente: {{order.customer.fullname}}</div>
+          <div>
+            <mat-icon>tune</mat-icon>
+            Tipo: {{orderTypes | extractLabelByCode:order.type}}</div>
+          <div>
+            <mat-icon>show_chart</mat-icon>
+            Livello: {{orderLevel | extractLabelByCode:order.level}}</div>
+          <div>Stato: {{orderStatus | extractLabelByCode:order.status}}</div>
+        </div>
+        <div>
+          <div>Data di inserimento: {{order.createdDate | date:'dd/MM/yyyy'}}</div>
+        </div>
+      </div>
+      <mat-divider class="my-3"></mat-divider>
+      <div class="fs-5 mb-3 fw-bold">
+        Informazioni specifiche:
+      </div>
+      <div class="fs-5">
+        <ng-container *ngIf="order.type === 'SECOND_LEVEL'">
+          <div class="d-flex align-items-center">Link: <a target="_blank" class="d-flex align-items-center"
+                                                          [href]="getSecondLevel().link">
+            <mat-icon>open_in_new</mat-icon>
+            {{getSecondLevel().link}}</a></div>
+        </ng-container>
+        <ng-container *ngIf="order.type === 'VIDEO'">
+          <div class="row">
+            <div class="col-6">
+              <div>Template video: {{getVideo().videoTemplate.name}}</div>
+              <mat-list role="list">
+                <mat-list-item role="listitem" *ngFor="let field of getVideo().fields">{{field.name}}
+                  : {{field.value}}</mat-list-item>
+              </mat-list>
+            </div>
+            <div class="col-6">
+              <iframe [src]="getVideo().videoTemplate.url | sanitizeUrl"></iframe>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </mat-card-content>
+    <mat-card-actions [align]="'end'">
+      <div class="justify-content-center">
+        <button mat-raised-button color="primary" *ngIf="order.status != 'CONFIRMED'" class="me-3" (click)="approve()">
+          APPROVA
+        </button>
+        <button mat-raised-button color="warn" *ngIf="order.status != 'CANCELED'" class="me-3" (click)="refuse()">
+          RIFIUTA
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
+

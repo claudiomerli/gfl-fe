@@ -49,8 +49,8 @@ export class ContentListComponent implements OnInit {
     year: new FormControl<number | null>(null),
     period: new FormControl<string | null>(null)
   });
-  displayFullnameProject = (project: Project) => project?.name;
-  displayFullnameNewspaper = (newspaper: Newspaper) => newspaper?.name;
+  displayFullnameProject = (project: Project) => project?.name || '';
+  displayFullnameNewspaper = (newspaper: Newspaper) => newspaper?.name || '';
   displayFullnameEditor = (editor: User) => editor?.fullname || "";
 
   projects: Project[] = [];

@@ -107,7 +107,7 @@ export class ProjectDetailsComponent implements OnInit {
       billingDescription: new FormControl(''),
       billingAmount: new FormControl<number | null>(null),
       expiration: new FormControl<Moment | null>(null),
-      customer: new FormControl<User | null>(null, [validateObject]),
+      customer: new FormControl<User | string | null>(null, [validateObject]),
       hintBody: new FormControl<string | null>(null),
       finalCustomers: new FormControl<User[]>([])
     })
@@ -266,7 +266,7 @@ export class ProjectDetailsComponent implements OnInit {
     return this.projectService.update(this.projectToEdit.id, {
       name: value.name!,
       billingAmount: value.billingAmount!,
-      customerId: value.customer?.id!,
+      customerId: (value.customer as User).id!,
       billingDescription: value.billingDescription!,
       expiration: value.expiration ? value.expiration.format(momentDatePatternIso) : undefined,
       hintBody: value.hintBody!
@@ -494,7 +494,7 @@ export class ProjectDetailsComponent implements OnInit {
         if (value) {
           this.projectService.updateCommissionStatus(this.projectToEdit.id, element.id, "SENT_TO_ADMINISTRATION", {
             contentPurchasedId: value.id
-          }).subscribe(() =>{
+          }).subscribe(() => {
             this.loadProject()
           })
         }

@@ -48,6 +48,12 @@ const routes: Routes = [
     data: {availableRoles: ['ADMIN']}
   },
   {
+    path: "generic-orders",
+    loadChildren: () => import("./modules/generic-order/generic-order.module").then(m => m.GenericOrderModule),
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN']}
+  },
+  {
     path: "news",
     loadChildren: () => import("./modules/news/news.module").then(m => m.NewsModule),
     canActivate: [AuthGuard],
@@ -70,6 +76,12 @@ const routes: Routes = [
     loadChildren: () => import("./modules/domain/domain.module").then(m => m.DomainModule),
     canActivate: [AuthGuard],
     data: {availableRoles: ['ADMIN', 'INTERNAL_NETWORK']}
+  },
+  {
+    path: "video-template",
+    loadChildren: () => import("./modules/video-template/video-template.module").then(m => m.VideoTemplateModule),
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN']}
   }
 ];
 
