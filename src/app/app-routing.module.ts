@@ -82,6 +82,12 @@ const routes: Routes = [
     loadChildren: () => import("./modules/video-template/video-template.module").then(m => m.VideoTemplateModule),
     canActivate: [AuthGuard],
     data: {availableRoles: ['ADMIN']}
+  },
+  {
+    path: "settings",
+    loadChildren: () => import("./modules/settings/settings.module").then(m => m.SettingsModule),
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN']}
   }
 ];
 

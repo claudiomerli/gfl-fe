@@ -36,6 +36,8 @@
                      routerLinkActive="active" routerLink="/domain" *isAuthenticated="['ADMIN','INTERNAL_NETWORK']"></app-sidemenu-item>
   <app-sidemenu-item [icon]="'movie'" [title]="'Template video'"
                      routerLinkActive="active" routerLink="/video-template" *isAuthenticated="['ADMIN']"></app-sidemenu-item>
+  <app-sidemenu-item [icon]="'settings'" [title]="'Impostazioni'"
+                     routerLinkActive="active" routerLink="/settings" *isAuthenticated="['ADMIN']"></app-sidemenu-item>
 
   <ng-container *isAuthenticated="['ADMIN']">
     <mat-divider class="my-3"></mat-divider>
