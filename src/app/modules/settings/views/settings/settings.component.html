@@ -1,0 +1,24 @@
+<mat-toolbar>
+  <span>Configurazione della piattaforma</span>
+</mat-toolbar>
+<div class="p-3">
+  <div class="row" [formGroup]="formGroup">
+    <ng-container *ngFor="let uiElement of uiConfig">
+      <div *ngIf="uiElement['sectionTitle']" class="fs-4 p-3 border-bottom col-12">
+        {{uiElement["sectionTitle"]}}
+      </div>
+      <div *ngIf="uiElement['field']" class="fs-4 p-3 border-bottom col-{{uiElement['colspan']}}">
+        <ng-container *ngIf="uiElement['type'] === 'html'">
+          <div class="fs-5">{{uiElement['label']}}</div>
+          <editor [formControlName]="uiElement['field']"></editor>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+  <div class="text-end mt-3">
+    <button mat-raised-button color="primary" (click)="save()">
+      <mat-icon>save</mat-icon>
+      Salva
+    </button>
+  </div>
+</div>
