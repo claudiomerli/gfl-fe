@@ -39,7 +39,7 @@
           <span class="fw-bold">STATO:</span>
           <mat-chip-listbox class="ms-3">
             <mat-chip-option [selectable]="false"
-              color="primary">{{contentStatus | extractLabelByCode:contentToEdit.contentStatus}}</mat-chip-option>
+                             color="primary">{{contentStatus | extractLabelByCode:contentToEdit.contentStatus}}</mat-chip-option>
           </mat-chip-listbox>
         </div>
         <mat-divider></mat-divider>
@@ -142,6 +142,16 @@
                 </button>
               </mat-card-content>
             </mat-card>
+          </ng-container>
+        </ng-container>
+        <ng-container *isAuthenticated="['ADMIN','CHIEF_EDITOR','INTERNAL_NETWORK']">
+          <ng-container *ngIf="contentToEdit.contentStatus == 'SENT_TO_CUSTOMER'">
+            <button mat-raised-button color="primary"
+                    class="m-1 w-100"
+                    (click)="notifyCustomerForApproval()">
+              Notifica cliente
+              <mat-icon>mail</mat-icon>
+            </button>
           </ng-container>
         </ng-container>
         <button *isAuthenticated="['ADMIN','CHIEF_EDITOR','INTERNAL_NETWORK']" mat-raised-button color="primary"

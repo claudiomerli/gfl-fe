@@ -24,6 +24,7 @@ import {NgxDropzoneChangeEvent} from "ngx-dropzone";
 import {
   ContentAssistantDialogComponent
 } from "../../components/content-assistant-dialog/content-assistant-dialog.component";
+import {NotificationService} from "../../../shared/services/notification.service";
 
 @Component({
   selector: 'app-content-detail',
@@ -38,7 +39,8 @@ export class ContentDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private store: Store,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private notificationService: NotificationService
   ) {
   }
 
@@ -203,5 +205,10 @@ export class ContentDetailComponent implements OnInit {
 
   openAssistantDialog() {
     this.matDialog.open(ContentAssistantDialogComponent)
+  }
+
+  notifyCustomerForApproval() {
+    this.notificationService.sendEmailForWaitApprovalContent(this.contentToEdit.id).subscribe(() => {
+    })
   }
 }

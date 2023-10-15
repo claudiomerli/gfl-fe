@@ -218,7 +218,7 @@
             <ng-container matColumnDef="status">
               <th mat-header-cell mat-sort-header="status" *matHeaderCellDef> Stato</th>
               <td mat-cell
-                  *matCellDef="let element" > {{projectCommissionStatus | extractLabelByCode:element.status}} </td>
+                  *matCellDef="let element"> {{projectCommissionStatus | extractLabelByCode:element.status}} </td>
             </ng-container>
             <ng-container matColumnDef="newspaper">
               <th mat-header-cell mat-sort-header="newspaper.name" *matHeaderCellDef> Testata</th>
@@ -228,12 +228,14 @@
             <!-- Name Column -->
             <ng-container matColumnDef="period">
               <th mat-header-cell mat-sort-header="year,period" *matHeaderCellDef> Periodo</th>
-              <td mat-cell *matCellDef="let element"> {{periods | extractLabelByCode:element.period}} {{element.year}}</td>
+              <td mat-cell
+                  *matCellDef="let element"> {{periods | extractLabelByCode:element.period}} {{element.year}}</td>
             </ng-container>
 
             <ng-container matColumnDef="publicationDate">
               <th mat-header-cell mat-sort-header="publicationDate" *matHeaderCellDef> Data di pubblicazione</th>
-              <td mat-cell *matCellDef="let element" class="text-ellipsis"> {{element.publicationDate | date:"dd/MM/yyyy"}} </td>
+              <td mat-cell *matCellDef="let element"
+                  class="text-ellipsis"> {{element.publicationDate | date:"dd/MM/yyyy"}} </td>
             </ng-container>
 
             <!-- Weight Column -->
@@ -251,8 +253,9 @@
 
             <ng-container matColumnDef="publicationUrl">
               <th mat-header-cell mat-sort-header="publicationUrl" *matHeaderCellDef> Url di pubblicazione</th>
-              <td mat-cell *matCellDef="let element" class="text-ellipsis"><a target="_blank" [href]="element.publicationUrl"
-                                                        *ngIf="element.publicationUrl">{{element.publicationUrl}}</a>
+              <td mat-cell *matCellDef="let element" class="text-ellipsis"><a target="_blank"
+                                                                              [href]="element.publicationUrl"
+                                                                              *ngIf="element.publicationUrl">{{element.publicationUrl}}</a>
               </td>
             </ng-container>
 
@@ -265,7 +268,8 @@
                     <mat-icon>search</mat-icon>
                     Dettaglio
                   </button>
-                  <button mat-menu-item *ngIf="canShowSentToAdministration(element)" (click)="openSelectPurchaseContentDialog(element)" >
+                  <button mat-menu-item *ngIf="canShowSentToAdministration(element)"
+                          (click)="openSelectPurchaseContentDialog(element)">
                     <mat-icon>send</mat-icon>
                     Invia in amministrazione
                   </button>
@@ -303,6 +307,24 @@
         <mat-icon>download</mat-icon>
         Esporta progetto
       </button>
+      <div class="row align-items-center">
+        <div class="col-6">
+          <mat-form-field>
+            <mat-label>Mese</mat-label>
+            <mat-select [(ngModel)]="periodToNotifyClose">
+              <mat-option *ngFor="let period of periods" [value]="period.code">
+                {{period.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-6">
+          <button *isAuthenticated="['ADMIN','CHIEF_EDITOR','PUBLISHER']" (click)="sendEmailForMonthClosedContent()"
+                  mat-raised-button color="primary" >
+            Notifica chiusura mese a cliente
+          </button>
+        </div>
+      </div>
       <div class="fs-4">
         Storico progetto
       </div>

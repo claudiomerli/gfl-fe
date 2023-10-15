@@ -1,24 +1,23 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {ProjectService} from "../../../shared/services/project.service";
 import {Project, ProjectCommission} from "../../../shared/messages/project/project";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../shared/services/user.service";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {User} from "../../../shared/messages/auth/user";
-import {debounceTime, switchMap, tap} from "rxjs/operators";
+import {debounceTime, switchMap} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {
   getYearList,
-  momentDatePatternIso, periods,
+  momentDatePatternIso,
+  periods,
   projectCommissionStatus,
-  projectStatuses, validateObject
+  projectStatuses,
+  validateObject
 } from "../../../shared/utils/utils";
-import {Moment} from "moment";
 import * as moment from "moment";
-import {
-  ProjectCommissionFormComponent
-} from "../../components/project-commission-form/project-commission-form.component";
+import {Moment} from "moment";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
 import {
@@ -26,7 +25,7 @@ import {
 } from "../../components/project-commission-dialog-form/project-commission-dialog-form.component";
 import {Select, Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
-import {EMPTY, Observable, of, zip} from "rxjs";
+import {Observable, of, zip} from "rxjs";
 import {
   CommissionHistoryDialogComponent
 } from "../../../newspaper/components/commission-history-dialog/commission-history-dialog.component";
@@ -44,6 +43,7 @@ import {
   SelectContentPurchaseDialogComponent
 } from "../../components/select-content-purchase-dialog/select-content-purchase-dialog.component";
 import {PurchaseContent} from "../../../shared/messages/purchase-content/purchase-content";
+import {NotificationService} from "../../../shared/services/notification.service";
 
 @Component({
   selector: 'app-project-details',
@@ -54,9 +54,6 @@ export class ProjectDetailsComponent implements OnInit {
 
   projectFormGroup = this.createNewFormGroup();
   projectToEdit!: Project;
-
-  @ViewChild("saveCommissionForm")
-  private projectCommissionForm!: ProjectCommissionFormComponent;
 
   @Select(AuthenticationState.isUserInRole("ADMIN"))
   isUserAdmin$!: Observable<boolean>;
@@ -96,6 +93,7 @@ export class ProjectDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private projectService: ProjectService,
     private userService: UserService,
+    private notificationService: NotificationService,
     private matDialog: MatDialog,
     private store: Store,
   ) {
@@ -353,7 +351,7 @@ export class ProjectDetailsComponent implements OnInit {
 
   rowClass(projectCommission: ProjectCommission) {
     let user = this.store.selectSnapshot(AuthenticationState.user)!;
-    let result = {
+    return {
       'bg-warning': (user.role === "CHIEF_EDITOR" && projectCommission.status === "ASSIGNED") ||
         (user.role === "PUBLISHER" && projectCommission.status === "SENT_TO_NEWSPAPER"),
       'bg-danger': (user.role === "CHIEF_EDITOR" && projectCommission.status === "STANDBY_EDITORIAL") ||
@@ -361,7 +359,6 @@ export class ProjectDetailsComponent implements OnInit {
       'bg-success': (user.role === "CHIEF_EDITOR" && projectCommission.status === "TO_PUBLISH") ||
         (user.role === "PUBLISHER" && projectCommission.status === "SENT_TO_ADMINISTRATION")
     }
-    return result
   }
 
   openHistory(projectCommission: ProjectCommission) {
@@ -499,5 +496,12 @@ export class ProjectDetailsComponent implements OnInit {
           })
         }
       })
+  }
+
+  periodToNotifyClose = moment().format('MMMM').toUpperCase();
+
+  sendEmailForMonthClosedContent() {
+    this.notificationService.sendEmailForMonthClosedContent(this.projectToEdit.id, this.periodToNotifyClose)
+      .subscribe(() =>{})
   }
 }
