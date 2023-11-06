@@ -25,11 +25,21 @@ export class ContentPurchaseService {
     })
   }
 
+  public export(searchPurchaseContent: SearchPurchaseContentDto, pagination: PaginationDto): Observable<Blob> {
+    return this.httpClient.get(environment.apiBaseurl + "/content-purchase/export", {
+      params: {
+        ...searchPurchaseContent,
+        ...pagination
+      },
+      responseType: "blob"
+    })
+  }
+
   public findById(id: number): Observable<PurchaseContent> {
     return this.httpClient.get<PurchaseContent>(environment.apiBaseurl + `/content-purchase/${id}`)
   }
 
-  public save(savePurchaseContentDto : SavePurchaseContentDto): Observable<PurchaseContent> {
+  public save(savePurchaseContentDto: SavePurchaseContentDto): Observable<PurchaseContent> {
     return this.httpClient.post<PurchaseContent>(environment.apiBaseurl + `/content-purchase`, savePurchaseContentDto)
   }
 

@@ -13,6 +13,7 @@ import {Sort} from "@angular/material/sort";
 import {PageEvent} from "@angular/material/paginator";
 import {validateObject} from "../../../../../shared/utils/utils";
 import * as moment from "moment";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-content-purhase-list',
@@ -40,7 +41,7 @@ export class ContentPurhaseListComponent implements OnInit {
   }
 
   newspapers: Newspaper[] = [];
-  displayFullnameNewspaper = (newspaper: Newspaper) => newspaper?.name;
+  displayFullnameNewspaper = (newspaper: Newspaper) => newspaper?.name!;
 
   actualPage = new BehaviorSubject<PageResponseDto<PurchaseContent> | null>(null);
 
@@ -95,5 +96,16 @@ export class ContentPurhaseListComponent implements OnInit {
     this.pagination.page = $event.pageIndex;
     this.pagination.pageSize = $event.pageSize;
     this.search();
+  }
+
+  export() {
+    this.purchaseContentService.export({
+      globalSearch: this.searchForm.value.globalSearch || "",
+      newspaperId: (this.searchForm.value.newspaper as Newspaper)?.id || "",
+      expirationFrom: this.searchForm.value.expirationDateFrom ? this.searchForm.value.expirationDateFrom.format("YYYY-MM-DD") : "",
+      expirationTo: this.searchForm.value.expirationDateTo ? this.searchForm.value.expirationDateTo.format("YYYY-MM-DD") : "",
+    }, this.pagination).subscribe(value => {
+      saveAs(value,"acquisti-contenuti.xlsx")
+    })
   }
 }

@@ -45,10 +45,14 @@
         </mat-form-field>
       </div>
       <div class="col-2">
-        <a mat-raised-button color="primary" [routerLink]="['create']">
+        <a mat-raised-button class="w-100" color="primary" [routerLink]="['create']">
           <mat-icon>add</mat-icon>
           Inserisci nuovo acquisto
         </a>
+        <button class="w-100 mt-1" mat-raised-button color="primary" (click)="export()">
+          <mat-icon>download</mat-icon>
+          Esporta risultati
+        </button>
       </div>
     </div>
   </form>
