@@ -1,5 +1,4 @@
 export class User {
-
   id: number | undefined;
   username: string | undefined;
   fullname: string | undefined;
@@ -14,7 +13,8 @@ export class User {
     remuneration: string | undefined;
     notes: string | undefined;
   } | undefined
-  customerInfo? : CustomerInfo
+  customerInfo?: CustomerInfo
+  finalCustomers?: User[];
 }
 
 export interface CustomerInfo {
@@ -25,4 +25,7 @@ export interface CustomerInfo {
   address: string;
   competitor1: string;
   competitor2: string;
+  isAgency: boolean;
+  piva: string;
+  logo: string
 }

@@ -20,6 +20,10 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatCardModule} from "@angular/material/card";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatChipsModule} from "@angular/material/chips";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {NgxDropzoneModule} from "ngx-dropzone";
 
 
 @NgModule({
@@ -30,23 +34,27 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     UserUpdateFormComponent,
     UserUpdateComponent
   ],
-    imports: [
-        CommonModule,
-        UserRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        SharedModule,
-        MatToolbarModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTableModule,
-        MatButtonModule,
-        MatIconModule,
-        MatSelectModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatCardModule,
-        MatSlideToggleModule
-    ]
+  imports: [
+    CommonModule,
+    UserRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSelectModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatCardModule,
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    NgxDropzoneModule
+  ]
 })
 export class UserModule { }

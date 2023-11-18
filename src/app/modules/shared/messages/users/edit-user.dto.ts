@@ -19,4 +19,7 @@ export class EditUserDto {
   address : string | undefined;
   competitor1 : string | undefined;
   competitor2 : string | undefined;
+  isAgency: string | undefined;
+  piva: string | undefined;
+  finalCustomers : number[] = [];
 }
