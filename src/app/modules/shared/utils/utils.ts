@@ -99,6 +99,7 @@ export const orderStatus = [
 export const orderTypes = [
   {label: 'Secondo livello', code: 'SECOND_LEVEL'},
   {label: 'Video', code: 'VIDEO'},
+  {label: 'Commissione progetto', code: 'PROJECT_COMMISSION'},
 ]
 
 export const orderLevel = [
@@ -297,3 +298,9 @@ export const translatePercentage: (value: number) => string = (value) => {
 }
 
 export const momentDatePatternIso = "YYYY-MM-DD"
+
+export function removeNullKeys(obj: any): any {
+  return Object.entries(obj)
+    .filter(([_, value]) => value !== null && value !== undefined)
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+}

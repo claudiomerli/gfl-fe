@@ -5,6 +5,7 @@ import {GenericOrder} from "../../../shared/messages/generic-order/generic-order
 import {orderLevel, orderStatus, orderTypes} from "../../../shared/utils/utils";
 import {SecondLevelGenericOrder} from "../../../shared/messages/generic-order/second-level-generic-order";
 import {VideoOrder} from "../../../shared/messages/generic-order/video-order";
+import {ProjectCommissionOrder} from "../../../shared/messages/generic-order/project-commission-order";
 
 @Component({
   selector: 'app-generic-order-detail',
@@ -23,6 +24,10 @@ export class GenericOrderDetailComponent implements OnInit {
 
   getVideo(): VideoOrder {
     return this.order as VideoOrder
+  }
+
+  getProjectCommission(): ProjectCommissionOrder {
+    return this.order as ProjectCommissionOrder
   }
 
   ngOnInit(): void {

@@ -12,6 +12,8 @@
 
   <app-sidemenu-item [icon]="'shopping_cart_checkout'" [title]="'Acquisti contenuti'" *isAuthenticated="['ADMIN']"
                      routerLinkActive="active" routerLink="/newspapers/content-purchase" [indent]="true"></app-sidemenu-item>
+  <app-sidemenu-item [icon]="'price_check'" [title]="'Sconti'" *isAuthenticated="['ADMIN']"
+                     routerLinkActive="active" routerLink="/newspapers/newspaper-discount" [indent]="true"></app-sidemenu-item>
 
   <app-sidemenu-item [icon]="'rate_review'" [title]="'Ordini Contenuti'" *isAuthenticated="['ADMIN']"
                      routerLinkActive="active" routerLink="/orders"

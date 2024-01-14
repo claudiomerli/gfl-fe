@@ -13,6 +13,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {availableRoles: ['ADMIN']}
   },
+  {
+    path: "newspaper-discount",
+    loadChildren: () => import("./modules/newspaper-discount/newspaper-discount.module").then(m => m.NewspaperDiscountModule),
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN']}
+  },
   {path: "create", component: NewspaperCreateComponent},
   {path: ":id", component: NewspaperUpdateComponent}
 ];

@@ -1,0 +1,57 @@
+<h1 mat-dialog-title>{{newspaperDiscount ? 'Modifica' : 'Crea'}} sconto</h1>
+<div mat-dialog-content>
+  <form [formGroup]="newspaperDiscountForm">
+    <div class="row">
+      <div class="col-4">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Cliente</mat-label>
+          <input type="text"
+                 placeholder="Cerca cliente"
+                 matInput
+                 formControlName="customer"
+                 [matAutocomplete]="autoCustomer"
+          >
+          <mat-autocomplete #autoCustomer="matAutocomplete"
+                            [displayWith]="displayFullnameCustomer"
+          >
+            <mat-option *ngFor="let option of customers" [value]="option">
+              {{ option.fullname }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="w-100">
+          <mat-label>Testata</mat-label>
+          <input type="text"
+                 placeholder="Testata"
+                 aria-label="Number"
+                 matInput
+                 formControlName="newspaper"
+                 [matAutocomplete]="autoNewspaper"
+          >
+          <mat-autocomplete #autoNewspaper="matAutocomplete" [displayWith]="displayNewspaperName">
+            <mat-option *ngFor="let newspaper of newspapers" [value]="newspaper">
+              {{ newspaper.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="w-100">
+          <mat-label>Percentuale sconto</mat-label>
+          <input type="number"
+                 placeholder="Percentuale sconto"
+                 matInput
+                 formControlName="discountPercentage"
+          >
+          <span matTextSuffix>%</span>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-button (click)="onSave()">Ok</button>
+</div>
