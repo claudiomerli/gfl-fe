@@ -5,5 +5,6 @@ export interface SaveNewspaperDiscount {
   customerId: number
   newspaperId: number
   discountPercentage: number
+  allNewspaper: boolean
 
 }

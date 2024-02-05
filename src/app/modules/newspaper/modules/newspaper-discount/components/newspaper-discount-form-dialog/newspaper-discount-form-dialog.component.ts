@@ -29,7 +29,8 @@ export class NewspaperDiscountFormDialogComponent implements OnInit {
 
   newspaperDiscountForm = new FormGroup({
     customer: new FormControl<User | string | null>(null, [Validators.required, validateObject]),
-    newspaper: new FormControl<Newspaper | string | null>(null, [Validators.required, validateObject]),
+    newspaper: new FormControl<Newspaper | string | null>(null, [validateObject]),
+    allNewspaper: new FormControl<boolean>(false),
     discountPercentage: new FormControl<number | null>(null)
   })
 
@@ -73,11 +74,22 @@ export class NewspaperDiscountFormDialogComponent implements OnInit {
         }
       })
 
+    this.newspaperDiscountForm.controls.allNewspaper.valueChanges
+      .subscribe((value) => {
+         if(value){
+           this.newspapers = []
+           this.newspaperDiscountForm.controls.newspaper.setValue(null)
+           this.newspaperDiscountForm.controls.newspaper.disable()
+         } else {
+           this.newspaperDiscountForm.controls.newspaper.enable()
+         }
+      })
     if(this.newspaperDiscount){
       this.newspaperDiscountForm.patchValue({
         newspaper: this.newspaperDiscount.newspaper,
         customer: this.newspaperDiscount.customer,
-        discountPercentage: this.newspaperDiscount.discountPercentage
+        discountPercentage: this.newspaperDiscount.discountPercentage,
+        allNewspaper: this.newspaperDiscount.allNewspaper
       })
     }
   }
@@ -88,22 +100,22 @@ export class NewspaperDiscountFormDialogComponent implements OnInit {
       if (this.newspaperDiscount) {
         this.newspaperDiscountService.update(this.newspaperDiscount.id, {
           discountPercentage: this.newspaperDiscountForm.value.discountPercentage!,
-          newspaperId: (this.newspaperDiscountForm.value.newspaper as Newspaper).id!,
-          customerId: (this.newspaperDiscountForm.value.customer as User).id!
+          newspaperId: (this.newspaperDiscountForm.value.newspaper as Newspaper)?.id,
+          customerId: (this.newspaperDiscountForm.value.customer as User).id!,
+          allNewspaper: this.newspaperDiscountForm.value.allNewspaper!
         }).subscribe(() => {
           this.dialogRef.close(true)
         })
       } else {
         this.newspaperDiscountService.save({
           discountPercentage: this.newspaperDiscountForm.value.discountPercentage!,
-          newspaperId: (this.newspaperDiscountForm.value.newspaper as Newspaper).id!,
-          customerId: (this.newspaperDiscountForm.value.customer as User).id!
+          newspaperId: (this.newspaperDiscountForm.value.newspaper as Newspaper)?.id,
+          customerId: (this.newspaperDiscountForm.value.customer as User).id!,
+          allNewspaper: this.newspaperDiscountForm.value.allNewspaper!,
         }).subscribe(() => {
           this.dialogRef.close(true)
         })
       }
     }
-
   }
-
 }

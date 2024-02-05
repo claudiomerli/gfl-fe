@@ -6,5 +6,5 @@ export interface NewspaperDiscount {
   customer: User
   newspaper: Newspaper
   discountPercentage: number
-
+  allNewspaper : boolean
 }

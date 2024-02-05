@@ -62,7 +62,7 @@
       <!-- Name Column -->
       <ng-container matColumnDef="newspaper">
         <th mat-header-cell *matHeaderCellDef> Testata</th>
-        <td mat-cell *matCellDef="let element"> {{ element.newspaper.name }}</td>
+        <td mat-cell *matCellDef="let element"> {{ element.allNewspaper ? 'Tutte le testate' : element.newspaper.name }}</td>
       </ng-container>
 
       <!-- Weight Column -->
