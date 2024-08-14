@@ -59,6 +59,7 @@ export class NewspaperTableComponent implements OnInit {
 
     this.displayedColumns.push("regionalGeolocalization")
     this.displayedColumns.push("sensitiveTopics")
+    this.displayedColumns.push("nofollow")
 
     if (user?.role === "ADMIN")
       this.displayedColumns.push("hidden")

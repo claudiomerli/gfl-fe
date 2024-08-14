@@ -26,7 +26,7 @@
         <mat-label>Testate</mat-label>
         <mat-chip-grid #chipListNewspaper>
           <mat-chip-row *ngFor="let newspaper of purchaseContentForm.controls.newspapers.value"
-                    (removed)="removeNewspaper(newspaper.id)">
+                    (removed)="removeNewspaper(newspaper.id)" [ngClass]="{'bg-warning' : newspaper.warning}">
             {{newspaper.name}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
@@ -42,7 +42,7 @@
         </mat-chip-grid>
         <mat-autocomplete #autoNewspaper="matAutocomplete"
                           (optionSelected)="newspaperSelected($event,newspaperInputElement)">
-          <mat-option *ngFor="let newspaper of newspapers" [value]="newspaper">
+          <mat-option *ngFor="let newspaper of newspapers" [value]="newspaper" [ngClass]="{'bg-warning' : newspaper.warning}">
             {{newspaper.name}}
           </mat-option>
         </mat-autocomplete>

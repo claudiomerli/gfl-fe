@@ -30,6 +30,14 @@
           <mat-option [value]="false">No</mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-label>No Follow</mat-label>
+        <mat-select formControlName="nofollow">
+          <mat-option [value]="''">Selezione</mat-option>
+          <mat-option [value]="true">Si</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+      </mat-form-field>
       <mat-form-field *isAuthenticated="['ADMIN']" class="w-100">
         <mat-label>Nascosta</mat-label>
         <mat-select formControlName="hidden">

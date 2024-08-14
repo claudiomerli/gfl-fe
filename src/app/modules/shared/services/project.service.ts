@@ -23,6 +23,20 @@ export class ProjectService {
   constructor(private httpClient: HttpClient, private store: Store) {
   }
 
+  public exportList(searchProjectDTO: SearchProjectDto): Observable<Blob> {
+    return this.httpClient.get(environment.apiBaseurl + "/project/export", {
+      params: {
+        globalSearch: searchProjectDTO.globalSearch || "",
+        status: searchProjectDTO.status || "",
+        projectCommissionStatus: searchProjectDTO.projectCommissionStatus || [],
+        commissionYear: searchProjectDTO.commissionYear || "",
+        commissionPeriod: searchProjectDTO.commissionPeriod || "",
+        newspapers: searchProjectDTO.newspapers || [],
+      },
+      responseType: "blob"
+    })
+  }
+
   public find(searchProjectDTO: SearchProjectDto, pagination: PaginationDto): Observable<PageResponseDto<Project>> {
     return this.httpClient.get<PageResponseDto<Project>>(environment.apiBaseurl + "/project", {
       params: {

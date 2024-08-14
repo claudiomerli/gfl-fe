@@ -1,4 +1,3 @@
-
 export class SearchNewspaperDto {
 
   name?: string;
@@ -15,5 +14,6 @@ export class SearchNewspaperDto {
   topics?: Array<string>;
   hidden?: boolean;
   sensitiveTopics?: boolean;
+  nofollow?: boolean;
   notUsedInProject?: number;
 }

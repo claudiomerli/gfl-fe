@@ -16,5 +16,6 @@ export interface Newspaper {
   hidden: boolean
   sensitiveTopics: boolean
   warning: boolean
+  nofollow: boolean
 
 }

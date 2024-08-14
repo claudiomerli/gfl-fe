@@ -46,7 +46,8 @@ export class NewspaperSearchFilterComponent implements OnInit {
     regionalGeolocalization: new FormControl([]),
     topics: new FormControl([]),
     hidden: new FormControl(''),
-    sensitiveTopics: new FormControl('')
+    sensitiveTopics: new FormControl(''),
+    nofollow: new FormControl('')
   })
 
 

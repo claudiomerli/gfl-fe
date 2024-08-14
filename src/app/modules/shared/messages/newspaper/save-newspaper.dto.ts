@@ -11,5 +11,6 @@ export class SaveNewspaperDto {
   hidden: boolean | undefined
   sensitiveTopics: boolean | undefined
   warning: boolean | undefined
+  nofollow: boolean | undefined
 
 }

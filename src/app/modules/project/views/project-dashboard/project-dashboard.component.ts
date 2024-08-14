@@ -19,6 +19,7 @@ import {SearchProjectDto} from "../../../shared/messages/project/search-project.
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-project-dashboard',
@@ -173,5 +174,18 @@ export class ProjectDashboardComponent implements OnInit {
 
   removeNewspaper(id: number) {
     this.searchProjectNewspapers.setValue(this.searchProjectNewspapers.value?.filter(element => element.id != id) || null);
+  }
+
+  export() {
+    this.projectService.exportList({
+      globalSearch: this.searchProjectFormControl.value,
+      status: this.searchProjectStatusFormControl.value,
+      projectCommissionStatus: this.searchProjectCommissionStatusFormControl.value,
+      commissionPeriod: this.searchProjectPeriod.value,
+      commissionYear: this.searchProjectYear.value,
+      newspapers: this.searchProjectNewspapers.value?.map(value => value.id) || []
+    }).subscribe(value => {
+      saveAs(value, "export-project.xlsx")
+    })
   }
 }

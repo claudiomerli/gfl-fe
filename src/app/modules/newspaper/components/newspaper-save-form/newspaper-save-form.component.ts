@@ -35,7 +35,8 @@ export class NewspaperSaveFormComponent implements OnInit {
     topics: new FormControl<number[]>([]),
     hidden: new FormControl(false),
     sensitiveTopics: new FormControl<boolean | null>(null),
-    warning: new FormControl<boolean | null>(null)
+    warning: new FormControl<boolean | null>(null),
+    nofollow: new FormControl<boolean |null>(null)
   })
 
   zaSliderOptions: Options = {
@@ -69,7 +70,8 @@ export class NewspaperSaveFormComponent implements OnInit {
         topics: this.newspaperToEdit.topics.map(value => value.id),
         hidden: this.newspaperToEdit.hidden,
         sensitiveTopics: this.newspaperToEdit.sensitiveTopics,
-        warning: this.newspaperToEdit.warning
+        warning: this.newspaperToEdit.warning,
+        nofollow: this.newspaperToEdit.nofollow
       });
     }
   }
