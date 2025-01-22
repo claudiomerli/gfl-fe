@@ -1,6 +1,6 @@
 <mat-toolbar>
-  <span>Progetto <span *ngIf="projectToEdit">{{projectToEdit.name}}
-    - {{projectStatuses | extractLabelByCode:projectToEdit.status}}</span></span>
+  <span>Progetto <span *ngIf="projectToEdit">{{ projectToEdit.name }}
+    - {{ projectStatuses | extractLabelByCode:projectToEdit.status }}</span></span>
 </mat-toolbar>
 <div class="p-3">
   <div class="row">
@@ -17,7 +17,7 @@
           <div class="col-6" *isAuthenticated="['CUSTOMER']">
             <mat-chip-listbox class="w-100">
               <mat-chip-option *ngFor="let finalCustomer of projectFormGroup.controls.finalCustomers.value">
-                {{finalCustomer.fullname}}
+                {{ finalCustomer.fullname }}
               </mat-chip-option>
             </mat-chip-listbox>
           </div>
@@ -28,7 +28,7 @@
                 <mat-chip-row
                   *ngFor="let finalCustomer of projectFormGroup.controls.finalCustomers.value"
                   (removed)="removeFinalCustomer(finalCustomer)">
-                  {{finalCustomer.fullname}}
+                  {{ finalCustomer.fullname }}
                   <button matChipRemove>
                     <mat-icon>cancel</mat-icon>
                   </button>
@@ -41,7 +41,7 @@
               </mat-chip-grid>
               <mat-autocomplete #autoFinalCustomer="matAutocomplete" (optionSelected)="addFinalCustomer($event)">
                 <mat-option *ngFor="let finalCustomer of finalCustomerSearchResult" [value]="finalCustomer">
-                  {{finalCustomer.fullname}}
+                  {{ finalCustomer.fullname }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -84,7 +84,7 @@
                                   [displayWith]="displayFullnameCustomer"
                 >
                   <mat-option *ngFor="let option of customers" [value]="option">
-                    {{option.fullname}}
+                    {{ option.fullname }}
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
@@ -141,7 +141,7 @@
                 <mat-select [formControl]="statusFormControl">
                   <mat-option [value]="''">Seleziona</mat-option>
                   <mat-option *ngFor="let status of projectCommissionStatus" [value]="status.code">
-                    {{status.label}}
+                    {{ status.label }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -152,7 +152,7 @@
                 <mat-select [formControl]="periodFormControl">
                   <mat-option [value]="''">Seleziona</mat-option>
                   <mat-option *ngFor="let period of periods" [value]="period.code">
-                    {{period.label}}
+                    {{ period.label }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -163,7 +163,7 @@
                 <mat-select [formControl]="yearFormControl">
                   <mat-option [value]="null">Seleziona</mat-option>
                   <mat-option *ngFor="let year of getYearList()" [value]="year">
-                    {{year}}
+                    {{ year }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -175,7 +175,7 @@
                             (selectionChange)="onBulkAction($event)">
                   <mat-option [value]="null">Seleziona</mat-option>
                   <mat-option *ngFor="let nextState of nextStateBulkAction" [value]="nextState">
-                    {{projectCommissionStatus | extractLabelByCode:nextState}}
+                    {{ projectCommissionStatus | extractLabelByCode:nextState }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -218,35 +218,47 @@
             <ng-container matColumnDef="status">
               <th mat-header-cell mat-sort-header="status" *matHeaderCellDef> Stato</th>
               <td mat-cell
-                  *matCellDef="let element"> {{projectCommissionStatus | extractLabelByCode:element.status}} </td>
+                  *matCellDef="let element"> {{ projectCommissionStatus | extractLabelByCode:element.status }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="newspaper">
               <th mat-header-cell mat-sort-header="newspaper.name" *matHeaderCellDef> Testata</th>
-              <td mat-cell *matCellDef="let element" class="text-ellipsis"> {{element.newspaper?.name}} </td>
+              <td mat-cell *matCellDef="let element" class="text-ellipsis"> {{ element.newspaper?.name }}</td>
             </ng-container>
 
             <!-- Name Column -->
             <ng-container matColumnDef="period">
               <th mat-header-cell mat-sort-header="year,period" *matHeaderCellDef> Periodo</th>
               <td mat-cell
-                  *matCellDef="let element"> {{periods | extractLabelByCode:element.period}} {{element.year}}</td>
+                  *matCellDef="let element"> {{ periods | extractLabelByCode:element.period }} {{ element.year }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="costSell">
+              <th mat-header-cell *matHeaderCellDef>Costo di vendita</th>
+              <td mat-cell
+                  *matCellDef="let element">
+                <div *ngIf="!!element.costSell">{{ element.costSell | currency: 'EUR' }}</div>
+                <div [ngClass]="{'costSellDiscount' : !!element.costSell}">{{ element.newspaper.costSell | currency:'EUR' }}</div>
+              </td>
             </ng-container>
 
             <ng-container matColumnDef="publicationDate">
               <th mat-header-cell mat-sort-header="publicationDate" *matHeaderCellDef> Data di pubblicazione</th>
               <td mat-cell *matCellDef="let element"
-                  class="text-ellipsis"> {{element.publicationDate | date:"dd/MM/yyyy"}} </td>
+                  class="text-ellipsis"> {{ element.publicationDate | date:"dd/MM/yyyy" }}
+              </td>
             </ng-container>
 
             <!-- Weight Column -->
             <ng-container matColumnDef="title">
               <th mat-header-cell mat-sort-header="title" *matHeaderCellDef> Titolo</th>
-              <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+              <td mat-cell *matCellDef="let element"> {{ element.title }}</td>
             </ng-container>
 
             <ng-container matColumnDef="anchor">
               <th mat-header-cell mat-sort-header="lastModifiedDate" *matHeaderCellDef> Ancora</th>
-              <td mat-cell *matCellDef="let element">{{element.anchor}}</td>
+              <td mat-cell *matCellDef="let element">{{ element.anchor }}</td>
             </ng-container>
 
             <!-- Symbol Column -->
@@ -255,7 +267,7 @@
               <th mat-header-cell mat-sort-header="publicationUrl" *matHeaderCellDef> Url di pubblicazione</th>
               <td mat-cell *matCellDef="let element" class="text-ellipsis"><a target="_blank"
                                                                               [href]="element.publicationUrl"
-                                                                              *ngIf="element.publicationUrl">{{element.publicationUrl}}</a>
+                                                                              *ngIf="element.publicationUrl">{{ element.publicationUrl }}</a>
               </td>
             </ng-container>
 
@@ -281,6 +293,10 @@
                     <mat-icon>newspaper</mat-icon>
                     Vai al contenuto
                   </a>
+                  <button mat-menu-item (click)="openCostSellDialog(element)">
+                    <mat-icon>price_check</mat-icon>
+                    Applica prezzo testata
+                  </button>
                 </mat-menu>
               </td>
             </ng-container>
@@ -313,14 +329,14 @@
             <mat-label>Mese</mat-label>
             <mat-select [(ngModel)]="periodToNotifyClose">
               <mat-option *ngFor="let period of periods" [value]="period.code">
-                {{period.label}}
+                {{ period.label }}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
         <div class="col-6">
           <button *isAuthenticated="['ADMIN','CHIEF_EDITOR','PUBLISHER']" (click)="sendEmailForMonthClosedContent()"
-                  mat-raised-button color="primary" >
+                  mat-raised-button color="primary">
             Notifica chiusura mese a cliente
           </button>
         </div>
@@ -335,8 +351,8 @@
           [editable]="false"
           *ngFor="let statusChanges of projectToEdit.projectStatusChanges">
           <ng-template matStepLabel>
-            <span class="text-dark">{{statusChanges.createdDate | date:"dd/MM/yyyy"}}</span> -
-            <span>{{projectStatuses | extractLabelByCode:statusChanges.projectStatus}}</span>
+            <span class="text-dark">{{ statusChanges.createdDate | date:"dd/MM/yyyy" }}</span> -
+            <span>{{ projectStatuses | extractLabelByCode:statusChanges.projectStatus }}</span>
           </ng-template>
         </mat-step>
       </mat-vertical-stepper>

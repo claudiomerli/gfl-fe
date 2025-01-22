@@ -4,14 +4,14 @@ import {ProjectCommission} from "../../../shared/messages/project/project";
 import {projectCommissionStatus} from "../../../shared/utils/utils";
 
 @Component({
-  selector: 'app-commission-history-dialog',
-  templateUrl: './commission-history-dialog.component.html',
-  styleUrls: ['./commission-history-dialog.component.scss']
+  selector: 'app-project-commission-history-dialog',
+  templateUrl: './project-commission-history-dialog.component.html',
+  styleUrls: ['./project-commission-history-dialog.component.scss']
 })
-export class CommissionHistoryDialogComponent implements OnInit {
+export class ProjectCommissionHistoryDialogComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<CommissionHistoryDialogComponent>,
+    public dialogRef: MatDialogRef<ProjectCommissionHistoryDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ProjectCommission,
   ) {}
 

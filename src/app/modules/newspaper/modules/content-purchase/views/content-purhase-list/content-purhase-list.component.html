@@ -97,7 +97,7 @@
         <th mat-header-cell *matHeaderCellDef> Testate</th>
         <td mat-cell *matCellDef="let element">
           <mat-chip-listbox>
-            <mat-chip-option *ngFor="let newspaper of element.newspapers" [ngClass]="{'bg-warning' : newspaper.warning}">{{newspaper.name}}</mat-chip-option>
+            <mat-chip-option *ngFor="let newspaper of element.newspapers" [ngClass]="{'bg-warning' : newspaper.warning,'bg-info' : newspaper.nofollow}">{{newspaper.name}}</mat-chip-option>
           </mat-chip-listbox>
         </td>
       </ng-container>

@@ -43,6 +43,7 @@ export interface ProjectCommission {
   projectId: number;
   contentId: number;
   project: Project,
+  costSell: number;
 }
 
 export interface ProjectStatusChange {

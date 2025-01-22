@@ -40,13 +40,13 @@
     <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>Titolo</mat-label>
-        <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="type" formControlName="title">
+        <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="text" formControlName="title">
       </mat-form-field>
     </div>
     <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>Ancora</mat-label>
-        <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="type" formControlName="anchor">
+        <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="text" formControlName="anchor">
         <div matSuffix>
           <mat-checkbox class="d-block" *ngIf="isRoleAllowedToChangeCommonField()" formControlName="isAnchorBold">
             Grassetto
@@ -60,13 +60,13 @@
     <div class="col-4">
       <mat-form-field class="w-100">
         <mat-label>URL</mat-label>
-        <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="type" formControlName="url">
+        <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="text" formControlName="url">
       </mat-form-field>
     </div>
     <div class="col-6">
       <mat-form-field class="w-100">
         <mat-label>Url di pubblicazione</mat-label>
-        <input [readonly]="!isRoleAllowedToChangePublicationFields()" matInput type="type"
+        <input [readonly]="!isRoleAllowedToChangePublicationFields()" matInput type="text"
                formControlName="publicationUrl">
       </mat-form-field>
     </div>
@@ -85,7 +85,7 @@
         <mat-label>Note</mat-label>
         <textarea
           [readonly]="!isRoleAllowedToChangeCommonField()"
-          matInput type="type" formControlName="notes"></textarea>
+          matInput type="text" formControlName="notes"></textarea>
       </mat-form-field>
     </div>
     <div class="col-12 d-flex justify-content-between">

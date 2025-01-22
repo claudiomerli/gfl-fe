@@ -26,9 +26,6 @@ import {
 import {Select, Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {Observable, of, zip} from "rxjs";
-import {
-  CommissionHistoryDialogComponent
-} from "../../../newspaper/components/commission-history-dialog/commission-history-dialog.component";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatSelectChange} from "@angular/material/select";
 import {
@@ -44,6 +41,8 @@ import {
 } from "../../components/select-content-purchase-dialog/select-content-purchase-dialog.component";
 import {PurchaseContent} from "../../../shared/messages/purchase-content/purchase-content";
 import {NotificationService} from "../../../shared/services/notification.service";
+import {ProjectCommissionHistoryDialogComponent} from "../../components/commission-history-dialog/project-commission-history-dialog.component";
+import {ProjectCommissionSetCostSellDialogComponent} from "../../components/project-commission-set-cost-sell-dialog/project-commission-set-cost-sell-dialog.component";
 
 @Component({
   selector: 'app-project-details',
@@ -301,6 +300,9 @@ export class ProjectDetailsComponent implements OnInit {
       this.displayedColumns.push("title");
       this.displayedColumns.push("anchor");
       this.displayedColumns.push("period");
+      if (user?.role === "ADMIN") {
+        this.displayedColumns.push("costSell");
+      }
       this.displayedColumns.push("actions");
     }
   }
@@ -362,8 +364,20 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   openHistory(projectCommission: ProjectCommission) {
-    this.matDialog.open(CommissionHistoryDialogComponent, {
+    this.matDialog.open(ProjectCommissionHistoryDialogComponent, {
       data: projectCommission
+    })
+  }
+
+  openCostSellDialog(projectCommission: ProjectCommission) {
+    this.matDialog.open(ProjectCommissionSetCostSellDialogComponent, {
+      data: projectCommission
+    }).afterClosed().subscribe((costSell) => {
+      if (costSell) {
+        this.projectService.updateCommissionCostSell(this.projectToEdit.id, projectCommission.id, costSell).subscribe(() => {
+          this.update();
+        })
+      }
     })
   }
 
@@ -502,6 +516,7 @@ export class ProjectDetailsComponent implements OnInit {
 
   sendEmailForMonthClosedContent() {
     this.notificationService.sendEmailForMonthClosedContent(this.projectToEdit.id, this.periodToNotifyClose)
-      .subscribe(() =>{})
+      .subscribe(() => {
+      })
   }
 }

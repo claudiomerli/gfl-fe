@@ -37,6 +37,8 @@ import {EditorComponent} from "@tinymce/tinymce-angular";
 import {MatChipsModule} from "@angular/material/chips";
 import { SelectContentPurchaseDialogComponent } from './components/select-content-purchase-dialog/select-content-purchase-dialog.component';
 import {MatRadioModule} from "@angular/material/radio";
+import {ProjectCommissionHistoryDialogComponent} from "./components/commission-history-dialog/project-commission-history-dialog.component";
+import { ProjectCommissionSetCostSellDialogComponent } from './components/project-commission-set-cost-sell-dialog/project-commission-set-cost-sell-dialog.component';
 
 
 @NgModule({
@@ -46,9 +48,11 @@ import {MatRadioModule} from "@angular/material/radio";
     ProjectDetailsComponent,
     ProjectCommissionFormComponent,
     ProjectCommissionDialogFormComponent,
+    ProjectCommissionHistoryDialogComponent,
     ProjectStatisticsComponent,
     ProjectNewspaperToolDialogComponent,
-    SelectContentPurchaseDialogComponent
+    SelectContentPurchaseDialogComponent,
+    ProjectCommissionSetCostSellDialogComponent,
   ],
     imports: [
         CommonModule,

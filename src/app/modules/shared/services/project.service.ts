@@ -118,6 +118,12 @@ export class ProjectService {
     return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/" + idProjectCommission + "/" + status, metadata)
   }
 
+  public updateCommissionCostSell(idProject: number, idProjectCommission: number, costSell: number): Observable<Project> {
+    return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/" + idProjectCommission + "/costSell", {
+      costSell
+    })
+  }
+
   updateCommissionStatusBulk(idProject: number, ids: number[], status: any) {
     return this.httpClient.put<Project>(environment.apiBaseurl + "/project/" + idProject + "/commission/bulk/" + status, {
       ids

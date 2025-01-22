@@ -1,0 +1,12 @@
+<h3 mat-dialog-title>Applica costo della commissione</h3>
+<div mat-dialog-content>
+  <mat-form-field class="w-100">
+    <mat-label>Costo di vendita</mat-label>
+    <input matInput type="text" [formControl]="costSell">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Annulla</button>
+  <button mat-button (click)="save()" [disabled]="costSell.invalid">Salva</button>
+</div>
+

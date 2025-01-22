@@ -25,7 +25,6 @@ import {MatChipsModule} from "@angular/material/chips";
 import { ChooseOrderDialogComponent } from './components/choose-order-dialog/choose-order-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import { CommissionHistoryDialogComponent } from './components/commission-history-dialog/commission-history-dialog.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import { NewspaperTableComponent } from './components/newspaper-table/newspaper-table.component';
 
@@ -38,7 +37,6 @@ import { NewspaperTableComponent } from './components/newspaper-table/newspaper-
         NewspaperUpdateComponent,
         NewspaperSearchFilterComponent,
         ChooseOrderDialogComponent,
-        CommissionHistoryDialogComponent,
         NewspaperTableComponent
     ],
   exports: [
