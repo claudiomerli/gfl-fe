@@ -238,8 +238,8 @@
               <th mat-header-cell *matHeaderCellDef>Costo di vendita</th>
               <td mat-cell
                   *matCellDef="let element">
-                <div *ngIf="!!element.costSell">{{ element.costSell | currency: 'EUR' }}</div>
-                <div [ngClass]="{'costSellDiscount' : !!element.costSell}">{{ element.newspaper.costSell | currency:'EUR' }}</div>
+                <div *ngIf="!!element?.costSell">{{ element.costSell | currency: 'EUR' }}</div>
+                <div [ngClass]="{'costSellDiscount' : !!element?.costSell}">{{ element.newspaper?.costSell | currency:'EUR' }}</div>
               </td>
             </ng-container>
 
