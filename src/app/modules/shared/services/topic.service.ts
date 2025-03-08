@@ -4,7 +4,6 @@ import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
 import {PaginationDto} from "../messages/common/pagination.dto";
 import {PageResponseDto} from "../messages/common/page-response.dto";
-import {Newspaper} from "../messages/newspaper/newspaper";
 import {SaveTopicDto} from "../messages/topic/save-topic.dto";
 import {Topic} from "../messages/newspaper/topic";
 

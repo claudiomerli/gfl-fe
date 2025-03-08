@@ -19,6 +19,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {availableRoles: ['ADMIN']}
   },
+  {
+    path: "topic",
+    loadChildren: () => import("./modules/topic/topic.module").then(m => m.TopicModule),
+    canActivate: [AuthGuard],
+    data: {availableRoles: ['ADMIN']}
+  },
   {path: "create", component: NewspaperCreateComponent},
   {path: ":id", component: NewspaperUpdateComponent}
 ];
