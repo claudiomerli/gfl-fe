@@ -2,91 +2,113 @@
   <table mat-table [dataSource]="actualPageValue.content" class="w-100" matSort
          (matSortChange)="onSortChange($event)">
 
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                      [checked]="selection!.hasValue() && isAllSelected()"
+                      [indeterminate]="selection!.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection!.toggle(row) : null"
+                      [checked]="selection!.isSelected(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="id">
       <th mat-sort-header="id" mat-header-cell *matHeaderCellDef> Identificativo</th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      <td mat-cell *matCellDef="let element"> {{ element.id }}</td>
     </ng-container>
 
     <ng-container matColumnDef="name">
       <th mat-sort-header="name" mat-header-cell *matHeaderCellDef> Nome</th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="leftContent">
       <th mat-sort-header="leftContent" mat-header-cell *matHeaderCellDef> Redazionali Rimanenti</th>
-      <td mat-cell *matCellDef="let element"> {{element.leftContent}} </td>
+      <td mat-cell *matCellDef="let element"> {{ element.leftContent }}</td>
     </ng-container>
 
     <ng-container matColumnDef="costEach">
       <th mat-sort-header="costEach" mat-header-cell *matHeaderCellDef> Costo cadauno</th>
-      <td mat-cell *matCellDef="let element"> {{element.costEach}} </td>
+      <td mat-cell *matCellDef="let element"> {{ element.costEach }}</td>
     </ng-container>
 
     <ng-container matColumnDef="costSell">
       <th mat-sort-header="costSell" mat-header-cell *matHeaderCellDef> Costo di vendita</th>
-      <td mat-cell *matCellDef="let element"> {{element.costSell}} </td>
+      <td mat-cell *matCellDef="let element"> {{ element.costSell }}</td>
     </ng-container>
 
     <ng-container matColumnDef="za">
       <th mat-sort-header="za" mat-header-cell *matHeaderCellDef> ZA</th>
-      <td mat-cell *matCellDef="let element"> {{element.za}} </td>
+      <td mat-cell *matCellDef="let element"> {{ element.za }}</td>
     </ng-container>
 
     <ng-container matColumnDef="ip">
       <th mat-sort-header="ip" mat-header-cell *matHeaderCellDef> IP</th>
-      <td mat-cell *matCellDef="let element"> {{element.ip}} </td>
+      <td mat-cell *matCellDef="let element"> {{ element.ip }}</td>
     </ng-container>
 
     <ng-container matColumnDef="email">
       <th mat-sort-header="email" mat-header-cell *matHeaderCellDef> E-mail di contatto</th>
-      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      <td mat-cell *matCellDef="let element"> {{ element.email }}</td>
     </ng-container>
 
     <ng-container matColumnDef="regionalGeolocalization">
       <th mat-sort-header="regionalGeolocalization" mat-header-cell *matHeaderCellDef>Tipologia sito web
       </th>
       <td mat-cell
-          *matCellDef="let element"> {{regionalGeolocalization | extractLabelByCode:element.regionalGeolocalization}} </td>
+          *matCellDef="let element"> {{ regionalGeolocation | extractLabelByCode:element.regionalGeolocalization }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="hidden">
       <th mat-sort-header="hidden" mat-header-cell *matHeaderCellDef>Nascosta
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.hidden ? "Si" : "No"}} </td>
+      <td mat-cell *matCellDef="let element"> {{ element.hidden ? "Si" : "No" }}</td>
     </ng-container>
 
     <ng-container matColumnDef="topics">
       <th mat-header-cell *matHeaderCellDef>Argomento</th>
       <td mat-cell *matCellDef="let element">
         <mat-chip-listbox>
-          <mat-chip-option *ngFor="let topic of element.topics">{{topic.name}}</mat-chip-option>
+          <mat-chip-option *ngFor="let topic of element.topics">{{ topic.name }}</mat-chip-option>
         </mat-chip-listbox>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="sensitiveTopics">
       <th mat-header-cell *matHeaderCellDef>Temi sensibili</th>
-      <td mat-cell *matCellDef="let element">{{element.sensitiveTopics ? "Si" : "No"}}</td>
+      <td mat-cell *matCellDef="let element">{{ element.sensitiveTopics ? "Si" : "No" }}</td>
     </ng-container>
 
     <ng-container matColumnDef="nofollow">
       <th mat-header-cell *matHeaderCellDef>No-Follow</th>
-      <td mat-cell *matCellDef="let element">{{element.nofollow ? "Si" : "No"}}</td>
+      <td mat-cell *matCellDef="let element">{{ element.nofollow ? "Si" : "No" }}</td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Azioni</th>
       <td mat-cell *matCellDef="let element">
-        <a *isAuthenticated="['ADMIN']" mat-icon-button [routerLink]="['/newspapers',element.id]" title="Dettaglio">
-          <mat-icon>search</mat-icon>
-        </a>
-        <a *isAuthenticated="['ADMIN']" mat-icon-button (click)="onDelete(element.id)" title="Elimina">
-          <mat-icon>delete</mat-icon>
-        </a>
-        <a *isAuthenticated="['CUSTOMER']" mat-icon-button (click)="openChooseOrderDialog(element)"
-           title="Aggiungi a ordine">
-          <mat-icon>add</mat-icon>
-        </a>
+        <div class="d-flex">
+          <a *isAuthenticated="['ADMIN']" mat-icon-button [routerLink]="['/newspapers',element.id]" title="modifica">
+            <mat-icon>edit</mat-icon>
+          </a>
+          <a *isAuthenticated="['ADMIN']" mat-icon-button (click)="onDelete(element.id)" title="Elimina">
+            <mat-icon>delete</mat-icon>
+          </a>
+          <a *isAuthenticated="['CUSTOMER']" mat-icon-button (click)="openChooseOrderDialog(element)"
+             title="Aggiungi a ordine">
+            <mat-icon>add</mat-icon>
+          </a>
+          <a  mat-icon-button (click)="openDescriptionDialog(element)"
+             title="Vedi descrizione">
+            <mat-icon>search</mat-icon>
+          </a>
+        </div>
       </td>
     </ng-container>
     <ng-container matColumnDef="project_actions">
@@ -103,25 +125,31 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr [ngClass]="{'bg-warning' : row.warning,'bg-info' : row.nofollow}" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <div class="row">
-    <div class="col d-flex align-items-center">
-      <button *ngIf="showExport && actualPageValue.content.length>0" mat-button [matMenuTriggerFor]="exportMenu"
-              class="ms-3">
-        Export
-        <mat-icon>file_download</mat-icon>
-      </button>
-      <mat-menu #exportMenu="matMenu">
-        <button mat-menu-item (click)="onExportExcel()">.excel</button>
-        <button mat-menu-item (click)="onExportPDF()">.pdf</button>
-      </mat-menu>
+  <div class="d-flex justify-content-between">
+    <div class="d-flex">
+      <div class="d-flex align-items-center">
+        <button *ngIf="showExport && actualPageValue.content.length>0" mat-button [matMenuTriggerFor]="exportMenu"
+                class="ms-3">
+          Export ricerca
+          <mat-icon>file_download</mat-icon>
+        </button>
+        <mat-menu #exportMenu="matMenu">
+          <button mat-menu-item (click)="onExportExcel()">.excel</button>
+          <button mat-menu-item (click)="onExportPDF()">.pdf</button>
+        </mat-menu>
+      </div>
+      <div class="d-flex align-items-center" *ngIf="showReport">
+        <button mat-button class="ms-3" *isAuthenticated="['ADMIN']" [disabled]="selection!.isEmpty()" (click)="showReportDialog()">
+          Vedi resoconto
+          <mat-icon>density_medium</mat-icon>
+        </button>
+      </div>
     </div>
-    <div class="col">
-      <mat-paginator [pageSizeOptions]="[10, 20, 50]"
-                     showFirstLastButtons
-                     [length]="actualPageValue.totalElements"
-                     [pageSize]="actualPagination.pageSize"
-                     (page)="onPageChange($event)">
-      </mat-paginator>
-    </div>
+    <mat-paginator [pageSizeOptions]="[10, 20, 50]"
+                   showFirstLastButtons
+                   [length]="actualPageValue.totalElements"
+                   [pageSize]="actualPagination.pageSize"
+                   (page)="onPageChange($event)">
+    </mat-paginator>
   </div>
 </div>

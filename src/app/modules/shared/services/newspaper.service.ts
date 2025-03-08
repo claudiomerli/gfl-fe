@@ -10,6 +10,7 @@ import {PaginationDto} from "../messages/common/pagination.dto";
 import {Finance} from "../messages/newspaper/finance";
 import {SearchNewspaperDto} from "../messages/newspaper/search-newspaper.dto";
 import {MaxMinRangeNewspaperAttributes} from "../messages/newspaper/max-min-range-newspaper-attributes";
+import {ExportReport} from "../messages/newspaper/export-report";
 
 @Injectable({
   providedIn: 'root'
@@ -68,5 +69,19 @@ export class NewspaperService {
 
   public finance(): Observable<Finance> {
     return this.httpClient.get<Finance>(environment.apiBaseurl + "/newspaper/finance");
+  }
+
+  public exportReport(exportReport: ExportReport[]) {
+    return this.httpClient.post(environment.apiBaseurl + "/newspaper/report", exportReport, {
+      responseType: "blob"
+    })
+  }
+
+  public saveDescription(id: number, body: { description: string | null }) {
+    return this.httpClient.put(environment.apiBaseurl + "/newspaper/" + id + "/description", body)
+  }
+
+  public getDescription(id: number) {
+    return this.httpClient.get<{ description: string | null }>(environment.apiBaseurl + "/newspaper/" + id + "/description")
   }
 }

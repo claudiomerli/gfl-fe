@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // apiBaseurl : "http://localhost:8080/api",
-  apiBaseurl : "https://tilinkotool.it/api",
+  apiBaseurl : "http://localhost:8080/api",
+  // apiBaseurl : "https://tilinkotool.it/api",
   version: "2.0.0"
 };
 

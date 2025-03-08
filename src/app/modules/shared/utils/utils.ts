@@ -43,7 +43,7 @@ export const userRoles = [
   {code: 'INTERNAL_NETWORK', label: 'Network interno'},
 ]
 
-export const regionalGeolocalizzation = [
+export const regionalGeolocation = [
   {label: "Generalista", code: "Generalista"},
   {label: "Abruzzo", code: "Abruzzo"},
   {label: "Basilicata", code: "Basilicata"},

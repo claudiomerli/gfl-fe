@@ -7,7 +7,7 @@ import {TopicService} from "../../../shared/services/topic.service";
 import {Options} from "@angular-slider/ngx-slider";
 import {
   getPointerColor,
-  getSelectionBarColor, regionalGeolocalizzation,
+  getSelectionBarColor, regionalGeolocation,
   translatePercentage
 } from "../../../shared/utils/utils";
 
@@ -47,7 +47,7 @@ export class NewspaperSaveFormComponent implements OnInit {
     translate: translatePercentage
   };
 
-  regionalGeolocalizzation = regionalGeolocalizzation;
+  regionalGeolocalizzation = regionalGeolocation;
 
   constructor(private topicService: TopicService) {
   }

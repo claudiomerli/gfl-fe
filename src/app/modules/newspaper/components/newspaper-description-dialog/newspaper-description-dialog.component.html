@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Descrizione della testata: {{ data.name }}</h1>
+<div mat-dialog-content>
+  <editor [init]="{ plugins: 'image', height:'70vh'}" [formControl]="description"></editor>
+</div>
+<div mat-dialog-actions class="justify-content-between">
+  <button mat-button (click)="onNoClick()">Chiudi</button>
+  <button mat-button (click)="save()">
+    <mat-icon>save</mat-icon>
+    Salva
+  </button>
+</div>

@@ -27,6 +27,9 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatStepperModule} from "@angular/material/stepper";
 import { NewspaperTableComponent } from './components/newspaper-table/newspaper-table.component';
+import {ReportDialogComponent} from "./components/report-dialog/report-dialog.component";
+import { NewspaperDescriptionDialogComponent } from './components/newspaper-description-dialog/newspaper-description-dialog.component';
+import {EditorComponent} from "@tinymce/tinymce-angular";
 
 
 @NgModule({
@@ -37,34 +40,37 @@ import { NewspaperTableComponent } from './components/newspaper-table/newspaper-
         NewspaperUpdateComponent,
         NewspaperSearchFilterComponent,
         ChooseOrderDialogComponent,
-        NewspaperTableComponent
+        NewspaperTableComponent,
+        ReportDialogComponent,
+        NewspaperDescriptionDialogComponent
     ],
   exports: [
     NewspaperSearchFilterComponent,
     NewspaperListComponent,
     NewspaperTableComponent
   ],
-    imports: [
-        CommonModule,
-        NewspaperRoutingModule,
-        ReactiveFormsModule,
-        SharedModule,
-        MatToolbarModule,
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NgxSliderModule,
-        MatSelectModule,
-        MatTableModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatMenuModule,
-        MatChipsModule,
-        MatDialogModule,
-        MatCheckboxModule,
-        MatStepperModule
-    ]
+  imports: [
+    CommonModule,
+    NewspaperRoutingModule,
+    ReactiveFormsModule,
+    SharedModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxSliderModule,
+    MatSelectModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatMenuModule,
+    MatChipsModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatStepperModule,
+    EditorComponent
+  ]
 })
 export class NewspaperModule { }

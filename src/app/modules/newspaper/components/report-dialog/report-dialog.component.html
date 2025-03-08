@@ -1,0 +1,39 @@
+<h1 mat-dialog-title>Anteprima selezione testate</h1>
+<div mat-dialog-content>
+  <table mat-table [dataSource]="data">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nome</th>
+      <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="costEach">
+      <th mat-header-cell *matHeaderCellDef>Costo di acquisto</th>
+      <td mat-cell *matCellDef="let element"> {{ element.costEach | currency:"EUR" }}</td>
+    </ng-container>
+    <ng-container matColumnDef="costSell">
+      <th mat-header-cell *matHeaderCellDef>Costo di vendita</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <mat-form-field class="w-100">
+          <mat-label>Costo di vendita</mat-label>
+          <input type="number" matInput [formControl]="costSellFormControls[i]">
+          <span matTextSuffix>€</span>
+        </mat-form-field>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="['name','costEach','costSell']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name','costEach','costSell'];"></tr>
+  </table>
+  <div class="d-flex justify-content-between  text-dark">
+    <div class="d-flex gap-3">
+      <div>Totale costo di acquisto: <span class="text-danger">{{ totalCostEach | currency:"EUR" }}</span></div>
+      <div>Totale costo di vendita: <span class="text-success">{{ totalCostSell | currency:"EUR" }}</span></div>
+    </div>
+    <div>Differenza: <span [ngClass]="{'text-success': difference > 0, 'text-danger': difference < 0}">{{ difference | currency:"EUR" }}</span></div>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-between">
+  <button mat-button (click)="onNoClick()">Annulla</button>
+  <button mat-button (click)="export()">
+    <mat-icon>download</mat-icon>
+    Esporta
+  </button>
+</div>

@@ -7,7 +7,7 @@ import {ChangeContext, Options} from "@angular-slider/ngx-slider";
 import {
   getPointerColor,
   getSelectionBarColor,
-  regionalGeolocalizzation,
+  regionalGeolocation,
   translateCurrency
 } from "../../../shared/utils/utils";
 import {debounceTime} from "rxjs/operators";
@@ -31,7 +31,7 @@ export class NewspaperSearchFilterComponent implements OnInit {
   maxMinRangeNewspaperAttributes: MaxMinRangeNewspaperAttributes | undefined;
 
   topicList: Topic[] = [];
-  regionalGeolocalizzation = regionalGeolocalizzation
+  regionalGeolocalizzation = regionalGeolocation
   searchForm = new FormGroup({
     id: new FormControl(''),
     name: new FormControl(''),
