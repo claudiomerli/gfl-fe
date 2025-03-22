@@ -61,12 +61,14 @@
     <app-newspaper-table
     [actualPageValue]="actualPageValue"
     [actualPagination]="actualPagination"
+    [showImport]="true"
     (chooseOrderDialog)="openChooseOrderDialog($event)"
     (delete)="onDelete($event)"
     (exportExcel)="exportExcel()"
     (exportPDF)="exportPDF()"
     (pageChange)="onPageChange($event)"
     (sortChange)="onSortChange($event)"
+    (importFile)="onImportFile($event)"
     ></app-newspaper-table>
   </ng-container>
 </div>

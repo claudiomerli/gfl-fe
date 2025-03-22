@@ -26,6 +26,7 @@ import {MatInputModule} from "@angular/material/input";
 import { AutoSpinnerComponent } from './components/auto-spinner/auto-spinner.component';
 import {NgxSpinnerModule} from "ngx-spinner";
 import { SanitizeUrlPipe } from './pipes/sanitize-url.pipe';
+import { CompactNumberPipe } from './pipes/compact-number.pipe';
 
 @NgModule({
   declarations: [
@@ -41,21 +42,23 @@ import { SanitizeUrlPipe } from './pipes/sanitize-url.pipe';
     ContentHintFormComponent,
     PasswordShowletComponent,
     AutoSpinnerComponent,
-    SanitizeUrlPipe
+    SanitizeUrlPipe,
+    CompactNumberPipe
   ],
-    exports: [
-        IsAuthenticatedDirective,
-        IsNotInRoleDirective,
-        SpinnerComponent,
-        ErrorsComponent,
-        SidemenuComponent,
-        ExtractLabelByCodePipe,
-        ImageUploaderComponent,
-        ContentHintFormComponent,
-        PasswordShowletComponent,
-        AutoSpinnerComponent,
-        SanitizeUrlPipe
-    ],
+  exports: [
+    IsAuthenticatedDirective,
+    IsNotInRoleDirective,
+    SpinnerComponent,
+    ErrorsComponent,
+    SidemenuComponent,
+    ExtractLabelByCodePipe,
+    ImageUploaderComponent,
+    ContentHintFormComponent,
+    PasswordShowletComponent,
+    AutoSpinnerComponent,
+    SanitizeUrlPipe,
+    CompactNumberPipe
+  ],
     imports: [
         CommonModule,
         RouterModule,

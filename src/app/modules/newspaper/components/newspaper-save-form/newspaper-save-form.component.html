@@ -58,8 +58,24 @@
         <mat-card-content>
           <div class="mat-typography">
             <label>(ZA) Zoom Authority</label>
-            <ngx-slider formControlName="za" [options]="zaSliderOptions"></ngx-slider>
+            <ngx-slider formControlName="za" [options]="sliderOptions"></ngx-slider>
           </div>
+          <div class="mat-typography">
+            <label>Trust flow</label>
+            <ngx-slider formControlName="tf" [options]="sliderOptions"></ngx-slider>
+          </div>
+          <div class="mat-typography">
+            <label>Citation Flow</label>
+            <ngx-slider formControlName="cf" [options]="sliderOptions"></ngx-slider>
+          </div>
+          <div class="mat-typography">
+            <label>Direction Flow</label>
+            <ngx-slider formControlName="dr" [options]="sliderOptions"></ngx-slider>
+          </div>
+          <mat-form-field class="w-100">
+            <mat-label>Traffico</mat-label>
+            <input matInput formControlName="traffic" type="number" step="1000">
+          </mat-form-field>
           <mat-form-field class="w-100">
             <mat-label>Costo cadauno</mat-label>
             <input matInput formControlName="costEach" type="number" step="0.01">

@@ -45,16 +45,16 @@ export class NewspaperService {
     return this.httpClient.get<MaxMinRangeNewspaperAttributes>(environment.apiBaseurl + "/newspaper/maxMinRangeAttributes")
   }
 
-  public exportExcel(searchNewspaperDto: SearchNewspaperDto): Observable<any> {
+  public exportExcel(searchNewspaperDto: SearchNewspaperDto, pagination: PaginationDto): Observable<any> {
     return this.httpClient.get(environment.apiBaseurl + "/newspaper/export/excel", {
-      params: {...searchNewspaperDto},
+      params: {...searchNewspaperDto, sortDirection: pagination.sortDirection, sortBy: pagination.sortBy},
       responseType: "blob"
     })
   }
 
-  public exportPDF(searchNewspaperDto: SearchNewspaperDto): Observable<any> {
+  public exportPDF(searchNewspaperDto: SearchNewspaperDto, pagination: PaginationDto): Observable<any> {
     return this.httpClient.get(environment.apiBaseurl + "/newspaper/export/pdf", {
-      params: {...searchNewspaperDto},
+      params: {...searchNewspaperDto, sortDirection: pagination.sortDirection, sortBy: pagination.sortBy},
       responseType: "blob"
     })
   }
@@ -83,5 +83,12 @@ export class NewspaperService {
 
   public getDescription(id: number) {
     return this.httpClient.get<{ description: string | null }>(environment.apiBaseurl + "/newspaper/" + id + "/description")
+  }
+
+  public import($event: File) {
+    const formData = new FormData();
+    formData.append('file', $event);
+
+    return this.httpClient.post(environment.apiBaseurl + "/newspaper/import", formData);
   }
 }

@@ -73,7 +73,7 @@ export class ProjectNewspaperToolDialogComponent implements OnInit {
   }
 
   onExportExcel() {
-    this.newspaperService.exportExcel(this.searchNewspaperDto).subscribe(data => {
+    this.newspaperService.exportExcel(this.searchNewspaperDto, this.actualPagination).subscribe(data => {
       const contentType = 'application/vnd.ms.excel';
       const blob = new Blob([data], {type: contentType});
       const file = new File([blob], `testate non presenti in progetto ${this.projectId}.xlsx`, {type: contentType});
@@ -82,7 +82,7 @@ export class ProjectNewspaperToolDialogComponent implements OnInit {
   }
 
   onExportPdf() {
-    this.newspaperService.exportPDF(this.searchNewspaperDto).subscribe(data => {
+    this.newspaperService.exportPDF(this.searchNewspaperDto, this.actualPagination).subscribe(data => {
       const contentType = 'application/pdf';
       const blob = new Blob([data], {type: contentType});
       const file = new File([blob], `testate non presenti in progetto ${this.projectId}.pdf`, {type: contentType});

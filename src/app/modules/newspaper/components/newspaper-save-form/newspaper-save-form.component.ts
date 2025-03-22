@@ -27,6 +27,10 @@ export class NewspaperSaveFormComponent implements OnInit {
     name: new FormControl<string | null>(null, [Validators.required]),
     ip: new FormControl<string | null>(null, [Validators.pattern(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/)]),
     za: new FormControl(50, [Validators.max(100), Validators.min(0)]),
+    tf: new FormControl(50, [Validators.max(100), Validators.min(0)]),
+    cf: new FormControl(50, [Validators.max(100), Validators.min(0)]),
+    dr: new FormControl(50, [Validators.max(100), Validators.min(0)]),
+    traffic: new FormControl(0, [Validators.max(50000000), Validators.min(0)]),
     costEach: new FormControl(0, [Validators.required]),
     costSell: new FormControl(0, [Validators.required]),
     email: new FormControl('', [Validators.email]),
@@ -39,7 +43,7 @@ export class NewspaperSaveFormComponent implements OnInit {
     nofollow: new FormControl<boolean |null>(null)
   })
 
-  zaSliderOptions: Options = {
+  sliderOptions: Options = {
     floor: 0,
     ceil: 100,
     getPointerColor: getPointerColor,
@@ -66,6 +70,10 @@ export class NewspaperSaveFormComponent implements OnInit {
         name: this.newspaperToEdit.name,
         note: this.newspaperToEdit.note,
         za: this.newspaperToEdit.za,
+        tf: this.newspaperToEdit.tf,
+        cf: this.newspaperToEdit.cf,
+        dr: this.newspaperToEdit.dr,
+        traffic: this.newspaperToEdit.traffic,
         regionalGeolocalization: this.newspaperToEdit.regionalGeolocalization,
         topics: this.newspaperToEdit.topics.map(value => value.id),
         hidden: this.newspaperToEdit.hidden,

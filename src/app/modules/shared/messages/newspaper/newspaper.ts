@@ -10,6 +10,10 @@ export interface Newspaper {
   email: string
   ip: string
   za: number
+  tf: number
+  cf: number
+  dr: number
+  traffic: number
   regionalGeolocalization: string
   note: string
   topics: Array<Topic>

@@ -79,7 +79,7 @@ export class NewspaperListComponent implements OnInit {
   }
 
   exportExcel() {
-    this.newspaperService.exportExcel(this.searchNewspaperDto).subscribe(data => {
+    this.newspaperService.exportExcel(this.searchNewspaperDto, this.actualPagination).subscribe(data => {
       const contentType = 'application/vnd.ms.excel';
       const blob = new Blob([data], {type: contentType});
       const file = new File([blob], 'testate.xlsx', {type: contentType});
@@ -88,7 +88,7 @@ export class NewspaperListComponent implements OnInit {
   }
 
   exportPDF() {
-    this.newspaperService.exportPDF(this.searchNewspaperDto).subscribe(data => {
+    this.newspaperService.exportPDF(this.searchNewspaperDto, this.actualPagination).subscribe(data => {
       const contentType = 'application/pdf';
       const blob = new Blob([data], {type: contentType});
       const file = new File([blob], 'testate.pdf', {type: contentType});
@@ -108,7 +108,7 @@ export class NewspaperListComponent implements OnInit {
     this.search()
   }
 
-  onPageChange($event:PageEvent) {
+  onPageChange($event: PageEvent) {
     this.actualPagination.page = $event.pageIndex
     this.actualPagination.pageSize = $event.pageSize
     this.search()
@@ -127,5 +127,19 @@ export class NewspaperListComponent implements OnInit {
             })
         }
       })
+  }
+
+  onImportFile($event: File) {
+    this.matDialog
+      .open(ConfirmDialogComponent, {
+        data: `Vuoi importare gli indici delle testate presenti nel file \n ${$event.name}?`
+      }).afterClosed().subscribe(value => {
+      if (value) {
+        this.newspaperService.import($event)
+          .subscribe(() => {
+            this.search()
+          })
+      }
+    })
   }
 }

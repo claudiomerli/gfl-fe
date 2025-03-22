@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {PageResponseDto} from "../../../shared/messages/common/page-response.dto";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
 import {Sort} from "@angular/material/sort";
@@ -26,6 +26,7 @@ export class NewspaperTableComponent implements OnInit {
   @Input() showProjectActionColumn: boolean = false;
   @Input() showExport: boolean = true;
   @Input() showReport: boolean = true;
+  @Input() showImport: boolean = false;
 
   @Output() sortChange = new EventEmitter<Sort>();
   @Output() delete = new EventEmitter<number>();
@@ -34,11 +35,14 @@ export class NewspaperTableComponent implements OnInit {
   @Output() exportExcel = new EventEmitter<void>();
   @Output() exportPDF = new EventEmitter<void>();
   @Output() createProjectCommission = new EventEmitter<number>();
+  @Output() importFile = new EventEmitter<File>
+
   regionalGeolocation = regionalGeolocation;
   displayedColumns: string[] = [];
 
   selection?: SelectionModel<Newspaper>
 
+  @ViewChild("importNewspaper") importFileInputRef?: ElementRef
 
   constructor(
     private store: Store,
@@ -73,6 +77,10 @@ export class NewspaperTableComponent implements OnInit {
 
     this.displayedColumns.push("costSell");
     this.displayedColumns.push("za");
+    this.displayedColumns.push("tf");
+    this.displayedColumns.push("cf");
+    this.displayedColumns.push("dr");
+    this.displayedColumns.push("traffic");
     this.displayedColumns.push("ip")
 
     if (user?.role === "ADMIN")
@@ -149,5 +157,11 @@ export class NewspaperTableComponent implements OnInit {
       minWidth: 1000,
       disableClose: true
     })
+  }
+
+  onImportNewspaperUpload($event: any) {
+    let file = $event.target.files[0];
+    this.importFile.emit(file)
+    this.importFileInputRef!.nativeElement.value = ""
   }
 }
