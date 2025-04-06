@@ -60,17 +60,19 @@ export class ChatDialogComponent implements OnInit {
 
 
   sendMessage() {
-    const value = this.sendMessageControl.value;
-    this.sendMessageControl.setValue("")
-    const message = {
-      message: value!,
-      topicId: this.data.topicId,
-      topicType: this.data.topicType,
-      targetRole: this.data.participant2Role,
-      targetUserId: this.data.participant2UserId,
-    };
-    this.messageService.saveMessage(message).subscribe(() => {
-      this.fetchMessage()
-    })
+    if (this.sendMessageControl.valid) {
+      const value = this.sendMessageControl.value;
+      this.sendMessageControl.setValue("")
+      const message = {
+        message: value!,
+        topicId: this.data.topicId,
+        topicType: this.data.topicType,
+        targetRole: this.data.participant2Role,
+        targetUserId: this.data.participant2UserId,
+      };
+      this.messageService.saveMessage(message).subscribe(() => {
+        this.fetchMessage()
+      })
+    }
   }
 }
