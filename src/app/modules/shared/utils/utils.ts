@@ -1,5 +1,7 @@
-import {ValidatorFn} from "@angular/forms";
+import {AbstractControl, ValidatorFn} from "@angular/forms";
 import * as moment from "moment";
+import {User} from "../messages/auth/user";
+import {Project} from "../messages/project/project";
 
 
 export function clean(obj: any) {
@@ -19,7 +21,7 @@ export const validateObjectNullable: ValidatorFn = control => {
 }
 
 export const validateObject: ValidatorFn = control => {
-  if (!(typeof control.value === "object")) {
+  if (!control.value || !(typeof control.value === "object")) {
     return {wrongType: "Option not selected"}
   }
   return null
@@ -117,10 +119,40 @@ export const contentStatus = [
 ]
 
 export const videoTemplateType = [
-  {"code":"TOURISM", "label" : "Turismo"},
-  {"code":"BRAND_AWARENESS", "label" : "Brand Awareness"},
-  {"code":"EVENTS", "label" : "Eventi/corsi di formazione e fiere"},
-  {"code":"ECOMMERCE", "label" : "E-Commerce"},
+  {"code": "TOURISM", "label": "Turismo"},
+  {"code": "BRAND_AWARENESS", "label": "Brand Awareness"},
+  {"code": "EVENTS", "label": "Eventi/corsi di formazione e fiere"},
+  {"code": "ECOMMERCE", "label": "E-Commerce"},
+]
+
+export const customerMonitorStatus = [
+  {"code": "ONGOING", "label": "In corso"},
+  {"code": "CLOSED", "label": "Chiuso"},
+  {"code": "WAITING", "label": "In attesa"},
+  {"code": "SUSPENDED", "label": "Sospeso"},
+]
+
+export const lastWorkOptions = () => {
+  const months = [];
+  let current = moment();
+  let start = moment("2024-01", "YYYY-MM");
+
+  while (current.isSameOrAfter(start, 'month')) {
+    months.push({
+      code: current.format("MM-YYYY").toLowerCase(),
+      label: current.format("MMMM YYYY")
+    });
+    current.subtract(1, 'month');
+  }
+
+  return months;
+}
+
+export const currentlyMonthCustomerMonitorStatus = [
+  {"code": "WAITING_FOR_INFO", "label": "In attesa di info"},
+  {"code": "PUBLISHING", "label": "In pubblicazione"},
+  {"code": "WRITING", "label": "In Scrittura"},
+  {"code": "APPROVING", "label": "Contenuti in approvazione"},
 ]
 
 export type ProjectCommissionStatus = {
@@ -223,11 +255,11 @@ export const projectCommissionStatus: ProjectCommissionStatus[] = [
 ]
 
 export const COMPANY_DIMENSIONS = [
-  {key : "LESS_100", value : "Fino a 100k"},
-  {key : "100_500", value : "100K - 500k"},
-  {key : "500_1", value : "500k - 1M"},
-  {key : "1_5", value : "1M - 5M"},
-  {key : "GREATER_5", value : "Più di 5M"},
+  {key: "LESS_100", value: "Fino a 100k"},
+  {key: "100_500", value: "100K - 500k"},
+  {key: "500_1", value: "500k - 1M"},
+  {key: "1_5", value: "1M - 5M"},
+  {key: "GREATER_5", value: "Più di 5M"},
 ]
 
 export const COMPANY_CATEGORY = [
@@ -302,5 +334,22 @@ export const momentDatePatternIso = "YYYY-MM-DD"
 export function removeNullKeys(obj: any): any {
   return Object.entries(obj)
     .filter(([_, value]) => value !== null && value !== undefined)
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+}
+
+export const displayFullnameCustomer = (editor: User) => editor?.fullname || ""
+export const displayFullnameProject = (project: Project) => project?.name || ""
+
+export const compareWithProject = (p1: Project, p2: Project) => p1.id === p2.id
+
+export const addErrorToFormControl = (formControl: AbstractControl, name: string, value: any) => {
+  formControl.setErrors({
+    ...(formControl.errors || {}),
+    [name]: value
+  })
+}
+
+export const removeErrorFromFormControl = (formControl: AbstractControl, name: string) => {
+  delete (formControl.errors || {})[name]
+  formControl.setErrors(Object.keys(formControl.errors || {}).length > 0 ? formControl.errors : null)
 }

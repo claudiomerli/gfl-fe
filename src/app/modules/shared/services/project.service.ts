@@ -46,6 +46,7 @@ export class ProjectService {
         commissionYear: searchProjectDTO.commissionYear || "",
         commissionPeriod: searchProjectDTO.commissionPeriod || "",
         newspapers: searchProjectDTO.newspapers || [],
+        customerId: searchProjectDTO.customerId || "",
         ...pagination
       }
     }).pipe(

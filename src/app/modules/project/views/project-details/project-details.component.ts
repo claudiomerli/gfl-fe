@@ -515,8 +515,14 @@ export class ProjectDetailsComponent implements OnInit {
   periodToNotifyClose = moment().format('MMMM').toUpperCase();
 
   sendEmailForMonthClosedContent() {
-    this.notificationService.sendEmailForMonthClosedContent(this.projectToEdit.id, this.periodToNotifyClose)
-      .subscribe(() => {
-      })
+    this.matDialog.open(ConfirmDialogComponent, {
+      data: "Confermi l'operazione?"
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.notificationService.sendEmailForMonthClosedContent(this.projectToEdit.id, this.periodToNotifyClose)
+          .subscribe(() => {
+          })
+      }
+    })
   }
 }

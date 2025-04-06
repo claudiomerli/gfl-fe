@@ -27,6 +27,9 @@ import { AutoSpinnerComponent } from './components/auto-spinner/auto-spinner.com
 import {NgxSpinnerModule} from "ngx-spinner";
 import { SanitizeUrlPipe } from './pipes/sanitize-url.pipe';
 import { CompactNumberPipe } from './pipes/compact-number.pipe';
+import { NoDataComponent } from './components/no-data/no-data.component';
+import {MatCardModule} from "@angular/material/card";
+import { ChatDialogComponent } from './components/chat-dialog/chat-dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,9 @@ import { CompactNumberPipe } from './pipes/compact-number.pipe';
     PasswordShowletComponent,
     AutoSpinnerComponent,
     SanitizeUrlPipe,
-    CompactNumberPipe
+    CompactNumberPipe,
+    NoDataComponent,
+    ChatDialogComponent
   ],
   exports: [
     IsAuthenticatedDirective,
@@ -57,7 +62,8 @@ import { CompactNumberPipe } from './pipes/compact-number.pipe';
     PasswordShowletComponent,
     AutoSpinnerComponent,
     SanitizeUrlPipe,
-    CompactNumberPipe
+    CompactNumberPipe,
+    NoDataComponent
   ],
     imports: [
         CommonModule,
@@ -72,7 +78,8 @@ import { CompactNumberPipe } from './pipes/compact-number.pipe';
         NgxDropzoneModule,
         ReactiveFormsModule,
         MatInputModule,
-        NgxSpinnerModule
+        NgxSpinnerModule,
+        MatCardModule
     ]
 })
 export class SharedModule {

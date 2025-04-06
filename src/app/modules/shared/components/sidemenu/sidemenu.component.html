@@ -34,6 +34,9 @@
                      routerLinkActive="active" routerLink="/contents/editors" [indent]="true">  </app-sidemenu-item>
   <app-sidemenu-item [icon]="'text_fields'" [title]="'Titoli'" *isAuthenticated="['ADMIN','CHIEF_EDITOR']"
                      routerLinkActive="active" routerLink="/titles"></app-sidemenu-item>
+  <app-sidemenu-item [icon]="'analytics'" [title]="'Cruscotto cliente'" *isAuthenticated="['ADMIN']"
+                     routerLinkActive="active" routerLink="/customer-monitor"></app-sidemenu-item>
+
   <app-sidemenu-item [icon]="'dns'" [title]="'Hosting'"
                      routerLinkActive="active" routerLink="/hosting" *isAuthenticated="['ADMIN','INTERNAL_NETWORK']"></app-sidemenu-item>
   <app-sidemenu-item [icon]="'ads_click'" [title]="'Domini'"
