@@ -111,10 +111,10 @@
       <th mat-header-cell *matHeaderCellDef>Azioni</th>
       <td mat-cell *matCellDef="let element">
         <div class="d-flex">
-          <a *isAuthenticated="['ADMIN']" mat-icon-button [routerLink]="['/newspapers',element.id]" title="modifica">
+          <a *isAuthenticated="['ADMIN','PUBLISHER']" mat-icon-button [routerLink]="['/newspapers',element.id]" title="modifica">
             <mat-icon>edit</mat-icon>
           </a>
-          <a *isAuthenticated="['ADMIN']" mat-icon-button (click)="onDelete(element.id)" title="Elimina">
+          <a *isAuthenticated="['ADMIN','PUBLISHER']" mat-icon-button (click)="onDelete(element.id)" title="Elimina">
             <mat-icon>delete</mat-icon>
           </a>
           <a *isAuthenticated="['CUSTOMER']" mat-icon-button (click)="openChooseOrderDialog(element)"
@@ -131,7 +131,7 @@
     <ng-container matColumnDef="project_actions">
       <th mat-header-cell *matHeaderCellDef>Azioni</th>
       <td mat-cell *matCellDef="let element">
-        <a *isAuthenticated="['ADMIN','CHIEF_EDITOR']" mat-raised-button (click)="onCreateProjectCommissionCommission(element)"
+        <a *isAuthenticated="['ADMIN','CHIEF_EDITOR','PUBLISHER']" mat-raised-button (click)="onCreateProjectCommissionCommission(element)"
            title="Crea commissione">
           <mat-icon>add</mat-icon>
           Crea commissione
@@ -155,7 +155,7 @@
         </mat-menu>
       </div>
       <ng-container *ngIf="showImport">
-      <div *isAuthenticated="['ADMIN']">
+      <div *isAuthenticated="['ADMIN','PUBLISHER']">
         <input type="file" [hidden]="true" #importNewspaper (change)="onImportNewspaperUpload($event)" accept=".application/vnd.sealed.xls" >
         <button mat-button (click)="importNewspaper.click()">
           Aggiorna indici testate
@@ -164,7 +164,7 @@
       </div>
       </ng-container>
       <div class="" *ngIf="showReport">
-        <button mat-button *isAuthenticated="['ADMIN']" [disabled]="selection!.isEmpty()" (click)="showReportDialog()">
+        <button mat-button *isAuthenticated="['ADMIN','PUBLISHER']" [disabled]="selection!.isEmpty()" (click)="showReportDialog()">
           Vedi resoconto
           <mat-icon>density_medium</mat-icon>
         </button>

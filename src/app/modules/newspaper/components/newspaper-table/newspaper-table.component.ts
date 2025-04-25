@@ -64,15 +64,15 @@ export class NewspaperTableComponent implements OnInit {
   defineColumns() {
     const user = this.store.selectSnapshot(AuthenticationState.user);
 
-    if (user?.role === "ADMIN")
+    if (user?.role === "ADMIN" || user?.role === "PUBLISHER")
       this.displayedColumns.push("select")
 
     this.displayedColumns.push("id");
     this.displayedColumns.push("name")
 
-    if (user?.role === "ADMIN")
+    if (user?.role === "ADMIN" || user?.role === "PUBLISHER")
       this.displayedColumns.push("leftContent");
-    if (user?.role === "ADMIN")
+    if (user?.role === "ADMIN" || user?.role === "PUBLISHER")
       this.displayedColumns.push("costEach");
 
     this.displayedColumns.push("costSell");
@@ -83,14 +83,14 @@ export class NewspaperTableComponent implements OnInit {
     this.displayedColumns.push("traffic");
     this.displayedColumns.push("ip")
 
-    if (user?.role === "ADMIN")
+    if (user?.role === "ADMIN" || user?.role === "PUBLISHER")
       this.displayedColumns.push("email");
 
     this.displayedColumns.push("regionalGeolocalization")
     this.displayedColumns.push("sensitiveTopics")
     this.displayedColumns.push("nofollow")
 
-    if (user?.role === "ADMIN")
+    if (user?.role === "ADMIN" || user?.role === "PUBLISHER")
       this.displayedColumns.push("hidden")
 
     if (this.showActionColumn)

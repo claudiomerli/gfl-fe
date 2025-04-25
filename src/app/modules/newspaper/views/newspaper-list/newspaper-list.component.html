@@ -5,7 +5,7 @@
   <div class="col p-3">
     <app-newspaper-search-filter (submitSearchForm)="onSubmitSearchForm($event)"></app-newspaper-search-filter>
   </div>
-  <div *isAuthenticated="['ADMIN']" class="col-4 d-flex flex-column">
+  <div *isAuthenticated="['ADMIN','PUBLISHER']" class="col-4 d-flex flex-column">
     <div class="row" *ngIf="(finance$ | async) as financeValue">
       <div class="col-6">
         <mat-card appearance="outlined">
@@ -49,7 +49,7 @@
         </mat-card>
       </div>
     </div>
-    <a *isAuthenticated="['ADMIN']" mat-raised-button type="button" color="primary" class="w-100 mt-3"
+    <a *isAuthenticated="['ADMIN','PUBLISHER']" mat-raised-button type="button" color="primary" class="w-100 mt-3"
        routerLink="/newspapers/create">
       <mat-icon>add</mat-icon>
       Nuova testata

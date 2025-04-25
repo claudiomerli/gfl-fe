@@ -1,7 +1,7 @@
 <form [formGroup]="searchForm">
   <div class="row">
     <div class="col-6">
-      <mat-form-field class="w-100" *isAuthenticated="['ADMIN']">
+      <mat-form-field class="w-100" *isAuthenticated="['ADMIN','PUBLISHER']">
         <mat-label>Identificativo</mat-label>
         <input matInput formControlName="id" type="number">
       </mat-form-field>
@@ -38,7 +38,7 @@
           <mat-option [value]="false">No</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field *isAuthenticated="['ADMIN']" class="w-100">
+      <mat-form-field *isAuthenticated="['ADMIN','PUBLISHER']" class="w-100">
         <mat-label>Nascosta</mat-label>
         <mat-select formControlName="hidden">
           <mat-option [value]="''">Selezione</mat-option>
@@ -48,21 +48,21 @@
       </mat-form-field>
     </div>
     <div class="col-6" *ngIf="maxMinRangeNewspaperAttributes">
-      <div class="mat-typography" *isAuthenticated="['ADMIN']">
+      <div class="mat-typography" *isAuthenticated="['ADMIN','PUBLISHER']">
         <label>ZA (Zoom authority)</label>
         <ngx-slider (userChangeEnd)="onZaChange($event)"
                     [value]="maxMinRangeNewspaperAttributes.minZA"
                     [highValue]="maxMinRangeNewspaperAttributes.maxZA"
                     [options]="zaSliderOptions"></ngx-slider>
       </div>
-      <div class="mat-typography" *isAuthenticated="['ADMIN']">
+      <div class="mat-typography" *isAuthenticated="['ADMIN','PUBLISHER']">
         <label>Redazionali rimanenti</label>
         <ngx-slider (userChangeEnd)="onLeftContentChange($event)"
                     [value]="maxMinRangeNewspaperAttributes.minLeftContent"
                     [highValue]="maxMinRangeNewspaperAttributes.maxLeftContent"
                     [options]="leftContentSliderOptions"></ngx-slider>
       </div>
-      <div class="mat-typography" *isAuthenticated="['ADMIN']">
+      <div class="mat-typography" *isAuthenticated="['ADMIN','PUBLISHER']">
         <label>Costo cadauno</label>
         <ngx-slider (userChangeEnd)="onCostEachChange($event)"
                     [value]="maxMinRangeNewspaperAttributes.minCostEach"

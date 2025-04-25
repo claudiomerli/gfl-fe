@@ -11,19 +11,19 @@ const routes: Routes = [
     path: "content-purchase",
     loadChildren: () => import("./modules/content-purchase/content-purchase.module").then(m => m.ContentPurchaseModule),
     canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN']}
+    data: {availableRoles: ['ADMIN','PUBLISHER']}
   },
   {
     path: "newspaper-discount",
     loadChildren: () => import("./modules/newspaper-discount/newspaper-discount.module").then(m => m.NewspaperDiscountModule),
     canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN']}
+    data: {availableRoles: ['ADMIN','PUBLISHER']}
   },
   {
     path: "topic",
     loadChildren: () => import("./modules/topic/topic.module").then(m => m.TopicModule),
     canActivate: [AuthGuard],
-    data: {availableRoles: ['ADMIN']}
+    data: {availableRoles: ['ADMIN','PUBLISHER']}
   },
   {path: "create", component: NewspaperCreateComponent},
   {path: ":id", component: NewspaperUpdateComponent}
