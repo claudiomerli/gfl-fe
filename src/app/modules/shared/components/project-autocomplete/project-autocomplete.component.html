@@ -1,0 +1,17 @@
+<ng-container *ngIf="formControlInput">
+  <mat-form-field class="w-100" appearance="fill">
+    <mat-label>Progetto</mat-label>
+    <input type="text"
+           placeholder="Cerca Progetto..."
+           matInput
+           [formControl]="formControlInput"
+           [matAutocomplete]="autoProject"
+    >
+    <mat-autocomplete #autoProject="matAutocomplete" [displayWith]="displayFullnameProject"
+    >
+      <mat-option *ngFor="let project of projects" [value]="project">
+        {{ project.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</ng-container>

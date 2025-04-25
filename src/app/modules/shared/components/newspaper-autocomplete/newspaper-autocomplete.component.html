@@ -1,0 +1,18 @@
+<ng-container *ngIf="formControlInput">
+  <mat-form-field class="w-100" appearance="fill">
+    <mat-label>Testata</mat-label>
+    <input type="text"
+           placeholder="Cerca testata..."
+           matInput
+           [formControl]="formControlInput"
+           [matAutocomplete]="autoNewspaper"
+    >
+    <mat-autocomplete #autoNewspaper="matAutocomplete"
+                      [displayWith]="displayFullnameNewspaper"
+    >
+      <mat-option *ngFor="let option of newspapers" [value]="option">
+        {{ option.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</ng-container>

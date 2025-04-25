@@ -1,0 +1,16 @@
+<mat-form-field class="w-100" appearance="fill">
+  <mat-label>{{label}}</mat-label>
+  <input type="text"
+         [placeholder]="placeholder"
+         matInput
+         [formControl]="formControlInput"
+         [matAutocomplete]="autoUser"
+  >
+  <mat-autocomplete #autoUser="matAutocomplete"
+                    [displayWith]="displayFullnameUser"
+  >
+    <mat-option *ngFor="let option of users" [value]="option">
+      {{option.fullname}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

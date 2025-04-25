@@ -1,0 +1,113 @@
+<mat-toolbar>
+  <span>Dashboard lavorazioni</span>
+</mat-toolbar>
+<div class="p-3">
+  <div class="row">
+    <div class="col-2">
+      <app-project-autocomplete [formControlInput]="filterFormGroup.controls.project"></app-project-autocomplete>
+    </div>
+    <div class="col-2">
+      <app-newspaper-autocomplete [formControlInput]="filterFormGroup.controls.newspaper"></app-newspaper-autocomplete>
+    </div>
+    <div class="col-2">
+      <app-user-autocomplete placeholder="Cerca cliente" [label]="'Cliente'" [role]="'CUSTOMER'" [formControlInput]="filterFormGroup.controls.user"></app-user-autocomplete>
+    </div>
+    <div class="col-3">
+      <mat-form-field class="w-100">
+        <mat-label>Data di consegna da</mat-label>
+        <input matInput [matDatepicker]="deliveryDateFrom" [formControl]="filterFormGroup.controls.deliveryDateFrom">
+        <mat-datepicker-toggle matIconSuffix [for]="deliveryDateFrom"></mat-datepicker-toggle>
+        <mat-datepicker #deliveryDateFrom></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-3">
+      <mat-form-field class="w-100">
+        <mat-label>Data di consegna da</mat-label>
+        <input matInput [matDatepicker]="deliveryDateTo" [formControl]="filterFormGroup.controls.deliveryDateTo">
+        <mat-datepicker-toggle matIconSuffix [for]="deliveryDateTo"></mat-datepicker-toggle>
+        <mat-datepicker #deliveryDateTo></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="mat-elevation-z8">
+
+    <table mat-table *ngIf="projectCommissions" [dataSource]="projectCommissions.content">
+      <ng-container matColumnDef="project">
+        <th mat-header-cell *matHeaderCellDef> Progetto</th>
+        <td mat-cell *matCellDef="let element"> {{ element.projectName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="newspaper">
+        <th mat-header-cell *matHeaderCellDef> Testata</th>
+        <td mat-cell *matCellDef="let element"> {{ element.newspaper?.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Stato commissione</th>
+        <td mat-cell *matCellDef="let element"> {{ projectCommissionStatus | extractLabelByCode:element.status }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="deliveryDate">
+        <th mat-header-cell *matHeaderCellDef> Data di consegna</th>
+        <td mat-cell *matCellDef="let element"> {{ element.deliveryDate | date:"shortDate" }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="period">
+        <th mat-header-cell *matHeaderCellDef> Periodo</th>
+        <td mat-cell *matCellDef="let element"> {{ periods | extractLabelByCode:element.period }} {{ element.year }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="contentType">
+        <th mat-header-cell *matHeaderCellDef>Tipo di contenuto</th>
+        <td mat-cell *matCellDef="let element"> {{ contentTypes | extractLabelByCode:element.contentType }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="publicationDate">
+        <th mat-header-cell *matHeaderCellDef>Data di pubblicazione</th>
+        <td mat-cell *matCellDef="let element"> {{ element.publicationDate | date:"shortDate" }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="publicationWorkNotes">
+        <th mat-header-cell *matHeaderCellDef>Lavorazione pubblicazione</th>
+        <td mat-cell *matCellDef="let element"> {{ element.publicationWorkNotes }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="contentWorkNotes">
+        <th mat-header-cell *matHeaderCellDef>Lavorazione contenuto</th>
+        <td mat-cell *matCellDef="let element"> {{ element.contentWorkNotes }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="assignDates">
+        <th mat-header-cell *matHeaderCellDef>Lavorazione contenuto</th>
+        <td mat-cell *matCellDef="let element"> {{ element.contentAssignDate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Azioni</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [matMenuTriggerFor]="actionMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #actionMenu="matMenu">
+            <button *isNotInRole="['ADMIN']" mat-menu-item (click)="openChat('ADMIN',element.id)">Messaggi con admin</button>
+            <button *isNotInRole="['PUBLISHER']" mat-menu-item (click)="openChat('PUBLISHER',element.id)">Messaggi con pubblicatore</button>
+            <button *isNotInRole="['CHIEF_EDITOR']" mat-menu-item (click)="openChat('CHIEF_EDITOR',element.id)">Messaggi con capo redattore</button>
+            <a mat-menu-item [routerLink]="['/projects',element.projectId]" [queryParams]="{'projectCommissionToOpen': element.id}" target="_blank">Vai alla commissione</a>
+            <a *isAuthenticated="['CHIEF_EDITOR']" mat-menu-item [routerLink]="['/contents',element.contentId]">Vai alla commissione</a>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="rowClass(row)"></tr>
+    </table>
+    <mat-paginator
+      showFirstLastButtons
+      [length]="projectCommissions?.totalElements"
+      [pageSize]="pagination.pageSize"
+      [pageSizeOptions]="[10,20,50]"
+      (page)="changePage($event)">
+    </mat-paginator>
+  </div>
+</div>
