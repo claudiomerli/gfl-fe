@@ -11,9 +11,10 @@ import {Store} from "@ngxs/store";
 import {map, tap} from "rxjs/operators";
 import {AuthenticationState} from "../../store/state/authentication-state";
 import {SaveAttachmentDto} from "../messages/attachment/save-attachment.dto";
-import {ProjectCommissionStatus, projectCommissionStatus} from "../utils/utils";
+import {normalizeSearchDto, ProjectCommissionStatus, projectCommissionStatus} from "../utils/utils";
 import {Newspaper} from "../messages/newspaper/newspaper";
 import {SearchProjectDto} from "../messages/project/search-project.dto";
+import {SearchCommissionDashboardDto} from "../messages/project/search-commission-dashboard.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -209,5 +210,15 @@ export class ProjectService {
 
   assignFinalCustomers(id: number, userIds: number[]) {
     return this.httpClient.put(environment.apiBaseurl + `/project/${id}/assignFinalCustomers`, userIds)
+  }
+
+  findCommissionDashboard(searchCommissionDashboard: SearchCommissionDashboardDto, pagination: PaginationDto) {
+    return this.httpClient.get<PageResponseDto<ProjectCommission>>(environment.apiBaseurl + `/project/commissions`, {
+      params:
+        {
+          ...normalizeSearchDto(searchCommissionDashboard),
+          ...pagination
+        },
+    })
   }
 }

@@ -39,6 +39,7 @@ import { SelectContentPurchaseDialogComponent } from './components/select-conten
 import {MatRadioModule} from "@angular/material/radio";
 import {ProjectCommissionHistoryDialogComponent} from "./components/commission-history-dialog/project-commission-history-dialog.component";
 import { ProjectCommissionSetCostSellDialogComponent } from './components/project-commission-set-cost-sell-dialog/project-commission-set-cost-sell-dialog.component';
+import { CommissionsDashboardComponent } from './views/commissions-dashboard/commissions-dashboard.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { ProjectCommissionSetCostSellDialogComponent } from './components/projec
     ProjectNewspaperToolDialogComponent,
     SelectContentPurchaseDialogComponent,
     ProjectCommissionSetCostSellDialogComponent,
+    CommissionsDashboardComponent,
   ],
     imports: [
         CommonModule,

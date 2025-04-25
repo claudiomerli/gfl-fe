@@ -2,12 +2,13 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {Project, ProjectCommission} from "../../../shared/messages/project/project";
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
-import {debounceTime} from "rxjs/operators";
+import {debounceTime, throttle} from "rxjs/operators";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
 import {NewspaperService} from "../../../shared/services/newspaper.service";
 import {SaveProjectCommissionDto} from "../../../shared/messages/project/save-project-commission.dto";
 import {
+  contentTypes,
   getYearList,
   momentDatePatternIso,
   periods,
@@ -65,12 +66,17 @@ export class ProjectCommissionFormComponent implements OnInit {
       notes: new FormControl(''),
       publicationUrl: new FormControl(''),
       publicationDate: new FormControl<Moment | null>(null),
-      hintBody: new FormControl<string | null>(null)
+      hintBody: new FormControl<string | null>(null),
+      deliveryDate: new FormControl<string | null>(null),
+      contentType: new FormControl<string | null>(null),
+      publicationWorkNotes: new FormControl<string | null>(null),
+      contentWorkNotes: new FormControl<string | null>(null),
     })
   }
 
   ngOnInit(): void {
     if (this.projectCommission) {
+      console.log(this.projectCommission)
       this.projectCommissionForm.patchValue({
         newspaper: this.projectCommission.newspaper,
         anchor: this.projectCommission.anchor,
@@ -82,7 +88,11 @@ export class ProjectCommissionFormComponent implements OnInit {
         url: this.projectCommission.url,
         publicationUrl: this.projectCommission.publicationUrl,
         publicationDate: this.projectCommission.publicationDate ? moment(this.projectCommission.publicationDate, momentDatePatternIso) : null,
-        title: this.projectCommission.title
+        title: this.projectCommission.title,
+        contentType: this.projectCommission.contentType,
+        deliveryDate: this.projectCommission.deliveryDate,
+        publicationWorkNotes: this.projectCommission.publicationWorkNotes,
+        contentWorkNotes: this.projectCommission.contentWorkNotes
       })
       this.newspaperInput.setValue(this.projectCommission.newspaper)
       this.nextSteps = this.projectService.getNextCommissionStepByActualStatusCode(this.projectCommission.status, this.project.isDomainProject ? "DOMAIN" : "REGULAR")
@@ -158,13 +168,18 @@ export class ProjectCommissionFormComponent implements OnInit {
       notes: value.notes!,
       period: value.period!,
       year: value.year!,
-      newspaperId: value.newspaper?.id!
+      newspaperId: value.newspaper?.id!,
+      contentType: value.contentType!,
+      contentWorkNotes: value.contentWorkNotes!,
+      publicationWorkNotes: value.publicationWorkNotes!,
+      deliveryDate: value.deliveryDate!
     }
   }
 
   @ViewChild("formGroupDirective")
   formGroupDirective!: NgForm;
   periods = periods;
+  contentTypes = contentTypes;
   years = getYearList();
   nextSteps: ProjectCommissionStatus[] = [];
 
@@ -186,7 +201,12 @@ export class ProjectCommissionFormComponent implements OnInit {
 
   isRoleAllowedToChangePublicationFields() {
     let user = this.store.selectSnapshot(AuthenticationState.user);
-    return this.isRoleAllowedToChangeCommonField() || (user?.role === "PUBLISHER" && ['TO_PUBLISH', 'SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION'].includes(this.projectCommission.status));
+    return this.isRoleAllowedToChangeCommonField() || (user?.role === "PUBLISHER" && [
+      'TO_PUBLISH',
+      'SENT_TO_NEWSPAPER',
+      'STANDBY_PUBLICATION',
+      'SENT_TO_ADMINISTRATION' //Richiesta del 25 Aprile 2025 "Abilitare il PUBBLICATORE a poter modificare il link di una commissione anche se già inviata in amministrazione"
+    ].includes(this.projectCommission.status));
   }
 
   isRoleAllowedToSave() {
@@ -206,7 +226,7 @@ export class ProjectCommissionFormComponent implements OnInit {
         if (value) {
           this.projectService.updateCommissionStatus(this.project.id, this.projectCommission.id, "SENT_TO_ADMINISTRATION", {
             contentPurchasedId: value.id
-          }).subscribe(() =>{
+          }).subscribe(() => {
             this.onSave()
           })
         }

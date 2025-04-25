@@ -14,7 +14,7 @@
                           [displayWith]="displayNewspaperName"
         >
           <mat-option *ngFor="let option of newspaper" [value]="option">
-            {{option.name}}
+            {{ option.name }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -24,7 +24,7 @@
         <mat-label>Periodo</mat-label>
         <input matInput formControlName="period" [readonly]="true" *ngIf="!isRoleAllowedToChangeCommonField()">
         <mat-select formControlName="period" *ngIf="isRoleAllowedToChangeCommonField()">
-          <mat-option *ngFor="let period of periods" [value]="period.code">{{period.label}}</mat-option>
+          <mat-option *ngFor="let period of periods" [value]="period.code">{{ period.label }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -33,7 +33,7 @@
         <mat-label>Anno</mat-label>
         <input matInput formControlName="year" [readonly]="true" *ngIf="!isRoleAllowedToChangeCommonField()">
         <mat-select formControlName="year" *ngIf="isRoleAllowedToChangeCommonField()">
-          <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -48,12 +48,14 @@
         <mat-label>Ancora</mat-label>
         <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput type="text" formControlName="anchor">
         <div matSuffix>
+          <div class="p-1">
           <mat-checkbox class="d-block" *ngIf="isRoleAllowedToChangeCommonField()" formControlName="isAnchorBold">
             Grassetto
           </mat-checkbox>
           <mat-checkbox class="d-block" *ngIf="isRoleAllowedToChangeCommonField()" formControlName="isAnchorItalic">
             Corsivo
           </mat-checkbox>
+          </div>
         </div>
       </mat-form-field>
     </div>
@@ -64,6 +66,43 @@
       </mat-form-field>
     </div>
     <div class="col-6">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Data di consegna</mat-label>
+        <input [readonly]="!isRoleAllowedToChangeCommonField()" matInput [matDatepicker]="pickerDelivery"
+               formControlName="deliveryDate">
+        <mat-datepicker-toggle *ngIf="isRoleAllowedToChangeCommonField()" matIconSuffix
+                               [for]="pickerDelivery"></mat-datepicker-toggle>
+        <mat-datepicker #pickerDelivery></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Tipo contenuto</mat-label>
+        <input matInput formControlName="contentType" [readonly]="true" *ngIf="!isRoleAllowedToChangeCommonField()">
+        <mat-select formControlName="contentType" *ngIf="isRoleAllowedToChangeCommonField()">
+          <mat-option *ngFor="let contentType of contentTypes" [value]="contentType.code">{{ contentType.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Note di pubblicazione</mat-label>
+        <textarea
+          [readonly]="!isRoleAllowedToChangeCommonField()"
+          matInput type="text" formControlName="publicationWorkNotes"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Note di lavorazione</mat-label>
+        <textarea
+          [readonly]="!isRoleAllowedToChangeCommonField()"
+          matInput type="text" formControlName="contentWorkNotes"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="col-6">
       <mat-form-field class="w-100">
         <mat-label>Url di pubblicazione</mat-label>
         <input [readonly]="!isRoleAllowedToChangePublicationFields()" matInput type="text"
@@ -73,12 +112,15 @@
     <div class="col-6">
       <mat-form-field appearance="fill" class="w-100">
         <mat-label>Data di pubblicazione</mat-label>
-        <input [readonly]="!isRoleAllowedToChangePublicationFields()" matInput [matDatepicker]="picker"
+        <input [readonly]="!isRoleAllowedToChangePublicationFields()" matInput [matDatepicker]="pickerPublish"
                formControlName="publicationDate">
         <mat-datepicker-toggle *ngIf="isRoleAllowedToChangePublicationFields()" matIconSuffix
-                               [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+                               [for]="pickerPublish"></mat-datepicker-toggle>
+        <mat-datepicker #pickerPublish></mat-datepicker>
       </mat-form-field>
+    </div>
+    <div class="col-6">
+
     </div>
     <div class="col-12">
       <mat-form-field class="w-100">
@@ -93,7 +135,8 @@
         <ng-container *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR','INTERNAL_NETWORK']">
           <button mat-raised-button class="me-1" (click)="onSave()" type="button" *ngIf="isRoleAllowedToSave()">
             <mat-icon>save</mat-icon>
-            {{projectCommission ? "Aggiorna" : "Salva"}}</button>
+            {{ projectCommission ? "Aggiorna" : "Salva" }}
+          </button>
         </ng-container>
         <ng-container *isAuthenticated="['ADMIN','INTERNAL_NETWORK']">
           <button mat-raised-button class="me-1" (click)="onDelete()" *ngIf="projectCommission" type="button">
@@ -111,14 +154,14 @@
         <mat-menu #actions="matMenu">
           <button *ngFor="let nextStep of nextSteps" mat-menu-item
                   (click)="onChangeStatus(nextStep.code)">
-            <mat-icon>{{nextStep.icon}}</mat-icon>
-            Passa a stato : {{nextStep.label}}
+            <mat-icon>{{ nextStep.icon }}</mat-icon>
+            Passa a stato : {{ nextStep.label }}
           </button>
-          <button mat-menu-item *ngIf="canShowSentToAdministration()" (click)="openSelectPurchaseContentDialog()" >
+          <button mat-menu-item *ngIf="canShowSentToAdministration()" (click)="openSelectPurchaseContentDialog()">
             <mat-icon>send</mat-icon>
             Invia in amministrazione
           </button>
-          <a  mat-menu-item *ngIf="projectCommission?.newspaper" [href]="'/contents/'+projectCommission.contentId" target="_blank">
+          <a mat-menu-item *ngIf="projectCommission?.newspaper" [href]="'/contents/'+projectCommission.contentId" target="_blank">
             <mat-icon>newspaper</mat-icon>
             Vai al contenuto
           </a>

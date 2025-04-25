@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {User} from "../../../../../shared/messages/auth/user";
-import {validateObject, validateObjectNullable} from "../../../../../shared/utils/utils";
-import {debounceTime, switchMap} from "rxjs/operators";
+import {validateObject} from "../../../../../shared/utils/utils";
+import {debounceTime} from "rxjs/operators";
 import {PaginationDto} from "../../../../../shared/messages/common/pagination.dto";
 import {UserService} from "../../../../../shared/services/user.service";
 import {NewspaperService} from "../../../../../shared/services/newspaper.service";
@@ -34,8 +34,8 @@ export class NewspaperDiscountDashboardComponent implements OnInit {
   }
 
   filterForm = new FormGroup({
-    customer: new FormControl<User | string | null>(null, validateObjectNullable),
-    newspaper: new FormControl<Newspaper | string | null>(null, validateObjectNullable)
+    customer: new FormControl<User | string | null>(null, validateObject),
+    newspaper: new FormControl<Newspaper | string | null>(null, validateObject)
   })
 
   displayFullnameCustomer = (editor: User) => editor?.fullname || ""

@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {User} from "../../../shared/messages/auth/user";
 import {debounceTime} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
-import {orderLevel, orderStatus, orderTypes, validateObject, validateObjectNullable} from "../../../shared/utils/utils";
+import {orderLevel, orderStatus, orderTypes, validateObject} from "../../../shared/utils/utils";
 import {UserService} from "../../../shared/services/user.service";
 import {GenericOrderService} from "../../../shared/services/generic-order.service";
 import {PageResponseDto} from "../../../shared/messages/common/page-response.dto";
@@ -23,7 +23,7 @@ export class GenericOrderListComponent implements OnInit {
     orderType: new FormControl<string | ''>(''),
     orderLevel: new FormControl<string | ''>(''),
     orderStatus: new FormControl<string | ''>(''),
-    customer: new FormControl<string | User | null>('', [validateObjectNullable])
+    customer: new FormControl<string | User | null>('', [validateObject])
   })
 
   customers: User[] = [];

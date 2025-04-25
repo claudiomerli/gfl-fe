@@ -44,6 +44,10 @@ export interface ProjectCommission {
   contentId: number;
   project: Project,
   costSell: number;
+  deliveryDate: string;
+  contentType: string;
+  publicationWorkNotes: string;
+  contentWorkNotes: string;
 }
 
 export interface ProjectStatusChange {

@@ -10,4 +10,8 @@ export interface SaveProjectCommissionDto{
   notes : string
   publicationUrl : string
   publicationDate : string
+  deliveryDate: string
+  contentType: string
+  publicationWorkNotes: string
+  contentWorkNotes: string
 }

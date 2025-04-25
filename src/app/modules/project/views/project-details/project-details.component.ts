@@ -168,6 +168,8 @@ export class ProjectDetailsComponent implements OnInit {
 
   }
 
+  projectCommissionOpened = false;
+
   applyFilterSearch() {
     let globalSearchValue = this.globalSearchFormControl.value;
     let statusValue = this.statusFormControl.value;
@@ -186,6 +188,14 @@ export class ProjectDetailsComponent implements OnInit {
       (periodValue === '' || commissionForm.period === periodValue) &&
       (yearValue === null || commissionForm.year === yearValue)
     )
+
+    if (!this.projectCommissionOpened) {
+      const projectCommissionToOpen = this.activatedRoute.snapshot.queryParamMap.get("projectCommissionToOpen");
+      if (projectCommissionToOpen) {
+        this.updateCommission(this.projectToEdit.projectCommissions.find(pc => pc.id!.toString() === projectCommissionToOpen!)!)
+      }
+      this.projectCommissionOpened = true
+    }
 
     this.changeStatusFormControl.setValue(null)
     this.selection.clear();

@@ -31,7 +31,7 @@ export class CustomerMonitorComponent implements OnInit {
 
 
   customers: User[] = [];
-  customerAutoComplete = new FormControl<User | string | null>(null, validateObject)
+  customerAutoComplete = new FormControl<User | string | null>(null, [Validators.required,validateObject])
 
   projects: Project[] = []
 
@@ -97,7 +97,7 @@ export class CustomerMonitorComponent implements OnInit {
   buildCustomerMonitorForm(customerMonitor: CustomerMonitor) {
     const formGroup = new FormGroup<CustomerMonitorFormType>({
       id: new FormControl<number | undefined>(customerMonitor.id),
-      project: new FormControl<Project | string | undefined>(customerMonitor.project, [validateObject]),
+      project: new FormControl<Project | string | undefined>(customerMonitor.project, [Validators.required,validateObject]),
       status: new FormControl<string | undefined>(customerMonitor.status, Validators.required),
       lastWork: new FormControl<string | undefined>(customerMonitor.lastWork, Validators.required),
       currentlyMonthStatus: new FormControl<string | undefined>(customerMonitor.currentlyMonthStatus)

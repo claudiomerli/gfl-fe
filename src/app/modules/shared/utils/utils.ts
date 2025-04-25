@@ -13,18 +13,22 @@ export function clean(obj: any) {
   return obj
 }
 
-export const validateObjectNullable: ValidatorFn = control => {
-  if (control.value && !(typeof control.value === "object")) {
+export const validateObject: ValidatorFn = control => {
+  if (!!control.value && !(typeof control.value === "object")) {
     return {wrongType: "Option not selected"}
   }
   return null
 }
 
-export const validateObject: ValidatorFn = control => {
-  if (!control.value || !(typeof control.value === "object")) {
-    return {wrongType: "Option not selected"}
-  }
-  return null
+export function normalizeSearchDto(dto: any): Record<string, string> {
+  const result: Record<string, string> = {};
+
+  Object.keys(dto).forEach((key) => {
+    const value = (dto as any)[key];
+    result[key] = value != null ? String(value) : '';
+  });
+
+  return result;
 }
 
 export const projectStatuses = [
@@ -89,6 +93,13 @@ export const periods = [
   {label: 'OTTOBRE', code: 'OCTOBER'},
   {label: 'NOVEMBRE', code: 'NOVEMBER'},
   {label: 'DICEMBRE', code: 'DECEMBER'}
+]
+
+export const contentTypes = [
+  {label: "AI", code: "AI"},
+  {label: "Top", code: "TOP"},
+  {label: "Standard", code: "STANDARD"},
+
 ]
 
 export const orderStatus = [

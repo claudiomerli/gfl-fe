@@ -13,23 +13,28 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatDividerModule} from "@angular/material/divider";
-import { ExtractLabelByCodePipe } from './pipes/extract-label-by-code.pipe';
-import { SidemenuItemComponent } from './components/sidemenu-item/sidemenu-item.component';
-import { ImageUploaderComponent } from './components/image-uploader/image-uploader.component';
-import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import {ExtractLabelByCodePipe} from './pipes/extract-label-by-code.pipe';
+import {SidemenuItemComponent} from './components/sidemenu-item/sidemenu-item.component';
+import {ImageUploaderComponent} from './components/image-uploader/image-uploader.component';
+import {ConfirmDialogComponent} from './components/confirm-dialog/confirm-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import { ContentHintFormComponent } from './components/content-hint-form/content-hint-form.component';
+import {ContentHintFormComponent} from './components/content-hint-form/content-hint-form.component';
 import {EditorComponent} from "@tinymce/tinymce-angular";
 import {NgxDropzoneModule} from "ngx-dropzone";
-import { PasswordShowletComponent } from './components/password-showlet/password-showlet.component';
+import {PasswordShowletComponent} from './components/password-showlet/password-showlet.component';
 import {MatInputModule} from "@angular/material/input";
-import { AutoSpinnerComponent } from './components/auto-spinner/auto-spinner.component';
+import {AutoSpinnerComponent} from './components/auto-spinner/auto-spinner.component';
 import {NgxSpinnerModule} from "ngx-spinner";
-import { SanitizeUrlPipe } from './pipes/sanitize-url.pipe';
-import { CompactNumberPipe } from './pipes/compact-number.pipe';
-import { NoDataComponent } from './components/no-data/no-data.component';
+import {SanitizeUrlPipe} from './pipes/sanitize-url.pipe';
+import {CompactNumberPipe} from './pipes/compact-number.pipe';
+import {NoDataComponent} from './components/no-data/no-data.component';
 import {MatCardModule} from "@angular/material/card";
-import { ChatDialogComponent } from './components/chat-dialog/chat-dialog.component';
+import {ChatDialogComponent} from './components/chat-dialog/chat-dialog.component';
+import {ProjectAutocompleteComponent} from './components/project-autocomplete/project-autocomplete.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatOptionModule} from "@angular/material/core";
+import { NewspaperAutocompleteComponent } from './components/newspaper-autocomplete/newspaper-autocomplete.component';
+import { UserAutocompleteComponent } from './components/user-autocomplete/user-autocomplete.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +53,10 @@ import { ChatDialogComponent } from './components/chat-dialog/chat-dialog.compon
     SanitizeUrlPipe,
     CompactNumberPipe,
     NoDataComponent,
-    ChatDialogComponent
+    ChatDialogComponent,
+    ProjectAutocompleteComponent,
+    NewspaperAutocompleteComponent,
+    UserAutocompleteComponent
   ],
   exports: [
     IsAuthenticatedDirective,
@@ -63,24 +71,30 @@ import { ChatDialogComponent } from './components/chat-dialog/chat-dialog.compon
     AutoSpinnerComponent,
     SanitizeUrlPipe,
     CompactNumberPipe,
-    NoDataComponent
+    NoDataComponent,
+    ProjectAutocompleteComponent,
+    NewspaperAutocompleteComponent,
+    UserAutocompleteComponent,
+    ChatDialogComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        MatButtonModule,
-        MatIconModule,
-        MatMenuModule,
-        MatDividerModule,
-        MatDialogModule,
-        EditorComponent,
-        NgxDropzoneModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        NgxSpinnerModule,
-        MatCardModule
-    ]
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatDividerModule,
+    MatDialogModule,
+    EditorComponent,
+    NgxDropzoneModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    NgxSpinnerModule,
+    MatCardModule,
+    MatAutocompleteModule,
+    MatOptionModule
+  ]
 })
 export class SharedModule {
 }
