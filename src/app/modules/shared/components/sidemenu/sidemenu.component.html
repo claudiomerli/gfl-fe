@@ -1,7 +1,7 @@
 <div>
   <div class="p-3 pb-0 mat-typography fs-5" *isAuthenticated="'ALL'">
-    <div class="fw-bold">{{(user$| async)?.fullname}}</div>
-    <small>Ruolo: {{userRoles | extractLabelByCode:(user$| async)!.role}}</small>
+    <div class="fw-bold">{{ (user$| async)?.fullname }}</div>
+    <small>Ruolo: {{ userRoles | extractLabelByCode:(user$| async)!.role }}</small>
   </div>
   <mat-divider class="my-3"></mat-divider>
   <!--  </a>-->
@@ -34,7 +34,7 @@
   <app-sidemenu-item [icon]="'edit_square'" [title]="'Gestione contenuti'" *isNotInRole="['FINAL_CUSTOMER']"
                      routerLinkActive="active" routerLink="/contents"></app-sidemenu-item>
   <app-sidemenu-item [icon]="'draw'" [title]="'Gestione redattori'" *isAuthenticated="['ADMIN','CHIEF_EDITOR']"
-                     routerLinkActive="active" routerLink="/contents/editors" [indent]="true">  </app-sidemenu-item>
+                     routerLinkActive="active" routerLink="/contents/editors" [indent]="true"></app-sidemenu-item>
   <app-sidemenu-item [icon]="'text_fields'" [title]="'Titoli'" *isAuthenticated="['ADMIN','CHIEF_EDITOR']"
                      routerLinkActive="active" routerLink="/titles"></app-sidemenu-item>
   <app-sidemenu-item [icon]="'analytics'" [title]="'Cruscotto cliente'" *isAuthenticated="['ADMIN']"
@@ -70,5 +70,5 @@
   <mat-divider class="my-3"></mat-divider>
   <app-sidemenu-item [icon]="'logout'" [title]="'Logout'" (click)="onLogout()"></app-sidemenu-item>
   <mat-divider></mat-divider>
-  <small class="mat-typography p-3">Versione applicativo: {{environment.version}}</small>
+  <small class="mat-typography p-3">Versione applicativo: {{ environment.version }}</small>
 </div>

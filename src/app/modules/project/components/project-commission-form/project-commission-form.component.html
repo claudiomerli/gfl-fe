@@ -138,7 +138,7 @@
             {{ projectCommission ? "Aggiorna" : "Salva" }}
           </button>
         </ng-container>
-        <ng-container *isAuthenticated="['ADMIN','INTERNAL_NETWORK']">
+        <ng-container *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR','INTERNAL_NETWORK']">
           <button mat-raised-button class="me-1" (click)="onDelete()" *ngIf="projectCommission" type="button">
             <mat-icon>delete</mat-icon>
             Elimina

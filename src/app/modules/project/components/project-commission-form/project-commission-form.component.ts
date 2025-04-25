@@ -36,10 +36,6 @@ export class ProjectCommissionFormComponent implements OnInit {
 
   projectCommissionForm = this.createFormGroup();
 
-  @Select(AuthenticationState.isUserInRole("ADMIN")) isUserAdmin$!: Observable<boolean>;
-  @Select(AuthenticationState.isUserInRole("PUBLISHER")) isUserPublisher$!: Observable<boolean>;
-  @Select(AuthenticationState.isUserInRole("CHIEF_EDITOR")) isUserChiefEditor$!: Observable<boolean>;
-
   @Input() preselectedNewspaper!: number
   @Input() readonlyNewspaper!: number
   @Input() projectCommission!: ProjectCommission;
@@ -189,14 +185,7 @@ export class ProjectCommissionFormComponent implements OnInit {
 
   isRoleAllowedToChangeCommonField() {
     let user = this.store.selectSnapshot(AuthenticationState.user);
-    if (user?.role === "ADMIN" || user?.role === "INTERNAL_NETWORK") {
-      return true
-    }
-    if (user?.role === "CHIEF_EDITOR" && (!this.projectCommission || ['CREATED', 'STARTED', 'ASSIGNED', 'STANDBY_EDITORIAL', 'TO_PUBLISH', 'SENT_TO_NEWSPAPER', 'STANDBY_PUBLICATION', 'PUBLISHED_INTERNAL_NETWORK'].includes(this.projectCommission.status))) {
-      return true
-    }
-
-    return false;
+    return user?.role === "ADMIN" || user?.role === "CHIEF_EDITOR" || user?.role === "PUBLISHER" || user?.role === "INTERNAL_NETWORK";
   }
 
   isRoleAllowedToChangePublicationFields() {

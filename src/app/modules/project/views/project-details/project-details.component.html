@@ -10,7 +10,7 @@
           <div class="col-6">
             <mat-form-field class="w-100">
               <mat-label>Nome progetto</mat-label>
-              <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="text"
+              <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async) && !(isUserPublisher$ | async)" matInput type="text"
                      formControlName="name">
             </mat-form-field>
           </div>
@@ -21,7 +21,7 @@
               </mat-chip-option>
             </mat-chip-listbox>
           </div>
-          <div class="col-6" *isAuthenticated="['ADMIN','INTERNAL_NETWORK','CHIEF_EDITOR']">
+          <div class="col-6" *isAuthenticated="['ADMIN','INTERNAL_NETWORK','CHIEF_EDITOR','PUBLISHER']">
             <mat-form-field appearance="fill" class="w-100">
               <mat-label>Clienti finali</mat-label>
               <mat-chip-grid #chipList>
@@ -50,23 +50,23 @@
             <div class="col-6" *isNotInRole="['CUSTOMER','CHIEF_EDITOR','PUBLISHER']">
               <mat-form-field class="w-100">
                 <mat-label>Descrizione fatturazione</mat-label>
-                <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="text"
+                <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async) && !(isUserPublisher$ | async)" matInput type="text"
                        formControlName="billingDescription">
               </mat-form-field>
             </div>
             <div class="col-6" *isNotInRole="['CUSTOMER','CHIEF_EDITOR','PUBLISHER']">
               <mat-form-field class="w-100">
                 <mat-label>Importo fatturazione</mat-label>
-                <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput type="number"
+                <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async) && !(isUserPublisher$ | async)" matInput type="number"
                        formControlName="billingAmount">
               </mat-form-field>
             </div>
             <div class="col-6" *isNotInRole="['CUSTOMER']">
               <mat-form-field appearance="fill" class="w-100">
                 <mat-label>Scadenza</mat-label>
-                <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" matInput
+                <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async) && !(isUserPublisher$ | async)" matInput
                        [matDatepicker]="picker" formControlName="expiration">
-                <mat-datepicker-toggle *ngIf="(isUserAdmin$ | async) || (isUserChiefEditor$ | async)" matIconSuffix
+                <mat-datepicker-toggle *ngIf="(isUserAdmin$ | async) || (isUserChiefEditor$ | async) || (isUserPublisher$ | async)" matIconSuffix
                                        [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
@@ -74,7 +74,7 @@
             <div class="col-6" *isNotInRole="['CUSTOMER']">
               <mat-form-field class="w-100" appearance="fill">
                 <mat-label>Cliente</mat-label>
-                <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async)" type="text"
+                <input [readonly]="!(isUserAdmin$ | async) && !(isUserChiefEditor$ | async) && !(isUserPublisher$ | async)" type="text"
                        placeholder="Cerca cliente..."
                        matInput
                        formControlName="customer"
@@ -91,7 +91,7 @@
             </div>
           </ng-container>
         </div>
-        <div class="mb-3" *isAuthenticated="['ADMIN','CHIEF_EDITOR','INTERNAL_NETWORK']">
+        <div class="mb-3" *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR','INTERNAL_NETWORK']">
           <mat-accordion *ngIf="projectToEdit">
             <mat-expansion-panel>
               <mat-expansion-panel-header>
@@ -111,7 +111,7 @@
         </div>
         <div class="col-12 text-end" *ngIf="projectToEdit && !projectToEdit.isDomainProject">
           <ng-container *ngIf="projectToEdit?.status === 'SENT_TO_ADMINISTRATION'">
-            <button *isAuthenticated="['ADMIN','ADMINISTRATION']" mat-raised-button color="primary" type="button"
+            <button *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR','ADMINISTRATION']" mat-raised-button color="primary" type="button"
                     class="me-1" (click)="onCloseProject()">
               <mat-icon>check</mat-icon>
               Fatturato
@@ -119,7 +119,7 @@
           </ng-container>
 
           <button mat-raised-button color="primary" type="submit"
-                  *isAuthenticated="['ADMIN','CHIEF_EDITOR','INTERNAL_NETWORK']">
+                  *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR','INTERNAL_NETWORK']">
             <mat-icon>save</mat-icon>
             Salva
           </button>
@@ -180,7 +180,7 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="col-2" *isAuthenticated="['ADMIN','CHIEF_EDITOR','INTERNAL_NETWORK']">
+            <div class="col-2" *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR','INTERNAL_NETWORK']">
               <div class="text-center">
                 <button mat-raised-button (click)="createCommission()">
                   <mat-icon>add</mat-icon>
@@ -308,7 +308,7 @@
     </div>
     <div class="col-3 mat-typography" *ngIf="projectToEdit">
       <ng-container *ngIf="!domainProjectNewspaper">
-        <button *isAuthenticated="['ADMIN','CHIEF_EDITOR','CUSTOMER']" (click)="openToolNewspaperDialog()"
+        <button *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR','CUSTOMER']" (click)="openToolNewspaperDialog()"
                 mat-raised-button color="primary" class="my-3 w-100">
           <mat-icon>newspaper</mat-icon>
           Tool testate

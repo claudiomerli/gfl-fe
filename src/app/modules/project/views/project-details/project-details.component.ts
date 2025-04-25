@@ -60,6 +60,9 @@ export class ProjectDetailsComponent implements OnInit {
   @Select(AuthenticationState.isUserInRole("CHIEF_EDITOR"))
   isUserChiefEditor$!: Observable<boolean>;
 
+  @Select(AuthenticationState.isUserInRole("PUBLISHER"))
+  isUserPublisher$!: Observable<boolean>;
+
   @Select(AuthenticationState.isUserInRole("INTERNAL_NETWORK"))
   isUserInternalNetwork$!: Observable<boolean>;
 
@@ -310,7 +313,7 @@ export class ProjectDetailsComponent implements OnInit {
       this.displayedColumns.push("title");
       this.displayedColumns.push("anchor");
       this.displayedColumns.push("period");
-      if (user?.role === "ADMIN") {
+      if (user?.role === "ADMIN" || user?.role === "PUBLISHER" || user?.role === "CHIEF_EDITOR") {
         this.displayedColumns.push("costSell");
       }
       this.displayedColumns.push("actions");
