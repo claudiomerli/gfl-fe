@@ -15,11 +15,11 @@ import * as moment from "moment";
 import {saveAs} from "file-saver";
 
 @Component({
-  selector: 'app-content-purhase-list',
-  templateUrl: './content-purhase-list.component.html',
-  styleUrls: ['./content-purhase-list.component.scss']
+  selector: 'app-content-purchase-list',
+  templateUrl: './content-purchase-list.component.html',
+  styleUrls: ['./content-purchase-list.component.scss']
 })
-export class ContentPurhaseListComponent implements OnInit {
+export class ContentPurchaseListComponent implements OnInit {
 
 
   constructor(private newspaperService: NewspaperService, private purchaseContentService: ContentPurchaseService) {

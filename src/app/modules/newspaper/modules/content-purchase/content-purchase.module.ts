@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {ContentPurchaseRoutingModule} from './content-purchase-routing.module';
-import {ContentPurhaseListComponent} from './views/content-purhase-list/content-purhase-list.component';
+import {ContentPurchaseListComponent} from './views/content-purchase-list/content-purchase-list.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
@@ -23,7 +23,7 @@ import {MatMomentDateModule} from "@angular/material-moment-adapter";
 
 @NgModule({
   declarations: [
-    ContentPurhaseListComponent,
+    ContentPurchaseListComponent,
     ContentPurchaseCreateComponent,
     ContentPurchaseFormComponent,
     ContentPurchaseDetailsComponent
