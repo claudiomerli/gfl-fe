@@ -93,7 +93,7 @@
             <button *isNotInRole="['PUBLISHER']" mat-menu-item (click)="openChat('PUBLISHER',element.id)">Messaggi con pubblicatore</button>
             <button *isNotInRole="['CHIEF_EDITOR']" mat-menu-item (click)="openChat('CHIEF_EDITOR',element.id)">Messaggi con capo redattore</button>
             <a mat-menu-item [routerLink]="['/projects',element.projectId]" [queryParams]="{'projectCommissionToOpen': element.id}" target="_blank">Vai alla commissione</a>
-            <a *isAuthenticated="['CHIEF_EDITOR']" mat-menu-item [routerLink]="['/contents',element.contentId]">Vai alla commissione</a>
+            <a *isAuthenticated="['CHIEF_EDITOR']" mat-menu-item [routerLink]="['/contents',element.contentId]">Vai al contenuto</a>
           </mat-menu>
         </td>
       </ng-container>

@@ -41,7 +41,6 @@ export class CommissionsDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.search()
-
     let user = this.store.selectSnapshot(AuthenticationState.user)
     if (user?.role === "ADMIN") {
       this.displayedColumns.push("project")
@@ -75,6 +74,8 @@ export class CommissionsDashboardComponent implements OnInit {
       this.displayedColumns.push("contentWorkNotes")
       this.displayedColumns.push("actions")
     }
+
+    this.filterFormGroup.valueChanges.subscribe(() => this.search())
   }
 
   search() {
