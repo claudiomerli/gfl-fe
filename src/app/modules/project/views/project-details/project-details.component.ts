@@ -8,37 +8,24 @@ import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {User} from "../../../shared/messages/auth/user";
 import {debounceTime, switchMap} from "rxjs/operators";
 import {PaginationDto} from "../../../shared/messages/common/pagination.dto";
-import {
-  getYearList,
-  momentDatePatternIso,
-  periods,
-  projectCommissionStatus,
-  projectStatuses,
-  validateObject
-} from "../../../shared/utils/utils";
+import {getYearList, momentDatePatternIso, periods, projectCommissionStatus, projectStatuses, validateObject} from "../../../shared/utils/utils";
 import * as moment from "moment";
 import {Moment} from "moment";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/components/confirm-dialog/confirm-dialog.component";
-import {
-  ProjectCommissionDialogFormComponent
-} from "../../components/project-commission-dialog-form/project-commission-dialog-form.component";
+import {ProjectCommissionDialogFormComponent} from "../../components/project-commission-dialog-form/project-commission-dialog-form.component";
 import {Select, Store} from "@ngxs/store";
 import {AuthenticationState} from "../../../store/state/authentication-state";
 import {Observable, of, zip} from "rxjs";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatSelectChange} from "@angular/material/select";
-import {
-  ProjectNewspaperToolDialogComponent
-} from "../../components/project-newspaper-tool-dialog/project-newspaper-tool-dialog.component";
+import {ProjectNewspaperToolDialogComponent} from "../../components/project-newspaper-tool-dialog/project-newspaper-tool-dialog.component";
 import {saveAs} from "file-saver";
 import {Attachment} from "../../../shared/messages/common/attachment";
 import {SaveAttachmentDto} from "../../../shared/messages/attachment/save-attachment.dto";
 import {Sort} from "@angular/material/sort";
 import {Newspaper} from "../../../shared/messages/newspaper/newspaper";
-import {
-  SelectContentPurchaseDialogComponent
-} from "../../components/select-content-purchase-dialog/select-content-purchase-dialog.component";
+import {SelectContentPurchaseDialogComponent} from "../../components/select-content-purchase-dialog/select-content-purchase-dialog.component";
 import {PurchaseContent} from "../../../shared/messages/purchase-content/purchase-content";
 import {NotificationService} from "../../../shared/services/notification.service";
 import {ProjectCommissionHistoryDialogComponent} from "../../components/commission-history-dialog/project-commission-history-dialog.component";
@@ -535,6 +522,30 @@ export class ProjectDetailsComponent implements OnInit {
         this.notificationService.sendEmailForMonthClosedContent(this.projectToEdit.id, this.periodToNotifyClose)
           .subscribe(() => {
           })
+      }
+    })
+  }
+
+  archive() {
+    this.matDialog.open(ConfirmDialogComponent, {
+      data: "Confermi l'operazione?"
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.projectService.archiveProject(this.projectToEdit.id).subscribe(() => {
+          this.update()
+        })
+      }
+    })
+  }
+
+  unarchive() {
+    this.matDialog.open(ConfirmDialogComponent, {
+      data: "Confermi l'operazione?"
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.projectService.unarchiveProject(this.projectToEdit.id).subscribe(() => {
+          this.update()
+        })
       }
     })
   }

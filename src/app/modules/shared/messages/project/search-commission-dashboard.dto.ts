@@ -4,4 +4,5 @@ export interface SearchCommissionDashboardDto {
   customerId?: number;
   deliveryDateFrom?: string;
   deliveryDateTo?: string;
+  includeArchived?: boolean
 }

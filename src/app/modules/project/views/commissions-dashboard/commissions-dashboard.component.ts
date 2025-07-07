@@ -33,6 +33,7 @@ export class CommissionsDashboardComponent implements OnInit {
     user: new FormControl<User | string>('', [validateObject]),
     deliveryDateFrom: new FormControl(''),
     deliveryDateTo: new FormControl(''),
+    includeArchived: new FormControl<boolean>(false),
   })
 
   pagination = PaginationDto.build(0, 10)
@@ -86,7 +87,8 @@ export class CommissionsDashboardComponent implements OnInit {
         deliveryDateTo: searchValue.deliveryDateTo!,
         newspaperId: (searchValue.newspaper as Newspaper)?.id,
         projectId: (searchValue.project as Project)?.id,
-        customerId: (searchValue.user as User)?.id
+        customerId: (searchValue.user as User)?.id,
+        includeArchived: searchValue.includeArchived!
       }, this.pagination).subscribe((result) => {
         this.projectCommissions = result
       })

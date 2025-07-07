@@ -41,13 +41,7 @@ export class ProjectService {
   public find(searchProjectDTO: SearchProjectDto, pagination: PaginationDto): Observable<PageResponseDto<Project>> {
     return this.httpClient.get<PageResponseDto<Project>>(environment.apiBaseurl + "/project", {
       params: {
-        globalSearch: searchProjectDTO.globalSearch || "",
-        status: searchProjectDTO.status || "",
-        projectCommissionStatus: searchProjectDTO.projectCommissionStatus || [],
-        commissionYear: searchProjectDTO.commissionYear || "",
-        commissionPeriod: searchProjectDTO.commissionPeriod || "",
-        newspapers: searchProjectDTO.newspapers || [],
-        customerId: searchProjectDTO.customerId || "",
+        ...normalizeSearchDto(searchProjectDTO),
         ...pagination
       }
     }).pipe(
@@ -220,5 +214,13 @@ export class ProjectService {
           ...pagination
         },
     })
+  }
+
+  archiveProject(id: number) {
+    return this.httpClient.put<Project>(environment.apiBaseurl + `/project/${id}/archive`, {})
+  }
+
+  unarchiveProject(id: number) {
+    return this.httpClient.put<Project>(environment.apiBaseurl + `/project/${id}/unarchive`, {})
   }
 }

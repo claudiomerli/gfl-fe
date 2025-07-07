@@ -3,7 +3,7 @@
 </mat-toolbar>
 <div class="p-3">
   <div class="row align-items-center">
-    <div class="col-10">
+    <div class="col-8">
       <mat-form-field class="w-100">
         <mat-label>Ricerca globale</mat-label>
         <input matInput type="text" [formControl]="searchProjectFormControl">
@@ -18,6 +18,9 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+    </div>
+    <div class="col-2" *isAuthenticated="['ADMIN','PUBLISHER','CHIEF_EDITOR']">
+      <mat-checkbox [formControl]="searchProjectIncludeArchived">Includi archiviati</mat-checkbox>
     </div>
   </div>
   <div class="row align-items-center">
@@ -93,7 +96,15 @@
       <!-- Position Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header="name"> Nome</th>
-        <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+        <td mat-cell *matCellDef="let element">
+          <div class="d-flex gap-1 align-items-center">
+            <div>
+              {{ element.name }}
+            </div>
+            <div class="rounded-pill  bg-danger p-1 mat-typography text-light" *ngIf="element?.archived">Archiviato</div>
+          </div>
+        </td>
+
       </ng-container>
 
       <ng-container matColumnDef="status">

@@ -6,4 +6,5 @@ export interface SearchProjectDto {
   commissionPeriod?: string | null;
   newspapers?: number[] | null;
   customerId?: number | null;
+  includeArchived?: boolean | null;
 }

@@ -33,6 +33,7 @@ export class ProjectDashboardComponent implements OnInit {
   searchProjectYear = new FormControl<number | null>(null);
   searchProjectPeriod = new FormControl<string | null>(null);
   searchProjectNewspapers = new FormControl<Newspaper[]>([])
+  searchProjectIncludeArchived = new FormControl<boolean>(false)
 
   constructor(private matDialog: MatDialog, private projectService: ProjectService, private newspaperService: NewspaperService, private router: Router, private store: Store) {
   }
@@ -66,6 +67,7 @@ export class ProjectDashboardComponent implements OnInit {
     this.searchProjectPeriod.valueChanges.subscribe(refreshLambda)
     this.searchProjectNewspapers.valueChanges.subscribe(refreshLambda)
     this.searchProjectStatusFormControl.valueChanges.subscribe(refreshLambda)
+    this.searchProjectIncludeArchived.valueChanges.subscribe(refreshLambda)
 
     this.newspaperInput.valueChanges
       .pipe(
@@ -106,7 +108,8 @@ export class ProjectDashboardComponent implements OnInit {
       projectCommissionStatus: this.searchProjectCommissionStatusFormControl.value,
       commissionPeriod: this.searchProjectPeriod.value,
       commissionYear: this.searchProjectYear.value,
-      newspapers: this.searchProjectNewspapers.value?.map(value => value.id) || []
+      newspapers: this.searchProjectNewspapers.value?.map(value => value.id) || [],
+      includeArchived: this.searchProjectIncludeArchived.value!,
     }
 
     this.projectService

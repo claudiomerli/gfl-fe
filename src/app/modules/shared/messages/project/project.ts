@@ -20,7 +20,8 @@ export interface Project {
 
   hasStartedCommission: boolean,
   hasAssignedCommission: boolean,
-  hasWorkedCommission: boolean
+  hasWorkedCommission: boolean,
+  archived: boolean
 }
 
 export interface ProjectCommission {
