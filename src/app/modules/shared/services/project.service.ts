@@ -15,6 +15,7 @@ import {normalizeSearchDto, ProjectCommissionStatus, projectCommissionStatus} fr
 import {Newspaper} from "../messages/newspaper/newspaper";
 import {SearchProjectDto} from "../messages/project/search-project.dto";
 import {SearchCommissionDashboardDto} from "../messages/project/search-commission-dashboard.dto";
+import {AddCommissionToProjectByNewspaperRequest} from "../messages/project/add-commission-to-project-by-newspaper-request";
 
 @Injectable({
   providedIn: 'root'
@@ -223,4 +224,9 @@ export class ProjectService {
   unarchiveProject(id: number) {
     return this.httpClient.put<Project>(environment.apiBaseurl + `/project/${id}/unarchive`, {})
   }
+
+  addCommissionToProjectByNewspaperRequest(id:number, payload: AddCommissionToProjectByNewspaperRequest){
+    return this.httpClient.post(environment.apiBaseurl + `/project/${id}/commission/newspaper`, payload)
+  }
+
 }

@@ -36,6 +36,7 @@ export class NewspaperTableComponent implements OnInit {
   @Output() exportPDF = new EventEmitter<void>();
   @Output() createProjectCommission = new EventEmitter<number>();
   @Output() importFile = new EventEmitter<File>
+  @Output() createProjectCommissionByNewspaper = new EventEmitter<{ newspaperId: number, cost: number }[]>();
 
   regionalGeolocation = regionalGeolocation;
   displayedColumns: string[] = [];
@@ -148,6 +149,19 @@ export class NewspaperTableComponent implements OnInit {
       data: this.selection?.selected,
       minWidth: 800,
       disableClose: true
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.selection?.selected.map((value, index) => ({
+          newspaperId: value.id,
+          cost: result[index],
+        }));
+        this.createProjectCommissionByNewspaper.emit(
+          this.selection?.selected.map((value, index) => ({
+            newspaperId: value.id,
+            cost: result[index],
+          }))
+        )
+      }
     })
   }
 

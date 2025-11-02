@@ -322,6 +322,11 @@ export class ProjectDetailsComponent implements OnInit {
       })
   }
 
+  createCommissionByNewspaper(payload: { newspaperId: number, cost: number }) {
+    this.projectService.addCommissionToProjectByNewspaperRequest(this.projectToEdit.id, payload)
+      .subscribe(() => this.update())
+  }
+
   updateCommission(commission: ProjectCommission) {
     this.matDialog.open(ProjectCommissionDialogFormComponent, {
       data: {
@@ -421,9 +426,12 @@ export class ProjectDetailsComponent implements OnInit {
     this.matDialog.open(ProjectNewspaperToolDialogComponent, {
       data: this.activatedRoute.snapshot.paramMap.get("id")
     }).afterClosed()
-      .subscribe((idNewspaper) => {
-        if (idNewspaper) {
-          this.createCommission(idNewspaper);
+      .subscribe((result: { action: string, payload: any }) => {
+        if (result.action === 'CREATE_SINGLE_COMMISSION') {
+          this.createCommission(result.payload);
+        }
+        if (result.action === 'CREATE_COMMISSION_BY_NEWSPAPER') {
+          this.createCommissionByNewspaper(result.payload);
         }
       })
   }

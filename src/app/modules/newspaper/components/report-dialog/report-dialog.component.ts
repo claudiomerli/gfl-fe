@@ -51,4 +51,12 @@ export class ReportDialogComponent implements OnInit {
       saveAs(value, "ExportReport.xlsx")
     })
   }
+
+  get allValueValid() {
+    return this.costSellFormControls.map(value => value.valid).reduce((previousValue, currentValue) => previousValue && currentValue);
+  }
+
+  createCommissionsOnProject() {
+    this.dialogRef.close(this.costSellFormControls.map(value => value.value))
+  }
 }

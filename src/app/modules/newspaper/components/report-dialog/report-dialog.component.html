@@ -32,8 +32,14 @@
 </div>
 <div mat-dialog-actions class="justify-content-between">
   <button mat-button (click)="onNoClick()">Annulla</button>
-  <button mat-button (click)="export()">
-    <mat-icon>download</mat-icon>
-    Esporta
-  </button>
+  <div>
+    <button mat-button (click)="createCommissionsOnProject()" [disabled]="!allValueValid">
+      <mat-icon>add</mat-icon>
+      Crea commissioni
+    </button>
+    <button mat-button (click)="export()">
+      <mat-icon>download</mat-icon>
+      Esporta
+    </button>
+  </div>
 </div>

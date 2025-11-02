@@ -69,7 +69,10 @@ export class ProjectNewspaperToolDialogComponent implements OnInit {
   }
 
   onCreateProjectCommission(idNewspaper: number) {
-    this.dialogRef.close(idNewspaper)
+    this.dialogRef.close({
+      action : "CREATE_SINGLE_COMMISSION",
+      payload: idNewspaper
+    })
   }
 
   onExportExcel() {
@@ -88,5 +91,12 @@ export class ProjectNewspaperToolDialogComponent implements OnInit {
       const file = new File([blob], `testate non presenti in progetto ${this.projectId}.pdf`, {type: contentType});
       saveAs(file);
     });
+  }
+
+  protected createProjectCommissionByNewspaper($event: { newspaperId: number; cost: number }[]) {
+    this.dialogRef.close({
+      action : "CREATE_COMMISSION_BY_NEWSPAPER",
+      payload: $event
+    })
   }
 }
