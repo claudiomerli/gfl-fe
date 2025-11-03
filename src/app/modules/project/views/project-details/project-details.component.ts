@@ -427,6 +427,7 @@ export class ProjectDetailsComponent implements OnInit {
       data: this.activatedRoute.snapshot.paramMap.get("id")
     }).afterClosed()
       .subscribe((result: { action: string, payload: any }) => {
+        if (!result) return;
         if (result.action === 'CREATE_SINGLE_COMMISSION') {
           this.createCommission(result.payload);
         }
