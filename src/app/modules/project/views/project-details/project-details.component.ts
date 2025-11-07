@@ -168,12 +168,12 @@ export class ProjectDetailsComponent implements OnInit {
 
     this.originalCommissionForm = this.originalCommissionForm || this.projectToEdit.projectCommissions;
     this.projectToEdit.projectCommissions = this.originalCommissionForm.filter(commissionForm =>
-      (commissionForm.url.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
-        commissionForm.notes.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
-        commissionForm.anchor.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
-        commissionForm.publicationUrl.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
-        commissionForm.title.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
-        commissionForm.newspaper.name.toUpperCase().includes(globalSearchValue!.trim().toUpperCase())) &&
+      (!!commissionForm.url && commissionForm.url.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
+        !!commissionForm.notes && commissionForm.notes.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
+        !!commissionForm.anchor && commissionForm.anchor.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
+        !!commissionForm.publicationUrl && commissionForm.publicationUrl.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
+        !!commissionForm.title && commissionForm.title.toUpperCase().includes(globalSearchValue!.trim().toUpperCase()) ||
+        !!commissionForm.newspaper && commissionForm.newspaper.name.toUpperCase().includes(globalSearchValue!.trim().toUpperCase())) &&
       (statusValue === '' || commissionForm.status === statusValue) &&
       (periodValue === '' || commissionForm.period === periodValue) &&
       (yearValue === null || commissionForm.year === yearValue)
